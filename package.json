@@ -15,7 +15,6 @@
     "systemjs-builder": "^0.12.2",
     "gulp-sass": "^2.0.3",
 
-    "gulp-typescript": "*",
     "typescript": "Microsoft/TypeScript"
   },
 

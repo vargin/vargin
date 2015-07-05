@@ -3,7 +3,6 @@
 var gulp = require('gulp');
 var del = require('del');
 var Builder = require('systemjs-builder');
-var ts = require('gulp-typescript');
 var plumber = require('gulp-plumber');
 var sourcemaps = require('gulp-sourcemaps');
 var runSequence = require('run-sequence');
@@ -63,8 +62,8 @@ var appBuilder = new Builder({
   transpiler: 'typescript',
 
   paths: {
-    '*': 'app/ts/*',
-    'typescript': 'node_modules/typescript/bin/typescript'
+    '*': 'app/ts/*.ts',
+    'typescript': 'node_modules/typescript/bin/typescript.js'
   },
 
   meta: {
@@ -73,11 +72,21 @@ var appBuilder = new Builder({
     }
   },
 
-  defaultJSExtensions: true,
-  defaultExtension: 'ts',
+  // Don't work until the following issues are resolved:
+  // https://github.com/systemjs/builder/issues/177
+  // https://github.com/Microsoft/TypeScript/issues/3363
+  sourceMaps: true,
 
   typescriptOptions: {
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "listFiles": true
   }
 });
@@ -94,21 +103,6 @@ gulp.task('build.dev.lib', ['build.dev.ng2'], function () {
   return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.lib));
 });
 
-gulp.task('build.dev.ts', function () {
-  var tsProject = ts.createProject('.tsrc', {
-    typescript: require('typescript')
-  });
-
-  var result = gulp.src('./app/ts/**/*.ts')
-    .pipe(plumber())
-    .pipe(sourcemaps.init())
-    .pipe(ts(tsProject));
-
-  return result.js
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(PATH.dest.dev.all));
-});
-
 gulp.task('build.dev.styles', function () {
   return gulp.src('./app/style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
@@ -119,16 +113,12 @@ gulp.task('build.dev.index', function() {
   return gulp.src(['./app/index.html']).pipe(gulp.dest(PATH.dest.dev.all));
 });
 
-gulp.task('build.dev.app', ['build.dev.ts', 'build.dev.styles', 'build.dev.index'], function() {
-  return appBuilder.build('vargin.js', PATH.dest.dev.all + '/vargin.js', {});
-});
-
-gulp.task('build.dev.app1', ['build.dev.styles', 'build.dev.index'], function() {
+gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.index'], function() {
   return appBuilder.build('vargin', PATH.dest.dev.all + '/vargin.js', {});
 });
 
 gulp.task('build.dev', function(done) {
-  runSequence('clean.dev', 'build.dev.lib', 'build.dev.app1', done);
+  runSequence('clean.dev', 'build.dev.lib', 'build.dev.app', done);
 });
 
 gulp.task('default', ['build.dev'], function () {

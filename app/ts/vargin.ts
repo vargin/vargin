@@ -23,8 +23,6 @@ class Vargin {
 
   constructor() {
     this.name = 'Alice and Bob';
-
-    var p = new BaseComponent();
   }
 }
 
