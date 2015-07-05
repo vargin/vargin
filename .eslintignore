@@ -1,0 +1,3 @@
+app/ts/**/.js
+dist
+node_modules

@@ -1,0 +1,7 @@
+.idea
+node_modules
+dist
+app/ts/**/*.js
+app/ts/**/*.map
+app/style/**/*.css
+app/style/**/*.map
