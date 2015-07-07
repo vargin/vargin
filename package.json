@@ -19,10 +19,12 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.28",
+    "angular2": "2.0.0-alpha.29",
     "systemjs": "^0.18.4",
     "es6-module-loader": "^0.17.3",
     "zone.js": "^0.5.1",
-    "reflect-metadata": "0.1.0"
+    "reflect-metadata": "0.1.0",
+
+    "sass-flex-mixin": "1.0.0"
   }
 }

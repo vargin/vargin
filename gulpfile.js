@@ -110,6 +110,8 @@ gulp.task('build.dev.styles', function () {
 });
 
 gulp.task('build.dev.index', function() {
+  gulp.src('./app/ts/**/*.html').pipe(gulp.dest(PATH.dest.dev.all));
+
   return gulp.src(['./app/index.html']).pipe(gulp.dest(PATH.dest.dev.all));
 });
 
@@ -123,5 +125,4 @@ gulp.task('build.dev', function(done) {
 
 gulp.task('default', ['build.dev'], function () {
   gulp.watch('./app/**', ['build.dev']);
-  gulp.watch('./app/style/**/*.scss', ['build.dev.styles']);
 });
