@@ -1,3 +1,5 @@
+import BaseControl from 'core/controls/base';
+
 const groups = new Map<string, ControlGroup>();
 
 /**
@@ -7,11 +9,18 @@ export default class ControlGroup {
   private _type: string;
   private _name: string;
   private _description: string;
+  private _items: Array<BaseControl>;
 
-  constructor(type: string, name: string, description: string) {
+  constructor(
+    type: string = 'Unknown Type',
+    name: string = 'Unknown Name',
+    description: string = 'Unknown Description',
+    items: Array<BaseControl> = []
+  ) {
     this._type = type;
     this._name = name;
     this._description = description;
+    this._items = items;
   }
 
   /**
@@ -39,18 +48,27 @@ export default class ControlGroup {
   }
 
   /**
+   * List of controls associated with the group.
+   * @returns {Array<BaseControl>}
+   */
+  get items() {
+    return this._items;
+  }
+
+  /**
    * Register new control group into static repository.
    * @param {string} type Type of the control group.
    * @param {string} name Name of the control group.
    * @param {string} description Description of the control group.
+   * @param {Array<BaseControls>} items Control list associated with the group.
    * @returns {ControlGroup} Registered control group
    */
-  static register(type, name, description): ControlGroup {
+  static register(type, name, description, items): ControlGroup {
     if (groups.has(type)) {
       throw new Error('Group with type ' + type + ' is already registered!');
     }
 
-    var group = new ControlGroup(type, name, description);
+    var group = new ControlGroup(type, name, description, items);
     groups.set(type, group);
 
     return group;

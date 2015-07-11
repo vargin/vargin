@@ -1,5 +1,36 @@
-$header-color: #cc4a1d;
+@import '../../node_modules/sass-flex-mixin/flex.scss';
+@import '../ts/editor/expandable-groups/component.scss';
 
-h1 {
-  color: $header-color;
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  padding: 2rem;
+
+  box-sizing: border-box;
+}
+
+.vargin-editor {
+  @include flexbox;
+  @include flex-direction(row);
+
+  height: 100%;
+  width: 100%;
+}
+
+.vargin-editor__components,
+.vargin-editor__workspace,
+.vargin-editor__properties {
+  border: 2px dashed red;
+}
+
+.vargin-editor__workspace {
+  @include flex(3);
+}
+
+.vargin-editor__components,
+.vargin-editor__properties {
+  @include flex();
 }
