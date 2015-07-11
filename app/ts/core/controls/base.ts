@@ -1,20 +1,20 @@
-import ComponentGroup from 'core/components/group';
+import ControlGroup from 'core/controls/group';
 
-export default class BaseComponent {
+export default class BaseControl {
   private _type: string;
   private _name: string;
   private _description: string;
-  private _group: ComponentGroup;
+  private _group: ControlGroup;
 
   constructor(type, name, description, groupType) {
     this._type = type;
     this._name = name;
     this._description = description;
-    this._group = ComponentGroup.get(groupType);
+    this._group = ControlGroup.get(groupType);
   }
 
   /**
-   * Type of the component.
+   * Type of the control.
    * @returns {string}
    */
   get type() {
@@ -22,7 +22,7 @@ export default class BaseComponent {
   }
 
   /**
-   * Localizable and human-readable component name.
+   * Localizable and human-readable control name.
    * @returns {string}
    */
   get name() {
@@ -30,7 +30,7 @@ export default class BaseComponent {
   }
 
   /**
-   * Localizable and human-readable component description.
+   * Localizable and human-readable control description.
    * @returns {string}
    */
   get description() {
@@ -38,8 +38,8 @@ export default class BaseComponent {
   }
 
   /**
-   * Component group instance.
-   * @returns {ComponentGroup}
+   * Control group instance.
+   * @returns {ControlGroup}
    */
   get group() {
     return this._group;

@@ -1,33 +1,31 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, View } from 'angular2/angular2';
+import { Component, Inject, Optional, View } from 'angular2/angular2';
 
-import BaseComponent from 'core/components/base';
+import BaseControl from 'core/controls/base';
+import ButtonControl from 'core/controls/visual/button';
 
 @Component({
   selector: 'vargin-button',
-  properties: ['text', 'title']
+  properties: ['control']
 })
 
 @View({
   template: `
-    <button title="{{ title }}" (click)="onClick()">
-      {{ text }}
+    <button title="{{ control.title }}" (click)="onClick()">
+      {{ control.text }}
     </button>
    `
 })
 
-class ButtonComponent extends BaseComponent {
-  private text: string;
-  private title: string;
+class ButtonComponent {
+  private control: ButtonControl;
 
-  constructor() {
-    super('button', 'Button', 'HTML Button', 'visual');
-
-    this.text = 'Button';
+  constructor(@Optional() @Inject(BaseControl) control?: ButtonControl) {
+    this.control = control || new ButtonControl();
   }
 
   onClick() {
-    alert(this.text);
+    alert(this.control.text);
   }
 }
 

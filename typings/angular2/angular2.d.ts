@@ -1506,6 +1506,24 @@ declare module "angular2/angular2" {
     parent: Injector;
 
     /**
+     * Turns a list of binding definitions into an internal resolved list of resolved bindings.
+     *
+     * A resolution is a process of flattening multiple nested lists and converting individual
+     * bindings into a list of {@link ResolvedBinding}s. The resolution can be cached by `resolve`
+     * for the {@link Injector} for performance-sensitive code.
+     *
+     * @param `bindings` can be a list of `Type`, {@link Binding}, {@link ResolvedBinding}, or a
+     * recursive list of more bindings.
+     *
+     * The returned list is sparse, indexed by `id` for the {@link Key}. It is generally not useful to
+     *application code
+     * other than for passing it to {@link Injector} functions that require resolved binding lists,
+     *such as
+     * `fromResolvedBindings` and `createChildFromResolved`.
+     */
+    static resolve(bindings: List<Type | Binding | List<any>>): List<ResolvedBinding>;
+
+    /**
      * Retrieves an instance from the injector.
      *
      * @param `token`: usually the `Type` of an object. (Same as the token used while setting up a
@@ -3541,13 +3559,13 @@ declare module "angular2/angular2" {
      * The loaded component receives
      * injection normally as a hosted view.
      */
-    loadIntoLocation(typeOrBinding: Type | Binding, hostLocation: ElementRef, anchorName: string, injector?: Injector): Promise<ComponentRef>;
+    loadIntoLocation(typeOrBinding: Type | Binding, hostLocation: ElementRef, anchorName: string, bindings?: ResolvedBinding[]): Promise<ComponentRef>;
 
     /**
      * Loads a component next to the provided ElementRef. The loaded component receives
      * injection normally as a hosted view.
      */
-    loadNextToLocation(typeOrBinding: Type | Binding, location: ElementRef, injector?: Injector): Promise<ComponentRef>;
+    loadNextToLocation(typeOrBinding: Type | Binding, location: ElementRef, bindings?: ResolvedBinding[]): Promise<ComponentRef>;
   }
 
 
