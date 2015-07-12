@@ -1,4 +1,4 @@
-import BaseControl from 'core/controls/base';
+import BaseControl from 'core/controls/base-control';
 
 const groups = new Map<string, ControlGroup>();
 
@@ -9,13 +9,13 @@ export default class ControlGroup {
   private _type: string;
   private _name: string;
   private _description: string;
-  private _items: Array<BaseControl>;
+  private _items: Array<BaseControl<any>>;
 
   constructor(
     type: string = 'Unknown Type',
     name: string = 'Unknown Name',
     description: string = 'Unknown Description',
-    items: Array<BaseControl> = []
+    items: Array<BaseControl<any>> = []
   ) {
     this._type = type;
     this._name = name;

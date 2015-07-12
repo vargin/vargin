@@ -1,8 +1,8 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, Optional, View } from 'angular2/angular2';
 
-import BaseControl from 'core/controls/base';
-import ButtonControl from 'core/controls/visual/button';
+import BaseControl from 'core/controls/base-control';
+import ButtonControl from 'core/controls/visual/button-control';
 
 @Component({
   selector: 'vargin-button',
@@ -11,8 +11,8 @@ import ButtonControl from 'core/controls/visual/button';
 
 @View({
   template: `
-    <button title="{{ control.title }}" (click)="onClick()">
-      {{ control.text }}
+    <button title="{{ control.properties.title.value }}">
+      {{ control.properties.text.value }}
     </button>
    `
 })
@@ -22,10 +22,6 @@ class ButtonComponent {
 
   constructor(@Optional() @Inject(BaseControl) control?: ButtonControl) {
     this.control = control || new ButtonControl();
-  }
-
-  onClick() {
-    alert(this.control.text);
   }
 }
 

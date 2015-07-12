@@ -7,17 +7,21 @@ import {
   Injector,
   onChange,
   View,
-  ViewContainerRef,
-    ComponentRef
+  ViewContainerRef
 } from 'angular2/angular2';
 
-import BaseControl from 'core/controls/base';
+import ControlService from 'services/control-service';
+
+import BaseControl from 'core/controls/base-control';
 import ComponentControlMap from 'core/components/component-control-map';
 
 @Component({
   selector: 'vargin-dynamic',
   properties: ['control'],
-  lifecycle: [onChange]
+  lifecycle: [onChange],
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 
 @View({
@@ -27,14 +31,17 @@ import ComponentControlMap from 'core/components/component-control-map';
 class DynamicComponent{
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
-  private control: BaseControl;
+  private controlService: ControlService;
+  private control: BaseControl<any>;
 
   constructor(
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
-    @Inject(ViewContainerRef) viewContainer: ViewContainerRef
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(ControlService) controlService: ControlService
   ) {
     this.loader = loader;
     this.viewContainer = viewContainer;
+    this.controlService = controlService;
   }
 
   onChange() {
@@ -50,6 +57,13 @@ class DynamicComponent{
         Injector.resolve([bind(BaseControl).toValue(this.control)])
       )
     });
+  }
+
+  onClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    this.controlService.selectControl(this.control);
   }
 }
 

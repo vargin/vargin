@@ -8,10 +8,10 @@ import {
   View
 } from 'angular2/angular2';
 
-import BaseControl from 'core/controls/base';
-import ContainerControl from 'core/controls/visual/container';
+import BaseControl from 'core/controls/base-control';
+import ContainerControl from 'core/controls/visual/container-control';
 
-import DynamicComponent from 'core/components/dynamic';
+import DynamicComponent from 'core/components/dynamic-component';
 
 @Component({
   selector: 'vargin-container',

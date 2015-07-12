@@ -1,16 +1,24 @@
-import ControlGroup from 'core/controls/group';
+import ControlGroup from 'core/controls/control-group';
 
-export default class BaseControl {
+export default class BaseControl<TProperties> {
   private _type: string;
   private _name: string;
   private _description: string;
   private _group: ControlGroup;
+  private _properties: TProperties;
 
-  constructor(type, name, description, groupType) {
+  constructor(
+    type: string,
+    name: string,
+    description: string,
+    groupType: string,
+    properties?: TProperties
+  ) {
     this._type = type;
     this._name = name;
     this._description = description;
     this._group = ControlGroup.get(groupType);
+    this._properties = properties;
   }
 
   /**
@@ -43,5 +51,13 @@ export default class BaseControl {
    */
   get group() {
     return this._group;
+  }
+
+  /**
+   * List of configurable control properties.
+   * @returns {TProperties}
+   */
+  get properties() {
+    return this._properties;
   }
 }

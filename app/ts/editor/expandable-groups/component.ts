@@ -1,9 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
+import { Component, NgFor, View } from 'angular2/angular2';
 
-import { Component, View, NgFor } from 'angular2/angular2';
-
-import BaseControl from 'core/controls/base';
-import ControlGroup from 'core/controls/group';
+import ControlGroup from 'core/controls/control-group';
 
 interface IExpandableGroup {
   content: ControlGroup;

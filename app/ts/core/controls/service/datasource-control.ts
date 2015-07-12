@@ -1,7 +1,10 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseControl from 'core/controls/base';
+import BaseControl from 'core/controls/base-control';
 
-class DataSourceControl extends BaseControl {
+class DataSourceControlProperties {
+}
+
+class DataSourceControl extends BaseControl<DataSourceControlProperties> {
   constructor() {
     super('datasource', 'Data Source', 'Custom Data Source', 'service');
   }

@@ -1,8 +1,8 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, Optional, View } from 'angular2/angular2';
 
-import BaseControl from 'core/controls/base';
-import LabelControl from 'core/controls/visual/label';
+import BaseControl from 'core/controls/base-control';
+import { LabelControl } from 'core/controls/visual/label-control';
 
 @Component({
   selector: 'vargin-label',
@@ -10,7 +10,7 @@ import LabelControl from 'core/controls/visual/label';
 })
 
 @View({
-  template: `<span>{{ control.text }}</span>`
+  template: `<span>{{ control.properties.text.value }}</span>`
 })
 
 class LabelComponent{
