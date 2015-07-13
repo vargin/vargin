@@ -13,17 +13,17 @@ export class ControlProperty<T> {
 
 export class PredefinedControlProperty extends
   ControlProperty<ControlProperty<string>> {
-  possibleValues: Array<ControlProperty<string>>;
+  options: Array<ControlProperty<string>>;
 
   constructor(
     name: string,
-    possibleValues: Array<ControlProperty<string>>,
+    options: Array<ControlProperty<string>>,
     value?: ControlProperty<string>,
     editorVisible?: boolean
   ) {
     super(name, value, editorVisible);
 
-    this.possibleValues = possibleValues;
+    this.options = options;
   }
 }
 

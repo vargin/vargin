@@ -13,7 +13,7 @@ import { ControlProperty } from 'core/controls/control-property';
     <label>{{property.name}} &nbsp;
       <input type="text"
         [value]="property.value"
-        (keyup)="onKeyUp($event.target.value)"
+        (change)="onChange($event.target.value)"
       />
     </label>`
 })
@@ -22,12 +22,12 @@ class StringPropertyEditor {
   private property: ControlProperty<string>;
 
   constructor(
-      @Optional() @Inject(ControlProperty) property?: ControlProperty<string>
+    @Optional() @Inject(ControlProperty) property?: ControlProperty<string>
   ) {
     this.property = property || new ControlProperty('[String]', '');
   }
 
-  onKeyUp(value) {
+  onChange(value) {
     this.property.value = value;
   }
 }

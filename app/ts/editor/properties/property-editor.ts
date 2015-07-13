@@ -14,6 +14,8 @@ import { ControlProperty } from 'core/controls/control-property';
 
 import NumberPropertyEditor from 'editor/properties/number-property-editor';
 import StringPropertyEditor from 'editor/properties/string-property-editor';
+import PredefinedPropertyEditor from
+  'editor/properties/predefined-property-editor';
 
 @Component({
   selector: 'property-editor',
@@ -60,6 +62,8 @@ class PropertyEditor {
         return StringPropertyEditor;
       case 'number':
         return NumberPropertyEditor;
+      case 'object':
+        return PredefinedPropertyEditor;
       default:
         throw new Error(
           '[PropertyEditor] Property type is not supported: ' + propertyType

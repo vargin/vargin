@@ -11,7 +11,9 @@ import ButtonControl from 'core/controls/visual/button-control';
 
 @View({
   template: `
-    <button title="{{ control.properties.title.value }}">
+    <button
+      [title]="control.properties.title.value"
+      [type]="control.properties.type.value.value">
       {{ control.properties.text.value }}
     </button>
    `

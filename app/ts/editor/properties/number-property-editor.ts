@@ -13,7 +13,7 @@ import { ControlProperty } from 'core/controls/control-property';
     <label>{{property.name}} &nbsp;
       <input type="number"
         [value]="property.value"
-        (change)="onKeyUp($event.target.value)"
+        (change)="onChange($event.target.value)"
       />
     </label>`
 })
@@ -27,7 +27,7 @@ class NumberPropertyEditor {
     this.property = property || new ControlProperty('[Number]', 0);
   }
 
-  onKeyUp(value) {
+  onChange(value) {
     this.property.value = +value;
   }
 }
