@@ -44,8 +44,11 @@ class VarginWorkspace {
     ];
 
     this._rootControl.children = [
-      new LabelControl(new LabelControlProperties('[Root] Label1')),
-      new ButtonControl(),
+      new LabelControl(
+        new LabelControlProperties('[Root] Label1'),
+        {'color': 'blue', 'text-decoration': 'line-through'}
+      ),
+      new ButtonControl(null, { 'border': '3px dashed blue' }),
       new LabelControl(new LabelControlProperties('[Root] Label2')),
       new ButtonControl(),
       new RangeControl(),

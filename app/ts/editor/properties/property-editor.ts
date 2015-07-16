@@ -7,7 +7,8 @@ import {
   Injector,
   onChange,
   View,
-  ViewContainerRef
+  ViewContainerRef,
+  Type
 } from 'angular2/angular2';
 
 import { ControlProperty } from 'core/controls/control-property';
@@ -59,11 +60,10 @@ class PropertyEditor {
     var propertyType = typeof property.value;
     switch(propertyType) {
       case 'string':
-        return StringPropertyEditor;
+        return ('options' in property) ?
+          PredefinedPropertyEditor : StringPropertyEditor;
       case 'number':
         return NumberPropertyEditor;
-      case 'object':
-        return PredefinedPropertyEditor;
       default:
         throw new Error(
           '[PropertyEditor] Property type is not supported: ' + propertyType

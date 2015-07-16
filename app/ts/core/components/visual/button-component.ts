@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, Inject, Optional, View } from 'angular2/angular2';
+import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import BaseControl from 'core/controls/base-control';
 import ButtonControl from 'core/controls/visual/button-control';
@@ -13,10 +13,12 @@ import ButtonControl from 'core/controls/visual/button-control';
   template: `
     <button
       [title]="control.properties.title.value"
-      [type]="control.properties.type.value.value">
+      [type]="control.properties.type.value"
+      [ng-style]="control.styles">
       {{ control.properties.text.value }}
     </button>
-   `
+   `,
+  directives: [NgStyle]
 })
 
 class ButtonComponent {

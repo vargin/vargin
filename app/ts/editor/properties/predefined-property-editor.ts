@@ -18,7 +18,7 @@ import {
         <option
           *ng-for="#option of property.options"
           [value]="option.value"
-          [selected]="property.value.value === option.value">
+          [selected]="property.value === option.value">
           {{ option.name }}
           </option>
       </select>
@@ -37,9 +37,7 @@ class PredefinedPropertyEditor {
   }
 
   onChange(value) {
-    this.property.value = this.property.options.find(
-      (option) => option.value === value
-    );
+    this.property.value = value;
   }
 }
 

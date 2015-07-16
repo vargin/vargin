@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseControl from 'core/controls/base-control';
+import BaseVisualControl from 'core/controls/visual/base-visual-control';
 import {
   ControlProperty,
   TextControlProperty,
@@ -13,6 +13,10 @@ const BUTTON_TYPES = [
   new ControlProperty<string>('Button', 'button')
 ];
 
+const DEFAULT_STYLES = <{ [key: string]: string; }> {
+  'background-color': 'green'
+};
+
 class ButtonControlProperties {
   text: TextControlProperty;
   title: TitleControlProperty;
@@ -23,19 +27,24 @@ class ButtonControlProperties {
     this.title = new TitleControlProperty(title);
 
     this.type = new PredefinedControlProperty(
-      'Type', BUTTON_TYPES, BUTTON_TYPES.find((option) => option.value === type)
+      'Type',
+      BUTTON_TYPES,
+      BUTTON_TYPES.find((option) => option.value === type).value
     );
   }
 }
 
-class ButtonControl extends BaseControl<ButtonControlProperties> {
-  constructor(properties?: ButtonControlProperties) {
+class ButtonControl extends BaseVisualControl<ButtonControlProperties> {
+  constructor(
+    properties?: ButtonControlProperties,
+    styles?: Map<string, string>
+  ) {
     super(
       'button',
       'Button',
       'HTML Button',
-      'visual',
-      properties || new ButtonControlProperties('[Text]', '[Title]')
+      properties || new ButtonControlProperties('[Text]', '[Title]'),
+      Object.assign({}, DEFAULT_STYLES, styles || {})
     );
   }
 }

@@ -11,17 +11,16 @@ export class ControlProperty<T> {
   }
 }
 
-export class PredefinedControlProperty extends
-  ControlProperty<ControlProperty<string>> {
+export class PredefinedControlProperty extends ControlProperty<string> {
   options: Array<ControlProperty<string>>;
 
   constructor(
     name: string,
     options: Array<ControlProperty<string>>,
-    value?: ControlProperty<string>,
+    value?: string,
     editorVisible?: boolean
   ) {
-    super(name, value, editorVisible);
+    super(name, value !== undefined ? value : options[0].value, editorVisible);
 
     this.options = options;
   }

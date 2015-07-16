@@ -1,9 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseControl from 'core/controls/base-control';
-import {
-  ControlProperty,
-  TextControlProperty
-} from 'core/controls/control-property';
+import BaseVisualControl from 'core/controls/visual/base-visual-control';
+import { TextControlProperty } from 'core/controls/control-property';
 
 export class LabelControlProperties {
   text: TextControlProperty;
@@ -13,14 +10,21 @@ export class LabelControlProperties {
   }
 }
 
-export class LabelControl extends BaseControl<LabelControlProperties> {
-  constructor(properties?: LabelControlProperties) {
+const DEFAULT_STYLES = <{ [key: string]: string; }> {
+  'background-color': 'red'
+};
+
+export class LabelControl extends BaseVisualControl<LabelControlProperties> {
+  constructor(
+    properties?: LabelControlProperties,
+    styles?: { [key: string]: string; }
+  ) {
     super(
       'label',
       'Label',
       'HTML Label',
-      'visual',
-      properties || new LabelControlProperties('[Text]')
+      properties || new LabelControlProperties('[Text]'),
+      Object.assign({}, DEFAULT_STYLES, styles || {})
     );
   }
 }

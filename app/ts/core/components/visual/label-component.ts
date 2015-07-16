@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, Inject, Optional, View } from 'angular2/angular2';
+import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import BaseControl from 'core/controls/base-control';
 import { LabelControl } from 'core/controls/visual/label-control';
@@ -10,7 +10,10 @@ import { LabelControl } from 'core/controls/visual/label-control';
 })
 
 @View({
-  template: `<span>{{ control.properties.text.value }}</span>`
+  template: `
+    <span [ng-style]="control.styles">{{ control.properties.text.value }}</span>
+  `,
+  directives: [NgStyle]
 })
 
 class LabelComponent{

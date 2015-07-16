@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseControl from 'core/controls/base-control';
+import BaseVisualControl from 'core/controls/visual/base-visual-control';
 import { ControlProperty } from 'core/controls/control-property';
 
 class RangeControlProperties {
@@ -21,14 +21,17 @@ class RangeControlProperties {
   }
 }
 
-class RangeControl extends BaseControl<RangeControlProperties> {
-  constructor(properties?: RangeControlProperties) {
+class RangeControl extends BaseVisualControl<RangeControlProperties> {
+  constructor(
+    properties?: RangeControlProperties,
+    styles?: { [key: string]: string; }
+  ) {
     super(
       'range',
       'Number Range',
       'Number Range',
-      'visual',
-      properties || new RangeControlProperties()
+      properties || new RangeControlProperties(),
+      styles
     );
   }
 }

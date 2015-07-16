@@ -69,7 +69,7 @@ class Vargin {
 bootstrap(
   Vargin,
   [
-    bind(ChangeDetection).toClass(DynamicChangeDetection),
+   /* bind(ChangeDetection).toClass(DynamicChangeDetection),*/
     bind(ControlService).toValue(new ControlService())
   ]
 );
