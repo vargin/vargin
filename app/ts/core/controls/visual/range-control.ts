@@ -1,12 +1,12 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
-import { ControlProperty } from 'core/controls/control-property';
+import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
+import { IProperty, Property } from 'core/property';
 
 class RangeControlProperties {
-  min: ControlProperty<number>;
-  max: ControlProperty<number>;
-  step: ControlProperty<number>;
-  value: ControlProperty<number>;
+  min: IProperty<number>;
+  max: IProperty<number>;
+  step: IProperty<number>;
+  value: IProperty<number>;
 
   constructor(
     min: number = 0,
@@ -14,10 +14,10 @@ class RangeControlProperties {
     step: number = 1,
     value: number = 0
   ) {
-    this.min = new ControlProperty<number>('Minimum', min);
-    this.max = new ControlProperty<number>('Maximum', max);
-    this.step = new ControlProperty<number>('Step', step);
-    this.value = new ControlProperty<number>('Value', value);
+    this.min = new Property<number>('Minimum', min);
+    this.max = new Property<number>('Maximum', max);
+    this.step = new Property<number>('Step', step);
+    this.value = new Property<number>('Value', value);
   }
 }
 

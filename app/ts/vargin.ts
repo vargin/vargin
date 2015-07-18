@@ -2,8 +2,6 @@
 import {
   Component,
   View,
-  ChangeDetection,
-  DynamicChangeDetection,
   bootstrap,
   bind
 } from 'angular2/angular2';
@@ -66,10 +64,4 @@ class Vargin {
   }
 }
 
-bootstrap(
-  Vargin,
-  [
-   /* bind(ChangeDetection).toClass(DynamicChangeDetection),*/
-    bind(ControlService).toValue(new ControlService())
-  ]
-);
+bootstrap(Vargin, [bind(ControlService).toValue(new ControlService())]);

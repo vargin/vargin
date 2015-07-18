@@ -51,7 +51,7 @@ class VarginWorkspace {
       new ButtonControl(null, { 'border': '3px dashed blue' }),
       new LabelControl(new LabelControlProperties('[Root] Label2')),
       new ButtonControl(),
-      new RangeControl(),
+      new RangeControl(null, { 'opacity': '0.9' }),
       nestedControl
     ];
   }

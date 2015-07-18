@@ -1,10 +1,17 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
+import { IProperty } from 'core/property';
 import BaseControl from 'core/controls/base-control';
-import { StyleProperty, StyleRepository } from 'core/style-repository';
+import { StyleRepository } from 'core/style-repository';
 
-export default class BaseVisualControl<TProperties> extends BaseControl<TProperties> {
-  private _styles: Map<string, StyleProperty> =
-    new Map<string, StyleProperty>();
+export interface IVisualControl {
+  getStyleList(): Array<IProperty<string>>,
+  getStyleObject(): { [key: string]: string; }
+}
+
+export class BaseVisualControl<TProperties>
+                     extends BaseControl<TProperties>
+                     implements IVisualControl {
+  private _styles: Array<IProperty<string>> = [];
 
   constructor(
     type: string,
@@ -18,19 +25,20 @@ export default class BaseVisualControl<TProperties> extends BaseControl<TPropert
     Object.keys(styles || {}).forEach((styleKey) => {
       let styleProperty = StyleRepository.getProperty(styleKey);
 
-      styleProperty.value = styles[styleKey];
+      styleProperty.setValue(styles[styleKey]);
 
-      this._styles.set(styleKey, styleProperty);
+      this._styles.push(styleProperty);
     });
   }
 
-  get styles() {
-    var styles = {};
+  getStyleList() {
+    return this._styles;
+  }
 
-    this._styles.forEach((styleProperty) => {
-      styles[styleProperty.type] = styleProperty.value;
-    });
-
-    return styles;
+  getStyleObject() {
+    return this._styles.reduce((styleObject, property) => {
+      styleObject[property.getType()] = property.getValue();
+      return styleObject;
+    }, <{ [key: string]: string; }>{});
   }
 }

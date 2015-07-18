@@ -11,7 +11,9 @@ import { LabelControl } from 'core/controls/visual/label-control';
 
 @View({
   template: `
-    <span [ng-style]="control.styles">{{ control.properties.text.value }}</span>
+    <span [ng-style]="control.getStyleObject()">
+    {{ control.properties.text.getValue() }}
+    </span>
   `,
   directives: [NgStyle]
 })

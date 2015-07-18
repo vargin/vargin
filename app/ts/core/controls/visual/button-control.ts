@@ -1,16 +1,16 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
+import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 import {
-  ControlProperty,
-  TextControlProperty,
-  TitleControlProperty,
-  PredefinedControlProperty
-} from 'core/controls/control-property';
+  IProperty,
+  IPropertyWithOptions,
+  Property,
+  PropertyWithOptions
+} from 'core/property';
 
 const BUTTON_TYPES = [
-  new ControlProperty<string>('Submit', 'submit'),
-  new ControlProperty<string>('Reset', 'reset'),
-  new ControlProperty<string>('Button', 'button')
+  new Property<string>('Submit', 'submit'),
+  new Property<string>('Reset', 'reset'),
+  new Property<string>('Button', 'button')
 ];
 
 const DEFAULT_STYLES = <{ [key: string]: string; }> {
@@ -18,18 +18,18 @@ const DEFAULT_STYLES = <{ [key: string]: string; }> {
 };
 
 class ButtonControlProperties {
-  text: TextControlProperty;
-  title: TitleControlProperty;
-  type: PredefinedControlProperty;
+  text: IProperty<string>;
+  title: IProperty<string>;
+  type: IPropertyWithOptions<string>;
 
   constructor(text: string, title: string, type: string = 'submit') {
-    this.text = new TextControlProperty(text);
-    this.title = new TitleControlProperty(title);
+    this.text = new Property('Text', text);
+    this.title = new Property('Title', title);
 
-    this.type = new PredefinedControlProperty(
+    this.type = new PropertyWithOptions(
       'Type',
       BUTTON_TYPES,
-      BUTTON_TYPES.find((option) => option.value === type).value
+      BUTTON_TYPES.find((option) => option.getValue() === type).getValue()
     );
   }
 }
@@ -37,7 +37,7 @@ class ButtonControlProperties {
 class ButtonControl extends BaseVisualControl<ButtonControlProperties> {
   constructor(
     properties?: ButtonControlProperties,
-    styles?: Map<string, string>
+    styles?: { [key: string]: string; }
   ) {
     super(
       'button',

@@ -1,57 +1,77 @@
 import {
-  ControlProperty,
-  PredefinedControlProperty
-} from 'core/controls/control-property';
+  IProperty,
+  IPropertyWithOptions,
+  Property,
+  PropertyWithOptions
+} from 'core/property';
 
-export class StyleProperty {
-  private _property: ControlProperty<string>;
-  private _type: string;
+class StyleProperty implements IProperty<string> {
+  protected _property: IProperty<string>;
+  private _value: string;
 
-  public value: string;
-
-  constructor(type: string, property: ControlProperty<string>) {
-    this._type = type;
+  constructor(property: IProperty<string>) {
     this._property = property;
-
-    this.value = property.value;
+    this._value = property.getValue();
   }
 
-  get name() {
-    return this._property.name;
+  getName() {
+    return this._property.getName();
   }
 
-  get type() {
-    return this._type;
+  getType() {
+    return this._property.getType();
   }
 
-  toString() {
-    return this.value;
+  getValue() {
+    return this._value;
+  }
+
+  setValue(value) {
+    this._value = value;
+  }
+
+  isEditorVisible() {
+    return this._property.isEditorVisible();
   }
 }
 
-const STYLES = new Map<string, ControlProperty<string>>([
-  ['background-color', new ControlProperty('Background color', 'inherit')],
-  ['border', new ControlProperty('Border', 'none')],
-  ['color', new ControlProperty('Text color', 'inherit')],
+class StylePropertyWithOptions
+       extends StyleProperty
+       implements IPropertyWithOptions<string> {
+  getOptions() {
+    return (<IPropertyWithOptions<string>>this._property).getOptions();
+  }
+}
+
+const STYLES = new Map<string, IProperty<string>>([
+  [
+    'background-color',
+    new Property('Background color', 'inherit', 'background-color')
+  ],
+  ['border', new Property('Border', 'none', 'border')],
+  ['color', new Property('Text color', 'inherit', 'color')],
+  ['opacity', new Property('Opacity', '1', 'opacity')],
   [
     'text-decoration',
-    new PredefinedControlProperty('Text decoration', [
-      new ControlProperty('None', 'none'),
-      new ControlProperty('Underline', 'underline'),
-      new ControlProperty('Overline', 'overline'),
-      new ControlProperty('Line-through', 'line-through')
-    ])
+    new PropertyWithOptions('Text decoration', [
+      new Property('None', 'none'),
+      new Property('Underline', 'underline'),
+      new Property('Overline', 'overline'),
+      new Property('Line-through', 'line-through')
+    ], 'none', 'text-decoration'),
   ]
 ]);
 
 export class StyleRepository {
-  static getProperty(type: string) {
+  static getProperty(type: string): IProperty<string> {
     var styleDescriptor = STYLES.get(type);
 
     if (!styleDescriptor) {
       throw new Error('Type is not supported: ' + type);
     }
 
-    return new StyleProperty(type, styleDescriptor);
+    return 'getOptions' in styleDescriptor ?
+      new StylePropertyWithOptions(styleDescriptor) :
+      new StyleProperty(styleDescriptor);
   }
 }

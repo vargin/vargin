@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, Inject, Optional, View } from 'angular2/angular2';
 
-import { ControlProperty } from 'core/controls/control-property';
+import { IProperty, Property } from 'core/property';
 
 @Component({
   selector: 'number-property-editor',
@@ -10,25 +10,23 @@ import { ControlProperty } from 'core/controls/control-property';
 
 @View({
   template: `
-    <label>{{property.name}} &nbsp;
+    <label>{{property.getName()}} &nbsp;
       <input type="number"
-        [value]="property.value"
+        [value]="property.getValue()"
         (change)="onChange($event.target.value)"
       />
     </label>`
 })
 
 class NumberPropertyEditor {
-  private property: ControlProperty<number>;
+  private property: IProperty<number>;
 
-  constructor(
-    @Optional() @Inject(ControlProperty) property?: ControlProperty<number>
-  ) {
-    this.property = property || new ControlProperty('[Number]', 0);
+  constructor(@Optional() @Inject(Property) property?: IProperty<number>) {
+    this.property = property || new Property('[Number]', 0);
   }
 
-  onChange(value) {
-    this.property.value = +value;
+  onChange(value: string) {
+    this.property.setValue(+value);
   }
 }
 

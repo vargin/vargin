@@ -1,12 +1,12 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
-import { TextControlProperty } from 'core/controls/control-property';
+import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
+import { IProperty, Property } from 'core/property';
 
 export class LabelControlProperties {
-  text: TextControlProperty;
+  text: IProperty<string>;
 
   constructor(text: string) {
-    this.text = new TextControlProperty(text);
+    this.text = new Property('Text', text);
   }
 }
 

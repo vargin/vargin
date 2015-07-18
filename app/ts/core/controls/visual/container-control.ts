@@ -1,6 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
-import { ControlProperty } from 'core/controls/control-property';
+import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 
 class ContainerControlProperties {
 }

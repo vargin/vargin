@@ -2,8 +2,9 @@
 import { Component, View, Inject, NgFor, NgModel } from 'angular2/angular2';
 
 import BaseControl from 'core/controls/base-control';
+import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 
-import { ControlProperty } from 'core/controls/control-property';
+import { IProperty } from 'core/property';
 import PropertyEditor from 'editor/properties/property-editor';
 
 import ControlService from 'services/control-service';
@@ -15,16 +16,24 @@ import ControlService from 'services/control-service';
 @View({
   template: `
     <section>
-      <header>Properties</header>
-      <property-editor *ng-for="#property of activeProperties" [property]="property">
-      </property-editor>
+      <section>
+        <header>Properties</header>
+        <property-editor *ng-for="#property of activeProperties" [property]="property">
+        </property-editor>
+      </section>
+      <section>
+        <header>Styles</header>
+        <property-editor *ng-for="#property of activeStyleProperties" [property]="property">
+        </property-editor>
+      </section>
     </section>
   `,
   directives: [NgFor, NgModel, PropertyEditor]
 })
 
 class VarginProperties {
-  private activeProperties: Array<ControlProperty<any>>;
+  private activeProperties: Array<IProperty<any>>;
+  private activeStyleProperties: Array<IProperty<string>>;
   private activeControl: BaseControl<any>;
   private controlService: ControlService;
 
@@ -38,9 +47,15 @@ class VarginProperties {
 
   onControlSelected(control: BaseControl<any>) {
     this.activeControl = control;
+
     this.activeProperties = Object.keys(control.properties).map((key) => {
       return control.properties[key];
     });
+
+    if ('getStyleList' in control) {
+      this.activeStyleProperties =
+        (<BaseVisualControl<any>>control).getStyleList();
+    }
   }
 }
 

@@ -12,12 +12,12 @@ import ButtonControl from 'core/controls/visual/button-control';
 @View({
   template: `
     <button
-      [title]="control.properties.title.value"
-      [type]="control.properties.type.value"
-      [ng-style]="control.styles">
-      {{ control.properties.text.value }}
+      [title]="control.properties.title.getValue()"
+      [type]="control.properties.type.getValue()"
+      [ng-style]="control.getStyleObject()">
+      {{ control.properties.text.getValue() }}
     </button>
-   `,
+  `,
   directives: [NgStyle]
 })
 
