@@ -8,6 +8,10 @@ class DataSourceControl extends BaseControl<DataSourceControlProperties> {
   constructor() {
     super('datasource', 'Data Source', 'Custom Data Source', 'service');
   }
+
+  clone() {
+    return new DataSourceControl();
+  }
 }
 
 export default DataSourceControl;

@@ -14,7 +14,7 @@ const BUTTON_TYPES = [
 ];
 
 const DEFAULT_STYLES = <{ [key: string]: string; }> {
-  'background-color': 'green'
+  'background-color': '#008000'
 };
 
 class ButtonControlProperties {
@@ -46,6 +46,10 @@ class ButtonControl extends BaseVisualControl<ButtonControlProperties> {
       properties || new ButtonControlProperties('[Text]', '[Title]'),
       Object.assign({}, DEFAULT_STYLES, styles || {})
     );
+  }
+
+  clone() {
+    return new ButtonControl(this.properties, this.getStyleObject());
   }
 }
 

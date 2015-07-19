@@ -13,6 +13,7 @@ import {
 
 import { IProperty, Property } from 'core/property';
 
+import ColorPropertyEditor from 'editor/properties/color-property-editor';
 import NumberPropertyEditor from 'editor/properties/number-property-editor';
 import StringPropertyEditor from 'editor/properties/string-property-editor';
 import PropertyWithOptionsEditor from
@@ -61,20 +62,15 @@ class PropertyEditor {
       'options' : property.getType();
     switch(propertyType) {
       case 'background-color':
-      case 'border':
       case 'color':
-      case 'text-decoration':
-      case 'string':
-        return StringPropertyEditor;
+        return ColorPropertyEditor;
       case 'opacity':
       case 'number':
         return NumberPropertyEditor;
       case 'options':
         return PropertyWithOptionsEditor;
       default:
-        throw new Error(
-          '[PropertyEditor] Property type is not supported: ' + propertyType
-        );
+        return StringPropertyEditor;
     }
   }
 }

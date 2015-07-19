@@ -8,6 +8,10 @@ import {
   View
 } from 'angular2/angular2';
 
+import { IControlComponent } from 'core/components/control-component';
+
+import ControlService from 'services/control-service';
+
 import BaseControl from 'core/controls/base-control';
 import ContainerControl from 'core/controls/visual/container-control';
 
@@ -15,7 +19,12 @@ import DynamicComponent from 'core/components/dynamic-component';
 
 @Component({
   selector: 'vargin-container',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(dragover)': 'onDragOver($event)',
+    '(dragenter)': 'onDragEnter($event)',
+    '(drop)': 'onDrop($event)'
+  }
 })
 
 @View({
@@ -26,11 +35,29 @@ import DynamicComponent from 'core/components/dynamic-component';
   directives: [NgFor, DynamicComponent]
 })
 
-class ContainerComponent{
-  private control: ContainerControl;
+class ContainerComponent implements IControlComponent {
+  private controlService: ControlService;
+  control: ContainerControl;
 
-  constructor(@Optional() @Inject(BaseControl) control?: ContainerControl) {
+  constructor(
+    @Inject(ControlService) controlService: ControlService,
+    @Optional() @Inject(BaseControl) control?: ContainerControl
+  ) {
+    this.controlService = controlService;
     this.control = control || new ContainerControl();
+  }
+
+  onDragOver(e: DragEvent) {
+    e.preventDefault();
+  }
+
+  onDragEnter(e: DragEvent) {
+    e.preventDefault();
+  }
+
+  onDrop(e: DragEvent) {
+    this.control.children.push(this.controlService.draggedControl);
+    e.preventDefault();
   }
 }
 

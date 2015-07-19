@@ -6,6 +6,8 @@ import {
   View
 } from 'angular2/angular2';
 
+import { IControlComponent } from 'core/components/control-component';
+
 import BaseControl from 'core/controls/base-control';
 import DataSourceControl from 'core/controls/service/datasource-control';
 
@@ -18,12 +20,10 @@ import DataSourceControl from 'core/controls/service/datasource-control';
   template: `<div>{{ control.name }}</div>`
 })
 
-class DataSourceComponent{
-  private control: DataSourceControl;
+class DataSourceComponent implements IControlComponent {
+  control: DataSourceControl;
 
-  constructor(
-    @Optional() @Inject(BaseControl) control?: DataSourceControl
-  ) {
+  constructor(@Optional() @Inject(BaseControl) control?: DataSourceControl) {
     this.control = control || new DataSourceControl();
   }
 }

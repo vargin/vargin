@@ -1,3 +1,4 @@
+import { Type } from 'angular2/angular2';
 import BaseControl from 'core/controls/base-control';
 
 import ButtonComponent from 'core/components/visual/button-component';

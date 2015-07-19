@@ -34,3 +34,11 @@ body {
 .vargin-editor__properties {
   @include flex();
 }
+
+vargin-container {
+  display: block;
+}
+
+vargin-container:-moz-drag-over {
+  border: 1px solid black;
+}

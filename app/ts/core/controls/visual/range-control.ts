@@ -34,6 +34,10 @@ class RangeControl extends BaseVisualControl<RangeControlProperties> {
       styles
     );
   }
+
+  clone() {
+    return new RangeControl(this.properties, this.getStyleObject());
+  }
 }
 
 export default RangeControl;

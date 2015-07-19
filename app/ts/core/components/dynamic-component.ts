@@ -10,6 +10,8 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
+import { IControlComponent } from 'core/components/control-component';
+
 import ControlService from 'services/control-service';
 
 import BaseControl from 'core/controls/base-control';
@@ -28,11 +30,11 @@ import ComponentControlMap from 'core/components/component-control-map';
   template: `<div #container></div>`
 })
 
-class DynamicComponent{
+class DynamicComponent implements IControlComponent {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
   private controlService: ControlService;
-  private control: BaseControl<any>;
+  control: BaseControl<any>;
 
   constructor(
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,

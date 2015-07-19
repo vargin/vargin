@@ -27,4 +27,8 @@ export class LabelControl extends BaseVisualControl<LabelControlProperties> {
       Object.assign({}, DEFAULT_STYLES, styles || {})
     );
   }
+
+  clone() {
+    return new LabelControl(this.properties, this.getStyleObject());
+  }
 }

@@ -21,6 +21,10 @@ export default class BaseControl<TProperties> {
     this._properties = properties;
   }
 
+  clone(): BaseControl<TProperties> {
+    throw new Error('Not Implemented');
+  }
+
   /**
    * Type of the control.
    * @returns {string}

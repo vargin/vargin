@@ -5,6 +5,7 @@ import BaseControl from 'core/controls/base-control';
 
 class ControlService {
   private _activeControl: BaseControl<any>;
+  private _draggedControl: BaseControl<any>;
 
   controlSelected: EventEmitter;
 
@@ -19,8 +20,16 @@ class ControlService {
     }
   }
 
+  dragControl(control: BaseControl<any>) {
+    this._draggedControl = control;
+  }
+
   get activeControl() {
     return this._activeControl;
+  }
+
+  get draggedControl() {
+    return this._draggedControl;
   }
 }
 
