@@ -11,7 +11,7 @@ export class LabelControlProperties {
 }
 
 const DEFAULT_STYLES = <{ [key: string]: string; }> {
-  'background-color': 'red'
+  'background-color': '#cccaaa'
 };
 
 export class LabelControl extends BaseVisualControl<LabelControlProperties> {
