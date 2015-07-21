@@ -1,12 +1,4 @@
-import { IMessageChannel } from 'core/events/message-channel';
-
 export interface IMessage {
-  /**
-   * Message channel message belongs to.
-   * @type {IMessageChannel}
-   */
-  channel: IMessageChannel;
-
   /**
    * Name of the message.
    * @type {string}
@@ -21,18 +13,12 @@ export interface IMessage {
 }
 
 export class Message implements IMessage {
-  private _channel: IMessageChannel;
   private _name: string;
   private _data: any;
 
-  constructor(channel: IMessageChannel, name: string, data: any = null) {
-    this._channel = channel;
+  constructor(name: string, data: any = null) {
     this._name = name;
     this._data = data;
-  }
-
-  get channel() {
-    return this._channel;
   }
 
   get name() {

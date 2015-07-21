@@ -1,6 +1,7 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 import { IProperty, Property } from 'core/property';
+import { IAction } from 'core/actions/action';
 
 class RangeControlProperties {
   min: IProperty<number>;
@@ -31,6 +32,10 @@ class RangeControl extends BaseVisualControl<RangeControlProperties> {
       'Number Range',
       'Number Range',
       properties || new RangeControlProperties(),
+      [
+        new Property<Array<IAction>>('Click', [], 'click'),
+        new Property<Array<IAction>>('Hover', [], 'hover'),
+      ],
       styles
     );
   }

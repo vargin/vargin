@@ -7,6 +7,8 @@ import {
   PropertyWithOptions
 } from 'core/property';
 
+import { IAction } from 'core/actions/action';
+
 const BUTTON_TYPES = [
   new Property<string>('Submit', 'submit'),
   new Property<string>('Reset', 'reset'),
@@ -44,6 +46,10 @@ class ButtonControl extends BaseVisualControl<ButtonControlProperties> {
       'Button',
       'HTML Button',
       properties || new ButtonControlProperties('[Text]', '[Title]'),
+      [
+        new Property<Array<IAction>>('Click', [], 'click'),
+        new Property<Array<IAction>>('Hover', [], 'hover'),
+      ],
       Object.assign({}, DEFAULT_STYLES, styles || {})
     );
   }

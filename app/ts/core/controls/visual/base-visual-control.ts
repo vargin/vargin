@@ -1,5 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
 import BaseControl from 'core/controls/base-control';
 import { StyleRepository } from 'core/style-repository';
 
@@ -18,9 +19,10 @@ export class BaseVisualControl<TProperties>
     name: string,
     description: string,
     properties?: TProperties,
+    events?: Array<IProperty<Array<IAction>>>,
     styles?: { [key: string]: string; }
   ) {
-    super(type, name, description, 'visual', properties);
+    super(type, name, description, 'visual', properties, events);
 
     Object.keys(styles || {}).forEach((styleKey) => {
       let styleProperty = StyleRepository.getProperty(styleKey);

@@ -1,3 +1,5 @@
+import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
 import ControlGroup from 'core/controls/control-group';
 
 export default class BaseControl<TProperties> {
@@ -6,19 +8,22 @@ export default class BaseControl<TProperties> {
   private _description: string;
   private _group: ControlGroup;
   private _properties: TProperties;
+  private _events: Array<IProperty<Array<IAction>>>;
 
   constructor(
     type: string,
     name: string,
     description: string,
     groupType: string,
-    properties?: TProperties
+    properties?: TProperties,
+    events?: Array<IProperty<Array<IAction>>>
   ) {
     this._type = type;
     this._name = name;
     this._description = description;
     this._group = ControlGroup.get(groupType);
     this._properties = properties;
+    this._events = events || [];
   }
 
   clone(): BaseControl<TProperties> {
@@ -63,5 +68,13 @@ export default class BaseControl<TProperties> {
    */
   get properties() {
     return this._properties;
+  }
+
+  /**
+   * List of event names supported by control.
+   * @returns {Array<IProperty<Array<IAction>>>}
+   */
+  get events() {
+    return this._events;
   }
 }

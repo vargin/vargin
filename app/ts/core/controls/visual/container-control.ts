@@ -1,4 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
+import { Property } from 'core/property';
+import { IAction } from 'core/actions/action';
 import BaseControl from 'core/controls/base-control';
 import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 
@@ -17,6 +19,10 @@ class ContainerControl extends BaseVisualControl<ContainerControlProperties> {
       'Container',
       'Component container',
       properties || new ContainerControlProperties(),
+      [
+        new Property<Array<IAction>>('Click', [], 'click'),
+        new Property<Array<IAction>>('Hover', [], 'hover'),
+      ],
       styles
     );
   }

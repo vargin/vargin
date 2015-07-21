@@ -1,6 +1,7 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
 import { IProperty, Property } from 'core/property';
+import { IAction } from 'core/actions/action';
 
 export class LabelControlProperties {
   text: IProperty<string>;
@@ -24,6 +25,10 @@ export class LabelControl extends BaseVisualControl<LabelControlProperties> {
       'Label',
       'HTML Label',
       properties || new LabelControlProperties('[Text]'),
+      [
+        new Property<Array<IAction>>('Click', [], 'click'),
+        new Property<Array<IAction>>('Hover', [], 'hover'),
+      ],
       Object.assign({}, DEFAULT_STYLES, styles || {})
     );
   }
