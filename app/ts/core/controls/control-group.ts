@@ -1,21 +1,21 @@
-import BaseControl from 'core/controls/base-control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 
 const groups = new Map<string, ControlGroup>();
 
 /**
  * ControlGroup represents group of related controls.
  */
-export default class ControlGroup {
+export class ControlGroup {
   private _type: string;
   private _name: string;
   private _description: string;
-  private _items: Array<BaseControl<any>>;
+  private _items: Array<ControlMetadata>;
 
   constructor(
     type: string = 'Unknown Type',
     name: string = 'Unknown Name',
     description: string = 'Unknown Description',
-    items: Array<BaseControl<any>> = []
+    items: Array<ControlMetadata> = []
   ) {
     this._type = type;
     this._name = name;
@@ -49,7 +49,7 @@ export default class ControlGroup {
 
   /**
    * List of controls associated with the group.
-   * @returns {Array<BaseControl>}
+   * @returns {Array<ControlMetadata>}
    */
   get items() {
     return this._items;
@@ -60,7 +60,8 @@ export default class ControlGroup {
    * @param {string} type Type of the control group.
    * @param {string} name Name of the control group.
    * @param {string} description Description of the control group.
-   * @param {Array<BaseControls>} items Control list associated with the group.
+   * @param {Array<ControlMetadata>} items Control list associated with the
+   * group.
    * @returns {ControlGroup} Registered control group
    */
   static register(type, name, description, items): ControlGroup {

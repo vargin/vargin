@@ -10,6 +10,7 @@ import { IControlComponent } from 'core/components/control-component';
 
 import BaseControl from 'core/controls/base-control';
 import DataSourceControl from 'core/controls/service/datasource-control';
+import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-datasource',
@@ -17,14 +18,15 @@ import DataSourceControl from 'core/controls/service/datasource-control';
 })
 
 @View({
-  template: `<div>{{ control.name }}</div>`
+  template: `<div>{{ control.meta.name }}</div>`
 })
 
 class DataSourceComponent implements IControlComponent {
   control: DataSourceControl;
 
   constructor(@Optional() @Inject(BaseControl) control?: DataSourceControl) {
-    this.control = control || new DataSourceControl();
+    this.control = control ||
+      ControlService.create<DataSourceControl>('datasource');
   }
 }
 

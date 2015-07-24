@@ -4,47 +4,46 @@ import {
   Component,
   Inject,
   NgFor,
+  NgStyle,
   Optional,
   View
 } from 'angular2/angular2';
 
 import { IControlComponent } from 'core/components/control-component';
 
-import ControlService from 'services/control-service';
-
 import BaseControl from 'core/controls/base-control';
 import ContainerControl from 'core/controls/visual/container-control';
-
 import DynamicComponent from 'core/components/dynamic-component';
+
+import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-container',
-  properties: ['control'],
-  host: {
-    '(dragover)': 'onDragOver($event)',
-    '(dragenter)': 'onDragEnter($event)',
-    '(drop)': 'onDrop($event)'
-  }
+  properties: ['control']
 })
 
 @View({
   template: `
-    <vargin-dynamic *ng-for="#child of control.children" [control]="child">
-    </vargin-dynamic>
+    <div
+      [ng-style]="control.serializeStyles()"
+      (dragover)="onDragOver($event)"
+      (dragenter)="onDragEnter($event)"
+      (drop)="onDrop($event)">
+      <vargin-dynamic *ng-for="#child of control.children" [control]="child">
+      </vargin-dynamic>
+    </div>
   `,
-  directives: [NgFor, DynamicComponent]
+  directives: [DynamicComponent, NgFor, NgStyle]
 })
 
 class ContainerComponent implements IControlComponent {
-  private controlService: ControlService;
   control: ContainerControl;
 
   constructor(
-    @Inject(ControlService) controlService: ControlService,
     @Optional() @Inject(BaseControl) control?: ContainerControl
   ) {
-    this.controlService = controlService;
-    this.control = control || new ContainerControl();
+    this.control = control ||
+      ControlService.create<ContainerControl>('container');
   }
 
   onDragOver(e: DragEvent) {
@@ -56,7 +55,9 @@ class ContainerComponent implements IControlComponent {
   }
 
   onDrop(e: DragEvent) {
-    this.control.children.push(this.controlService.draggedControl);
+    this.control.children.push(
+      ControlService.create(e.dataTransfer.getData('text/plain'))
+    );
     e.preventDefault();
   }
 }

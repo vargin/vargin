@@ -1,46 +1,49 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
+import {
+  VisualControlMetadata
+} from 'core/controls/visual/visual-control-metadata';
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
 import BaseControl from 'core/controls/base-control';
-import { StyleRepository } from 'core/style-repository';
 
-export interface IVisualControl {
-  getStyleList(): Array<IProperty<string>>,
-  getStyleObject(): { [key: string]: string; }
-}
+export default class BaseVisualControl extends BaseControl {
+  private _styles: Map<string, IProperty<string>> = new Map();
 
-export class BaseVisualControl<TProperties>
-                     extends BaseControl<TProperties>
-                     implements IVisualControl {
-  private _styles: Array<IProperty<string>> = [];
+  constructor(id, meta, properties?, events?, styles?) {
+    super(id, meta, properties, events);
 
-  constructor(
-    type: string,
-    name: string,
-    description: string,
-    properties?: TProperties,
-    events?: Array<IProperty<Array<IAction>>>,
-    styles?: { [key: string]: string; }
-  ) {
-    super(type, name, description, 'visual', properties, events);
+    (<VisualControlMetadata>this.meta).supportedStyles.forEach(
+      (metaProperty, styleKey) => {
+        var controlStyleProperty = 'getOptions' in metaProperty ?
+          new ControlPropertyWithOptions(
+              <ControlPropertyWithOptions<string>>metaProperty
+          ) :
+          new ControlProperty(metaProperty);
 
-    Object.keys(styles || {}).forEach((styleKey) => {
-      let styleProperty = StyleRepository.getProperty(styleKey);
+        if (styles && styles.has(styleKey)) {
+          controlStyleProperty.setValue(styles.get(styleKey));
+        }
 
-      styleProperty.setValue(styles[styleKey]);
-
-      this._styles.push(styleProperty);
-    });
+        this._styles.set(styleKey, controlStyleProperty);
+      }
+    );
   }
 
-  getStyleList() {
+  get styles() {
     return this._styles;
   }
 
-  getStyleObject() {
-    return this._styles.reduce((styleObject, property) => {
-      styleObject[property.getType()] = property.getValue();
-      return styleObject;
-    }, <{ [key: string]: string; }>{});
+  serializeStyles(): { [key: string]: string; }{
+    var serializedStyles = <{ [key: string]: string; }>{};
+
+    this._styles.forEach((styleProperty, styleKey) => {
+      serializedStyles[styleKey] = styleProperty.getValue();
+    });
+
+    return serializedStyles;
   }
 }

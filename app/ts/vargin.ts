@@ -1,24 +1,12 @@
 /// <reference path="../../typings/tsd.d.ts" />
-import {
-  Component,
-  View,
-  bootstrap,
-  bind
-} from 'angular2/angular2';
+import { bootstrap, Component, View } from 'angular2/angular2';
 
 import ExpandableGroups from 'editor/expandable-groups/component';
 import VarginWorkspace from 'editor/workspace/component';
 import VarginProperties from 'editor/properties/component';
+import { ControlGroup } from 'core/controls/control-group';
 
-import ButtonControl from 'core/controls/visual/button-control';
-import ContainerControl from 'core/controls/visual/container-control';
-import RangeControl from 'core/controls/visual/range-control';
-import { LabelControl } from 'core/controls/visual/label-control';
-import DataSourceControl from 'core/controls/service/datasource-control';
-
-import ControlGroup from 'core/controls/control-group';
-
-import ControlService from 'services/control-service';
+import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin'
@@ -48,10 +36,10 @@ class Vargin {
       'Visual',
       'Visual components',
       [
-        new LabelControl(),
-        new ButtonControl(),
-        new ContainerControl(),
-        new RangeControl()
+        ControlService.getMetadata('label'),
+        ControlService.getMetadata('button'),
+        ControlService.getMetadata('container'),
+        ControlService.getMetadata('range')
       ]
     );
 
@@ -59,9 +47,9 @@ class Vargin {
       'service',
       'Service',
       'Service components',
-      [new DataSourceControl()]
+      [ControlService.getMetadata('datasource')]
     );
   }
 }
 
-bootstrap(Vargin, [bind(ControlService).toValue(new ControlService())]);
+bootstrap(Vargin);

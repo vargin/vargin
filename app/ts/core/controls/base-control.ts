@@ -1,73 +1,57 @@
 import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
-import ControlGroup from 'core/controls/control-group';
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
+import { ControlMetadata } from 'core/controls/control-metadata';
 
-export default class BaseControl<TProperties> {
-  private _type: string;
-  private _name: string;
-  private _description: string;
-  private _group: ControlGroup;
-  private _properties: TProperties;
+export default class BaseControl {
+  private _id: string;
+  private _meta: ControlMetadata;
   private _events: Array<IProperty<Array<IAction>>>;
+  protected _properties: Map<string, IProperty<string>>;
 
   constructor(
-    type: string,
-    name: string,
-    description: string,
-    groupType: string,
-    properties?: TProperties,
+    id: string,
+    meta: ControlMetadata,
+    properties?: Map<string, string>,
     events?: Array<IProperty<Array<IAction>>>
   ) {
-    this._type = type;
-    this._name = name;
-    this._description = description;
-    this._group = ControlGroup.get(groupType);
-    this._properties = properties;
+    this._id = id;
+    this._meta = meta;
     this._events = events || [];
-  }
+    this._properties = new Map();
 
-  clone(): BaseControl<TProperties> {
-    throw new Error('Not Implemented');
+    this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
+      var controlProperty = 'getOptions' in metaProperty ?
+        new ControlPropertyWithOptions(
+          <ControlPropertyWithOptions<string>>metaProperty
+        ) :
+        new ControlProperty(metaProperty);
+
+      if (properties && properties.has(propertyKey)) {
+        controlProperty.setValue(properties.get(propertyKey));
+      }
+
+      this._properties.set(propertyKey, controlProperty);
+    });
   }
 
   /**
-   * Type of the control.
+   * Unique id of the control.
    * @returns {string}
    */
-  get type() {
-    return this._type;
+  get id() {
+    return this._id;
   }
 
   /**
-   * Localizable and human-readable control name.
-   * @returns {string}
+   * Metadata that describes type of the control.
+   * @returns {ControlMetadata}
    */
-  get name() {
-    return this._name;
-  }
-
-  /**
-   * Localizable and human-readable control description.
-   * @returns {string}
-   */
-  get description() {
-    return this._description;
-  }
-
-  /**
-   * Control group instance.
-   * @returns {ControlGroup}
-   */
-  get group() {
-    return this._group;
-  }
-
-  /**
-   * List of configurable control properties.
-   * @returns {TProperties}
-   */
-  get properties() {
-    return this._properties;
+  get meta() {
+    return this._meta;
   }
 
   /**

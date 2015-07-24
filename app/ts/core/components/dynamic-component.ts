@@ -12,7 +12,7 @@ import {
 
 import { IControlComponent } from 'core/components/control-component';
 
-import ControlService from 'services/control-service';
+import { ControlService } from 'services/control-service';
 
 import BaseControl from 'core/controls/base-control';
 import ComponentControlMap from 'core/components/component-control-map';
@@ -33,17 +33,14 @@ import ComponentControlMap from 'core/components/component-control-map';
 class DynamicComponent implements IControlComponent {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
-  private controlService: ControlService;
-  control: BaseControl<any>;
+  control: BaseControl;
 
   constructor(
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
-    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
-    @Inject(ControlService) controlService: ControlService
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef
   ) {
     this.loader = loader;
     this.viewContainer = viewContainer;
-    this.controlService = controlService;
   }
 
   onChange() {
@@ -53,7 +50,7 @@ class DynamicComponent implements IControlComponent {
 
     setTimeout(() => {
       this.loader.loadIntoLocation(
-        ComponentControlMap.getComponentType(this.control),
+        ComponentControlMap.getComponentType(this.control.meta.type),
         this.viewContainer.element,
         'container',
         Injector.resolve([bind(BaseControl).toValue(this.control)])
@@ -65,7 +62,7 @@ class DynamicComponent implements IControlComponent {
     e.stopPropagation();
     e.preventDefault();
 
-    this.controlService.selectControl(this.control);
+    ControlService.selectControl(this.control);
   }
 }
 

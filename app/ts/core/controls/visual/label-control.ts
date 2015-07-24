@@ -1,39 +1,12 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
+import BaseVisualControl from 'core/controls/visual/base-visual-control';
 
-export class LabelControlProperties {
-  text: IProperty<string>;
-
-  constructor(text: string) {
-    this.text = new Property('Text', text);
-  }
-}
-
-const DEFAULT_STYLES = <{ [key: string]: string; }> {
-  'background-color': '#cccaaa'
-};
-
-export class LabelControl extends BaseVisualControl<LabelControlProperties> {
-  constructor(
-    properties?: LabelControlProperties,
-    styles?: { [key: string]: string; }
-  ) {
-    super(
-      'label',
-      'Label',
-      'HTML Label',
-      properties || new LabelControlProperties('[Text]'),
-      [
-        new Property<Array<IAction>>('Click', [], 'click'),
-        new Property<Array<IAction>>('Hover', [], 'hover'),
-      ],
-      Object.assign({}, DEFAULT_STYLES, styles || {})
-    );
+export default class LabelControl extends BaseVisualControl {
+  constructor(id, meta, properties?, styles?) {
+    super(id, meta, properties, null, styles);
   }
 
-  clone() {
-    return new LabelControl(this.properties, this.getStyleObject());
+  get text() {
+    return this._properties.get('text');
   }
 }

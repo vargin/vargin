@@ -5,8 +5,7 @@
       <li
         draggable="true"
         *ng-for="#item of group.content.items"
-        (dragstart)="onDragStart($event, item)"
-        (dragend)="onDragEnd($event, item)">
+        (dragstart)="onDragStart($event, item)">
           {{ item.name }}
       </li>
     </ul>

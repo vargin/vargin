@@ -1,62 +1,21 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { BaseVisualControl } from 'core/controls/visual/base-visual-control';
-import {
-  IProperty,
-  IPropertyWithOptions,
-  Property,
-  PropertyWithOptions
-} from 'core/property';
+import BaseVisualControl from 'core/controls/visual/base-visual-control';
+import { IPropertyWithOptions } from 'core/property';
 
-import { IAction } from 'core/actions/action';
+export default class ButtonControl extends BaseVisualControl {
+  constructor(id, meta, properties?, styles?) {
+    super(id, meta, properties, null, styles);
+  }
 
-const BUTTON_TYPES = [
-  new Property<string>('Submit', 'submit'),
-  new Property<string>('Reset', 'reset'),
-  new Property<string>('Button', 'button')
-];
+  get text() {
+    return this._properties.get('text');
+  }
 
-const DEFAULT_STYLES = <{ [key: string]: string; }> {
-  'background-color': '#008000'
-};
+  get title() {
+    return this._properties.get('title');
+  }
 
-class ButtonControlProperties {
-  text: IProperty<string>;
-  title: IProperty<string>;
-  type: IPropertyWithOptions<string>;
-
-  constructor(text: string, title: string, type: string = 'submit') {
-    this.text = new Property('Text', text);
-    this.title = new Property('Title', title);
-
-    this.type = new PropertyWithOptions(
-      'Type',
-      BUTTON_TYPES,
-      BUTTON_TYPES.find((option) => option.getValue() === type).getValue()
-    );
+  get type() {
+    return <IPropertyWithOptions<string>>this._properties.get('type');
   }
 }
-
-class ButtonControl extends BaseVisualControl<ButtonControlProperties> {
-  constructor(
-    properties?: ButtonControlProperties,
-    styles?: { [key: string]: string; }
-  ) {
-    super(
-      'button',
-      'Button',
-      'HTML Button',
-      properties || new ButtonControlProperties('[Text]', '[Title]'),
-      [
-        new Property<Array<IAction>>('Click', [], 'click'),
-        new Property<Array<IAction>>('Hover', [], 'hover'),
-      ],
-      Object.assign({}, DEFAULT_STYLES, styles || {})
-    );
-  }
-
-  clone() {
-    return new ButtonControl(this.properties, this.getStyleObject());
-  }
-}
-
-export default ButtonControl;

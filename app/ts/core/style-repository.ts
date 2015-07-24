@@ -5,43 +5,10 @@ import {
   PropertyWithOptions
 } from 'core/property';
 
-class StyleProperty implements IProperty<string> {
-  protected _property: IProperty<string>;
-  private _value: string;
-
-  constructor(property: IProperty<string>) {
-    this._property = property;
-    this._value = property.getValue();
-  }
-
-  getName() {
-    return this._property.getName();
-  }
-
-  getType() {
-    return this._property.getType();
-  }
-
-  getValue() {
-    return this._value;
-  }
-
-  setValue(value) {
-    this._value = value;
-  }
-
-  isEditorVisible() {
-    return this._property.isEditorVisible();
-  }
-}
-
-class StylePropertyWithOptions
-       extends StyleProperty
-       implements IPropertyWithOptions<string> {
-  getOptions() {
-    return (<IPropertyWithOptions<string>>this._property).getOptions();
-  }
-}
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
 
 const STYLES = new Map<string, IProperty<string>>([
   [
@@ -50,6 +17,8 @@ const STYLES = new Map<string, IProperty<string>>([
   ],
   ['border', new Property('Border', 'none', 'border')],
   ['color', new Property('Text color', 'inherit', 'color')],
+  ['min-height', new Property('Min height', '0')],
+  ['min-width', new Property('Min width', '0')],
   ['opacity', new Property('Opacity', '1', 'opacity')],
   [
     'text-decoration',
@@ -63,15 +32,11 @@ const STYLES = new Map<string, IProperty<string>>([
 ]);
 
 export class StyleRepository {
-  static getProperty(type: string): IProperty<string> {
-    var styleDescriptor = STYLES.get(type);
-
-    if (!styleDescriptor) {
+  static getMetadata(type: string): IProperty<string> {
+    if (!STYLES.has(type)) {
       throw new Error('Type is not supported: ' + type);
     }
 
-    return 'getOptions' in styleDescriptor ?
-      new StylePropertyWithOptions(styleDescriptor) :
-      new StyleProperty(styleDescriptor);
+    return STYLES.get(type);
   }
 }
