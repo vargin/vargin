@@ -6,6 +6,6 @@ export default class ContainerControl extends BaseVisualControl {
   public children: Array<BaseControl> = [];
 
   constructor(id, meta, properties?, styles?) {
-    super(id, meta, properties, null, styles);
+    super(id, meta, properties, styles);
   }
 }

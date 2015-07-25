@@ -13,7 +13,7 @@ import BaseControl from 'core/controls/base-control';
 export default class BaseVisualControl extends BaseControl {
   private _styles: Map<string, IProperty<string>> = new Map();
 
-  constructor(id, meta, properties?, events?, styles?) {
+  constructor(id, meta, properties?, styles?, events?) {
     super(id, meta, properties, events);
 
     (<VisualControlMetadata>this.meta).supportedStyles.forEach(

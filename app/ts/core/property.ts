@@ -1,7 +1,10 @@
-export interface IProperty<T> {
+export interface IPropertyDescriptor {
   getName(): string;
   getType(): string;
   isEditorVisible(): boolean;
+}
+
+export interface IProperty<T> extends IPropertyDescriptor {
   getValue(): T;
   setValue(value: T): void;
 }
@@ -10,20 +13,13 @@ export interface IPropertyWithOptions<T> extends IProperty<T> {
   getOptions(): Array<IProperty<T>>;
 }
 
-export class Property<T> implements IProperty<T> {
+export class PropertyDescriptor implements IPropertyDescriptor {
   private _name: string;
   private _type: string;
-  private _value: T;
   private _isEditorVisible: boolean;
 
-  constructor(
-    name: string,
-    value?: T,
-    type?: string,
-    isEditorVisible?: boolean
-  ) {
+  constructor(name: string, type: string, isEditorVisible?: boolean) {
     this._name = name;
-    this._value = value !== undefined ? value : null;
     this._type = type;
     this._isEditorVisible = typeof isEditorVisible !== 'undefined' ?
       isEditorVisible : true;
@@ -34,11 +30,29 @@ export class Property<T> implements IProperty<T> {
   }
 
   getType() {
-    return this._type || typeof this._value;
+    return this._type;
   }
 
   isEditorVisible() {
     return this._isEditorVisible;
+  }
+}
+
+export class Property<T> extends PropertyDescriptor implements IProperty<T>  {
+  private _value: T;
+
+  constructor(
+    name: string,
+    value?: T,
+    type?: string,
+    isEditorVisible?: boolean
+  ) {
+    super(name, type, isEditorVisible);
+    this._value = value !== undefined ? value : null;
+  }
+
+  getType() {
+    return super.getType() || typeof this._value;
   }
 
   getValue() {

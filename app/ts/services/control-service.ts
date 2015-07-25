@@ -18,7 +18,7 @@ import DatasourceControl from 'core/controls/service/datasource-control';
 import LabelControl from 'core/controls/visual/label-control';
 import RangeControl from 'core/controls/visual/range-control';
 
-import { StyleRepository } from 'core/style-repository';
+import { StyleService } from 'services/style-service';
 import { ControlGroup } from 'core/controls/control-group';
 
 import { UtilsService } from 'services/utils-service';
@@ -47,14 +47,14 @@ const CONTROLS = new Map<string, IControlTypeDescription>([
           ])]
         ]),
         new Map<string, IProperty<string>>([
-          ['color', StyleRepository.getMetadata('color')],
+          ['color', StyleService.getMetadata('color')],
           [
             'background-color',
             new ControlProperty(
-              StyleRepository.getMetadata('background-color'), '#333333'
+              StyleService.getMetadata('background-color'), '#333333'
             )
           ],
-          ['border', StyleRepository.getMetadata('border')]
+          ['border', StyleService.getMetadata('border')]
         ])
       )
     }
@@ -69,18 +69,18 @@ const CONTROLS = new Map<string, IControlTypeDescription>([
         ['click', 'hover'],
         null,
         new Map<string, IProperty<string>>([
-          ['background-color', StyleRepository.getMetadata('background-color')],
+          ['background-color', StyleService.getMetadata('background-color')],
           [
             'border',
             new ControlProperty(
-              StyleRepository.getMetadata('border'), '1px solid red'
+              StyleService.getMetadata('border'), '1px solid red'
             )
           ],
-          ['color', StyleRepository.getMetadata('color')],
+          ['color', StyleService.getMetadata('color')],
           [
             'min-height',
             new ControlProperty(
-              StyleRepository.getMetadata('min-height'), '5rem'
+              StyleService.getMetadata('min-height'), '5rem'
             )
           ]
         ])
@@ -107,14 +107,14 @@ const CONTROLS = new Map<string, IControlTypeDescription>([
           ['text', new Property('Text', '[Text]')]
         ]),
         new Map<string, IProperty<string>>([
-          ['color', StyleRepository.getMetadata('color')],
+          ['color', StyleService.getMetadata('color')],
           [
             'background-color',
             new ControlProperty(
-              StyleRepository.getMetadata('background-color'), '#cccaaa'
+              StyleService.getMetadata('background-color'), '#cccaaa'
             )
           ],
-          ['text-decoration', StyleRepository.getMetadata('text-decoration')],
+          ['text-decoration', StyleService.getMetadata('text-decoration')],
         ])
       )
     }
@@ -134,7 +134,7 @@ const CONTROLS = new Map<string, IControlTypeDescription>([
           ['value', new Property('Value', '0')],
         ]),
         new Map<string, IProperty<string>>([
-          ['opacity', StyleRepository.getMetadata('opacity')]
+          ['opacity', StyleService.getMetadata('opacity')]
         ])
       )
     }

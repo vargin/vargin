@@ -3,7 +3,7 @@ import BaseVisualControl from 'core/controls/visual/base-visual-control';
 
 export default class LabelControl extends BaseVisualControl {
   constructor(id, meta, properties?, styles?) {
-    super(id, meta, properties, null, styles);
+    super(id, meta, properties, styles);
   }
 
   get text() {

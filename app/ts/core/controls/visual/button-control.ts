@@ -4,7 +4,7 @@ import { IPropertyWithOptions } from 'core/property';
 
 export default class ButtonControl extends BaseVisualControl {
   constructor(id, meta, properties?, styles?) {
-    super(id, meta, properties, null, styles);
+    super(id, meta, properties, styles);
   }
 
   get text() {

@@ -16,12 +16,12 @@ export default class BaseControl {
     id: string,
     meta: ControlMetadata,
     properties?: Map<string, string>,
-    events?: Array<IProperty<Array<IAction>>>
+    events?: Map<string, Array<IAction>>
   ) {
     this._id = id;
     this._meta = meta;
-    this._events = events || [];
     this._properties = new Map();
+    this._events = [];
 
     this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       var controlProperty = 'getOptions' in metaProperty ?
