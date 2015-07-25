@@ -1,13 +1,26 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Component, View, Inject, NgFor, NgModel } from 'angular2/angular2';
+import {
+  bind,
+  Component,
+  ComponentRef,
+  DynamicComponentLoader,
+  Inject,
+  Injector,
+  NgFor,
+  View,
+  ViewContainerRef
+} from 'angular2/angular2';
 
 import BaseControl from 'core/controls/base-control';
 import BaseVisualControl from 'core/controls/visual/base-visual-control';
 
-import { IProperty } from 'core/property';
+import { IProperty, Property } from 'core/property';
+import { IAction } from 'core/actions/action';
 import PropertyEditor from 'editor/properties/property-editor';
 
 import { ControlService } from 'services/control-service';
+
+import { VarginActionEditor } from 'editor/properties/action-editor';
 
 @Component({
   selector: 'vargin-properties'
@@ -26,28 +39,56 @@ import { ControlService } from 'services/control-service';
         <property-editor *ng-for="#property of activeStyleProperties" [property]="property">
         </property-editor>
       </section>
+      <section #eventssection>
+        <header>Events</header>
+        <ul>
+          <li *ng-for="#eventProperty of activeEvents" (click)="toggleActionEditor(eventProperty)">
+            {{ eventProperty.getName() }}
+          </li>
+        </ul>
+      </section>
     </section>
   `,
-  directives: [NgFor, NgModel, PropertyEditor]
+  directives: [NgFor, PropertyEditor]
 })
 
 class VarginProperties {
   private activeProperties: Array<IProperty<any>>;
   private activeStyleProperties: Array<IProperty<string>>;
+  private activeEvents: Array<IProperty<Array<IAction>>>;
   private activeControl: BaseControl;
+  private viewContainer: ViewContainerRef;
+  private componentLoader: DynamicComponentLoader;
+  private actionEditor: ComponentRef;
 
-  constructor() {
+  constructor(
+    @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef
+  ) {
     ControlService.controlSelected.toRx().subscribeOnNext(
       this.onControlSelected.bind(this)
     );
+
+    this.componentLoader = componentLoader;
+    this.viewContainer = viewContainer;
   }
 
   onControlSelected(control: BaseControl) {
     this.activeControl = control;
 
+    if (this.actionEditor) {
+      this.actionEditor.dispose();
+      this.actionEditor = null;
+    }
+
     this.activeProperties = [];
     control.meta.supportedProperties.forEach((property, propertyKey) => {
       this.activeProperties.push(control[propertyKey]);
+    });
+
+    this.activeEvents = [];
+    control.meta.supportedEvents.forEach((property) => {
+      this.activeEvents.push(property);
     });
 
     if ('styles' in control) {
@@ -56,6 +97,24 @@ class VarginProperties {
         this.activeStyleProperties.push(property);
       });
     }
+  }
+
+  toggleActionEditor(property: IProperty<Array<IAction>>) {
+    var eventProperty = this.activeControl.events.get(property.getType());
+
+    if (this.actionEditor) {
+      this.actionEditor.instance.property = eventProperty;
+      return
+    }
+
+    this.componentLoader.loadIntoLocation(
+      VarginActionEditor,
+      this.viewContainer.element,
+      'eventssection',
+       Injector.resolve([bind(Property).toValue(eventProperty)])
+    ).then((component: ComponentRef) => {
+      this.actionEditor = component;
+    });
   }
 }
 

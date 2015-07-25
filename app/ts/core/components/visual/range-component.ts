@@ -31,7 +31,7 @@ class RangeComponent implements IControlComponent {
   control: RangeControl;
 
   constructor(@Optional() @Inject(BaseControl) control?: RangeControl) {
-    this.control = control || ControlService.create<RangeControl>('range');
+    this.control = control || ControlService.create(RangeControl);
   }
 }
 

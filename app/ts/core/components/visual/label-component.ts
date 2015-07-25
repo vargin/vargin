@@ -25,7 +25,7 @@ class LabelComponent implements IControlComponent {
   control: LabelControl;
 
   constructor(@Optional() @Inject(BaseControl) control?: LabelControl) {
-    this.control = control || ControlService.create<LabelControl>('label');
+    this.control = control || ControlService.create(LabelControl);
   }
 }
 

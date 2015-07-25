@@ -32,7 +32,7 @@ const STYLES = new Map<string, IProperty<string>>([
 ]);
 
 export class StyleService {
-  static getMetadata(type: string): IProperty<string> {
+  static getDescriptor(type: string): IProperty<string> {
     if (!STYLES.has(type)) {
       throw new Error('Type is not supported: ' + type);
     }

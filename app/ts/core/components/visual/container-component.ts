@@ -42,8 +42,7 @@ class ContainerComponent implements IControlComponent {
   constructor(
     @Optional() @Inject(BaseControl) control?: ContainerControl
   ) {
-    this.control = control ||
-      ControlService.create<ContainerControl>('container');
+    this.control = control || ControlService.create(ContainerControl);
   }
 
   onDragOver(e: DragEvent) {
@@ -56,7 +55,7 @@ class ContainerComponent implements IControlComponent {
 
   onDrop(e: DragEvent) {
     this.control.children.push(
-      ControlService.create(e.dataTransfer.getData('text/plain'))
+      ControlService.createByType(e.dataTransfer.getData('text/plain'))
     );
     e.preventDefault();
   }

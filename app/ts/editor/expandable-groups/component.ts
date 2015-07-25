@@ -1,8 +1,6 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, View } from 'angular2/angular2';
 
-import { ControlService } from 'services/control-service';
-
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlGroup } from 'core/controls/control-group';
 

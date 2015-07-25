@@ -1,4 +1,5 @@
 import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
 export class VisualControlMetadata extends ControlMetadata {
@@ -12,7 +13,7 @@ export class VisualControlMetadata extends ControlMetadata {
     type: string,
     name: string,
     description: string,
-    supportedEvents: Array<string>,
+    supportedEvents: Map<string, IProperty<Array<IAction>>>,
     supportedProperties: Map<string, IProperty<string>>,
     supportedStyles: Map<string, IProperty<string>>
   ) {

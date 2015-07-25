@@ -9,7 +9,7 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 export default class BaseControl {
   private _id: string;
   private _meta: ControlMetadata;
-  private _events: Array<IProperty<Array<IAction>>>;
+  private _events: Map<string, IProperty<Array<IAction>>>;
   protected _properties: Map<string, IProperty<string>>;
 
   constructor(
@@ -21,7 +21,7 @@ export default class BaseControl {
     this._id = id;
     this._meta = meta;
     this._properties = new Map();
-    this._events = [];
+    this._events = new Map();
 
     this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       var controlProperty = 'getOptions' in metaProperty ?
@@ -35,6 +35,16 @@ export default class BaseControl {
       }
 
       this._properties.set(propertyKey, controlProperty);
+    });
+
+    this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
+      this._events.set(
+        eventKey,
+        new ControlProperty(
+          metaProperty,
+          events && events.has(eventKey) ? events.get(eventKey) : []
+        )
+      );
     });
   }
 
@@ -60,5 +70,9 @@ export default class BaseControl {
    */
   get events() {
     return this._events;
+  }
+
+  static getMeta(): ControlMetadata {
+    throw new Error('Not Implemented!');
   }
 }

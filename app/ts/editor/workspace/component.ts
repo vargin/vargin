@@ -6,6 +6,9 @@ import LabelControl from 'core/controls/visual/label-control';
 import ButtonControl from 'core/controls/visual/button-control';
 import RangeControl from 'core/controls/visual/range-control';
 
+import { Action } from 'core/actions/action';
+import { BroadcastAction } from 'core/actions/broadcast-action';
+
 import ContainerComponent from 'core/components/visual/container-component';
 
 import { ControlService } from 'services/control-service';
@@ -23,41 +26,56 @@ class VarginWorkspace {
   private _rootControl: ContainerControl;
 
   constructor() {
-    this._rootControl = ControlService.create<ContainerControl>('container');
+    this._rootControl = ControlService.create(ContainerControl);
 
-    var nestedNestedControl = ControlService.create<ContainerControl>(
-      'container'
-    );
+    var nestedNestedControl = ControlService.create(ContainerControl);
     nestedNestedControl.children = [
-      ControlService.create('label', new Map([['text', '[Nested-1] Label1']])),
-      ControlService.create('button'),
-      ControlService.create('label', new Map([['text', '[Nested-1] Label2']])),
-      ControlService.create('button')
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Nested-1] Label1']])
+      }),
+      ControlService.create(ButtonControl, {
+        events:new Map([
+          ['click', [
+            new Action('Abstract', 'abstract'), new BroadcastAction(null, null)
+          ]]
+        ])
+      }),
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Nested-1] Label2']])
+      }),
+      ControlService.create(ButtonControl)
     ];
 
-    var nestedControl = ControlService.create<ContainerControl>('container');
+    var nestedControl = ControlService.create(ContainerControl);
     nestedControl.children = [
-      ControlService.create('label', new Map([['text', '[Nested] Label1']])),
-      ControlService.create('button'),
-      ControlService.create('label', new Map([['text', '[Nested] Label2']])),
-      ControlService.create('button'),
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Nested] Label1']])
+      }),
+      ControlService.create(ButtonControl),
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Nested] Label2']])
+      }),
+      ControlService.create(ButtonControl),
       nestedNestedControl
     ];
 
     this._rootControl.children = [
-      ControlService.create(
-        'label',
-        new Map([['text', '[Root] Label1']]),
-        new Map([['color', '#0000ff'], ['text-decoration', 'line-through']])
-      ),
-      ControlService.create(
-        'button', null, new Map([['border', '3px dashed blue']])
-      ),
-      ControlService.create('label', new Map([['text', '[Root] Label2']])),
-      ControlService.create('button'),
-      ControlService.create(
-        'range', null, new Map([['opacity', '0.5']])
-      ),
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Root] Label1']]),
+        styles: new Map([
+          ['color', '#0000ff'], ['text-decoration', 'line-through']
+        ])
+      }),
+      ControlService.create(ButtonControl, {
+        styles: new Map([['border', '3px dashed blue']])
+      }),
+      ControlService.create(LabelControl, {
+        properties: new Map([['text', '[Root] Label2']])
+      }),
+      ControlService.create(ButtonControl),
+      ControlService.create(RangeControl, {
+        styles: new Map([['opacity', '0.5']])
+      }),
       nestedControl
     ];
   }

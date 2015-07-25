@@ -1,4 +1,5 @@
-import { IPropertyDescriptor, IProperty } from 'core/property';
+import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
 
 export class ControlMetadata {
   /**
@@ -21,9 +22,9 @@ export class ControlMetadata {
 
   /**
    * List of the events supported by control.
-   * @returns {Array<IPropertyDescriptor>}
+   * @returns {Array<IProperty>}
    */
-  supportedEvents: Array<IPropertyDescriptor>;
+  supportedEvents: Map<string, IProperty<Array<IAction>>>;
 
   /**
    * List of the supported properties with the default value.
@@ -35,13 +36,13 @@ export class ControlMetadata {
     type: string,
     name: string,
     description: string,
-    supportedEvents?: Array<IPropertyDescriptor>,
+    supportedEvents?: Map<string, IProperty<Array<IAction>>>,
     supportedProperties?: Map<string, IProperty<string>>
   ) {
     this.type = type;
     this.name = name;
     this.description = description;
-    this.supportedEvents = Object.freeze(supportedEvents || []);
+    this.supportedEvents = Object.freeze(supportedEvents || new Map());
     this.supportedProperties = supportedProperties || new Map();
   }
 }

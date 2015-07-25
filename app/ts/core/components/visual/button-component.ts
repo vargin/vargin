@@ -27,7 +27,7 @@ class ButtonComponent implements IControlComponent {
   control: ButtonControl;
 
   constructor(@Optional() @Inject(BaseControl) control?: ButtonControl) {
-    this.control = control || ControlService.create<ButtonControl>('button');
+    this.control = control || ControlService.create(ButtonControl);
   }
 }
 

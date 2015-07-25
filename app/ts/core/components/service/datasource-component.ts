@@ -25,8 +25,7 @@ class DataSourceComponent implements IControlComponent {
   control: DataSourceControl;
 
   constructor(@Optional() @Inject(BaseControl) control?: DataSourceControl) {
-    this.control = control ||
-      ControlService.create<DataSourceControl>('datasource');
+    this.control = control || ControlService.create(DataSourceControl);
   }
 }
 
