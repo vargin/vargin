@@ -16,11 +16,9 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-datasource',
   properties: ['control']
 })
-
 @View({
   template: `<div>{{ control.meta.name }}</div>`
 })
-
 class DataSourceComponent implements IControlComponent {
   control: DataSourceControl;
 

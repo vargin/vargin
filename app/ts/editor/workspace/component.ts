@@ -16,12 +16,10 @@ import { ControlService } from 'services/control-service';
 @Component({
   selector: 'vargin-workspace'
 })
-
 @View({
   template: `<vargin-container [control]="_rootControl"/>`,
   directives: [ContainerComponent]
 })
-
 class VarginWorkspace {
   private _rootControl: ContainerControl;
 

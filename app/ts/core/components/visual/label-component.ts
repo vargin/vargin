@@ -11,7 +11,6 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-label',
   properties: ['control']
 })
-
 @View({
   template: `
     <span [ng-style]="control.serializeStyles()">
@@ -20,7 +19,6 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-
 class LabelComponent implements IControlComponent {
   control: LabelControl;
 

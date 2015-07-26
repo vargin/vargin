@@ -10,7 +10,6 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-button',
   properties: ['control']
 })
-
 @View({
   template: `
     <button
@@ -22,7 +21,6 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-
 class ButtonComponent implements IControlComponent {
   control: ButtonControl;
 

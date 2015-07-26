@@ -5,7 +5,7 @@ import {
   DynamicComponentLoader,
   Inject,
   Injector,
-  onChange,
+  LifecycleEvent,
   View,
   ViewContainerRef,
   Type
@@ -22,13 +22,11 @@ import PropertyWithOptionsEditor from
 @Component({
   selector: 'property-editor',
   properties: ['property'],
-  lifecycle: [onChange]
+  lifecycle: [LifecycleEvent.onChange]
 })
-
 @View({
   template: `<div #container></div>`
 })
-
 class PropertyEditor {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;

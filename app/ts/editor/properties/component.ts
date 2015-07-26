@@ -25,7 +25,6 @@ import { VarginActionEditor } from 'editor/properties/action-editor';
 @Component({
   selector: 'vargin-properties'
 })
-
 @View({
   template: `
     <section>
@@ -51,7 +50,6 @@ import { VarginActionEditor } from 'editor/properties/action-editor';
   `,
   directives: [NgFor, PropertyEditor]
 })
-
 class VarginProperties {
   private activeProperties: Array<IProperty<any>>;
   private activeStyleProperties: Array<IProperty<string>>;

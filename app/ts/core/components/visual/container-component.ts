@@ -21,7 +21,6 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-container',
   properties: ['control']
 })
-
 @View({
   template: `
     <div
@@ -35,7 +34,6 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-
 class ContainerComponent implements IControlComponent {
   control: ContainerControl;
 

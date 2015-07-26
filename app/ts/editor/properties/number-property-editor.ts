@@ -7,7 +7,6 @@ import { IProperty, Property } from 'core/property';
   selector: 'number-property-editor',
   properties: ['property']
 })
-
 @View({
   template: `
     <label>{{property.getName()}} &nbsp;
@@ -17,7 +16,6 @@ import { IProperty, Property } from 'core/property';
       />
     </label>`
 })
-
 class NumberPropertyEditor {
   private property: IProperty<number>;
 

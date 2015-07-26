@@ -12,7 +12,6 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-range',
   properties: ['control']
 })
-
 @View({
   template: `
     <input
@@ -26,7 +25,6 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-
 class RangeComponent implements IControlComponent {
   control: RangeControl;
 

@@ -7,7 +7,6 @@ import { IProperty, Property } from 'core/property';
   selector: 'vargin-action-editor',
   properties: ['property']
 })
-
 @View({
   template: `
     <section>
@@ -21,7 +20,6 @@ import { IProperty, Property } from 'core/property';
   `,
   directives: [NgFor]
 })
-
 export class VarginActionEditor {
   private property: IProperty<Array<IAction>>;
 

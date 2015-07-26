@@ -12,12 +12,10 @@ interface IExpandableGroup {
 @Component({
   selector: 'expandable-groups'
 })
-
 @View({
   templateUrl: 'editor/expandable-groups/component.html',
   directives: [NgFor]
 })
-
 class ExpandableGroups {
   groups: Array<IExpandableGroup>;
 

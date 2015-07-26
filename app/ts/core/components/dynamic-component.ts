@@ -5,7 +5,7 @@ import {
   DynamicComponentLoader,
   Inject,
   Injector,
-  onChange,
+  LifecycleEvent,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -20,16 +20,14 @@ import ComponentControlMap from 'core/components/component-control-map';
 @Component({
   selector: 'vargin-dynamic',
   properties: ['control'],
-  lifecycle: [onChange],
+  lifecycle: [LifecycleEvent.onChange],
   host: {
     '(^click)': 'onClick($event)'
   }
 })
-
 @View({
   template: `<div #container></div>`
 })
-
 class DynamicComponent implements IControlComponent {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;

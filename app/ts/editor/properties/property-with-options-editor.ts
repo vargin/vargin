@@ -11,7 +11,6 @@ import {
   selector: 'property-with-options-editor',
   properties: ['property']
 })
-
 @View({
   template: `
     <label>{{property.getName()}} &nbsp;
@@ -27,7 +26,6 @@ import {
   `,
   directives: [NgFor]
 })
-
 class PropertyWithOptionsEditor {
   private property: IPropertyWithOptions<string>;
 
