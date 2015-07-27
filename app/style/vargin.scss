@@ -35,6 +35,6 @@ body {
   @include flex();
 }
 
-vargin-container > div:-moz-drag-over {
+.vargin-component:-moz-drag-over {
   border: 5px solid black;
 }
