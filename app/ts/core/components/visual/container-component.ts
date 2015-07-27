@@ -24,6 +24,7 @@ import { ControlService } from 'services/control-service';
 @View({
   template: `
     <div
+      class="vargin-component"
       [ng-style]="control.serializeStyles()"
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
