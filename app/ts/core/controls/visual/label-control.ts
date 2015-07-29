@@ -1,5 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
+import { VisualControl } from 'core/controls/visual/visual-control';
 import { ControlProperty } from 'core/controls/control-property';
 import {
     VisualControlMetadata
@@ -38,9 +38,9 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export default class LabelControl extends BaseVisualControl {
-  constructor(id, properties?, styles?, events?) {
-    super(id, LabelControl.getMeta(), properties, styles, events);
+export class LabelControl extends VisualControl {
+  constructor(id, parameters?) {
+    super(id, LabelControl.getMeta(), parameters);
   }
 
   get text() {

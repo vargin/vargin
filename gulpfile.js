@@ -75,20 +75,7 @@ var appBuilder = new Builder({
   // Don't work until the following issues are resolved:
   // https://github.com/systemjs/builder/issues/177
   // https://github.com/Microsoft/TypeScript/issues/3363
-  sourceMaps: true,
-
-  typescriptOptions: {
-    "declaration": false,
-    "noImplicitAny": false,
-    "removeComments": false,
-    "noLib": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "listFiles": true
-  }
+  sourceMaps: true
 });
 
 gulp.task('clean.dev', function (done) {

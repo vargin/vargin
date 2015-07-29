@@ -14,7 +14,7 @@ import { IControlComponent } from 'core/components/control-component';
 
 import { ControlService } from 'services/control-service';
 
-import BaseControl from 'core/controls/base-control';
+import { Control } from 'core/controls/control';
 import ComponentControlMap from 'core/components/component-control-map';
 
 @Component({
@@ -31,7 +31,7 @@ import ComponentControlMap from 'core/components/component-control-map';
 class DynamicComponent implements IControlComponent {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
-  control: BaseControl;
+  control: Control;
 
   constructor(
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
@@ -51,7 +51,7 @@ class DynamicComponent implements IControlComponent {
         ComponentControlMap.getComponentType(this.control.meta.type),
         this.viewContainer.element,
         'container',
-        Injector.resolve([bind(BaseControl).toValue(this.control)])
+        Injector.resolve([bind(Control).toValue(this.control)])
       )
     });
   }

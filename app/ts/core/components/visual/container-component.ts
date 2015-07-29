@@ -11,8 +11,8 @@ import {
 
 import { IControlComponent } from 'core/components/control-component';
 
-import BaseControl from 'core/controls/base-control';
-import ContainerControl from 'core/controls/visual/container-control';
+import { Control } from 'core/controls/control';
+import { ContainerControl } from 'core/controls/visual/container-control';
 import DynamicComponent from 'core/components/dynamic-component';
 
 import { ControlService } from 'services/control-service';
@@ -39,7 +39,7 @@ class ContainerComponent implements IControlComponent {
   control: ContainerControl;
 
   constructor(
-    @Optional() @Inject(BaseControl) control?: ContainerControl
+    @Optional() @Inject(Control) control?: ContainerControl
   ) {
     this.control = control || ControlService.create(ContainerControl);
   }

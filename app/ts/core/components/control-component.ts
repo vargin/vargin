@@ -1,5 +1,5 @@
-import BaseControl from 'core/controls/base-control';
+import { Control } from 'core/controls/control';
 
 export interface IControlComponent {
-  control: BaseControl;
+  control: Control;
 }

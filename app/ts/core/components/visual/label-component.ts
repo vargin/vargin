@@ -3,8 +3,8 @@ import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import { IControlComponent } from 'core/components/control-component';
 
-import BaseControl from 'core/controls/base-control';
-import LabelControl from 'core/controls/visual/label-control';
+import { Control } from 'core/controls/control';
+import { LabelControl } from 'core/controls/visual/label-control';
 import { ControlService } from 'services/control-service';
 
 @Component({
@@ -22,7 +22,7 @@ import { ControlService } from 'services/control-service';
 class LabelComponent implements IControlComponent {
   control: LabelControl;
 
-  constructor(@Optional() @Inject(BaseControl) control?: LabelControl) {
+  constructor(@Optional() @Inject(Control) control?: LabelControl) {
     this.control = control || ControlService.create(LabelControl);
   }
 }

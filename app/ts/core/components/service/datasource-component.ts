@@ -8,8 +8,8 @@ import {
 
 import { IControlComponent } from 'core/components/control-component';
 
-import BaseControl from 'core/controls/base-control';
-import DataSourceControl from 'core/controls/service/datasource-control';
+import { Control } from 'core/controls/control';
+import { DataSourceControl } from 'core/controls/service/datasource-control';
 import { ControlService } from 'services/control-service';
 
 @Component({
@@ -22,7 +22,7 @@ import { ControlService } from 'services/control-service';
 class DataSourceComponent implements IControlComponent {
   control: DataSourceControl;
 
-  constructor(@Optional() @Inject(BaseControl) control?: DataSourceControl) {
+  constructor(@Optional() @Inject(Control) control?: DataSourceControl) {
     this.control = control || ControlService.create(DataSourceControl);
   }
 }

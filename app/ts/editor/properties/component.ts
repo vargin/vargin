@@ -11,8 +11,8 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import BaseControl from 'core/controls/base-control';
-import BaseVisualControl from 'core/controls/visual/base-visual-control';
+import { Control } from 'core/controls/control';
+import { VisualControl } from 'core/controls/visual/visual-control';
 
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
@@ -54,7 +54,7 @@ class VarginProperties {
   private activeProperties: Array<IProperty<any>>;
   private activeStyleProperties: Array<IProperty<string>>;
   private activeEvents: Array<IProperty<Array<IAction>>>;
-  private activeControl: BaseControl;
+  private activeControl: Control;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
   private actionEditor: ComponentRef;
@@ -71,7 +71,7 @@ class VarginProperties {
     this.viewContainer = viewContainer;
   }
 
-  onControlSelected(control: BaseControl) {
+  onControlSelected(control: Control) {
     this.activeControl = control;
 
     if (this.actionEditor) {
@@ -91,7 +91,7 @@ class VarginProperties {
 
     if ('styles' in control) {
       this.activeStyleProperties = [];
-      (<BaseVisualControl>control).styles.forEach((property) => {
+      (<VisualControl>control).styles.forEach((property) => {
         this.activeStyleProperties.push(property);
       });
     }

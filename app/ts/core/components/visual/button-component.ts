@@ -2,8 +2,8 @@
 import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import { IControlComponent } from 'core/components/control-component';
-import BaseControl from 'core/controls/base-control';
-import ButtonControl from 'core/controls/visual/button-control';
+import { Control } from 'core/controls/control';
+import { ButtonControl } from 'core/controls/visual/button-control';
 import { ControlService } from 'services/control-service';
 
 @Component({
@@ -24,7 +24,7 @@ import { ControlService } from 'services/control-service';
 class ButtonComponent implements IControlComponent {
   control: ButtonControl;
 
-  constructor(@Optional() @Inject(BaseControl) control?: ButtonControl) {
+  constructor(@Optional() @Inject(Control) control?: ButtonControl) {
     this.control = control || ControlService.create(ButtonControl);
   }
 }

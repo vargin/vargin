@@ -3,8 +3,8 @@ import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import { IControlComponent } from 'core/components/control-component';
 
-import BaseControl from 'core/controls/base-control';
-import RangeControl from 'core/controls/visual/range-control';
+import { Control } from 'core/controls/control';
+import { RangeControl } from 'core/controls/visual/range-control';
 
 import { ControlService } from 'services/control-service';
 
@@ -28,7 +28,7 @@ import { ControlService } from 'services/control-service';
 class RangeComponent implements IControlComponent {
   control: RangeControl;
 
-  constructor(@Optional() @Inject(BaseControl) control?: RangeControl) {
+  constructor(@Optional() @Inject(Control) control?: RangeControl) {
     this.control = control || ControlService.create(RangeControl);
   }
 }
