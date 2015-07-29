@@ -1,6 +1,5 @@
 .idea
 
-dist
 src/**/*.js
 src/**/*.map
 test/**/*.js

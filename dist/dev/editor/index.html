@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Vargin Editor</title>
+    <link rel="stylesheet" type="text/css" href="style/vargin-editor.css" />
+
+    <script src="js/lib/system-csp-production.js"></script>
+    <script src="js/lib/Rx.js"></script>
+    <script src="js/lib/angular2-polyfills.js"></script>
+    <script src="js/lib/angular2.dev.js"></script>
+    <script src="js/lib/condition-parser.js"></script>
+    <script src="js/vargin-core.js"></script>
+    <script src="js/vargin-compilers.js"></script>
+    <script src="js/vargin-editor.js"></script>
+  </head>
+  <body>
+    <vargin></vargin>
+    <script>
+      System.import('src/editor/ts/vargin-editor').catch(function(e) {
+        console.error(e);
+      });
+    </script>
+  </body>
+</html>

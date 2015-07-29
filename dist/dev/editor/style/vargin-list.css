@@ -1,0 +1,16 @@
+.vargin-list {
+  padding-left: 0; }
+
+.vargin-list__item {
+  list-style: outside none none;
+  margin: 0.5rem 0; }
+  .vargin-list__item:hover .vargin-list__remove-item {
+    visibility: visible; }
+
+.vargin-list__remove-item {
+  visibility: hidden;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: #000;
+  cursor: pointer; }

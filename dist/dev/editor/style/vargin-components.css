@@ -1,0 +1,73 @@
+.vargin-component_drop-target {
+  border: 0.2rem dashed #d2cfcf !important; }
+
+.vargin-component_active {
+  box-shadow: 0 0 1rem #9ecaed; }
+
+vargin-input {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex; }
+  vargin-input > input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background: inherit;
+    color: inherit;
+    border: none;
+    font: inherit;
+    padding: 0;
+    margin: 0; }
+
+/*@supports (display: contents){
+  vargin-dynamic,
+  vargin-button,
+  vargin-container,
+  vargin-label,
+  vargin-range {
+    display: contents;
+  }
+}*/
+[vargin-type=service-container] {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -moz-box-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+  [vargin-type=service-container] > [vargin-type] {
+    margin-left: 0.3rem; }
+
+.vargin-service-component {
+  display: inline-block;
+  width: 2.5rem;
+  font: normal normal normal 2.2rem/1 'Vargin Icons';
+  text-rendering: auto;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.vargin-service-component__datasource:before {
+  content: 'a'; }
+
+[vargin-type=datasource] {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center; }
