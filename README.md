@@ -17,4 +17,6 @@ In case you want to go with web application (that is highly recommended _default
 application will be based on modern web stack that will provide you with
 multithreading, plugin-less media and first-class offline experience.
 
-__Current status:__ in active development.
+Vargin is successor and inspired by my old fancy project [__Mikapp__](https://www.youtube.com/watch?v=EwzPWSHY7jA) and [__Style My Image!__](http://azasypkin.github.io/style-my-image/) tool.
+
+__Current status:__ [in active development] (https://vargin.github.io/vargin/dist/dev/).
