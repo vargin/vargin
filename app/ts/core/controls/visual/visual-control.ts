@@ -8,16 +8,7 @@ import {
   ControlProperty,
   ControlPropertyWithOptions
 } from 'core/controls/control-property';
-import {
-  ISerializedControlParameters,
-  IControlParameters,
-  Control
-} from 'core/controls/control';
-
-export interface ISerializedVisualControlParameters
-  extends ISerializedControlParameters {
-  styles?: Iterable<[string, string]>;
-}
+import { IControlParameters, Control } from 'core/controls/control';
 
 export interface IVisualControlParameters extends IControlParameters {
   styles?: Map<string, string>
@@ -26,8 +17,8 @@ export interface IVisualControlParameters extends IControlParameters {
 export class VisualControl extends Control {
   private _styles: Map<string, IProperty<string>> = new Map();
 
-  constructor(id, meta, parameters?: IVisualControlParameters) {
-    super(id, meta, parameters);
+  constructor(id, meta, parameters?: IVisualControlParameters, children?) {
+    super(id, meta, parameters, children);
 
     var parameters = parameters || {};
 
@@ -50,24 +41,6 @@ export class VisualControl extends Control {
 
   get styles() {
     return this._styles;
-  }
-
-  serialize() {
-    var serializedStyles = [];
-    this._styles.forEach((property: IProperty<string>) => {
-      serializedStyles.push([property.getType(), property.getValue()]);
-    });
-
-    // TODO: Fore some reason Typescript compiles super.serialize to
-    // Control.serialize.call(this) instead of proper
-    // Control.prototype.serialize(call). So need to figure out why.
-    var baseSerializedControl = Control.prototype.serialize.call(this);
-
-    if (serializedStyles.length) {
-      baseSerializedControl.parameters['styles'] = serializedStyles;
-    }
-
-    return baseSerializedControl;
   }
 
   serializeStyles(): { [key: string]: string; }{

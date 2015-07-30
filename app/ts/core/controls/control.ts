@@ -6,34 +6,27 @@ import {
 } from 'core/controls/control-property';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
-export interface ISerializedControl {
-  type: string;
-  id?: string;
-  parameters?: ISerializedControlParameters
-}
-
-export interface ISerializedControlParameters {
-  properties?: Iterable<[string, string]>;
-}
-
 export interface IControlParameters {
   properties?: Map<string, string>,
-  events?: Map<string, Array<IAction>>
+  events?: Map<string, IAction[]>
 }
 
 export class Control {
   private _id: string;
   private _meta: ControlMetadata;
-  private _events: Map<string, IProperty<Array<IAction>>>;
+  private _children: Control[];
+  private _events: Map<string, IProperty<IAction[]>>;
   protected _properties: Map<string, IProperty<string>>;
 
   constructor(
     id: string,
     meta: ControlMetadata,
-    parameters?: IControlParameters
+    parameters?: IControlParameters,
+    children?: Control[]
   ) {
     this._id = id;
     this._meta = meta;
+    this._children = children || [];
     this._properties = new Map();
     this._events = new Map();
 
@@ -83,26 +76,19 @@ export class Control {
   }
 
   /**
+   * List of controls children if any.
+   * @returns {Array.<Control>}
+   */
+  get children() {
+    return this._children;
+  }
+
+  /**
    * List of event names supported by control.
    * @returns {Array<IProperty<Array<IAction>>>}
    */
   get events() {
     return this._events;
-  }
-
-  serialize(): ISerializedControl {
-    var serializedProperties = [];
-    this._properties.forEach((property: IProperty<string>) => {
-      serializedProperties.push([property.getType(), property.getValue()]);
-    });
-
-    return {
-      id: this.id,
-      type: this.meta.type,
-      parameters: {
-        properties: serializedProperties
-      }
-    };
   }
 
   static getMeta(): ControlMetadata {

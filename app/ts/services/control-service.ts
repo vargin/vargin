@@ -4,21 +4,10 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 
 import { IAction } from 'core/actions/action';
 
-import {
-  Control,
-  IControlParameters,
-  ISerializedControl
-} from 'core/controls/control';
-import {
-  ISerializedVisualControlParameters,
-  IVisualControlParameters,
-  VisualControl
-} from 'core/controls/visual/visual-control';
+import { Control, IControlParameters } from 'core/controls/control';
+import { VisualControl } from 'core/controls/visual/visual-control';
 import { ButtonControl } from 'core/controls/visual/button-control';
-import {
-  ContainerControl,
-  ISerializedContainerParameters
-} from 'core/controls/visual/container-control';
+import { ContainerControl } from 'core/controls/visual/container-control';
 import { DataSourceControl } from 'core/controls/service/datasource-control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { RangeControl } from 'core/controls/visual/range-control';
@@ -58,60 +47,27 @@ export class ControlService {
   }
 
   static create<TControl extends Control>(
-    type: { new(id, parameters?): TControl; },
+    type: { new(id, parameters?, children?): TControl; },
     parameters?: IControlParameters,
-    id?: string
+    id?: string,
+    children?: Control[]
   ): TControl {
-    return new type(id || UtilsService.uuid(), parameters);
+    return new type(id || UtilsService.uuid(), parameters, children);
   }
 
   static createByType<TControl extends Control>(
     type: string,
     parameters?: IControlParameters,
-    id?: string
+    id?: string,
+    children?: Control[]
   ): TControl {
     if (!CONTROLS.has(type)) {
       throw new Error('Not supported control type: ' + type);
     }
 
-    var ControlClass = <{ new(id, parameters?): TControl; }>CONTROLS.get(type);
+    var ControlClass = <{ new(id, parameters?, children?): TControl; }>
+      CONTROLS.get(type);
 
-    return new ControlClass(id || UtilsService.uuid(), parameters);
-  }
-
-  static deserialize<TControl extends Control>(
-    serializedControl: ISerializedControl
-  ): TControl  {
-    var parameters = {
-      properties: null,
-      styles: null,
-      events: null,
-      children: null
-    };
-
-    var controlParameters = serializedControl.parameters;
-    if (controlParameters) {
-      if (controlParameters.properties) {
-        parameters.properties = new Map(controlParameters.properties);
-      }
-
-      if ('styles' in controlParameters) {
-        var visualControlParameters = <ISerializedVisualControlParameters>
-          controlParameters;
-        parameters.styles = new Map(visualControlParameters.styles);
-      }
-
-      if ('children' in controlParameters) {
-        var containerParameters = <ISerializedContainerParameters>
-          controlParameters;
-        parameters.children = containerParameters.children.map(
-          (serializedControl) => ControlService.deserialize(serializedControl)
-        );
-      }
-    }
-
-    return ControlService.createByType<TControl>(
-      serializedControl.type, parameters, serializedControl.id
-    );
+    return new ControlClass(id || UtilsService.uuid(), parameters, children);
   }
 }
