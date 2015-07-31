@@ -1,6 +1,4 @@
-import { Application } from 'core/application';
-
-export interface ICompiler<TCompiledApplication> {
-  compile(application: Application): TCompiledApplication;
-  decompile(compiledApplication: TCompiledApplication): Application;
+export interface ICompiler<TEntity, TCompiledEntity> {
+  compile(entity: TEntity): TCompiledEntity;
+  decompile(compiledEntity: TCompiledEntity): TEntity;
 }

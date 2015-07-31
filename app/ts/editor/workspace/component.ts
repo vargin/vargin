@@ -5,7 +5,12 @@ import { Application } from 'core/application';
 import { ApplicationPage } from 'core/application-page';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
 import { UtilsService } from 'services/utils-service';
-import { JsonCompiler } from 'compilers/json/json-compiler';
+import {
+  JsonApplicationCompiler
+} from 'compilers/json/json-application-compiler';
+import {
+  DOMStaticApplicationCompiler
+} from 'compilers/dom/dom-static/dom-static-application-compiler';
 
 const DEFAULT_SERIALIZED_APPLICATION = {
   id: UtilsService.uuid(),
@@ -73,7 +78,8 @@ const DEFAULT_SERIALIZED_APPLICATION = {
 @View({
   template: `
     <header class="workspace-toolbar">
-      <button (click)="serialize()">Serialize</button>
+      <button (click)="toJSON()">To JSON</button>
+      <a href="{{toStaticHTML()}}" target="_blank">Static HTML Page</a>
     </header>
     <vargin-container [control]="getRoot()"></vargin-container>
   `,
@@ -81,11 +87,17 @@ const DEFAULT_SERIALIZED_APPLICATION = {
 })
 class VarginWorkspace {
   private workspace: Workspace;
-  private compiler: JsonCompiler = new JsonCompiler();
+  private jsonCompiler: JsonApplicationCompiler;
+  private domStaticHTMLCompiler: DOMStaticApplicationCompiler;
 
   constructor() {
+    this.jsonCompiler = new JsonApplicationCompiler();
+    this.domStaticHTMLCompiler = new DOMStaticApplicationCompiler();
+
     WorkspaceService.create(
-      this.compiler.decompile(JSON.stringify(DEFAULT_SERIALIZED_APPLICATION))
+      this.jsonCompiler.decompile(
+        JSON.stringify(DEFAULT_SERIALIZED_APPLICATION)
+      )
     ).then(
       (workspace) => this.workspace = workspace
     );
@@ -95,10 +107,15 @@ class VarginWorkspace {
     return this.workspace.application.pages[0].root;
   }
 
-  serialize() {
+  toJSON() {
     console.log(
-      'Serialized control: %s',
-      this.compiler.compile(this.workspace.application)
+      'JSON control: %s', this.jsonCompiler.compile(this.workspace.application)
+    );
+  }
+
+  toStaticHTML() {
+    return 'data:text/html,' + encodeURIComponent(
+      this.domStaticHTMLCompiler.compile(this.workspace.application)
     );
   }
 }

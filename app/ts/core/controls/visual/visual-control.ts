@@ -52,4 +52,8 @@ export class VisualControl extends Control {
 
     return serializedStyles;
   }
+
+  static isVisualControl(control: Control) {
+    return 'styles' in control;
+  }
 }

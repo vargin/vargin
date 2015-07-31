@@ -89,7 +89,7 @@ class VarginProperties {
       this.activeEvents.push(property);
     });
 
-    if ('styles' in control) {
+    if (VisualControl.isVisualControl(control)) {
       this.activeStyleProperties = [];
       (<VisualControl>control).styles.forEach((property) => {
         this.activeStyleProperties.push(property);
