@@ -27,10 +27,6 @@ var PATH = {
     lib: [
       './node_modules/angular2/node_modules/traceur/bin/traceur-runtime.js',
 
-      './node_modules/es6-module-loader/dist/es6-module-loader.js',
-      './node_modules/es6-module-loader/dist/es6-module-loader.js.map',
-      './node_modules/es6-module-loader/dist/es6-module-loader.src.js',
-
       './node_modules/reflect-metadata/temp/Reflect.js',
       './node_modules/reflect-metadata/temp/Reflect.js.map',
 
@@ -63,7 +59,7 @@ var appBuilder = new Builder({
 
   paths: {
     '*': 'app/ts/*.ts',
-    'typescript': 'node_modules/typescript/bin/typescript.js'
+    'typescript': 'node_modules/typescript/lib/typescript.js'
   },
 
   meta: {

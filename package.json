@@ -8,18 +8,18 @@
   "devDependencies": {
     "gulp": "^3.9.0",
     "del": "^1.2.0",
-    "run-sequence": "^1.1.1",
+    "run-sequence": "^1.1.2",
 
     "gulp-plumber": "~1.0.1",
     "gulp-sourcemaps": "~1.5.2",
     "systemjs-builder": "^0.12.2",
-    "gulp-sass": "^2.0.3",
+    "gulp-sass": "^2.0.4",
 
     "typescript": "Microsoft/TypeScript"
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.32",
+    "angular2": "2.0.0-alpha.33",
     "systemjs": "^0.18.4",
     "es6-module-loader": "^0.17.3",
     "zone.js": "^0.5.2",
