@@ -8,11 +8,11 @@ export interface ICompiledCSSClass {
 
 class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
   compile(control: VisualControl) {
-    var cssClassName = `vargin-button-${control.id}`;
+    var cssClassName = `vargin-${control.meta.type}-${control.id}`;
 
     var text = `.${cssClassName} {`;
-    control.styles.forEach((styleProperty) => {
-      text += `${styleProperty.getType()}: ${styleProperty.getValue()};`;
+    control.styles.forEach((styleProperty, styleKey) => {
+      text += `${styleKey}: ${styleProperty.getValue()};`;
     });
     text += '}';
 

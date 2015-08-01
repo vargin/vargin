@@ -1,6 +1,9 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { VisualControl } from 'core/controls/visual/visual-control';
-import { ControlProperty } from 'core/controls/control-property';
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
@@ -18,10 +21,19 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
     )
   ],
   ['color', StyleService.getDescriptor('color')],
+  ['display', new ControlPropertyWithOptions(
+    StyleService.getDescriptor('display'), 'block'
+  )],
   [
     'min-height',
     new ControlProperty(
       StyleService.getDescriptor('min-height'), '5rem'
+    )
+  ],
+  [
+    'min-width',
+    new ControlProperty(
+      StyleService.getDescriptor('min-width'), '5rem'
     )
   ]
 ]);
@@ -41,8 +53,8 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class ContainerControl extends VisualControl {
-  constructor(id, parameters?, children?) {
-    super(id, ContainerControl.getMeta(), parameters, children);
+  constructor(id, parameters?) {
+    super(id, ContainerControl.getMeta(), parameters);
   }
 
   static getMeta() {

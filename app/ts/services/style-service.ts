@@ -17,6 +17,18 @@ const STYLES = new Map<string, IProperty<string>>([
   ],
   ['border', new Property('Border', 'none', 'border')],
   ['color', new Property('Text color', 'inherit', 'color')],
+  [
+    'display',
+    new PropertyWithOptions('Display', [
+      new Property('None', 'none'),
+      new Property('Inline', 'inline'),
+      new Property('Block', 'block'),
+      new Property('Inline-Block', 'inline-block'),
+      new Property('Flex', 'flex'),
+      new Property('Inherit', 'inherit'),
+      new Property('Unset', 'unset')
+    ], 'inline', 'display')
+  ],
   ['min-height', new Property('Min height', '0')],
   ['min-width', new Property('Min width', '0')],
   ['opacity', new Property('Opacity', '1', 'opacity')],

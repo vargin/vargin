@@ -29,7 +29,7 @@ import { ControlService } from 'services/control-service';
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of control.children" [control]="child">
+      <vargin-dynamic *ng-for="#child of control.getChildren()" [control]="child">
       </vargin-dynamic>
     </div>
   `,
@@ -53,7 +53,7 @@ class ContainerComponent implements IControlComponent {
   }
 
   onDrop(e: DragEvent) {
-    this.control.children.push(
+    this.control.addChild(
       ControlService.createByType(e.dataTransfer.getData('text/plain'))
     );
     e.preventDefault();

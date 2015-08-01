@@ -17,8 +17,8 @@ export interface IVisualControlParameters extends IControlParameters {
 export class VisualControl extends Control {
   private _styles: Map<string, IProperty<string>> = new Map();
 
-  constructor(id, meta, parameters?: IVisualControlParameters, children?) {
-    super(id, meta, parameters, children);
+  constructor(id, meta, parameters?: IVisualControlParameters) {
+    super(id, meta, parameters);
 
     var parameters = parameters || {};
 

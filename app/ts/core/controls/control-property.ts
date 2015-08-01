@@ -33,8 +33,8 @@ export class ControlProperty<T> implements IProperty<T> {
 export class ControlPropertyWithOptions<T>
        extends ControlProperty<T>
        implements IPropertyWithOptions<T> {
-  constructor(property: IPropertyWithOptions<T>) {
-    super(property);
+  constructor(property: IProperty<T>, value?: T) {
+    super(property, value);
   }
 
   getOptions() {

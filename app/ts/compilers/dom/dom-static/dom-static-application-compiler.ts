@@ -55,11 +55,12 @@ export class DOMStaticApplicationCompiler
       CONTROL_COMPILERS.get(control.constructor);
     var compiledControl = controlCompiler.compile(control);
 
-    if (control.children && control.children.length) {
+    var children = control.getChildren();
+    if (children.length) {
       let childrenCssText = '';
       let childrenMarkup = '';
 
-      for (let child of control.children) {
+      for (let child of children) {
         let compiledChild = this.compileControl(child);
 
         childrenCssText += compiledChild.cssClass.text;

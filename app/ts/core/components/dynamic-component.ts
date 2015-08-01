@@ -26,7 +26,7 @@ import ComponentControlMap from 'core/components/component-control-map';
   }
 })
 @View({
-  template: `<div #container></div>`
+  template: `<div class="vargin-dynamic-anchor" #container></div>`
 })
 class DynamicComponent implements IControlComponent {
   private loader: DynamicComponentLoader;

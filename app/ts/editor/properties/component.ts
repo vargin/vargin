@@ -18,6 +18,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import PropertyEditor from 'editor/properties/property-editor';
 
+import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
 
 import { VarginActionEditor } from 'editor/properties/action-editor';
@@ -46,14 +47,15 @@ import { VarginActionEditor } from 'editor/properties/action-editor';
           </li>
         </ul>
       </section>
+      <button (click)="removeControl()">Remove</button>
     </section>
   `,
   directives: [NgFor, PropertyEditor]
 })
 class VarginProperties {
-  private activeProperties: Array<IProperty<any>>;
-  private activeStyleProperties: Array<IProperty<string>>;
-  private activeEvents: Array<IProperty<Array<IAction>>>;
+  private activeProperties: Array<IProperty<any>> = [];
+  private activeStyleProperties: Array<IProperty<string>> = [];
+  private activeEvents: Array<IProperty<Array<IAction>>> = [];
   private activeControl: Control;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
@@ -71,33 +73,27 @@ class VarginProperties {
     this.viewContainer = viewContainer;
   }
 
-  onControlSelected(control: Control) {
+  private onControlSelected(control: Control) {
+    this.reset();
+
     this.activeControl = control;
 
-    if (this.actionEditor) {
-      this.actionEditor.dispose();
-      this.actionEditor = null;
-    }
-
-    this.activeProperties = [];
     control.meta.supportedProperties.forEach((property, propertyKey) => {
       this.activeProperties.push(control[propertyKey]);
     });
 
-    this.activeEvents = [];
     control.meta.supportedEvents.forEach((property) => {
       this.activeEvents.push(property);
     });
 
     if (VisualControl.isVisualControl(control)) {
-      this.activeStyleProperties = [];
       (<VisualControl>control).styles.forEach((property) => {
         this.activeStyleProperties.push(property);
       });
     }
   }
 
-  toggleActionEditor(property: IProperty<Array<IAction>>) {
+  private toggleActionEditor(property: IProperty<Array<IAction>>) {
     var eventProperty = this.activeControl.events.get(property.getType());
 
     if (this.actionEditor) {
@@ -113,6 +109,29 @@ class VarginProperties {
     ).then((component: ComponentRef) => {
       this.actionEditor = component;
     });
+  }
+
+  private removeControl() {
+    if (!this.activeControl) {
+      return;
+    }
+
+    this.activeControl.remove();
+
+    this.reset();
+  }
+
+  private reset() {
+    this.activeControl = null;
+
+    this.activeStyleProperties.length = 0;
+    this.activeProperties.length = 0;
+    this.activeEvents.length = 0;
+
+    if (this.actionEditor) {
+      this.actionEditor.dispose();
+      this.actionEditor = null;
+    }
   }
 }
 

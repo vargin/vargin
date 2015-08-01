@@ -60,7 +60,7 @@ class JsonControlCompiler implements IControlCompiler<IPlainControl> {
     return {
       id: control.id,
       type: control.meta.type,
-      children: control.children.map((child) => this.compile(child)),
+      children: control.getChildren().map((child) => this.compile(child)),
       parameters: parameters
     };
   }
@@ -83,14 +83,17 @@ class JsonControlCompiler implements IControlCompiler<IPlainControl> {
       }
     }
 
-    var children;
+    var control = ControlService.createByType<Control>(
+      compiledControl.type, parameters, compiledControl.id
+    );
+
     if (compiledControl.children && compiledControl.children.length) {
-      children = compiledControl.children.map((child) => this.decompile(child));
+      compiledControl.children.forEach(
+        (child) => control.addChild(this.decompile(child))
+      );
     }
 
-    return ControlService.createByType<Control>(
-      compiledControl.type, parameters, compiledControl.id, children
-    );
+    return control;
   }
 }
 

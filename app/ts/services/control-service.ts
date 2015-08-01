@@ -47,19 +47,17 @@ export class ControlService {
   }
 
   static create<TControl extends Control>(
-    type: { new(id, parameters?, children?): TControl; },
+    type: { new(id, parameters?): TControl; },
     parameters?: IControlParameters,
-    id?: string,
-    children?: Control[]
+    id?: string
   ): TControl {
-    return new type(id || UtilsService.uuid(), parameters, children);
+    return new type(id || UtilsService.uuid(), parameters);
   }
 
   static createByType<TControl extends Control>(
     type: string,
     parameters?: IControlParameters,
-    id?: string,
-    children?: Control[]
+    id?: string
   ): TControl {
     if (!CONTROLS.has(type)) {
       throw new Error('Not supported control type: ' + type);
@@ -68,6 +66,6 @@ export class ControlService {
     var ControlClass = <{ new(id, parameters?, children?): TControl; }>
       CONTROLS.get(type);
 
-    return new ControlClass(id || UtilsService.uuid(), parameters, children);
+    return new ControlClass(id || UtilsService.uuid(), parameters);
   }
 }
