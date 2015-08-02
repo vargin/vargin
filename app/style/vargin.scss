@@ -35,10 +35,44 @@ body {
   @include flex();
 }
 
-.vargin-component:-moz-drag-over {
+.vargin-component:-moz-drag-over,
+.vargin-component:drag-over {
   border: 5px solid black !important;
 }
 
 .vargin-dynamic-anchor {
   display: none;
+}
+
+/*@supports (display: contents){
+  vargin-dynamic,
+  vargin-button,
+  vargin-container,
+  vargin-label,
+  vargin-range {
+    display: contents;
+  }
+}*/
+
+vargin-dynamic {
+  @include inline-flex;
+
+  &[type=container] {
+    @include flexbox;
+  }
+
+  > vargin-button,
+  > vargin-container,
+  > vargin-label,
+  > vargin-range {
+    @include flexbox;
+    @include flex;
+  }
+}
+
+vargin-label > span,
+vargin-button > button,
+vargin-range > input,
+vargin-container > div {
+  @include flex;
 }

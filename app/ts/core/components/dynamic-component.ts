@@ -20,10 +20,7 @@ import ComponentControlMap from 'core/components/component-control-map';
 @Component({
   selector: 'vargin-dynamic',
   properties: ['control'],
-  lifecycle: [LifecycleEvent.onChange],
-  host: {
-    '(^click)': 'onClick($event)'
-  }
+  lifecycle: [LifecycleEvent.onChange]
 })
 @View({
   template: `<div class="vargin-dynamic-anchor" #container></div>`
@@ -46,21 +43,12 @@ class DynamicComponent implements IControlComponent {
       return;
     }
 
-    setTimeout(() => {
-      this.loader.loadIntoLocation(
-        ComponentControlMap.getComponentType(this.control.meta.type),
-        this.viewContainer.element,
-        'container',
-        Injector.resolve([bind(Control).toValue(this.control)])
-      )
-    });
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    ControlService.selectControl(this.control);
+    this.loader.loadIntoLocation(
+      ComponentControlMap.getComponentType(this.control.meta.type),
+      this.viewContainer.element,
+      'container',
+      Injector.resolve([bind(Control).toValue(this.control)])
+    )
   }
 }
 

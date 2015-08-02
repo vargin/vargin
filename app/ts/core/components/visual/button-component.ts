@@ -8,7 +8,10 @@ import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-button',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 @View({
   template: `
@@ -26,6 +29,13 @@ class ButtonComponent implements IControlComponent {
 
   constructor(@Optional() @Inject(Control) control?: ButtonControl) {
     this.control = control || ControlService.create(ButtonControl);
+  }
+
+  onClick(e) {
+    e.stopPropagation();
+     e.preventDefault();
+
+     ControlService.selectControl(this.control);
   }
 }
 

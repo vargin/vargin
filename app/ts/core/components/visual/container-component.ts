@@ -19,7 +19,10 @@ import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-container',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 @View({
   template: `
@@ -29,7 +32,7 @@ import { ControlService } from 'services/control-service';
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of control.getChildren()" [control]="child">
+      <vargin-dynamic *ng-for="#child of control.getChildren()" [control]="child" attr.type="{{child.meta.type}}">
       </vargin-dynamic>
     </div>
   `,
@@ -57,6 +60,13 @@ class ContainerComponent implements IControlComponent {
       ControlService.createByType(e.dataTransfer.getData('text/plain'))
     );
     e.preventDefault();
+  }
+
+  onClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    ControlService.selectControl(this.control);
   }
 }
 

@@ -9,7 +9,10 @@ import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-label',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 @View({
   template: `
@@ -24,6 +27,13 @@ class LabelComponent implements IControlComponent {
 
   constructor(@Optional() @Inject(Control) control?: LabelControl) {
     this.control = control || ControlService.create(LabelControl);
+  }
+
+  onClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    ControlService.selectControl(this.control);
   }
 }
 

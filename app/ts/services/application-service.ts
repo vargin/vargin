@@ -2,6 +2,25 @@ import { Application } from 'core/application';
 import { UtilsService } from 'services/utils-service';
 import { JsonApplicationCompiler } from 'compilers/json/json-application-compiler';
 
+const MINIMAL_SERIALIZED_APPLICATION = {
+  id: UtilsService.uuid(),
+  name: '(Minimal App)',
+  description: '(Minimal App)',
+  pages: [{
+    id: UtilsService.uuid(),
+    name: '(Default Page)',
+    root: {
+      type: 'container',
+      children: [{
+        type: 'label',
+        parameters: { properties: [['text', '[Root] Label1']] }
+      }, {
+        type: 'button'
+      }]
+    }
+  }]
+};
+
 const DEFAULT_SERIALIZED_APPLICATION = {
   id: UtilsService.uuid(),
   name: '(Default App)',

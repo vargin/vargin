@@ -10,7 +10,10 @@ import { ControlService } from 'services/control-service';
 
 @Component({
   selector: 'vargin-range',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 @View({
   template: `
@@ -30,6 +33,13 @@ class RangeComponent implements IControlComponent {
 
   constructor(@Optional() @Inject(Control) control?: RangeControl) {
     this.control = control || ControlService.create(RangeControl);
+  }
+
+  onClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    ControlService.selectControl(this.control);
   }
 }
 
