@@ -1,7 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ControlService } from 'services/control-service';
@@ -24,7 +23,7 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-class ButtonComponent implements IControlComponent {
+class ButtonComponent {
   control: ButtonControl;
 
   constructor(@Optional() @Inject(Control) control?: ButtonControl) {

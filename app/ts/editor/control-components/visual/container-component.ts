@@ -9,11 +9,9 @@ import {
   View
 } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
-
 import { Control } from 'core/controls/control';
 import { ContainerControl } from 'core/controls/visual/container-control';
-import DynamicComponent from 'core/components/dynamic-component';
+import DynamicComponent from 'editor/control-components/dynamic-component';
 
 import { ControlService } from 'services/control-service';
 
@@ -38,7 +36,7 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-class ContainerComponent implements IControlComponent {
+class ContainerComponent {
   control: ContainerControl;
 
   constructor(

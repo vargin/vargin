@@ -1,10 +1,10 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, View } from 'angular2/angular2';
-import ContainerComponent from 'core/components/visual/container-component';
+import ContainerComponent from 'editor/control-components/visual/container-component';
 import { ApplicationService } from 'services/application-service';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
 import {
-  JsonApplicationCompiler
+  JSONApplicationCompiler
 } from 'compilers/json/json-application-compiler';
 import {
   DOMStaticApplicationCompiler
@@ -25,11 +25,11 @@ import {
 })
 class VarginWorkspace {
   private workspace: Workspace;
-  private jsonCompiler: JsonApplicationCompiler;
+  private jsonCompiler: JSONApplicationCompiler;
   private domStaticHTMLCompiler: DOMStaticApplicationCompiler;
 
   constructor() {
-    this.jsonCompiler = new JsonApplicationCompiler();
+    this.jsonCompiler = new JSONApplicationCompiler();
     this.domStaticHTMLCompiler = new DOMStaticApplicationCompiler();
 
     WorkspaceService.create(ApplicationService.current).then(

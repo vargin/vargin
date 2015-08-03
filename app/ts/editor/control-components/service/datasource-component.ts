@@ -6,8 +6,6 @@ import {
   View
 } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
-
 import { Control } from 'core/controls/control';
 import { DataSourceControl } from 'core/controls/service/datasource-control';
 import { ControlService } from 'services/control-service';
@@ -19,7 +17,7 @@ import { ControlService } from 'services/control-service';
 @View({
   template: `<div>{{ control.meta.name }}</div>`
 })
-class DataSourceComponent implements IControlComponent {
+class DataSourceComponent{
   control: DataSourceControl;
 
   constructor(@Optional() @Inject(Control) control?: DataSourceControl) {

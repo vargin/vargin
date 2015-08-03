@@ -1,6 +1,7 @@
 import { Application } from 'core/application';
 import { ApplicationPage } from 'core/application-page';
-import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
+
 
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
@@ -9,9 +10,16 @@ import {
 } from 'core/controls/visual/visual-control-metadata';
 
 import { ControlService } from 'services/control-service';
+import { ActionService } from 'services/action-service';
 
+import { ICompiler } from 'compilers/compiler';
 import { IApplicationCompiler } from 'compilers/application-compiler';
 import { IControlCompiler } from 'compilers/control-compiler';
+
+interface IPlainAction {
+  type: string;
+  properties: Iterable<[string, string]>;
+}
 
 interface IPlainControl {
   type: string;
@@ -19,6 +27,7 @@ interface IPlainControl {
   children?: IPlainControl[];
   parameters?: {
     properties?: Iterable<[string, string]>;
+    events?: Iterable<[string, Array<IPlainAction>]>;
     styles?: Iterable<[string, string]>;
   };
 }
@@ -34,15 +43,47 @@ interface IPlainApplication {
   }>
 }
 
-class JsonControlCompiler implements IControlCompiler<IPlainControl> {
+class JSONActionCompiler implements ICompiler<IAction, IPlainAction> {
+  compile(action: IAction) {
+    var properties = [];
+    action.properties.forEach((propertyValue, propertyKey) => {
+      properties.push([propertyKey, propertyValue]);
+    });
+
+    return {
+      type: action.type,
+      properties: properties
+    };
+  }
+
+  decompile(compiledAction: IPlainAction) {
+    return ActionService.createByType(
+      compiledAction.type, new Map(compiledAction.properties)
+    );
+  }
+}
+
+class JSONControlCompiler implements IControlCompiler<IPlainControl> {
+  private _actionCompiler: JSONActionCompiler = new JSONActionCompiler();
+
   compile(control: Control) {
     var parameters = {
       properties: [],
-      styles: []
+      styles: [],
+      events: []
     };
 
     control.meta.supportedProperties.forEach((property, propertyKey) => {
       parameters.properties.push([propertyKey, control[propertyKey].getValue()]);
+    });
+
+    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
+      parameters.events.push([
+        eventKey,
+        control.events.get(eventKey).getValue().map(
+          (action: IAction) => this._actionCompiler.compile(action)
+        )
+      ]);
     });
 
     if (VisualControl.isVisualControl(control)) {
@@ -81,6 +122,21 @@ class JsonControlCompiler implements IControlCompiler<IPlainControl> {
       if (controlParameters.styles) {
         parameters.styles = new Map(controlParameters.styles);
       }
+
+      if (controlParameters.events) {
+        parameters.events = new Map();
+        var compiledEvents = new Map(controlParameters.events);
+
+        compiledEvents.forEach((compiledActions, eventKey) => {
+          parameters.events.set(
+            eventKey,
+            compiledActions.map(
+              (compiledAction) => this._actionCompiler.decompile(compiledAction)
+            )
+          )
+        })
+
+      }
     }
 
     var control = ControlService.createByType<Control>(
@@ -97,8 +153,8 @@ class JsonControlCompiler implements IControlCompiler<IPlainControl> {
   }
 }
 
-export class JsonApplicationCompiler implements IApplicationCompiler<string> {
-  private _controlCompiler: JsonControlCompiler = new JsonControlCompiler();
+export class JSONApplicationCompiler implements IApplicationCompiler<string> {
+  private _controlCompiler: JSONControlCompiler = new JSONControlCompiler();
 
   compile(application: Application) {
     var plainApplicationObject = {

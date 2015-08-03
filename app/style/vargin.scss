@@ -1,5 +1,5 @@
 @import '../../node_modules/sass-flex-mixin/flex.scss';
-@import '../ts/editor/expandable-groups/component.scss';
+@import '../ts/editor/expandable-groups/expandable-groups';
 
 html, body {
   height: 100%;
@@ -35,8 +35,7 @@ body {
   @include flex();
 }
 
-.vargin-component:-moz-drag-over,
-.vargin-component:drag-over {
+.vargin-component:-moz-drag-over {
   border: 5px solid black !important;
 }
 

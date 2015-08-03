@@ -1,6 +1,6 @@
 import { Application } from 'core/application';
 import { UtilsService } from 'services/utils-service';
-import { JsonApplicationCompiler } from 'compilers/json/json-application-compiler';
+import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
 
 const MINIMAL_SERIALIZED_APPLICATION = {
   id: UtilsService.uuid(),
@@ -40,7 +40,26 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }
       }, {
         type: 'button',
-        parameters: { styles: [['border', '3px dashed blue']] }
+        parameters: {
+          styles: [['border', '3px dashed blue']],
+          events: [
+            ['click', [{
+              type: 'broadcast-action',
+              properties: [
+                ['channel', '(Default)'],
+                ['message-name', 'broadcast'],
+                ['message-data', 'Hello World']
+              ]
+            }, {
+              type: 'change-property-action',
+              properties: [
+                ['control-id', 'control-uuid'],
+                ['property-name', 'text'],
+                ['property-value', 'changed text']
+              ]
+            }]]
+          ]
+        }
       }, {
         type: 'label',
         parameters: { properties: [['text', '[Root] Label2']] }
@@ -91,10 +110,21 @@ export class ApplicationService {
   static set current(value) {
     ApplicationService._currentApplication = value;
   }
+
+  static findControlById(controlId: string) {
+    for (var page of ApplicationService.current.pages) {
+      var control = page.root.find(controlId);
+      if (control) {
+        return control;
+      }
+    }
+
+    return null;
+  }
 }
 
 // Create default application. TESTING ONLY!
-ApplicationService.current = (new JsonApplicationCompiler()).decompile(
+ApplicationService.current = (new JSONApplicationCompiler()).decompile(
   JSON.stringify(DEFAULT_SERIALIZED_APPLICATION)
 );
 

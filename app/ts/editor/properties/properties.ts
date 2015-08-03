@@ -13,15 +13,14 @@ import {
 
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
-
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
-import PropertyEditor from 'editor/properties/property-editor';
+
+import PropertyEditor from 'editor/properties/property-editors/property-editor';
+import { ActionEditor } from 'editor/properties/property-editors/action-editor';
 
 import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
-
-import { VarginActionEditor } from 'editor/properties/action-editor';
 
 @Component({
   selector: 'vargin-properties'
@@ -102,7 +101,7 @@ class VarginProperties {
     }
 
     this.componentLoader.loadIntoLocation(
-      VarginActionEditor,
+      ActionEditor,
       this.viewContainer.element,
       'eventssection',
        Injector.resolve([bind(Property).toValue(eventProperty)])

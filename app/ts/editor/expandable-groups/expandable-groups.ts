@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Component, Inject, NgFor, View } from 'angular2/angular2';
+import { Component, NgFor, View } from 'angular2/angular2';
 
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlGroup } from 'core/controls/control-group';
@@ -13,10 +13,10 @@ interface IExpandableGroup {
   selector: 'expandable-groups'
 })
 @View({
-  templateUrl: 'editor/expandable-groups/component.html',
+  templateUrl: 'editor/expandable-groups/expandable-groups.html',
   directives: [NgFor]
 })
-class ExpandableGroups {
+class VarginExpandableGroups {
   groups: Array<IExpandableGroup>;
 
   constructor() {
@@ -38,4 +38,4 @@ class ExpandableGroups {
   }
 }
 
-export default ExpandableGroups;
+export default VarginExpandableGroups;

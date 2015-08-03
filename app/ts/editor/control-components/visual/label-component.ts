@@ -1,8 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
-
 import { Control } from 'core/controls/control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { ControlService } from 'services/control-service';
@@ -22,7 +20,7 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-class LabelComponent implements IControlComponent {
+class LabelComponent {
   control: LabelControl;
 
   constructor(@Optional() @Inject(Control) control?: LabelControl) {

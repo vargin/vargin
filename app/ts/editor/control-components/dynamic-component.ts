@@ -10,12 +10,10 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
-
 import { ControlService } from 'services/control-service';
 
 import { Control } from 'core/controls/control';
-import ComponentControlMap from 'core/components/component-control-map';
+import ComponentControlMap from 'editor/control-components/component-control-map';
 
 @Component({
   selector: 'vargin-dynamic',
@@ -25,7 +23,7 @@ import ComponentControlMap from 'core/components/component-control-map';
 @View({
   template: `<div class="vargin-dynamic-anchor" #container></div>`
 })
-class DynamicComponent implements IControlComponent {
+class DynamicComponent {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
   control: Control;

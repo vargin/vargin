@@ -1,9 +1,10 @@
 /// <reference path="../../typings/tsd.d.ts" />
 import { bootstrap, Component, View } from 'angular2/angular2';
 
-import ExpandableGroups from 'editor/expandable-groups/component';
-import VarginWorkspace from 'editor/workspace/component';
-import VarginProperties from 'editor/properties/component';
+import ExpandableGroups from 'editor/expandable-groups/expandable-groups';
+import VarginWorkspace from 'editor/workspace/workspace';
+import VarginProperties from 'editor/properties/properties';
+
 import { ControlGroup } from 'core/controls/control-group';
 
 import { ControlService } from 'services/control-service';

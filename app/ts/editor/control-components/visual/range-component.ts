@@ -1,8 +1,6 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
-import { IControlComponent } from 'core/components/control-component';
-
 import { Control } from 'core/controls/control';
 import { RangeControl } from 'core/controls/visual/range-control';
 
@@ -28,7 +26,7 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-class RangeComponent implements IControlComponent {
+class RangeComponent {
   control: RangeControl;
 
   constructor(@Optional() @Inject(Control) control?: RangeControl) {

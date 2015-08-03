@@ -1,28 +1,30 @@
 import { Action } from 'core/actions/action';
-import { IProperty } from 'core/property';
+import { ApplicationService } from 'services/application-service';
 
 export class ChangePropertyAction<TPropertyValue> extends Action {
-  private _property: IProperty<TPropertyValue>;
-  private _value: TPropertyValue;
+  constructor(properties: Map<string, string>) {
+    super('Change Property', 'change-property-action', properties);
 
-  constructor(property: IProperty<TPropertyValue>, value: TPropertyValue) {
-    super('Change Property', 'change-property-action');
-
-    this._property = property;
-    this._value = value;
-  }
-
-  get property() {
-    return this._property;
-  }
-
-  get value() {
-    return this._value;
+    ['control-id', 'property-name', 'property-value'].forEach(
+      (parameterName) => {
+        if (!properties.has(parameterName)) {
+          throw new Error(
+            'Parameter "' + parameterName + '" is expected, but not provided!'
+          );
+        }
+      }
+    );
   }
 
   perform() {
     try {
-      this._property.setValue(this._value);
+      var control = ApplicationService.findControlById(
+        this.properties.get('control-id')
+      );
+
+      control[this.properties.get('property-name')].setValue(
+        this.properties.get('property-value')
+      );
       return Promise.resolve(true);
     } catch(e) {
       return Promise.reject<boolean>(e);

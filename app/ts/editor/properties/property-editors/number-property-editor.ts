@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, Optional, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';

@@ -78,7 +78,7 @@ export class Control {
 
   /**
    * List of event names supported by control.
-   * @returns {Array<IProperty<Array<IAction>>>}
+   * @returns {Map<string, IProperty<IAction[]>>}
    */
   get events() {
     return this._events;
@@ -98,6 +98,26 @@ export class Control {
    */
   set parent(parent) {
     this._parent = parent;
+  }
+
+  /**
+   * Finds child control by id, traverses through entire child tree.
+   * @param {string} id Id of the control to find.
+   * @returns {Control} Found child control.
+   */
+  find(id: string) {
+    if (this.id === id) {
+      return this;
+    }
+
+    for (let control of this._children) {
+      let child = control.find(id);
+      if (child) {
+        return child;
+      }
+    }
+
+    return null;
   }
 
   /**

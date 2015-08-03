@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, Optional, View } from 'angular2/angular2';
 import { IAction } from 'core/actions/action';
 import { IProperty, Property } from 'core/property';
@@ -20,7 +20,7 @@ import { IProperty, Property } from 'core/property';
   `,
   directives: [NgFor]
 })
-export class VarginActionEditor {
+export class ActionEditor {
   private property: IProperty<Array<IAction>>;
 
   constructor(

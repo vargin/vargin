@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   bind,
   Component,
@@ -13,11 +13,10 @@ import {
 
 import { IProperty, Property } from 'core/property';
 
-import ColorPropertyEditor from 'editor/properties/color-property-editor';
-import NumberPropertyEditor from 'editor/properties/number-property-editor';
-import StringPropertyEditor from 'editor/properties/string-property-editor';
-import PropertyWithOptionsEditor from
-  'editor/properties/property-with-options-editor';
+import ColorPropertyEditor from 'editor/properties/property-editors/color-property-editor';
+import NumberPropertyEditor from 'editor/properties/property-editors/number-property-editor';
+import StringPropertyEditor from 'editor/properties/property-editors/string-property-editor';
+import PropertyWithOptionsEditor from 'editor/properties/property-editors/property-with-options-editor';
 
 @Component({
   selector: 'property-editor',

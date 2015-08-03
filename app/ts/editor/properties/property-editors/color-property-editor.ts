@@ -1,26 +1,26 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
+/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, Optional, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
 
 @Component({
-  selector: 'string-property-editor',
+  selector: 'color-property-editor',
   properties: ['property']
 })
 @View({
   template: `
     <label>{{property.getName()}} &nbsp;
-      <input type="text"
+      <input type="color"
         [value]="property.getValue()"
         (change)="onChange($event.target.value)"
       />
     </label>`
 })
-class StringPropertyEditor {
+class ColorPropertyEditor {
   private property: IProperty<string>;
 
   constructor(@Optional() @Inject(Property) property?: IProperty<string>) {
-    this.property = property || new Property('[String]', '');
+    this.property = property || new Property('[Color]', '');
   }
 
   onChange(value: string) {
@@ -28,4 +28,4 @@ class StringPropertyEditor {
   }
 }
 
-export default StringPropertyEditor;
+export default ColorPropertyEditor;
