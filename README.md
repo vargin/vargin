@@ -1,5 +1,5 @@
 # Vargin
-__Vargin__ is simplified WEB IDE that allows you to create mobile/desktop web applications
+__Vargin__ is easy to use Web IDE that allows you to create mobile/desktop web applications
 based on widely known component architecture. You don't have to be developer to
 get started as creating new app is as simple as just adding functional pieces via
 drag&drop from available list of visual (button, form, header, ...) and service
