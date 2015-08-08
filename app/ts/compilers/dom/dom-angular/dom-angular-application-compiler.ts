@@ -11,38 +11,31 @@ import { IApplicationCompiler } from 'compilers/application-compiler';
 import { IControlCompiler } from 'compilers/control-compiler';
 
 import {
-  IDOMStaticCompiledControl,
-  DOMStaticControlCompiler
+  IDOMStaticCompiledControl
 } from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
 
-import { ButtonControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/button-control-compiler';
-import { ContainerControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/container-control-compiler';
-import { LabelControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/label-control-compiler';
-import { RangeControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/range-control-compiler';
+import {
+  DOMAngularControlCompiler
+} from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
 
-const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
+import { ButtonControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/button-control-compiler';
+import { ContainerControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/container-control-compiler';
+import { LabelControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/label-control-compiler';
+import { RangeControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/range-control-compiler';
+
+const CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>([
   [ButtonControl, new ButtonControlCompiler()],
   [ContainerControl, new ContainerControlCompiler()],
   [LabelControl, new LabelControlCompiler()],
   [RangeControl, new RangeControlCompiler()]
 ]);
 
-export class DOMStaticApplicationCompiler
+export class DOMAngularApplicationCompiler
        implements IApplicationCompiler<string> {
   compile(application: Application) {
     var compiledRoot = this.compileControl(application.pages[0].root);
 
-    return `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <title>${application.name}</title>
-          <style type="text/css">${compiledRoot.cssClass.text}</style>
-        </head>
-        <body>${compiledRoot.markup}</body>
-      </html>
-    `;
+    return `<style type="text/css">${compiledRoot.cssClass.text}</style><page>${compiledRoot.markup}</page>`;
   }
 
   decompile(compiledApplication: string) {
@@ -50,7 +43,7 @@ export class DOMStaticApplicationCompiler
   }
 
   private compileControl(control: Control): IDOMStaticCompiledControl {
-    var controlCompiler = <DOMStaticControlCompiler<Control>>
+    var controlCompiler = <DOMAngularControlCompiler<Control>>
       CONTROL_COMPILERS.get(control.constructor);
     var compiledControl = controlCompiler.compile(control);
 
@@ -62,8 +55,8 @@ export class DOMStaticApplicationCompiler
       for (let child of children) {
         let compiledChild = this.compileControl(child);
 
-        childrenCssText += compiledChild.cssClass.text;
-        childrenMarkup += compiledChild.markup;
+        childrenCssText += compiledChild.cssClass.text.trim();
+        childrenMarkup += compiledChild.markup.trim();
       }
 
       compiledControl.cssClass.text += childrenCssText;

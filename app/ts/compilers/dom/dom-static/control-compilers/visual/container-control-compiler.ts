@@ -6,10 +6,10 @@ import { ContainerControl } from 'core/controls/visual/container-control';
 export class ContainerControlCompiler
 extends DOMStaticControlCompiler<ContainerControl> {
   getMarkup(control: ContainerControl, cssClass) {
-    return `
-      <div class="${cssClass.name}">
-        ${control.getChildren().length ? '{children}' : ''}
-      </div>
-    `;
+    return this.buildHTMLElement(
+      'div',
+      control.getChildren().length ? '{children}' : '',
+      new Map([['class', cssClass.name]])
+    );
   }
 }

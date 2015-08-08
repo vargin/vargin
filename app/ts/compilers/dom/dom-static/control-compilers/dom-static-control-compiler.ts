@@ -35,4 +35,17 @@ export class DOMStaticControlCompiler<TControl extends Control>
   protected getMarkup(control: TControl, cssClass?: ICompiledCSSClass) {
     return '';
   }
+
+  protected buildHTMLElement(
+    tagName: string, content: string = '', attributes?: Map<string, string>
+  ) {
+    var attributesString = '';
+    if (attributes && attributes.size) {
+      attributes.forEach((value, key) => {
+        attributesString += ` ${key}="${value}"`
+      });
+    }
+
+    return `<${tagName}${attributesString}>${content}</${tagName}>`
+  }
 }

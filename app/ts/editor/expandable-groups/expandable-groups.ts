@@ -13,7 +13,7 @@ interface IExpandableGroup {
   selector: 'expandable-groups'
 })
 @View({
-  templateUrl: 'editor/expandable-groups/expandable-groups.html',
+  templateUrl: 'expandable-groups/expandable-groups.html',
   directives: [NgFor]
 })
 class VarginExpandableGroups {

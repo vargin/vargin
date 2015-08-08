@@ -6,6 +6,8 @@ import { LabelControl } from 'core/controls/visual/label-control';
 export class LabelControlCompiler
        extends DOMStaticControlCompiler<LabelControl> {
   getMarkup(control: LabelControl, cssClass) {
-    return `<span class="${cssClass.name}">${control.text.getValue()}</span>`;
+    return this.buildHTMLElement(
+      'span', control.text.getValue(), new Map([['class', cssClass.name]])
+    );
   }
 }

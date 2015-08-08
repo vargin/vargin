@@ -7,8 +7,8 @@ import {
   JSONApplicationCompiler
 } from 'compilers/json/json-application-compiler';
 import {
-  DOMStaticApplicationCompiler
-} from 'compilers/dom/dom-static/dom-static-application-compiler';
+  DOMAngularApplicationCompiler
+} from 'compilers/dom/dom-angular/dom-angular-application-compiler';
 
 @Component({
   selector: 'vargin-workspace'
@@ -16,7 +16,8 @@ import {
 @View({
   template: `
     <header class="workspace-toolbar">
-      <button (click)="toJSON()">To JSON</button>
+      <button (click)="toJSON('a')">To JSON</button>
+      <button (click)="toAngularApp()">To Angular App</button>
       <a href="{{toStaticHTML()}}" target="_blank">Static HTML Page</a>
     </header>
     <vargin-container [control]="getRoot()"></vargin-container>
@@ -26,11 +27,11 @@ import {
 class VarginWorkspace {
   private workspace: Workspace;
   private jsonCompiler: JSONApplicationCompiler;
-  private domStaticHTMLCompiler: DOMStaticApplicationCompiler;
+  private domCompiler: DOMAngularApplicationCompiler;
 
   constructor() {
     this.jsonCompiler = new JSONApplicationCompiler();
-    this.domStaticHTMLCompiler = new DOMStaticApplicationCompiler();
+    this.domCompiler = new DOMAngularApplicationCompiler();
 
     WorkspaceService.create(ApplicationService.current).then(
       (workspace) => this.workspace = workspace
@@ -47,9 +48,41 @@ class VarginWorkspace {
     );
   }
 
+  toAngularApp() {
+    var appIframe = document.createElement('iframe');
+    appIframe.src = 'ng-compiler/index.html';
+
+    appIframe.onload = () => {
+      var compiledApp = this.domCompiler.compile(this.workspace.application);
+      var jsonCompiledApplication = this.jsonCompiler.compile(
+        this.workspace.application
+      );
+
+      var bootstrapScript = document.createElement('script');
+      bootstrapScript.text = `
+        System.register("app-description", [], function(exports) {
+          return {
+            setters: [],
+            execute: function() {
+              exports('markup', '${compiledApp}');
+              exports('application', '${jsonCompiledApplication}')
+            }
+          }
+        });
+        System.import(
+          'compilers/dom/dom-angular/template/app-controller'
+        ).catch(function(e) { console.error(e); })
+      `;
+
+      appIframe.contentDocument.head.appendChild(bootstrapScript);
+    };
+
+    document.body.appendChild(appIframe);
+  }
+
   toStaticHTML() {
     return 'data:text/html,' + encodeURIComponent(
-      this.domStaticHTMLCompiler.compile(this.workspace.application)
+      this.domCompiler.compile(this.workspace.application)
     );
   }
 }
