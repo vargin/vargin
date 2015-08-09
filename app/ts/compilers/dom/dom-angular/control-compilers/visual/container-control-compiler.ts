@@ -8,7 +8,11 @@ export class ContainerControlCompiler extends DOMAngularControlCompiler<Containe
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
-      new Map([['class', cssClass.name], ...this.getEventHandlers(control)])
+      new Map([
+        ['id', control.id],
+        ['class', cssClass.name],
+        ...this.getEventHandlers(control)
+      ])
     );
   }
 }

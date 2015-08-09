@@ -8,7 +8,11 @@ export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl
     return this.buildHTMLElement(
       'span',
       control.text.getValue(),
-      new Map([['class', cssClass.name], ...this.getEventHandlers(control)])
+      new Map([
+        ['id', control.id],
+        ['class', cssClass.name],
+        ...this.getEventHandlers(control)
+      ])
     );
   }
 }
