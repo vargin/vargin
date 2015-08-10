@@ -1,8 +1,9 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
 import { bootstrap, Component, View } from 'angular2/angular2';
 import { IProperty } from 'core/property';
+import { IAction } from 'core/actions/action';
 import { Application } from 'core/application';
-import { ApplicationService } from 'services/application-service';;
+import { ApplicationService } from 'services/application-service';
 import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
 import { markup, application } from 'app-description';
 
@@ -25,15 +26,18 @@ class AppController {
     ApplicationService.current = this.application;
   }
 
-  onControlAction(controlId: string, action: string) {
-    alert('Control with id: ' + controlId + ' requested action: ' + action);
+  getControl(id: string) {
+    return ApplicationService.findControlById(id);
+  }
 
+  onControlAction(controlId: string, eventName: string) {
     var control = ApplicationService.findControlById(controlId);
 
-    control.meta.supportedProperties.forEach((property, propertyKey) => {
-      var property = <IProperty<string>>control[propertyKey];
-      alert(property.getName() + '=' + property.getValue());
-    });
+    if (control.events.has(eventName)) {
+      control.events.get(eventName).getValue().forEach(
+        (action: IAction) => action.perform()
+      );
+    }
   }
 }
 

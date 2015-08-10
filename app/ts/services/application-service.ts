@@ -2,24 +2,7 @@ import { Application } from 'core/application';
 import { UtilsService } from 'services/utils-service';
 import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
 
-const MINIMAL_SERIALIZED_APPLICATION = {
-  id: UtilsService.uuid(),
-  name: '(Minimal App)',
-  description: '(Minimal App)',
-  pages: [{
-    id: UtilsService.uuid(),
-    name: '(Default Page)',
-    root: {
-      type: 'container',
-      children: [{
-        type: 'label',
-        parameters: { properties: [['text', '[Root] Label1']] }
-      }, {
-        type: 'button'
-      }]
-    }
-  }]
-};
+const BUTTON_ID = UtilsService.uuid();
 
 const DEFAULT_SERIALIZED_APPLICATION = {
   id: UtilsService.uuid(),
@@ -33,12 +16,23 @@ const DEFAULT_SERIALIZED_APPLICATION = {
       children: [{
         type: 'label',
         parameters: {
-          properties: [['text', '[Root] Label1']],
+          properties: [['text', '[Root] Label1 (click on me)']],
           styles: [
             ['color', '#0000ff'], ['text-decoration', 'line-through']
+          ],
+          events: [
+            ['click', [{
+              type: 'change-property-action',
+              properties: [
+                ['control-id', BUTTON_ID],
+                ['property-name', 'text'],
+                ['property-value', 'Victory!!!!']
+              ]
+            }]]
           ]
         }
       }, {
+        id: BUTTON_ID,
         type: 'button',
         parameters: {
           styles: [['border', '3px dashed blue']],
@@ -49,13 +43,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 ['channel', '(Default)'],
                 ['message-name', 'broadcast'],
                 ['message-data', 'Hello World']
-              ]
-            }, {
-              type: 'change-property-action',
-              properties: [
-                ['control-id', 'control-uuid'],
-                ['property-name', 'text'],
-                ['property-value', 'changed text']
               ]
             }]]
           ]
