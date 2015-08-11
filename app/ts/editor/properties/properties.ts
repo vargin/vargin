@@ -17,7 +17,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
-import { ActionEditor } from 'editor/properties/property-editors/action-editor';
+import { ActionEditor } from 'editor/properties/action-editors/action-editor';
 
 import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';

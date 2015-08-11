@@ -20,8 +20,8 @@ import { IProperty, Property } from 'core/property';
   `,
   directives: [NgFor]
 })
-export class ActionEditor {
-  private property: IProperty<Array<IAction>>;
+export class ChangePropertyActionEditor {
+  private action: IProperty<Array<IAction>>;
 
   constructor(
     @Optional() @Inject(Property) property?: IProperty<Array<IAction>>
