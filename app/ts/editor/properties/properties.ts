@@ -17,7 +17,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
-import { ActionEditor } from 'editor/properties/action-editors/action-editor';
+import { ActionList } from 'editor/properties/action-list';
 
 import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
@@ -58,7 +58,7 @@ class VarginProperties {
   private activeControl: Control;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
-  private actionEditor: ComponentRef;
+  private actionList: ComponentRef;
 
   constructor(
     @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
@@ -95,18 +95,18 @@ class VarginProperties {
   private toggleActionEditor(property: IProperty<Array<IAction>>) {
     var eventProperty = this.activeControl.events.get(property.getType());
 
-    if (this.actionEditor) {
-      this.actionEditor.instance.property = eventProperty;
+    if (this.actionList) {
+      this.actionList.instance.setProperty(eventProperty);
       return
     }
 
     this.componentLoader.loadIntoLocation(
-      ActionEditor,
+      ActionList,
       this.viewContainer.element,
       'eventssection',
        Injector.resolve([bind(Property).toValue(eventProperty)])
     ).then((component: ComponentRef) => {
-      this.actionEditor = component;
+      this.actionList = component;
     });
   }
 
@@ -127,9 +127,9 @@ class VarginProperties {
     this.activeProperties.length = 0;
     this.activeEvents.length = 0;
 
-    if (this.actionEditor) {
-      this.actionEditor.dispose();
-      this.actionEditor = null;
+    if (this.actionList) {
+      this.actionList.dispose();
+      this.actionList = null;
     }
   }
 }

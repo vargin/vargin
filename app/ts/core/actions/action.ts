@@ -1,32 +1,47 @@
+import { IProperty } from 'core/property';
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
+import { ActionMetadata } from 'core/actions/action-metadata';
+
 export interface IAction {
   name: string;
   type: string;
-  properties: Map<string, string>;
+  properties: Map<string, IProperty<string>>;
 
   perform(): Promise<boolean>;
 }
 
 export class Action implements IAction {
-  private _name: string;
-  private _type: string;
-  private _properties: Map<string, string>;
+  private _meta: ActionMetadata;
+  private _properties: Map<string, IProperty<string>>;
 
-  constructor(name: string, type: string, properties: Map<string, string>) {
-    if (!properties) {
-      throw new Error('Properties should be defined!');
-    }
+  constructor(meta: ActionMetadata, properties?: Map<string, string>) {
+    this._meta = meta;
+    this._properties = new Map();
 
-    this._name = name;
-    this._type = type;
-    this._properties = properties;
+    meta.supportedProperties.forEach((metaProperty, propertyKey) => {
+      var controlProperty = 'getOptions' in metaProperty ?
+        new ControlPropertyWithOptions(
+          <ControlPropertyWithOptions<string>>metaProperty
+        ) :
+        new ControlProperty(metaProperty);
+
+      if (properties && properties.has(propertyKey)) {
+        controlProperty.setValue(properties.get(propertyKey));
+      }
+
+      this._properties.set(propertyKey, controlProperty);
+    });
   }
 
   get name() {
-    return this._name;
+    return this._meta.name;
   }
 
   get type() {
-    return this._type;
+    return this._meta.type;
   }
 
   get properties() {

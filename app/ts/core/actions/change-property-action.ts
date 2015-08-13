@@ -1,29 +1,34 @@
+import { IProperty, Property } from 'core/property';
 import { Action } from 'core/actions/action';
+import { ActionMetadata } from 'core/actions/action-metadata';
 import { ApplicationService } from 'services/application-service';
 
-export class ChangePropertyAction<TPropertyValue> extends Action {
-  constructor(properties: Map<string, string>) {
-    super('Change Property', 'change-property-action', properties);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
+  ['control-id', new Property('Control', '', 'control')],
+  ['property-name', new Property('Property Name', '')],
+  ['property-value', new Property('Property Value', '')],
+]);
 
-    ['control-id', 'property-name', 'property-value'].forEach(
-      (parameterName) => {
-        if (!properties.has(parameterName)) {
-          throw new Error(
-            'Parameter "' + parameterName + '" is expected, but not provided!'
-          );
-        }
-      }
-    );
+const METADATA = Object.freeze(new ActionMetadata(
+  'change-property-action',
+  'Change Property',
+  'Action that allows to change any property of any control',
+  SUPPORTED_PROPERTIES
+));
+
+export class ChangePropertyAction extends Action {
+  constructor(properties?: Map<string, string>) {
+    super(METADATA, properties);
   }
 
   perform() {
     try {
       var control = ApplicationService.findControlById(
-        this.properties.get('control-id')
+        this.properties.get('control-id').getValue()
       );
 
-      control[this.properties.get('property-name')].setValue(
-        this.properties.get('property-value')
+      control[this.properties.get('property-name').getValue()].setValue(
+        this.properties.get('property-value').getValue()
       );
       return Promise.resolve(true);
     } catch(e) {
