@@ -1,6 +1,6 @@
 {
   "name": "vargin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Web IDE that helps to interactively create web mobile apps",
   "author": "Aleh Zasypkin <azasypkin>",
   "repository": "https://github.com/azasypkin/vargin.git",
