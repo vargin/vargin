@@ -23,11 +23,13 @@ body {
 .vargin-editor__components,
 .vargin-editor__workspace,
 .vargin-editor__properties {
-  border: 2px dashed red;
+  border: 1px solid #ddd;
 }
 
 .vargin-editor__workspace {
   @include flex(3);
+  border-left: none;
+  border-right: none;
 }
 
 .vargin-editor__components,

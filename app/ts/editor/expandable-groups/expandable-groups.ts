@@ -22,7 +22,7 @@ class VarginExpandableGroups {
   constructor() {
     this.groups = [{
       content: ControlGroup.get('visual'),
-      expanded: true,
+      expanded: false,
     }, {
       content: ControlGroup.get('service'),
       expanded: false
