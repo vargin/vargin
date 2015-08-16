@@ -17,6 +17,7 @@ import ColorPropertyEditor from 'editor/properties/property-editors/color-proper
 import NumberPropertyEditor from 'editor/properties/property-editors/number-property-editor';
 import StringPropertyEditor from 'editor/properties/property-editors/string-property-editor';
 import PropertyWithOptionsEditor from 'editor/properties/property-editors/property-with-options-editor';
+import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor'
 
 @Component({
   selector: 'property-editor',
@@ -66,6 +67,9 @@ class PropertyEditor {
         return NumberPropertyEditor;
       case 'options':
         return PropertyWithOptionsEditor;
+      case 'click':
+      case 'hover':
+        return EventPropertyEditor;
       default:
         return StringPropertyEditor;
     }

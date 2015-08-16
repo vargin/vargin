@@ -7,6 +7,7 @@ import {
   Inject,
   Injector,
   NgFor,
+  NgIf,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -14,62 +15,65 @@ import {
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
+import { IAction, Action } from 'core/actions/action';
 
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
-import { ActionList } from 'editor/properties/action-list';
+import { ActionEditor } from 'editor/properties/action-editor';
 
 import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
+import { ActionService } from 'services/action-service';
+
+import { IExpandableGroup } from 'editor/expandable-groups/expandable-groups';
 
 @Component({
   selector: 'vargin-properties'
 })
 @View({
   template: `
-    <section>
-      <section>
-        <header>Properties</header>
-        <property-editor *ng-for="#property of activeProperties" [property]="property">
-        </property-editor>
-      </section>
-      <section>
-        <header>Styles</header>
-        <property-editor *ng-for="#property of activeStyleProperties" [property]="property">
-        </property-editor>
-      </section>
-      <section #eventssection>
-        <header>Events</header>
-        <ul>
-          <li *ng-for="#eventProperty of activeEvents" (click)="toggleActionEditor(eventProperty)">
-            {{ eventProperty.getName() }}
+    <section #container>
+      <section class="expandable-group" *ng-for="#group of groups" [attr.aria-expanded]="group.expanded">
+        <header class="expandable-group__header" (click)="group.expanded = !group.expanded">
+          {{ group.name }}
+        </header>
+        <ul class="expandable-group__list">
+          <li class="expandable-group__item" *ng-for="#property of group.items">
+            <property-editor [property]="property"></property-editor>
           </li>
         </ul>
       </section>
-      <button (click)="removeControl()">Remove</button>
+      <button class="vargin-properties__remove-control" *ng-if="!!activeControl"
+              (click)="removeControl()">
+        Remove control
+      </button>
+      <div class="vargin-properties_empty" *ng-if="!activeControl">
+        (Select control...)
+      </div>
     </section>
   `,
-  directives: [NgFor, PropertyEditor]
+  directives: [NgFor, NgIf, PropertyEditor]
 })
 class VarginProperties {
-  private activeProperties: Array<IProperty<any>> = [];
-  private activeStyleProperties: Array<IProperty<string>> = [];
-  private activeEvents: Array<IProperty<Array<IAction>>> = [];
+  private groups: IExpandableGroup[];
   private activeControl: Control;
+  private actionEditor: ComponentRef;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
-  private actionList: ComponentRef;
 
   constructor(
     @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef
   ) {
+    this.componentLoader = componentLoader;
+    this.viewContainer = viewContainer;
+
     ControlService.controlSelected.toRx().subscribeOnNext(
       this.onControlSelected.bind(this)
     );
 
-    this.componentLoader = componentLoader;
-    this.viewContainer = viewContainer;
+    ActionService.actionSelected.toRx().subscribeOnNext(
+      this.onActionSelected.bind(this)
+    );
   }
 
   private onControlSelected(control: Control) {
@@ -77,36 +81,62 @@ class VarginProperties {
 
     this.activeControl = control;
 
-    control.meta.supportedProperties.forEach((property, propertyKey) => {
-      this.activeProperties.push(control[propertyKey]);
-    });
+    if (control.meta.supportedProperties.size) {
+      var propertyGroup = {
+        name: 'Properties',
+        expanded: false,
+        items: []
+      };
 
-    control.meta.supportedEvents.forEach((property) => {
-      this.activeEvents.push(property);
-    });
+      control.meta.supportedProperties.forEach((property, propertyKey) => {
+        propertyGroup.items.push(control[propertyKey]);
+      });
+
+      this.groups.push(propertyGroup);
+    }
 
     if (VisualControl.isVisualControl(control)) {
+      var styleGroup = {
+        name: 'Styles',
+        expanded: false,
+        items: []
+      };
+
       (<VisualControl>control).styles.forEach((property) => {
-        this.activeStyleProperties.push(property);
+        styleGroup.items.push(property);
       });
+
+      this.groups.push(styleGroup);
+    }
+
+    if (control.meta.supportedEvents.size) {
+      var eventGroup = {
+        name: 'Events',
+        expanded: false,
+        items: []
+      };
+
+      control.meta.supportedEvents.forEach((property) => {
+        eventGroup.items.push(control.events.get(property.getType()));
+      });
+
+      this.groups.push(eventGroup);
     }
   }
 
-  private toggleActionEditor(property: IProperty<Array<IAction>>) {
-    var eventProperty = this.activeControl.events.get(property.getType());
-
-    if (this.actionList) {
-      this.actionList.instance.setProperty(eventProperty);
+  private onActionSelected(action: IAction) {
+    if (this.actionEditor) {
+      this.actionEditor.instance.setAction(action);
       return
     }
 
     this.componentLoader.loadIntoLocation(
-      ActionList,
+      ActionEditor,
       this.viewContainer.element,
-      'eventssection',
-       Injector.resolve([bind(Property).toValue(eventProperty)])
+      'container',
+      Injector.resolve([bind(Action).toValue(action)])
     ).then((component: ComponentRef) => {
-      this.actionList = component;
+      this.actionEditor = component;
     });
   }
 
@@ -123,13 +153,10 @@ class VarginProperties {
   private reset() {
     this.activeControl = null;
 
-    this.activeStyleProperties.length = 0;
-    this.activeProperties.length = 0;
-    this.activeEvents.length = 0;
+    this.groups = [];
 
-    if (this.actionList) {
-      this.actionList.dispose();
-      this.actionList = null;
+    if (this.actionEditor) {
+      this.actionEditor.dispose();
     }
   }
 }

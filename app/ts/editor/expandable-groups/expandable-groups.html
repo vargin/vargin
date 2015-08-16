@@ -1,15 +1,14 @@
 <article>
   <section class="expandable-group" *ng-for="#group of groups" [attr.aria-expanded]="group.expanded">
     <header class="expandable-group__header" (click)="toggleGroupState(group)">
-      {{ group.content.name }}
+      {{ group.name }}
     </header>
     <ul class="expandable-group__list">
-      <li
-        class="expandable-group__item"
-        draggable="true"
-        *ng-for="#item of group.content.items"
-        (dragstart)="onDragStart($event, item)">
-          {{ item.name }}
+      <li class="expandable-group__item"
+          *ng-for="#item of group.items"
+          draggable="true"
+          (dragstart)="onDragStart($event, item)">
+        {{ item.name }}
       </li>
     </ul>
   </section>

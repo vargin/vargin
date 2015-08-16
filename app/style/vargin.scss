@@ -23,6 +23,8 @@ body {
 .vargin-editor__components,
 .vargin-editor__workspace,
 .vargin-editor__properties {
+  overflow-y: auto;
+
   border: 1px solid #ddd;
 }
 
@@ -35,6 +37,15 @@ body {
 .vargin-editor__components,
 .vargin-editor__properties {
   @include flex();
+}
+
+.vargin-properties_empty {
+  padding: 1rem;
+  text-align: center;
+}
+
+.vargin-properties__remove-control {
+  margin: 1rem 0;
 }
 
 .vargin-component:-moz-drag-over {

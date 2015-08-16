@@ -4,16 +4,14 @@ import {
   Inject,
   LifecycleEvent,
   NgFor,
-  Optional,
   View
 } from 'angular2/angular2';
-import { Action } from 'core/actions/action';
+import { IAction, Action } from 'core/actions/action';
 import { IProperty, Property } from 'core/property';
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
 
 @Component({
   selector: 'vargin-action-editor',
-  properties: ['action'],
   lifecycle: [LifecycleEvent.onChange]
 })
 @View({
@@ -30,10 +28,10 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
   directives: [NgFor, PropertyEditor]
 })
 export class ActionEditor {
-  private action: Action;
+  private action: IAction;
   private actionProperties: Array<IProperty<string>> = [];
 
-  constructor(@Optional() @Inject(Action) action?: Action) {
+  constructor(@Inject(Action) action: IAction) {
     this.action = action;
 
     this.action.properties.forEach((property) => {
@@ -49,5 +47,11 @@ export class ActionEditor {
         this.actionProperties.push(property);
       });
     }
+  }
+
+  setAction(action: IAction) {
+    this.action = action;
+
+    this.onChange();
   }
 }

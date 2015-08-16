@@ -1,7 +1,10 @@
 /// <reference path="../../typings/tsd.d.ts" />
 import { bootstrap, Component, View } from 'angular2/angular2';
 
-import ExpandableGroups from 'editor/expandable-groups/expandable-groups';
+import {
+  IExpandableGroup,
+  VarginExpandableGroups
+} from 'editor/expandable-groups/expandable-groups';
 import VarginWorkspace from 'editor/workspace/workspace';
 import VarginProperties from 'editor/properties/properties';
 
@@ -17,7 +20,7 @@ import { ControlService } from 'services/control-service';
   template: `
     <article class="vargin-editor">
       <section class="vargin-editor__components">
-        <expandable-groups />
+        <expandable-groups [groups]="controlGroups" />
       </section>
       <section class="vargin-editor__workspace">
         <vargin-workspace />
@@ -27,29 +30,45 @@ import { ControlService } from 'services/control-service';
       </section>
     </article>
   `,
-  directives: [ExpandableGroups, VarginWorkspace, VarginProperties]
+  directives: [VarginExpandableGroups, VarginWorkspace, VarginProperties]
 })
 
 class Vargin {
-  constructor() {
-    ControlGroup.register(
-      'visual',
-      'Visual',
-      'Visual components',
-      [
-        ControlService.getMetadata('label'),
-        ControlService.getMetadata('button'),
-        ControlService.getMetadata('container'),
-        ControlService.getMetadata('range')
-      ]
-    );
+  private controlGroups: IExpandableGroup[];
 
-    ControlGroup.register(
-      'service',
-      'Service',
-      'Service components',
-      [ControlService.getMetadata('datasource')]
-    );
+  constructor() {
+    this.controlGroups = [
+      ControlGroup.register(
+        'visual',
+        'Visual',
+        'Visual components',
+        [
+          ControlService.getMetadata('label'),
+          ControlService.getMetadata('button'),
+          ControlService.getMetadata('container'),
+          ControlService.getMetadata('range')
+        ]
+      ),
+
+      ControlGroup.register(
+        'service',
+        'Service',
+        'Service components',
+        [ControlService.getMetadata('datasource')]
+      )
+    ].map((controlGroup) => {
+      return {
+        name: controlGroup.name,
+        expanded: false,
+        items: controlGroup.items.map((control) => {
+          return {
+            name: control.name,
+            type: control.type,
+            componentType: TestComponent
+          };
+        })
+      }
+    });
   }
 }
 
