@@ -63,8 +63,7 @@ class Vargin {
         items: controlGroup.items.map((control) => {
           return {
             name: control.name,
-            type: control.type,
-            componentType: TestComponent
+            type: control.type
           };
         })
       }
