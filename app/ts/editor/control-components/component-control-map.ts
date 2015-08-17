@@ -5,6 +5,7 @@ import ButtonComponent from 'editor/control-components/visual/button-component';
 import ContainerComponent from 'editor/control-components/visual/container-component';
 import LabelComponent from 'editor/control-components/visual/label-component';
 import RangeComponent from 'editor/control-components/visual/range-component';
+import TextInputComponent from 'editor/control-components/visual/text-input-component';
 
 class ComponentControlMap {
   static getComponentType(type: string): Type {
@@ -13,6 +14,8 @@ class ComponentControlMap {
         return ButtonComponent;
       case 'range':
         return RangeComponent;
+      case 'text-input':
+        return TextInputComponent;
       case 'label':
         return LabelComponent;
       case 'container':

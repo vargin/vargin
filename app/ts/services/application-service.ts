@@ -80,6 +80,12 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             parameters: { properties: [['text', '[Nested-1] Label2']] }
           }, {
             type: 'button'
+          }, {
+            type: 'text-input',
+            parameters: {
+              properties: [['placeholder', 'Enter text...']],
+              styles: [['color', '#dddddd']]
+            }
           }]
         }]
       }]

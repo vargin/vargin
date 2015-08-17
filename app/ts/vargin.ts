@@ -46,7 +46,8 @@ class Vargin {
           ControlService.getMetadata('label'),
           ControlService.getMetadata('button'),
           ControlService.getMetadata('container'),
-          ControlService.getMetadata('range')
+          ControlService.getMetadata('range'),
+          ControlService.getMetadata('text-input')
         ]
       ),
 
