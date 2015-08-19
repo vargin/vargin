@@ -13,14 +13,15 @@
     "gulp-plumber": "~1.0.1",
     "gulp-sourcemaps": "~1.5.2",
     "systemjs-builder": "^0.13.1",
+
     "gulp-sass": "^2.0.4",
 
     "typescript": "Microsoft/TypeScript"
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.34",
-    "systemjs": "^0.18.10",
+    "angular2": "2.0.0-alpha.35",
+    "systemjs": "^0.18.11",
     "es6-module-loader": "^0.17.6",
     "zone.js": "^0.5.2",
     "reflect-metadata": "0.1.0",
