@@ -13,8 +13,10 @@ import {
 })
 @View({
   template: `
-    <label>{{property.getName()}} &nbsp;
-      <select (change)="onChange($event.target.value)">
+    <label class="vargin-property-editor">
+      <span class="vargin-property-editor__label">{{property.getName()}}</span>
+      <select class="vargin-property-editor__input"
+              (change)="onChange($event.target.value)">
         <option
           *ng-for="#option of property.getOptions()"
           [value]="option.getValue()"

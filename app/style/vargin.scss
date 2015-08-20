@@ -88,3 +88,12 @@ vargin-range > input,
 vargin-container > div {
   @include flex;
 }
+
+.vargin-property-editor {
+  @include flexbox;
+  @include align-content(space-between);
+}
+
+.vargin-property-editor__label {
+  @include flex(1);
+}

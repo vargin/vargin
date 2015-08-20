@@ -9,11 +9,11 @@ import { IProperty, Property } from 'core/property';
 })
 @View({
   template: `
-    <label>{{property.getName()}} &nbsp;
-      <input type="text"
-        [value]="property.getValue()"
-        (change)="onChange($event.target.value)"
-      />
+    <label class="vargin-property-editor">
+      <span class="vargin-property-editor__label">{{property.getName()}}</span>
+      <input class="vargin-property-editor__input" type="text"
+             [value]="property.getValue()"
+             (change)="onChange($event.target.value)" />
     </label>`
 })
 class StringPropertyEditor {
