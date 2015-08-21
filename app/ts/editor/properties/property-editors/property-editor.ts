@@ -69,6 +69,7 @@ class PropertyEditor {
         return PropertyWithOptionsEditor;
       case 'click':
       case 'hover':
+      case 'change':
         return EventPropertyEditor;
       default:
         return StringPropertyEditor;

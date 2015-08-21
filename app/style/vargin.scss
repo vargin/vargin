@@ -92,8 +92,15 @@ vargin-container > div {
 .vargin-property-editor {
   @include flexbox;
   @include align-content(space-between);
+  @include align-items(center);
 }
 
 .vargin-property-editor__label {
   @include flex(1);
+}
+
+.vargin-property-editor__input {
+  width: 50%;
+
+  box-sizing: border-box;
 }

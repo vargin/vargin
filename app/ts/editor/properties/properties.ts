@@ -157,6 +157,7 @@ class VarginProperties {
 
     if (this.actionEditor) {
       this.actionEditor.dispose();
+      this.actionEditor = null;
     }
   }
 }
