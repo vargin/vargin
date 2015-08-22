@@ -58,44 +58,6 @@ var ng2Builder = new Builder({
   defaultJSExtensions: true
 });
 
-var appBuilder = new Builder({
-  transpiler: 'typescript',
-
-  paths: {
-    '*': 'app/ts/*.ts',
-    'typescript': 'node_modules/typescript/lib/typescript.js'
-  },
-
-  meta: {
-    'angular2/*': {
-      build: false
-    }
-  },
-
-  // Don't work until the following issues are resolved:
-  // https://github.com/systemjs/builder/issues/177
-  // https://github.com/Microsoft/TypeScript/issues/3363
-  sourceMaps: true
-});
-
-var angularCompilerAppBuilder = new Builder({
-  transpiler: 'typescript',
-
-  paths: {
-    '*': 'app/ts/*.ts',
-    'typescript': 'node_modules/typescript/lib/typescript.js'
-  },
-
-  meta: {
-    'angular2/*': {
-      build: false
-    },
-    'app-description': {
-      build: false
-    }
-  }
-});
-
 gulp.task('clean.dev', function (done) {
   del(PATH.dest.dev.all, done);
 });
@@ -121,6 +83,26 @@ gulp.task('build.dev.index', function() {
 });
 
 gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.index'], function() {
+  var appBuilder = new Builder({
+    transpiler: 'typescript',
+
+    paths: {
+      '*': 'app/ts/*.ts',
+      'typescript': 'node_modules/typescript/lib/typescript.js'
+    },
+
+    meta: {
+      'angular2/*': {
+        build: false
+      }
+    },
+
+    // Don't work until the following issues are resolved:
+    // https://github.com/systemjs/builder/issues/177
+    // https://github.com/Microsoft/TypeScript/issues/3363
+    sourceMaps: true
+  });
+
   return appBuilder.build('vargin', PATH.dest.dev.all + '/vargin.js', {});
 });
 
@@ -136,13 +118,29 @@ gulp.task('build.dev.angular-compiler.libs', function() {
 
 gulp.task('build.dev.angular-compiler.ng2', function () {
   return ng2Builder.build(
-    'angular2/angular2',
-    PATH.dest.dev.ngCompiler.lib + '/angular2.js',
-    {}
+    'angular2/angular2', PATH.dest.dev.ngCompiler.lib + '/angular2.js', {}
   );
 });
 
 gulp.task('build.dev.angular-compiler.app', function() {
+  var angularCompilerAppBuilder = new Builder({
+    transpiler: 'typescript',
+
+    paths: {
+      '*': 'app/ts/*.ts',
+      'typescript': 'node_modules/typescript/lib/typescript.js'
+    },
+
+    meta: {
+      'angular2/*': {
+        build: false
+      },
+      'app-description': {
+        build: false
+      }
+    }
+  });
+
   return angularCompilerAppBuilder.build(
     'compilers/dom/dom-angular/template/app-controller',
     PATH.dest.dev.ngCompiler.all + '/app-controller.js',
@@ -168,5 +166,5 @@ gulp.task('build.dev', function(done) {
 });
 
 gulp.task('default', ['build.dev'], function () {
-  gulp.watch('./app/**', ['build.dev']);
+  gulp.watch('./app/**', ['build.dev.app', 'build.dev.angular-compiler']);
 });
