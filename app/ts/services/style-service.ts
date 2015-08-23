@@ -12,6 +12,17 @@ import {
 
 const STYLES = new Map<string, IProperty<string>>([
   [
+    'align-items',
+    new PropertyWithOptions('Align items', [
+      new Property('Start', 'flex-start'),
+      new Property('End', 'flex-end'),
+      new Property('Center', 'center'),
+      new Property('Baseline', 'baseline'),
+      new Property('Stretch', 'stretch'),
+      new Property('Inherit', 'inherit')
+    ], 'stretch',  'align-items')
+  ],
+  [
     'background-color',
     new Property('Background color', 'inherit', 'background-color')
   ],
@@ -28,6 +39,31 @@ const STYLES = new Map<string, IProperty<string>>([
       new Property('Inherit', 'inherit'),
       new Property('Unset', 'unset')
     ], 'inline', 'display')
+  ],
+  [
+    'flex-direction',
+    new PropertyWithOptions('Flex direction', [
+      new Property('Row', 'row'),
+      new Property('Row Reverse', 'row-reverse'),
+      new Property('Column', 'column'),
+      new Property('Column Reverse', 'column-reverse'),
+      new Property('Inherit', 'inherit'),
+      new Property('Initial', 'initial'),
+      new Property('Unset', 'unset')
+    ], 'row',  'flex-direction')
+  ],
+  [
+    'justify-content',
+    new PropertyWithOptions('Justify content', [
+      new Property('Start', 'flex-start'),
+      new Property('End', 'flex-end'),
+      new Property('Center', 'center'),
+      new Property('Space between', 'space-between'),
+      new Property('Space around', 'space-around'),
+      new Property('Inherit', 'inherit'),
+      new Property('Initial', 'initial'),
+      new Property('Unset', 'unset')
+    ], 'flex-start',  'justify-content')
   ],
   ['min-height', new Property('Min height', '0')],
   ['min-width', new Property('Min width', '0')],

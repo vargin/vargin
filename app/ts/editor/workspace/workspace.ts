@@ -7,6 +7,9 @@ import {
   JSONApplicationCompiler
 } from 'compilers/json/json-application-compiler';
 import {
+  DOMStaticApplicationCompiler
+} from 'compilers/dom/dom-static/dom-static-application-compiler';
+import {
   DOMAngularApplicationCompiler
 } from 'compilers/dom/dom-angular/dom-angular-application-compiler';
 
@@ -27,11 +30,13 @@ import {
 class VarginWorkspace {
   private workspace: Workspace;
   private jsonCompiler: JSONApplicationCompiler;
-  private domCompiler: DOMAngularApplicationCompiler;
+  private domStaticCompiler: DOMStaticApplicationCompiler;
+  private domAngularCompiler: DOMAngularApplicationCompiler;
 
   constructor() {
     this.jsonCompiler = new JSONApplicationCompiler();
-    this.domCompiler = new DOMAngularApplicationCompiler();
+    this.domStaticCompiler = new DOMStaticApplicationCompiler();
+    this.domAngularCompiler = new DOMAngularApplicationCompiler();
 
     WorkspaceService.create(ApplicationService.current).then(
       (workspace) => this.workspace = workspace
@@ -53,7 +58,9 @@ class VarginWorkspace {
     appIframe.src = 'ng-compiler/index.html';
 
     appIframe.onload = () => {
-      var compiledApp = this.domCompiler.compile(this.workspace.application);
+      var compiledApp = this.domAngularCompiler.compile(
+        this.workspace.application
+      );
       var jsonCompiledApplication = this.jsonCompiler.compile(
         this.workspace.application
       );
@@ -82,7 +89,7 @@ class VarginWorkspace {
 
   toStaticHTML() {
     return 'data:text/html,' + encodeURIComponent(
-      this.domCompiler.compile(this.workspace.application)
+      this.domStaticCompiler.compile(this.workspace.application)
     );
   }
 }

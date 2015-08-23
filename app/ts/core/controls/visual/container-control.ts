@@ -13,6 +13,7 @@ import { StyleService } from 'services/style-service';
 import { EventService } from 'services/event-service';
 
 const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
+  ['align-items', StyleService.getDescriptor('align-items')],
   ['background-color', StyleService.getDescriptor('background-color')],
   [
     'border',
@@ -24,6 +25,8 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['display', new ControlPropertyWithOptions(
     StyleService.getDescriptor('display'), 'block'
   )],
+  ['flex-direction', StyleService.getDescriptor('flex-direction')],
+  ['justify-content', StyleService.getDescriptor('justify-content')],
   [
     'min-height',
     new ControlProperty(
