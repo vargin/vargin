@@ -104,3 +104,79 @@ vargin-container > div {
 
   box-sizing: border-box;
 }
+
+.vargin-property-editor-event {
+  .vargin-property-editor__label {
+    cursor: pointer;
+
+    text-decoration: underline;
+  }
+}
+
+.vargin-action-list__item {
+  list-style: none;
+
+  margin: 0.5rem 0;
+
+  &:hover {
+    .vargin-action-list__remove {
+      visibility: visible;
+    }
+  }
+}
+
+.vargin-action-list {
+  padding-left: 1rem;
+}
+
+.vargin-action-list__remove {
+  visibility: hidden;
+
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  color: #000;
+
+  cursor: pointer;
+}
+
+vargin-action-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.vargin-action-editor__content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  border: 1px solid #ddd;
+  background: #fff;
+
+  margin: auto;
+  padding: 1rem;
+
+  width: 20rem;
+  height: 20rem;
+}
+
+.vargin-action-editor__properties {
+  padding: 0;
+
+  color: #5A5A5A;
+}
+
+.vargin-action-editor__property {
+  margin: 0.5rem 0;
+  list-style: none;
+}

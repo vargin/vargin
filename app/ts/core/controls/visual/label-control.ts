@@ -10,7 +10,8 @@ import { StyleService } from 'services/style-service';
 import { EventService } from 'services/event-service';
 
 const SUPPORTED_PROPERTIES =  new Map<string, IProperty<string>>([
-  ['text', new Property('Text', '[Text]')]
+  ['text', new Property('Text', '[Text]')],
+  ['title', new Property('Title', '[Title]')]
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
@@ -45,6 +46,10 @@ export class LabelControl extends VisualControl {
 
   get text() {
     return this._properties.get('text');
+  }
+
+  get title() {
+    return this._properties.get('title');
   }
 
   static getMeta() {

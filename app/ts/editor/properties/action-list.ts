@@ -18,12 +18,16 @@ import { ChangePropertyAction } from 'core/actions/change-property-action';
 @View({
   template: `
     <section>
-      <header>Actions for "{{ property.getName() }}"</header>
-      <ul #actioneditor>
-        <li *ng-for="#action of property.getValue()">
-          {{ action.name }} <button (click)="editAction(action)">Edit</button>
+      <ul class="vargin-action-list" #actioneditor>
+        <li class="vargin-action-list__item"
+            *ng-for="#action of property.getValue()">
+          <span (click)="editAction(action)">{{ action.name }}</span>
+          <button class="vargin-action-list__remove"
+                  (click)="removeAction(action)">
+            &#x274c;
+          </button>
         </li>
-        <li>
+        <li class="vargin-action-list__item">
           <select #newaction (change)="addNewAction(newaction)">
             <option value="default" selected="{{isDefaultSelected}}">
               (+ Choose new action)
@@ -62,5 +66,10 @@ export class ActionList {
 
   editAction(action: IAction) {
     ActionService.selectAction(action);
+  }
+
+  removeAction(action: IAction) {
+    var propertyActions = this.property.getValue();
+    propertyActions.splice(propertyActions.indexOf(action), 1);
   }
 }

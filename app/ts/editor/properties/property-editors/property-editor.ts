@@ -25,7 +25,7 @@ import EventPropertyEditor from 'editor/properties/property-editors/event-proper
   lifecycle: [LifecycleEvent.onChange]
 })
 @View({
-  template: `<div #container></div>`
+  template: `<div #container hidden></div>`
 })
 class PropertyEditor {
   private loader: DynamicComponentLoader;

@@ -32,12 +32,41 @@ import { IExpandableGroup } from 'editor/expandable-groups/expandable-groups';
 @View({
   template: `
     <section #container>
-      <section class="expandable-group" *ng-for="#group of groups" [attr.aria-expanded]="group.expanded">
-        <header class="expandable-group__header" (click)="group.expanded = !group.expanded">
-          {{ group.name }}
+      <section class="expandable-group"
+               *ng-if="!!groups.properties.items.length"
+               [attr.aria-expanded]="groups.properties.expanded">
+        <header class="expandable-group__header"
+                (click)="groups.properties.expanded = !groups.properties.expanded">
+          {{ groups.properties.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of group.items">
+          <li class="expandable-group__item" *ng-for="#property of groups.properties.items">
+            <property-editor [property]="property"></property-editor>
+          </li>
+        </ul>
+      </section>
+      <section class="expandable-group"
+               *ng-if="!!groups.styles.items.length"
+               [attr.aria-expanded]="groups.styles.expanded">
+        <header class="expandable-group__header"
+                (click)="groups.styles.expanded = !groups.styles.expanded">
+          {{ groups.styles.name }}
+        </header>
+        <ul class="expandable-group__list">
+          <li class="expandable-group__item" *ng-for="#property of groups.styles.items">
+            <property-editor [property]="property"></property-editor>
+          </li>
+        </ul>
+      </section>
+      <section class="expandable-group"
+               *ng-if="!!groups.events.items.length"
+               [attr.aria-expanded]="groups.events.expanded">
+        <header class="expandable-group__header"
+                (click)="groups.events.expanded = !groups.events.expanded">
+          {{ groups.events.name }}
+        </header>
+        <ul class="expandable-group__list">
+          <li class="expandable-group__item" *ng-for="#property of groups.events.items">
             <property-editor [property]="property"></property-editor>
           </li>
         </ul>
@@ -54,11 +83,19 @@ import { IExpandableGroup } from 'editor/expandable-groups/expandable-groups';
   directives: [NgFor, NgIf, PropertyEditor]
 })
 class VarginProperties {
-  private groups: IExpandableGroup[];
   private activeControl: Control;
   private actionEditor: ComponentRef;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
+  private groups: {
+    properties: IExpandableGroup,
+    styles: IExpandableGroup,
+    events: IExpandableGroup
+  } = {
+    properties: null,
+    styles: null,
+    events: null
+  };
 
   constructor(
     @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
@@ -74,6 +111,24 @@ class VarginProperties {
     ActionService.actionSelected.toRx().subscribeOnNext(
       this.onActionSelected.bind(this)
     );
+
+    this.groups.properties = {
+      name: 'Properties',
+      expanded: false,
+      items: []
+    };
+
+    this.groups.styles = {
+      name: 'Styles',
+      expanded: false,
+      items: []
+    };
+
+    this.groups.events = {
+      name: 'Events',
+      expanded: false,
+      items: []
+    };
   }
 
   private onControlSelected(control: Control) {
@@ -82,45 +137,21 @@ class VarginProperties {
     this.activeControl = control;
 
     if (control.meta.supportedProperties.size) {
-      var propertyGroup = {
-        name: 'Properties',
-        expanded: false,
-        items: []
-      };
-
       control.meta.supportedProperties.forEach((property, propertyKey) => {
-        propertyGroup.items.push(control[propertyKey]);
+        this.groups.properties.items.push(control[propertyKey]);
       });
-
-      this.groups.push(propertyGroup);
     }
 
     if (VisualControl.isVisualControl(control)) {
-      var styleGroup = {
-        name: 'Styles',
-        expanded: false,
-        items: []
-      };
-
       (<VisualControl>control).styles.forEach((property) => {
-        styleGroup.items.push(property);
+        this.groups.styles.items.push(property);
       });
-
-      this.groups.push(styleGroup);
     }
 
     if (control.meta.supportedEvents.size) {
-      var eventGroup = {
-        name: 'Events',
-        expanded: false,
-        items: []
-      };
-
       control.meta.supportedEvents.forEach((property) => {
-        eventGroup.items.push(control.events.get(property.getType()));
+        this.groups.events.items.push(control.events.get(property.getType()));
       });
-
-      this.groups.push(eventGroup);
     }
   }
 
@@ -134,7 +165,10 @@ class VarginProperties {
       ActionEditor,
       this.viewContainer.element,
       'container',
-      Injector.resolve([bind(Action).toValue(action)])
+      Injector.resolve([
+        bind(Action).toValue(action),
+        bind(Function).toValue(this.disposeActionEditor.bind(this))
+      ])
     ).then((component: ComponentRef) => {
       this.actionEditor = component;
     });
@@ -150,15 +184,21 @@ class VarginProperties {
     this.reset();
   }
 
-  private reset() {
-    this.activeControl = null;
-
-    this.groups = [];
-
+  private disposeActionEditor() {
     if (this.actionEditor) {
       this.actionEditor.dispose();
       this.actionEditor = null;
     }
+  }
+
+  private reset() {
+    this.activeControl = null;
+
+    Object.keys(this.groups).forEach((groupKey) => {
+      this.groups[groupKey].items = [];
+    });
+
+   this.disposeActionEditor();
   }
 }
 

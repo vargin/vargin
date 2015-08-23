@@ -21,11 +21,10 @@ import { ActionList } from 'editor/properties/action-list';
 })
 @View({
   template: `
-    <label class="vargin-property-editor" #actioncontainer>
-      <span class="vargin-property-editor__label">{{property.getName()}}</span>
-      <button class="vargin-property-editor__input"
-              type="button"
-              (click)="showActionList()">+ Add actions</button>
+    <label class="vargin-property-editor vargin-property-editor-event" #actioncontainer>
+      <span class="vargin-property-editor__label" (click)="showActionList()">
+        {{property.getName()}}
+      </span>
     </label>`
 })
 class EventPropertyEditor {

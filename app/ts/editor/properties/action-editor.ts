@@ -12,14 +12,18 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 
 @Component({
   selector: 'vargin-action-editor',
-  lifecycle: [LifecycleEvent.onChange]
+  lifecycle: [LifecycleEvent.onChange],
+  host: {
+    '(click)': 'close()'
+  }
 })
 @View({
   template: `
-    <section>
-      <header>Change action properties</header>
-      <ul>
-        <li *ng-for="#property of actionProperties">
+    <section class="vargin-action-editor__content">
+      <header>Setup action</header>
+      <ul class="vargin-action-editor__properties">
+        <li class="vargin-action-editor__property"
+            *ng-for="#property of actionProperties">
           <property-editor [property]="property"></property-editor>
         </li>
       </ul>
@@ -30,9 +34,11 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 export class ActionEditor {
   private action: IAction;
   private actionProperties: Array<IProperty<string>> = [];
+  private close: Function;
 
-  constructor(@Inject(Action) action: IAction) {
+  constructor(@Inject(Action) action: IAction, @Inject(Function) close) {
     this.action = action;
+    this.close = close;
 
     this.action.properties.forEach((property) => {
       this.actionProperties.push(property);
