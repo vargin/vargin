@@ -35,12 +35,14 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     });
 
     control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
-      parameters.events.push([
-        eventKey,
-        control.events.get(eventKey).getValue().map(
-          (action) => this._actionCompiler.compile(action)
-        )
-      ]);
+      var actions = control.events.get(eventKey).getValue();
+
+      if (actions.length) {
+        parameters.events.push([
+          eventKey,
+          actions.map((action) => this._actionCompiler.compile(action))
+        ]);
+      }
     });
 
     if (VisualControl.isVisualControl(control)) {

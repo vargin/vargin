@@ -15,13 +15,16 @@ const SUPPORTED_PROPERTIES =  new Map<string, IProperty<string>>([
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  ['color', StyleService.getDescriptor('color')],
   [
     'background-color',
     new ControlProperty(
       StyleService.getDescriptor('background-color'), '#cccaaa'
     )
   ],
+  ['color', StyleService.getDescriptor('color')],
+  ['flex-basis', StyleService.getDescriptor('flex-basis')],
+  ['flex-grow', StyleService.getDescriptor('flex-grow')],
+  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
   ['text-decoration', StyleService.getDescriptor('text-decoration')],
 ]);
 

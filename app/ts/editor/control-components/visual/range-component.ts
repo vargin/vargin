@@ -6,6 +6,8 @@ import { RangeControl } from 'core/controls/visual/range-control';
 
 import { ControlService } from 'services/control-service';
 
+import { BaseComponent } from 'editor/control-components/base-component';
+
 @Component({
   selector: 'vargin-range',
   properties: ['control'],
@@ -17,7 +19,7 @@ import { ControlService } from 'services/control-service';
   template: `
     <input
       type="range"
-      [ng-style]="control.serializeStyles()"
+      [ng-style]="getControlStyles()"
       [min]="control.min.getValue()"
       [max]="control.max.getValue()"
       [step]="control.step.getValue()"
@@ -26,18 +28,11 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [NgStyle]
 })
-class RangeComponent {
+class RangeComponent extends BaseComponent {
   control: RangeControl;
 
   constructor(@Optional() @Inject(Control) control?: RangeControl) {
-    this.control = control || ControlService.create(RangeControl);
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    ControlService.selectControl(this.control);
+    super(control || ControlService.create(RangeControl));
   }
 }
 

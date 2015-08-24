@@ -3,11 +3,11 @@ import {
   bind,
   Component,
   DynamicComponentLoader,
+  ElementRef,
   Inject,
   Injector,
   LifecycleEvent,
-  View,
-  ViewContainerRef
+  View
 } from 'angular2/angular2';
 
 import { ControlService } from 'services/control-service';
@@ -15,25 +15,29 @@ import { ControlService } from 'services/control-service';
 import { Control } from 'core/controls/control';
 import ComponentControlMap from 'editor/control-components/component-control-map';
 
+import { BaseComponent } from 'editor/control-components/base-component';
+
 @Component({
   selector: 'vargin-dynamic',
   properties: ['control'],
   lifecycle: [LifecycleEvent.onChange]
 })
 @View({
-  template: `<div class="vargin-dynamic-anchor" #container></div>`
+  template: `<div class="vargin-dynamic-anchor" #container hidden></div>`
 })
-class DynamicComponent {
+class DynamicComponent extends BaseComponent {
   private loader: DynamicComponentLoader;
-  private viewContainer: ViewContainerRef;
+  private element: ElementRef;
   control: Control;
 
   constructor(
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
-    @Inject(ViewContainerRef) viewContainer: ViewContainerRef
+    @Inject(ElementRef) element: ElementRef
   ) {
+    super(this.control);
+
     this.loader = loader;
-    this.viewContainer = viewContainer;
+    this.element = element;
   }
 
   onChange() {
@@ -43,7 +47,7 @@ class DynamicComponent {
 
     this.loader.loadIntoLocation(
       ComponentControlMap.getComponentType(this.control.meta.type),
-      this.viewContainer.element,
+      this.element,
       'container',
       Injector.resolve([bind(Control).toValue(this.control)])
     )

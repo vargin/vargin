@@ -4,6 +4,7 @@ import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ControlService } from 'services/control-service';
+import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
   selector: 'vargin-button',
@@ -17,24 +18,17 @@ import { ControlService } from 'services/control-service';
     <button
       [title]="control.title.getValue()"
       [type]="control.type.getValue()"
-      [ng-style]="control.serializeStyles()">
+      [ng-style]="getControlStyles()">
       {{ control.text.getValue() }}
     </button>
   `,
   directives: [NgStyle]
 })
-class ButtonComponent {
+class ButtonComponent extends BaseComponent {
   control: ButtonControl;
 
   constructor(@Optional() @Inject(Control) control?: ButtonControl) {
-    this.control = control || ControlService.create(ButtonControl);
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-     e.preventDefault();
-
-     ControlService.selectControl(this.control);
+    super(control || ControlService.create(ButtonControl));
   }
 }
 

@@ -12,6 +12,7 @@ import {
 import { Control } from 'core/controls/control';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import DynamicComponent from 'editor/control-components/dynamic-component';
+import { BaseComponent } from 'editor/control-components/base-component';
 
 import { ControlService } from 'services/control-service';
 
@@ -26,23 +27,24 @@ import { ControlService } from 'services/control-service';
   template: `
     <div
       class="vargin-component"
-      [ng-style]="control.serializeStyles()"
+      [ng-style]="getControlStyles()"
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of control.getChildren()" [control]="child" attr.type="{{child.meta.type}}">
+      <vargin-dynamic *ng-for="#child of control.getChildren()"
+                      [control]="child"
+                      [ng-style]="getContainerStyles(child)"
+                      attr.type="{{child.meta.type}}">
       </vargin-dynamic>
     </div>
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-class ContainerComponent {
+class ContainerComponent extends BaseComponent {
   control: ContainerControl;
 
-  constructor(
-    @Optional() @Inject(Control) control?: ContainerControl
-  ) {
-    this.control = control || ControlService.create(ContainerControl);
+  constructor(@Optional() @Inject(Control) control?: ContainerControl) {
+    super(control || ControlService.create(ContainerControl));
   }
 
   onDragOver(e: DragEvent) {
@@ -58,13 +60,6 @@ class ContainerComponent {
       ControlService.createByType(e.dataTransfer.getData('text/plain'))
     );
     e.preventDefault();
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    ControlService.selectControl(this.control);
   }
 }
 

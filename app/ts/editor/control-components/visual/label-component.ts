@@ -5,6 +5,8 @@ import { Control } from 'core/controls/control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { ControlService } from 'services/control-service';
 
+import { BaseComponent } from 'editor/control-components/base-component';
+
 @Component({
   selector: 'vargin-label',
   properties: ['control'],
@@ -14,24 +16,17 @@ import { ControlService } from 'services/control-service';
 })
 @View({
   template: `
-    <span [ng-style]="control.serializeStyles()">
+    <span [ng-style]="getControlStyles()">
     {{ control.text.getValue() }}
     </span>
   `,
   directives: [NgStyle]
 })
-class LabelComponent {
+class LabelComponent extends BaseComponent {
   control: LabelControl;
 
   constructor(@Optional() @Inject(Control) control?: LabelControl) {
-    this.control = control || ControlService.create(LabelControl);
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    ControlService.selectControl(this.control);
+    super(control || ControlService.create(LabelControl));
   }
 }
 

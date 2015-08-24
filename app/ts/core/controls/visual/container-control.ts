@@ -25,7 +25,10 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['display', new ControlPropertyWithOptions(
     StyleService.getDescriptor('display'), 'block'
   )],
+  ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-direction', StyleService.getDescriptor('flex-direction')],
+  ['flex-grow', StyleService.getDescriptor('flex-grow')],
+  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
   ['justify-content', StyleService.getDescriptor('justify-content')],
   [
     'min-height',

@@ -43,16 +43,6 @@ export class VisualControl extends Control {
     return this._styles;
   }
 
-  serializeStyles(): { [key: string]: string; }{
-    var serializedStyles = <{ [key: string]: string; }>{};
-
-    this._styles.forEach((styleProperty, styleKey) => {
-      serializedStyles[styleKey] = styleProperty.getValue();
-    });
-
-    return serializedStyles;
-  }
-
   static isVisualControl(control: Control) {
     return 'styles' in control;
   }

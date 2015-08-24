@@ -40,6 +40,7 @@ const STYLES = new Map<string, IProperty<string>>([
       new Property('Unset', 'unset')
     ], 'inline', 'display')
   ],
+  ['flex-basis', new Property('Flex basis', 'auto')],
   [
     'flex-direction',
     new PropertyWithOptions('Flex direction', [
@@ -52,6 +53,8 @@ const STYLES = new Map<string, IProperty<string>>([
       new Property('Unset', 'unset')
     ], 'row',  'flex-direction')
   ],
+  ['flex-grow', new Property('Flex grow', '0')],
+  ['flex-shrink', new Property('Flex shrink', '1')],
   [
     'justify-content',
     new PropertyWithOptions('Justify content', [

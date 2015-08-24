@@ -6,6 +6,8 @@ import { TextInputControl} from 'core/controls/visual/text-input-control';
 
 import { ControlService } from 'services/control-service';
 
+import { BaseComponent } from 'editor/control-components/base-component';
+
 @Component({
   selector: 'vargin-text-input',
   properties: ['control'],
@@ -17,25 +19,18 @@ import { ControlService } from 'services/control-service';
   template: `
     <input
       type="text"
-      [ng-style]="control.serializeStyles()"
+      [ng-style]="getControlStyles()"
       [placeholder]="control.placeholder.getValue()"
       [value]="control.value.getValue()"
     />
   `,
   directives: [NgStyle]
 })
-class TextInputComponent {
+class TextInputComponent extends BaseComponent {
   control: TextInputControl;
 
   constructor(@Optional() @Inject(Control) control?: TextInputControl) {
-    this.control = control || ControlService.create(TextInputControl);
-  }
-
-  onClick(e) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    ControlService.selectControl(this.control);
+    super(control || ControlService.create(TextInputControl));
   }
 }
 

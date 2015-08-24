@@ -9,6 +9,7 @@ import {
 import { Control } from 'core/controls/control';
 import { DataSourceControl } from 'core/controls/service/datasource-control';
 import { ControlService } from 'services/control-service';
+import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
   selector: 'vargin-datasource',
@@ -17,11 +18,11 @@ import { ControlService } from 'services/control-service';
 @View({
   template: `<div>{{ control.meta.name }}</div>`
 })
-class DataSourceComponent{
+class DataSourceComponent extends BaseComponent {
   control: DataSourceControl;
 
   constructor(@Optional() @Inject(Control) control?: DataSourceControl) {
-    this.control = control || ControlService.create(DataSourceControl);
+    super(control || ControlService.create(DataSourceControl));
   }
 }
 
