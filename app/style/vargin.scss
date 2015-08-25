@@ -1,3 +1,4 @@
+@import 'fonts.scss';
 @import '../../node_modules/sass-flex-mixin/flex.scss';
 @import '../ts/editor/expandable-groups/expandable-groups';
 
@@ -6,6 +7,9 @@ html, body {
   width: 100%;
 
   margin: 0;
+
+  font-family: "Fira Sans", "Open Sans", sans-serif;
+  font-weight: 300;
 }
 
 body {

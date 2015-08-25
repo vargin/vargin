@@ -16,6 +16,7 @@ var PATH = {
       lib: 'dist/dev/lib',
       ng2: 'dist/dev/lib/angular2.js',
       style: 'dist/dev/style',
+      fonts: 'dist/dev/style/fonts',
       ngCompiler: {
         all: 'dist/dev/ng-compiler',
         lib: 'dist/dev/ng-compiler/lib'
@@ -70,6 +71,10 @@ gulp.task('build.dev.lib', ['build.dev.ng2'], function () {
   return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.lib));
 });
 
+gulp.task('build.dev.fonts', function () {
+  return gulp.src('./app/style/fonts/**').pipe(gulp.dest(PATH.dest.dev.fonts));
+});
+
 gulp.task('build.dev.styles', function () {
   return gulp.src('./app/style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
@@ -82,7 +87,7 @@ gulp.task('build.dev.index', function() {
   return gulp.src(['./app/index.html']).pipe(gulp.dest(PATH.dest.dev.all));
 });
 
-gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.index'], function() {
+gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.index'], function() {
   var appBuilder = new Builder({
     transpiler: 'typescript',
 
