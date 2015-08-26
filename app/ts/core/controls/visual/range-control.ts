@@ -17,7 +17,8 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  ['opacity', StyleService.getDescriptor('opacity')]
+  ['opacity', StyleService.getDescriptor('opacity')],
+  ['padding', StyleService.getDescriptor('padding')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([

@@ -18,7 +18,7 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   [
     'border',
     new ControlProperty(
-      StyleService.getDescriptor('border'), '1px solid red'
+      StyleService.getDescriptor('border'), '0.1rem solid #dddddd'
     )
   ],
   ['color', StyleService.getDescriptor('color')],
@@ -29,19 +29,16 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['flex-direction', StyleService.getDescriptor('flex-direction')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],
   ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
+  ['font-size', StyleService.getDescriptor('font-size')],
   ['justify-content', StyleService.getDescriptor('justify-content')],
   [
     'min-height',
     new ControlProperty(
-      StyleService.getDescriptor('min-height'), '5rem'
+      StyleService.getDescriptor('min-height'), '1rem'
     )
   ],
-  [
-    'min-width',
-    new ControlProperty(
-      StyleService.getDescriptor('min-width'), '5rem'
-    )
-  ]
+  ['min-width', StyleService.getDescriptor('min-width')],
+  ['padding', StyleService.getDescriptor('padding')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([

@@ -11,8 +11,8 @@ import { IAction, Action } from 'core/actions/action';
 import { BroadcastAction } from 'core/actions/broadcast-action';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['text', new Property('Text', '[Text]')],
-  ['title', new Property('Title', '[Title]')],
+  ['text', new Property('Text', '[Button]')],
+  ['title', new Property('Title', '[Button Title]')],
   ['type', new PropertyWithOptions('Type', [
     new Property('Submit', 'submit'),
     new Property('Reset', 'reset'),
@@ -21,17 +21,21 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  [
-    'background-color',
-    new ControlProperty(
-      StyleService.getDescriptor('background-color'), '#333333'
-    )
-  ],
+  ['background-color', StyleService.getDescriptor('background-color')],
+  ['background-image', StyleService.getDescriptor('background-image')],
+  ['background-position', StyleService.getDescriptor('background-position')],
+  ['background-repeat', StyleService.getDescriptor('background-repeat')],
+  ['background-size', StyleService.getDescriptor('background-size')],
   ['border', StyleService.getDescriptor('border')],
+  ['border-radius', StyleService.getDescriptor('border-radius')],
   ['color', StyleService.getDescriptor('color')],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],
-  ['flex-shrink', StyleService.getDescriptor('flex-shrink')]
+  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
+  ['font-size', StyleService.getDescriptor('font-size')],
+  ['height', StyleService.getDescriptor('height')],
+  ['line-height', StyleService.getDescriptor('line-height')],
+  ['padding', StyleService.getDescriptor('padding')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([

@@ -16,11 +16,18 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
   ['background-color', StyleService.getDescriptor('background-color')],
-  ['border', StyleService.getDescriptor('border')],
+  [
+    'border',
+    new ControlProperty(
+      StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
+    )
+  ],
   ['color', StyleService.getDescriptor('color')],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],
-  ['flex-shrink', StyleService.getDescriptor('flex-shrink')]
+  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
+  ['font-size', StyleService.getDescriptor('font-size')],
+  ['padding', StyleService.getDescriptor('padding')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([

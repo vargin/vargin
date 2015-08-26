@@ -12,8 +12,7 @@ import {
 
 const STYLES = new Map<string, IProperty<string>>([
   [
-    'align-items',
-    new PropertyWithOptions('Align items', [
+    'align-items', new PropertyWithOptions('Align items', [
       new Property('Start', 'flex-start'),
       new Property('End', 'flex-end'),
       new Property('Center', 'center'),
@@ -24,9 +23,44 @@ const STYLES = new Map<string, IProperty<string>>([
   ],
   [
     'background-color',
-    new Property('Background color', 'inherit', 'background-color')
+    new Property('Background color', 'transparent', 'background-color')
+  ],
+  ['background-image', new Property('Background image', '', 'image')],
+  [
+    'background-position',
+    new PropertyWithOptions('Background position', [
+      new Property('Top', 'top'),
+      new Property('Left', 'Left'),
+      new Property('Right', 'right'),
+      new Property('Bottom', 'bottom'),
+      new Property('Center', 'center')
+    ], 'center')
+  ],
+  [
+    'background-repeat',
+    new PropertyWithOptions('Background repeat', [
+      new Property('Repeat', 'repeat'),
+      new Property('Repeat-X', 'repeat-x'),
+      new Property('Repeat-Y', 'repeat-y'),
+      new Property('Space', 'space'),
+      new Property('Round', 'round'),
+      new Property('No-Repeat', 'no-repeat'),
+      new Property('Inherit', 'inherit')
+    ], 'repeat')
+  ],
+  [
+    'background-size',
+    new PropertyWithOptions('Background size', [
+      new Property('Auto', 'auto'),
+      new Property('Cover', 'cover'),
+      new Property('Contain', 'contain'),
+      new Property('50% Auto', '50% auto'),
+      new Property('Auto 50%', 'auto 50%'),
+      new Property('Inherit', 'inherit')
+    ], 'auto')
   ],
   ['border', new Property('Border', 'none', 'border')],
+  ['border-radius', new Property('Border radius', '0')],
   ['color', new Property('Text color', 'inherit', 'color')],
   [
     'display',
@@ -40,6 +74,7 @@ const STYLES = new Map<string, IProperty<string>>([
       new Property('Unset', 'unset')
     ], 'inline', 'display')
   ],
+  ['height', new Property('Height', 'auto')],
   ['flex-basis', new Property('Flex basis', 'auto')],
   [
     'flex-direction',
@@ -55,6 +90,7 @@ const STYLES = new Map<string, IProperty<string>>([
   ],
   ['flex-grow', new Property('Flex grow', '0')],
   ['flex-shrink', new Property('Flex shrink', '1')],
+  ['font-size', new Property('Font size', 'inherit')],
   [
     'justify-content',
     new PropertyWithOptions('Justify content', [
@@ -68,9 +104,11 @@ const STYLES = new Map<string, IProperty<string>>([
       new Property('Unset', 'unset')
     ], 'flex-start',  'justify-content')
   ],
+  ['line-height', new Property('Line height', 'auto')],
   ['min-height', new Property('Min height', '0')],
   ['min-width', new Property('Min width', '0')],
   ['opacity', new Property('Opacity', '1', 'opacity')],
+  ['padding', new Property('Padding', '0', 'padding')],
   [
     'text-decoration',
     new PropertyWithOptions('Text decoration', [
