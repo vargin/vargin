@@ -19,9 +19,10 @@ import {
 @View({
   template: `
     <header class="workspace-toolbar">
+      <button (click)="startFromScratch()">Start from scratch</button>
       <button (click)="toJSON('a')">To JSON</button>
       <button (click)="toAngularApp()">To Angular App</button>
-      <a href="{{toStaticHTML()}}" target="_blank">Static HTML Page</a>
+      <button (click)="toStaticHTML()">To Static HTML App</button>
     </header>
     <vargin-container [control]="getRoot()"></vargin-container>
   `,
@@ -54,42 +55,41 @@ class VarginWorkspace {
   }
 
   toAngularApp() {
-    var appIframe = document.createElement('iframe');
-    appIframe.src = 'ng-compiler/index.html';
+    var compiledApp = this.domAngularCompiler.compile(
+      this.workspace.application
+    );
 
-    appIframe.onload = () => {
-      var compiledApp = this.domAngularCompiler.compile(
-        this.workspace.application
-      );
-      var jsonCompiledApplication = this.jsonCompiler.compile(
-        this.workspace.application
-      );
+    var jsonCompiledApplication = this.jsonCompiler.compile(
+      this.workspace.application
+    );
 
-      var bootstrapScript = document.createElement('script');
-      bootstrapScript.text = `
-        System.register("app-description", [], function(exports) {
-          return {
-            setters: [],
-            execute: function() {
-              exports('markup', '${compiledApp}');
-              exports('application', '${jsonCompiledApplication}')
-            }
-          }
-        });
-        System.import(
-          'compilers/dom/dom-angular/template/app-controller'
-        ).catch(function(e) { console.error(e); })
-      `;
+    var angularAppWindow = window.open(
+      'ng-compiler/index.html?ts=' + Date.now()
+    );
 
-      appIframe.contentDocument.head.appendChild(bootstrapScript);
-    };
+    angularAppWindow.addEventListener('load', function onAppWindowLoad() {
+      angularAppWindow.removeEventListener('load', onAppWindowLoad);
 
-    document.body.appendChild(appIframe);
+      angularAppWindow.postMessage({
+        compiledApp: compiledApp,
+        jsonCompiledApplication: jsonCompiledApplication
+      }, '*');
+    });
   }
 
   toStaticHTML() {
-    return 'data:text/html,' + encodeURIComponent(
-      this.domStaticCompiler.compile(this.workspace.application)
+    window.open(
+      'data:text/html,' + encodeURIComponent(
+        this.domStaticCompiler.compile(this.workspace.application)
+      )
+    );
+  }
+
+  startFromScratch() {
+    ApplicationService.reset();
+
+    WorkspaceService.create(ApplicationService.current).then(
+      (workspace) => this.workspace = workspace
     );
   }
 }

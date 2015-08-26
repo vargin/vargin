@@ -11,6 +11,25 @@
     <script src="./app-controller.js"></script>
 </head>
 <body>
-    <angular-app></angular-app>
+  <angular-app></angular-app>
+  <script>
+    window.addEventListener('message', function onBootstrapMessage(e) {
+      window.removeEventListener('message', onBootstrapMessage);
+
+      System.register('app-description', [], function(exports) {
+        return {
+          setters: [],
+          execute: function() {
+            exports('markup', e.data.compiledApp);
+            exports('application', e.data.jsonCompiledApplication)
+          }
+        }
+      });
+
+      System.import(
+        'compilers/dom/dom-angular/template/app-controller'
+      ).catch(function(e) { console.error(e); })
+    })
+  </script>
 </body>
 </html>

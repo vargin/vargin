@@ -10,8 +10,7 @@ export class DOMAngularControlCompiler<TControl extends Control>
     control.events.forEach((actions, eventKey) => {
       if (actions.getValue().length) {
         eventHandlers.push([
-          `(${eventKey})`,
-          `onControlAction(\\'${control.id}\\', \\'${eventKey}\\')`
+          `(${eventKey})`, `onControlAction(\'${control.id}\', \'${eventKey}\')`
         ]);
       }
     });
@@ -20,6 +19,6 @@ export class DOMAngularControlCompiler<TControl extends Control>
   }
 
   protected getDynamicPropertyValue(control, propertyName) {
-    return `{{getControl(\\'${control.id}\\').${propertyName}.getValue()}}`;
+    return `{{getControl(\'${control.id}\').${propertyName}.getValue()}}`;
   }
 }
