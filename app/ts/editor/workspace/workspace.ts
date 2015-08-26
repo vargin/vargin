@@ -49,8 +49,10 @@ class VarginWorkspace {
   }
 
   toJSON() {
-    console.log(
-      'JSON control: %s', this.jsonCompiler.compile(this.workspace.application)
+    window.open(
+      'data:application/json,' + encodeURIComponent(
+        this.jsonCompiler.compile(this.workspace.application)
+      )
     );
   }
 
