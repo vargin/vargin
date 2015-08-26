@@ -3,10 +3,12 @@ import { EventEmitter } from 'angular2/angular2';
 
 import { IAction } from 'core/actions/action';
 
+import { AlertAction } from 'core/actions/alert-action';
 import { BroadcastAction } from 'core/actions/broadcast-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
 
 const ACTIONS = new Map<string, any>([
+  ['alert-action', AlertAction],
   ['broadcast-action', BroadcastAction],
   ['change-property-action', ChangePropertyAction]
 ]);

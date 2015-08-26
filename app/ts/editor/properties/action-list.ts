@@ -10,6 +10,7 @@ import { IProperty, Property } from 'core/property';
 
 import { ActionService } from 'services/action-service';
 
+import { AlertAction } from 'core/actions/alert-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
 
 @Component({
@@ -32,6 +33,7 @@ import { ChangePropertyAction } from 'core/actions/change-property-action';
             <option value="default" selected="{{isDefaultSelected}}">
               (+ Choose new action)
             </option>
+            <option value="alert-action">Alert</option>
             <option value="change-property-action">Change property</option>
           </select>
         </li>
@@ -50,6 +52,9 @@ export class ActionList {
 
   addNewAction(newActionSelect) {
     switch (newActionSelect.value) {
+      case 'alert-action':
+        this.property.getValue().push(new AlertAction());
+        break;
       case 'change-property-action':
         this.property.getValue().push(
           new ChangePropertyAction()
