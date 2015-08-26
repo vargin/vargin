@@ -78,6 +78,7 @@ import { IExpandableGroup } from 'editor/expandable-groups/expandable-groups';
       <div class="vargin-properties_empty" *ng-if="!activeControl">
         (Select control...)
       </div>
+      <div><strong>{{getControlId()}}</strong></div>
     </section>
   `,
   directives: [NgFor, NgIf, PropertyEditor]
@@ -113,19 +114,19 @@ class VarginProperties {
     );
 
     this.groups.properties = {
-      name: 'Properties',
+      name: 'Common Properties',
       expanded: false,
       items: []
     };
 
     this.groups.styles = {
-      name: 'Styles',
+      name: 'Appearance',
       expanded: false,
       items: []
     };
 
     this.groups.events = {
-      name: 'Events',
+      name: 'Action',
       expanded: false,
       items: []
     };
@@ -172,6 +173,10 @@ class VarginProperties {
     ).then((component: ComponentRef) => {
       this.actionEditor = component;
     });
+  }
+
+  private getControlId() {
+    return this.activeControl && this.activeControl.id;
   }
 
   private removeControl() {

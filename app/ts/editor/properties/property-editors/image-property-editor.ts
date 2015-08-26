@@ -1,0 +1,36 @@
+/// <reference path="../../../../../typings/tsd.d.ts" />
+import { Component, Inject, Optional, View } from 'angular2/angular2';
+
+import { IProperty, Property } from 'core/property';
+
+@Component({
+  selector: 'image-property-editor',
+  properties: ['property']
+})
+@View({
+  template: `
+    <label class="vargin-property-editor">
+      <span class="vargin-property-editor__label">{{property.getName()}}</span>
+      <input #picker type="file" accept="image/*"
+             (change)="onChange($event.target.files[0])"/>
+      <button class="vargin-property-editor__input"
+              (click)="picker.click()">
+        Browse...
+      </button>
+    </label>`
+})
+class ImagePropertyEditor {
+  private property: IProperty<string>;
+
+  constructor(@Inject(Property) property: IProperty<string>) {
+    this.property = property;
+  }
+
+  onChange(value: Blob) {
+    var reader  = new FileReader();
+    reader.onloadend = () => this.property.setValue(`url(${reader.result})`);
+    reader.readAsDataURL(value);
+  }
+}
+
+export default ImagePropertyEditor;

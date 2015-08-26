@@ -182,3 +182,7 @@ vargin-action-editor {
   margin: 0.5rem 0;
   list-style: none;
 }
+
+image-property-editor input[type=file] {
+  display: none;
+}

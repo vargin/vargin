@@ -17,7 +17,8 @@ import ColorPropertyEditor from 'editor/properties/property-editors/color-proper
 import NumberPropertyEditor from 'editor/properties/property-editors/number-property-editor';
 import StringPropertyEditor from 'editor/properties/property-editors/string-property-editor';
 import PropertyWithOptionsEditor from 'editor/properties/property-editors/property-with-options-editor';
-import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor'
+import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor';
+import ImagePropertyEditor from 'editor/properties/property-editors/image-property-editor';
 
 @Component({
   selector: 'property-editor',
@@ -71,6 +72,8 @@ class PropertyEditor {
       case 'hover':
       case 'change':
         return EventPropertyEditor;
+      case 'image':
+        return ImagePropertyEditor;
       default:
         return StringPropertyEditor;
     }
