@@ -3,7 +3,7 @@ __Vargin__ is easy to use Web IDE that allows you to create mobile/desktop web a
 based on widely known component architecture. You don't have to be developer to
 get started as creating new app is as simple as just adding functional pieces via
 drag&drop from available list of visual (button, form, header, ...) and service
-(device camera or mic, Bluetooth LE, any web service integration, ...) components.
+(device camera or mic, Bluetooth LE, any web service integration and etc.) components.
 
 Using full power of modern web browser you can customize and style your components
 as much as you wish!
