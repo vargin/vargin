@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Component, View } from 'angular2/angular2';
+import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 import ContainerComponent from 'editor/control-components/visual/container-component';
 import { ApplicationService } from 'services/application-service';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
@@ -18,18 +18,35 @@ import {
 })
 @View({
   template: `
-    <header class="workspace-toolbar">
+    <ul class="workspace-pager">
+      <li class="workspace-pager__page{{activePageIndex === i ? ' workspace-pager__page_active' : ''}}"
+          *ng-for="#page of workspace.application.pages; #i = index"
+          (click)="activePageIndex = i">
+        {{page.name}}
+        <button class="workspace-pager__page__remove" title="Remove page"
+                *ng-if="workspace.application.pages.length > 1"
+                (click)="removePage(page.id)">&#x274c;</button>
+      </li>
+      <li class="workspace-pager__add-new">
+        <button (click)="addPage()">+ Add page</button>
+      </li>
+    </ul>
+    <section class="workspace-editor">
+      <vargin-container [control]="getRoot()"></vargin-container>
+    </section>
+    <footer class="workspace-toolbar">
       <button (click)="startFromScratch()">Start from scratch</button>
       <button (click)="toJSON('a')">To JSON</button>
       <button (click)="toAngularApp()">To Angular App</button>
       <button (click)="toStaticHTML()">To Static HTML App</button>
-    </header>
-    <vargin-container [control]="getRoot()"></vargin-container>
+    </footer>
   `,
-  directives: [ContainerComponent]
+  directives: [ContainerComponent, NgFor, NgIf]
 })
 class VarginWorkspace {
   private workspace: Workspace;
+  private activePageIndex: number = 0;
+
   private jsonCompiler: JSONApplicationCompiler;
   private domStaticCompiler: DOMStaticApplicationCompiler;
   private domAngularCompiler: DOMAngularApplicationCompiler;
@@ -44,8 +61,20 @@ class VarginWorkspace {
     );
   }
 
+  addPage() {
+    this.workspace.application.addPage();
+  }
+
+  removePage(pageId) {
+    this.workspace.application.removePage(pageId);
+
+    if (this.activePageIndex >= this.workspace.application.pages.length) {
+      this.activePageIndex = this.workspace.application.pages.length - 1;
+    }
+  }
+
   getRoot() {
-    return this.workspace.application.pages[0].root;
+    return this.workspace.application.pages[this.activePageIndex].root;
   }
 
   toJSON() {
@@ -88,6 +117,8 @@ class VarginWorkspace {
   }
 
   startFromScratch() {
+    this.activePageIndex = 0;
+
     ApplicationService.reset();
 
     WorkspaceService.create(ApplicationService.current).then(

@@ -9,23 +9,22 @@
 }
 
 .expandable-group__header {
-  background-color: #38cc70;
-  color: #fff;
-  border-bottom: 0.1rem solid #30bb64;
+  background-color: #eee;
+  border-bottom: 0.1rem solid #ddd;
   cursor: pointer;
 
   padding: 0.5rem;
 
   &:hover {
-    background-color: #2ba659;
+    background-color: #ddd;
   }
 
   &::before {
     content: "+";
-    font-size: 1rem;
+    font-size: 1.4rem;
     line-height: 1.2rem;
 
-    margin-right: 0.1rem;
+    margin-right: 0.2rem;
 
     float: left;
 

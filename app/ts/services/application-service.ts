@@ -58,6 +58,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             ['border', 'none'],
             ['display', 'flex'],
             ['justify-content', 'space-between'],
+            ['min-height', '0'],
             ['padding', '0.2rem 0.3rem']
           ]
         }
@@ -114,6 +115,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             ['background-color', '#f2f2f2'],
             ['border', 'none'],
             ['display', 'flex'],
+            ['min-height', '0'],
             ['padding', '0.2rem 0.3rem']
           ]
         }
@@ -230,13 +232,7 @@ const EMPTY_SERIALIZED_APPLICATION = {
     name: '(Default Page)',
     root: {
       id: 'bc5bcb33-f72b-440a-b72a-6596caed8b2e',
-      type: 'container',
-      parameters: {
-        styles: [
-          ['border', '3px solid #ddd'],
-          ['min-height', '30rem']
-        ]
-      }
+      type: 'container'
     }
   }]
 };

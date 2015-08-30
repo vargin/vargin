@@ -8,6 +8,7 @@ html, body {
 
   margin: 0;
 
+  color: #333;
   font-family: "Fira Sans", "Open Sans", sans-serif;
   font-weight: 300;
 }
@@ -38,6 +39,61 @@ body {
   @include flex(3);
   border-left: none;
   border-right: none;
+}
+
+.workspace-pager {
+  margin: 0;
+  padding: 0;
+}
+
+.workspace-pager__page {
+  display: inline-block;
+
+  padding: 0.6rem;
+
+  background-color: #ddd;
+  cursor: pointer;
+  list-style: none;
+}
+
+.workspace-pager__page__remove {
+  height: 1rem;
+  margin-top: -0.2rem;
+  padding: 0 0 0 0.5rem;
+
+  color: #333;
+  background-color: transparent;
+  border: none;
+
+  cursor: pointer;
+}
+
+.workspace-pager__page_active {
+  background-color: #eee;
+}
+
+.workspace-pager__add-new {
+  display: inline-block;
+
+  padding: 0.4rem;
+
+  list-style: none;
+
+  > button {
+    padding: 0.1rem;
+
+    border: none;
+    font-size: 0.8rem;
+  }
+}
+
+.workspace-editor {
+  background-color: #eee;
+  padding: 0.5rem;
+}
+
+.workspace-toolbar {
+  margin-top: 0.5rem;
 }
 
 .vargin-editor__components,

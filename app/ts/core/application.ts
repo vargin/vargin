@@ -1,4 +1,6 @@
+import { ContainerControl } from 'core/controls/visual/container-control';
 import { ApplicationPage } from 'core/application-page';
+import { UtilsService } from 'services/utils-service';
 
 export class Application {
   private _id: string;
@@ -27,5 +29,19 @@ export class Application {
 
   get pages() {
     return this._pages;
+  }
+
+  addPage(name?: string) {
+    this.pages.push(
+      new ApplicationPage(
+        UtilsService.uuid(),
+        name || `Page #${this.pages.length}`,
+        new ContainerControl(UtilsService.uuid())
+      )
+    )
+  }
+
+  removePage(id: string) {
+    this.pages.splice(this.pages.findIndex((page) => page.id === id), 1);
   }
 }
