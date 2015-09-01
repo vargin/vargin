@@ -10,11 +10,14 @@ export class ButtonControlCompiler extends DOMAngularControlCompiler<ButtonContr
     // otherwise we should render static value.
     return this.buildHTMLElement(
       'button',
-      this.getDynamicPropertyValue(control, 'text'),
+      DOMAngularControlCompiler.getDynamicPropertyValue(control, 'text'),
       new Map([
         ['id', control.id],
         ['class', cssClass.name],
-        ['title', this.getDynamicPropertyValue(control, 'title')],
+        [
+          'title',
+          DOMAngularControlCompiler.getDynamicPropertyValue(control, 'title')
+        ],
         ['type', control.type.getValue()],
         ...this.getEventHandlers(control)
       ])

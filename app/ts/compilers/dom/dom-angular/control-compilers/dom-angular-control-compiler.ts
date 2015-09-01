@@ -18,7 +18,7 @@ export class DOMAngularControlCompiler<TControl extends Control>
     return eventHandlers;
   }
 
-  protected getDynamicPropertyValue(control, propertyName) {
+  protected static getDynamicPropertyValue(control, propertyName) {
     return `{{getControl(\'${control.id}\').${propertyName}.getValue()}}`;
   }
 }

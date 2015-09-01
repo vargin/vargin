@@ -42,23 +42,29 @@ body {
 }
 
 .workspace-pager {
+  @include flexbox;
+  @include flex-flow(wrap);
+
   margin: 0;
   padding: 0;
 }
 
 .workspace-pager__page {
   display: inline-block;
+  @include flex(1);
+  min-width: 8rem;
 
-  padding: 0.6rem;
+  padding: 0.5rem;
 
   background-color: #ddd;
+  border-bottom: 0.1rem solid #ddd;
   cursor: pointer;
   list-style: none;
 }
 
 .workspace-pager__page__remove {
+  float: right;
   height: 1rem;
-  margin-top: -0.2rem;
   padding: 0 0 0 0.5rem;
 
   color: #333;
@@ -70,6 +76,7 @@ body {
 
 .workspace-pager__page_active {
   background-color: #eee;
+  border-bottom-color: #eee;
 }
 
 .workspace-pager__add-new {
@@ -83,7 +90,7 @@ body {
     padding: 0.1rem;
 
     border: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }
 

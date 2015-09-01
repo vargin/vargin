@@ -11,7 +11,10 @@ export class TextInputControlCompiler
       ['class', cssClass.name],
       ['type', 'text'],
       ['placeholder', control.placeholder.getValue()],
-      ['value', this.getDynamicPropertyValue(control, 'value')],
+      [
+        'value',
+        DOMAngularControlCompiler.getDynamicPropertyValue(control, 'value')
+      ],
       ...this.getEventHandlers(control)
     ]));
   }
