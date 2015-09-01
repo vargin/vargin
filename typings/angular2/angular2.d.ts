@@ -1,4 +1,4 @@
-// Type definitions for Angular v2.0.0-alpha.35
+// Type definitions for Angular v2.0.0-alpha.36
 // Project: http://angular.io/
 // Definitions by: angular team <https://github.com/angular/>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
@@ -1158,9 +1158,9 @@ declare module ng {
 
     descendants: boolean;
 
-    isViewQuery: void;
+    isViewQuery: any;
 
-    selector: void;
+    selector: any;
 
     isVarBindingQuery: boolean;
 
@@ -1200,7 +1200,7 @@ declare module ng {
 
     attributeName: string;
 
-    token: void;
+    token: any;
 
     toString(): string;
   }
@@ -1250,7 +1250,7 @@ declare module ng {
    * };
    *
    * MyComponent.annotations = [
-   *   new ng.Component({...})
+   *   new ng.Component({...}),
    *   new ng.View({...})
    * ]
    * MyComponent.parameters = [
@@ -1335,7 +1335,7 @@ declare module ng {
    * };
    *
    * MyComponent.annotations = [
-   *   new ng.Component({...})
+   *   new ng.Component({...}),
    *   new ng.View({...})
    * ]
    * ```
@@ -1512,7 +1512,7 @@ declare module ng {
    * };
    *
    * MyComponent.annotations = [
-   *   new ng.Component({...})
+   *   new ng.Component({...}),
    *   new ng.View({...})
    * ]
    * ```
@@ -1585,7 +1585,7 @@ declare module ng {
    * };
    *
    * MyComponent.annotations = [
-   *   new ng.Component({...})
+   *   new ng.Component({...}),
    *   new ng.View({...})
    * ]
    * MyComponent.parameters = [
@@ -1604,7 +1604,7 @@ declare module ng {
 
 
 /**
- * {@link ViewQueryMetadata} factory function.
+ * {@link di/ViewQueryMetadata} factory function.
  */
 var ViewQuery : QueryFactory ;
 
@@ -2020,6 +2020,8 @@ interface ChangeDetectorRef {
  */
 class WrappedValue {
 
+  static wrap(value: any): WrappedValue;
+
   wrapped: any;
 }
 
@@ -2075,6 +2077,30 @@ interface PipeOnDestroy {
  */
 class IterableDiffers {
 
+  static create(factories: IterableDifferFactory[], parent?: IterableDiffers): IterableDiffers;
+
+
+  /**
+   * Takes an array of {@link IterableDifferFactory} and returns a binding used to extend the
+   * inherited {@link IterableDiffers} instance with the provided factories and return a new
+   * {@link IterableDiffers} instance.
+   *
+   * The following example shows how to extend an existing list of factories,
+   * which will only be applied to the injector for this component and its children.
+   * This step is all that's required to make a new {@link IterableDiffer} available.
+   *
+   * # Example
+   *
+   * ```
+   * @Component({
+     *   viewBindings: [
+     *     IterableDiffers.extend([new ImmutableListDiffer()])
+     *   ]
+     * })
+   * ```
+   */
+  static extend(factories: IterableDifferFactory[]): Binding;
+
   factories: IterableDifferFactory[];
 
   find(iterable: Object): IterableDifferFactory;
@@ -2103,6 +2129,30 @@ interface IterableDifferFactory {
  * A repository of different Map diffing strategies used by NgClass, NgStyle, and others.
  */
 class KeyValueDiffers {
+
+  static create(factories: KeyValueDifferFactory[], parent?: KeyValueDiffers): KeyValueDiffers;
+
+
+  /**
+   * Takes an array of {@link KeyValueDifferFactory} and returns a binding used to extend the
+   * inherited {@link KeyValueDiffers} instance with the provided factories and return a new
+   * {@link KeyValueDiffers} instance.
+   *
+   * The following example shows how to extend an existing list of factories,
+   * which will only be applied to the injector for this component and its children.
+   * This step is all that's required to make a new {@link KeyValueDiffer} available.
+   *
+   * # Example
+   *
+   * ```
+   * @Component({
+     *   viewBindings: [
+     *     KeyValueDiffers.extend([new ImmutableMapDiffer()])
+     *   ]
+     * })
+   * ```
+   */
+  static extend(factories: KeyValueDifferFactory[]): Binding;
 
   factories: KeyValueDifferFactory[];
 
@@ -2145,41 +2195,6 @@ interface KeyValueDifferFactory {
  * ```
  */
 const APP_COMPONENT : OpaqueToken ;
-
-
-/**
- * Represents a Angular's representation of an Application.
- *
- * `ApplicationRef` represents a running application instance. Use it to retrieve the host
- * component, injector,
- * or dispose of an application.
- */
-interface ApplicationRef {
-
-
-  /**
-   * Returns the current {@link ComponentMetadata} type.
-   */
-  hostComponentType: Type;
-
-
-  /**
-   * Returns the current {@link ComponentMetadata} instance.
-   */
-  hostComponent: any;
-
-
-  /**
-   * Dispose (un-load) the application.
-   */
-  dispose(): void;
-
-
-  /**
-   * Returns the root application {@link Injector}.
-   */
-  injector: Injector;
-}
 
 
 /**
@@ -2324,6 +2339,41 @@ interface Type extends Function {
 
 
 /**
+ * Represents a Angular's representation of an Application.
+ *
+ * `ApplicationRef` represents a running application instance. Use it to retrieve the host
+ * component, injector,
+ * or dispose of an application.
+ */
+interface ApplicationRef {
+
+
+  /**
+   * Returns the current {@link ComponentMetadata} type.
+   */
+  hostComponentType: Type;
+
+
+  /**
+   * Returns the current {@link ComponentMetadata} instance.
+   */
+  hostComponent: any;
+
+
+  /**
+   * Dispose (un-load) the application.
+   */
+  dispose(): void;
+
+
+  /**
+   * Returns the root application {@link Injector}.
+   */
+  injector: Injector;
+}
+
+
+/**
  * Specifies app root url for the application.
  *
  * Used by the {@link Compiler} when resolving HTML and CSS template URLs.
@@ -2338,7 +2388,7 @@ class AppRootUrl {
   /**
    * Returns the base URL of the currently running application.
    */
-  value: void;
+  value: any;
 }
 
 
@@ -3031,9 +3081,10 @@ interface HostViewRef {
  * A reference to an Angular ProtoView.
  *
  * A ProtoView is a reference to a template for easy creation of views.
- * (See {@link AppViewManager#createViewInContainer} and {@link AppViewManager#createRootHostView}).
+ * (See {@link AppViewManager#createViewInContainer `AppViewManager#createViewInContainer`} and
+ * {@link AppViewManager#createRootHostView `AppViewManager#createRootHostView`}).
  *
- * A `ProtoView` is a foctary for creating `View`s.
+ * A `ProtoView` is a factory for creating `View`s.
  *
  * ## Example
  *
@@ -3303,7 +3354,7 @@ class EventEmitter extends Observable {
  */
 class InjectMetadata {
 
-  token: void;
+  token: any;
 
   toString(): string;
 }
@@ -3458,7 +3509,7 @@ class SkipSelfMetadata {
  */
 class DependencyMetadata {
 
-  token: void;
+  token: any;
 }
 
 
@@ -3542,6 +3593,52 @@ interface ForwardRefFn {
  * resolve all of the object's dependencies automatically.
  */
 class Injector {
+
+
+  /**
+   * Turns a list of binding definitions into an internal resolved list of resolved bindings.
+   *
+   * A resolution is a process of flattening multiple nested lists and converting individual
+   * bindings into a list of {@link ResolvedBinding}s. The resolution can be cached by `resolve`
+   * for the {@link Injector} for performance-sensitive code.
+   *
+   * @param `bindings` can be a list of `Type`, {@link Binding}, {@link ResolvedBinding}, or a
+   * recursive list of more bindings.
+   *
+   * The returned list is sparse, indexed by `id` for the {@link Key}. It is generally not useful to
+   * application code
+   * other than for passing it to {@link Injector} functions that require resolved binding lists,
+   * such as
+   * `fromResolvedBindings` and `createChildFromResolved`.
+   */
+  static resolve(bindings: List<Type | Binding | List<any>>): List<ResolvedBinding>;
+
+
+  /**
+   * Resolves bindings and creates an injector based on those bindings. This function is slower than
+   * the corresponding `fromResolvedBindings` because it needs to resolve bindings first. See
+   * `resolve`
+   * for the {@link Injector}.
+   *
+   * Prefer `fromResolvedBindings` in performance-critical code that creates lots of injectors.
+   *
+   * @param `bindings` can be a list of `Type`, {@link Binding}, {@link ResolvedBinding}, or a
+   * recursive list of more
+   * bindings.
+   * @param `depProvider`
+   */
+  static resolveAndCreate(bindings: List<Type | Binding | List<any>>, depProvider?: DependencyProvider): Injector;
+
+
+  /**
+   * Creates an injector from previously resolved bindings. This bypasses resolution and flattening.
+   * This API is the recommended way to construct injectors in performance-sensitive parts.
+   *
+   * @param `bindings` A sparse list of {@link ResolvedBinding}s. See `resolve` for the
+   * {@link Injector}.
+   * @param `depProvider`
+   */
+  static fromResolvedBindings(bindings: List<ResolvedBinding>, depProvider?: DependencyProvider): Injector;
 
 
   /**
@@ -3699,7 +3796,7 @@ class Binding {
   /**
    * Token used when retrieving this binding. Usually the `Type`.
    */
-  token: void;
+  token: any;
 
 
   /**
@@ -3748,7 +3845,7 @@ class Binding {
    * expect(injector.get(String)).toEqual('Hello');
    * ```
    */
-  toValue: void;
+  toValue: any;
 
 
   /**
@@ -3784,7 +3881,7 @@ class Binding {
    * expect(injectorClass.get(Vehicle) instanceof Car).toBe(true);
    * ```
    */
-  toAlias: void;
+  toAlias: any;
 
 
   /**
@@ -3841,7 +3938,7 @@ class Binding {
  */
 class BindingBuilder {
 
-  token: void;
+  token: any;
 
 
   /**
@@ -3982,6 +4079,8 @@ class ResolvedBinding {
  */
 class Dependency {
 
+  static fromKey(key: Key): Dependency;
+
   key: Key;
 
   optional: boolean;
@@ -4019,7 +4118,19 @@ function bind(token: any) : BindingBuilder ;
  * Keys are used internally by the {@link Injector} because their system-wide unique `id`s allow the
  * injector to index in arrays rather than looking up items in maps.
  */
-interface Key {
+class Key {
+
+
+  /**
+   * Retrieves a `Key` for a token.
+   */
+  static get(token: Object): Key;
+
+
+  /**
+   * @returns the number of keys registered in the system.
+   */
+  static numberOfKeys: number;
 
   token: Object;
 
@@ -4075,7 +4186,7 @@ class AbstractBindingError extends BaseException {
 
   addKey(injector: Injector, key: Key): void;
 
-  context: void;
+  context: any;
 
   toString(): string;
 }
@@ -4280,7 +4391,7 @@ var SkipSelf : SkipSelfFactory ;
  * instead of writing:
  *
  * ```
- * import {If, NgFor, NgSwitch, NgSwitchWhen, NgSwitchDefault} from 'angular2/angular2';
+ * import {NgClass, NgIf, NgFor, NgSwitch, NgSwitchWhen, NgSwitchDefault} from 'angular2/angular2';
  * import {OtherDirective} from 'myDirectives';
  *
  * @Component({
@@ -4288,16 +4399,16 @@ var SkipSelf : SkipSelfFactory ;
    * })
  * @View({
    *   templateUrl: 'myComponent.html',
-   *   directives: [If, NgFor, NgSwitch, NgSwitchWhen, NgSwitchDefault, OtherDirective]
+   *   directives: [NgClass, NgIf, NgFor, NgSwitch, NgSwitchWhen, NgSwitchDefault, OtherDirective]
    * })
  * export class MyComponent {
    *   ...
    * }
  * ```
- * one could enumerate all the core directives at once:
+ * one could import all the core directives at once:
  *
  * ```
- * import {coreDirectives} from 'angular2/angular2';
+ * import {CORE_DIRECTIVES} from 'angular2/angular2';
  * import {OtherDirective} from 'myDirectives';
  *
  * @Component({
@@ -4305,7 +4416,7 @@ var SkipSelf : SkipSelfFactory ;
    * })
  * @View({
    *   templateUrl: 'myComponent.html',
-   *   directives: [coreDirectives, OtherDirective]
+   *   directives: [CORE_DIRECTIVES, OtherDirective]
    * })
  * export class MyComponent {
    *   ...
@@ -4337,9 +4448,9 @@ const CORE_DIRECTIVES : List<Type> ;
  */
 class NgClass {
 
-  initialClasses: void;
+  initialClasses: any;
 
-  rawClass: void;
+  rawClass: any;
 
   onCheck(): void;
 
@@ -4379,6 +4490,10 @@ class NgClass {
  */
 class NgFor {
 
+  static bulkRemove(tuples: List<RecordViewTuple>, viewContainer: ViewContainerRef): List<RecordViewTuple>;
+
+  static bulkInsert(tuples: List<RecordViewTuple>, viewContainer: ViewContainerRef, templateRef: TemplateRef): List<RecordViewTuple>;
+
   viewContainer: ViewContainerRef;
 
   templateRef: TemplateRef;
@@ -4387,7 +4502,7 @@ class NgFor {
 
   cdr: ChangeDetectorRef;
 
-  ngForOf: void;
+  ngForOf: any;
 
   onCheck(): void;
 }
@@ -4424,7 +4539,7 @@ class RecordViewTuple {
  */
 class NgIf {
 
-  ngIf: void;
+  ngIf: any;
 }
 
 
@@ -4455,20 +4570,20 @@ class NgNonBindable {
  * # Example:
  *
  * ```
- * <div ng-style="{'text-align': alignEpr}"></div>
+ * <div [ng-style]="{'text-align': alignExp}"></div>
  * ```
  *
- * In the above example the `text-align` style will be updated based on the `alignEpr` value
+ * In the above example the `text-align` style will be updated based on the `alignExp` value
  * changes.
  *
  * # Syntax
  *
- * - `<div ng-style="{'text-align': alignEpr}"></div>`
- * - `<div ng-style="styleExp"></div>`
+ * - `<div [ng-style]="{'text-align': alignExp}"></div>`
+ * - `<div [ng-style]="styleExp"></div>`
  */
 class NgStyle {
 
-  rawStyle: void;
+  rawStyle: any;
 
   onCheck(): void;
 }
@@ -4508,7 +4623,7 @@ class SwitchView {
  */
 class NgSwitch {
 
-  ngSwitch: void;
+  ngSwitch: any;
 }
 
 
@@ -4529,7 +4644,7 @@ class NgSwitch {
  */
 class NgSwitchWhen {
 
-  ngSwitchWhen: void;
+  ngSwitchWhen: any;
 }
 
 
@@ -4782,7 +4897,7 @@ class ControlContainer extends AbstractControlDirective {
  */
 class NgControlName extends NgControl {
 
-  update: void;
+  update: any;
 
   model: any;
 
@@ -4855,7 +4970,7 @@ class NgFormControl extends NgControl {
 
   form: Control;
 
-  update: void;
+  update: any;
 
   model: any;
 
@@ -4893,7 +5008,7 @@ class NgFormControl extends NgControl {
  */
 class NgModel extends NgControl {
 
-  update: void;
+  update: any;
 
   model: any;
 
@@ -5055,7 +5170,7 @@ class NgFormModel extends ControlContainer implements Form {
 
   directives: List<NgControl>;
 
-  ngSubmit: void;
+  ngSubmit: any;
 
   onChange(_: any): void;
 
@@ -5119,7 +5234,7 @@ class NgForm extends ControlContainer implements Form {
 
   form: ControlGroup;
 
-  ngSubmit: void;
+  ngSubmit: any;
 
   formDirective: Form;
 
@@ -5175,9 +5290,9 @@ class DefaultValueAccessor implements ControlValueAccessor {
 
   cd: NgControl;
 
-  onChange: void;
+  onChange: any;
 
-  onTouched: void;
+  onTouched: any;
 
   renderer: Renderer;
 
@@ -5215,9 +5330,9 @@ class CheckboxControlValueAccessor implements ControlValueAccessor {
 
   cd: NgControl;
 
-  onChange: void;
+  onChange: any;
 
-  onTouched: void;
+  onTouched: any;
 
   renderer: Renderer;
 
@@ -5267,9 +5382,9 @@ class SelectControlValueAccessor implements ControlValueAccessor {
 
   value: string;
 
-  onChange: void;
+  onChange: any;
 
-  onTouched: void;
+  onTouched: any;
 
   renderer: Renderer;
 
@@ -5313,6 +5428,16 @@ const FORM_DIRECTIVES : List<Type> ;
  * ```
  */
 class Validators {
+
+  static required(c:Control): StringMap<string, boolean>;
+
+  static nullValidator(c: any): StringMap<string, boolean>;
+
+  static compose(validators: List<Function>): Function;
+
+  static group(c:ControlGroup): StringMap<string, boolean>;
+
+  static array(c:ControlArray): StringMap<string, boolean>;
 }
 
 class NgValidator {
@@ -5402,6 +5527,30 @@ class FormBuilder {
 const FORM_BINDINGS : List<Type> ;
 
 class RenderDirectiveMetadata {
+
+  static DIRECTIVE_TYPE: any;
+
+  static COMPONENT_TYPE: any;
+
+  static create({id, selector, compileChildren, events, host, properties, readAttributes, type,
+    callOnDestroy, callOnChange, callOnCheck, callOnInit, callOnAllChangesDone,
+    changeDetection, exportAs}: {
+    id?: string,
+    selector?: string,
+    compileChildren?: boolean,
+    events?: List<string>,
+    host?: Map<string, string>,
+    properties?: List<string>,
+    readAttributes?: List<string>,
+    type?: number,
+    callOnDestroy?: boolean,
+    callOnChange?: boolean,
+    callOnCheck?: boolean,
+    callOnInit?: boolean,
+    callOnAllChangesDone?: boolean,
+    changeDetection?: string,
+    exportAs?: string
+  }): RenderDirectiveMetadata;
 
   id: any;
 
@@ -5668,8 +5817,6 @@ const DOCUMENT : OpaqueToken ;
  */
 const APP_ID : OpaqueToken ;
 
-const DOM_REFLECT_PROPERTIES_AS_ATTRIBUTES : OpaqueToken ;
-
 
 /**
  * Defines when a compiled template should be stored as a string
@@ -5763,8 +5910,6 @@ var ProtoViewRef: InjectableReference;
 var ViewContainerRef: InjectableReference;
 
 var ComponentRef: InjectableReference;
-
-var Key: InjectableReference;
 
 }
 

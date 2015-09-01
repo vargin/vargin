@@ -1,18 +1,18 @@
 {
   "name": "vargin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Web IDE that helps to interactively create web mobile apps",
   "author": "Aleh Zasypkin <azasypkin>",
   "repository": "https://github.com/azasypkin/vargin.git",
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "del": "^1.2.1",
+    "del": "^2.0.0",
     "run-sequence": "^1.1.2",
 
     "gulp-plumber": "~1.0.1",
     "gulp-sourcemaps": "~1.5.2",
-    "systemjs-builder": "^0.13.1",
+    "systemjs-builder": "^0.13.5",
 
     "gulp-sass": "^2.0.4",
 
@@ -20,10 +20,10 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.35",
-    "systemjs": "^0.18.11",
+    "angular2": "2.0.0-alpha.36",
+    "systemjs": "^0.18.17",
     "es6-module-loader": "^0.17.6",
-    "zone.js": "^0.5.2",
+    "zone.js": "^0.5.4",
     "reflect-metadata": "0.1.0",
 
     "sass-flex-mixin": "1.0.0"

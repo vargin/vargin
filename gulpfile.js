@@ -59,8 +59,8 @@ var ng2Builder = new Builder({
   defaultJSExtensions: true
 });
 
-gulp.task('clean.dev', function (done) {
-  del(PATH.dest.dev.all, done);
+gulp.task('clean.dev', function () {
+  return del(PATH.dest.dev.all);
 });
 
 gulp.task('build.dev.ng2', ['clean.dev'], function () {
@@ -100,15 +100,12 @@ gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.in
       'angular2/*': {
         build: false
       }
-    },
-
-    // Don't work until the following issues are resolved:
-    // https://github.com/systemjs/builder/issues/177
-    // https://github.com/Microsoft/TypeScript/issues/3363
-    sourceMaps: true
+    }
   });
 
-  return appBuilder.build('vargin', PATH.dest.dev.all + '/vargin.js', {});
+  return appBuilder.build('vargin', PATH.dest.dev.all + '/vargin.js', {
+    minify: false
+  });
 });
 
 gulp.task('build.dev.angular-compiler.html', function() {
