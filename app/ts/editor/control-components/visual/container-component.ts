@@ -19,9 +19,9 @@ import { ControlService } from 'services/control-service';
 @Component({
   selector: 'vargin-container',
   properties: ['control'],
-  host: new Map([
-    ['(^click)', 'onClick($event)']
-  ])
+  host: {
+    '(^click)': 'onClick($event)'
+  }
 })
 @View({
   template: `
