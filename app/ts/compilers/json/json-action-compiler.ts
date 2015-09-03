@@ -22,7 +22,7 @@ export class JSONActionCompiler implements ICompiler<IAction, IJSONAction> {
 
   decompile(compiledAction: IJSONAction) {
     return ActionService.createByType(
-      compiledAction.type, new Map(compiledAction.properties)
+      compiledAction.type, new Map<string, string>(compiledAction.properties)
     );
   }
 }

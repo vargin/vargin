@@ -42,7 +42,10 @@ export class ControlMetadata {
     this.type = type;
     this.name = name;
     this.description = description;
-    this.supportedEvents = Object.freeze(supportedEvents || new Map());
-    this.supportedProperties = supportedProperties || new Map();
+    this.supportedEvents = Object.freeze(
+      supportedEvents || new Map<string, IProperty<Array<IAction>>>()
+    );
+    this.supportedProperties = supportedProperties ||
+      new Map<string, IProperty<string>>();
   }
 }

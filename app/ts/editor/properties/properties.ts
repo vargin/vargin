@@ -24,8 +24,6 @@ import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
 import { ActionService } from 'services/action-service';
 
-import { IExpandableGroup } from 'editor/expandable-groups/expandable-groups';
-
 @Component({
   selector: 'vargin-properties'
 })
@@ -89,9 +87,21 @@ class VarginProperties {
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
   private groups: {
-    properties: IExpandableGroup,
-    styles: IExpandableGroup,
-    events: IExpandableGroup
+    properties: {
+      name: string,
+      expanded: boolean,
+      items: IProperty<string>[]
+    },
+    styles: {
+      name: string,
+      expanded: boolean,
+      items: IProperty<string>[]
+    },
+    events: {
+      name: string,
+      expanded: boolean,
+      items: IProperty<IAction[]>[]
+    }
   } = {
     properties: null,
     styles: null,

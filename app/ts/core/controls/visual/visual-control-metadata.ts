@@ -19,6 +19,7 @@ export class VisualControlMetadata extends ControlMetadata {
   ) {
     super(type, name, description, supportedEvents, supportedProperties);
 
-    this.supportedStyles = supportedStyles || new Map();
+    this.supportedStyles = supportedStyles ||
+      new Map<string, IProperty<string>>();
   }
 }

@@ -44,6 +44,7 @@ class Vargin {
         'Visual components',
         [
           ControlService.getMetadata('label'),
+          ControlService.getMetadata('link'),
           ControlService.getMetadata('button'),
           ControlService.getMetadata('container'),
           ControlService.getMetadata('range'),

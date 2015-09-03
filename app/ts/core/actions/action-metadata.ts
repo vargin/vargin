@@ -34,6 +34,7 @@ export class ActionMetadata {
     this.type = type;
     this.name = name;
     this.description = description;
-    this.supportedProperties = supportedProperties || new Map();
+    this.supportedProperties = supportedProperties ||
+      new Map<string, IProperty<string>>();
   }
 }

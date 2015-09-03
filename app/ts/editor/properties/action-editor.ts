@@ -13,9 +13,9 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 @Component({
   selector: 'vargin-action-editor',
   lifecycle: [LifecycleEvent.onChange],
-  host: {
-    '(click)': 'close()'
-  }
+  host: new Map([
+    ['(click)', 'close()']
+  ])
 })
 @View({
   template: `

@@ -7,7 +7,9 @@ export class LabelControlCompiler
        extends DOMStaticControlCompiler<LabelControl> {
   getMarkup(control: LabelControl, cssClass) {
     return this.buildHTMLElement(
-      'span', control.text.getValue(), new Map([['class', cssClass.name]])
+      'span',
+      control.text.getValue(),
+      new Map<string, string>([['class', cssClass.name]])
     );
   }
 }

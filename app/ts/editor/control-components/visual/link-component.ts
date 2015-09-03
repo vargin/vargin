@@ -1,19 +1,13 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  View
-} from 'angular2/angular2';
+import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ButtonControl } from 'core/controls/visual/button-control';
+import { LinkControl } from 'core/controls/visual/link-control';
 import { ControlService } from 'services/control-service';
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
-  selector: 'vargin-button',
+  selector: 'vargin-link',
   properties: ['control'],
   host: new Map([
     ['(^click)', 'onClick($event)']
@@ -21,21 +15,22 @@ import { BaseComponent } from 'editor/control-components/base-component';
 })
 @View({
   template: `
-    <button
+    <a
+      href="javascript:void(0)"
       [title]="control.title.getValue()"
-      [type]="control.type.getValue()"
+      [target]="control.target.getValue()"
       [ng-style]="getControlStyles()">
       {{ control.text.getValue() }}
-    </button>
+    </a>
   `,
   directives: [NgStyle]
 })
-class ButtonComponent extends BaseComponent {
-  control: ButtonControl;
+class LinkComponent extends BaseComponent {
+  control: LinkControl;
 
-  constructor(@Optional() @Inject(Control) control?: ButtonControl) {
-    super(control || ControlService.create(ButtonControl));
+  constructor(@Optional() @Inject(Control) control?: LinkControl) {
+    super(control || ControlService.create(LinkControl));
   }
 }
 
-export default ButtonComponent;
+export default LinkComponent;

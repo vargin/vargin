@@ -6,7 +6,7 @@ import { TextInputControl } from 'core/controls/visual/text-input-control';
 export class TextInputControlCompiler
        extends DOMStaticControlCompiler<TextInputControl> {
   getMarkup(control: TextInputControl, cssClass) {
-    return this.buildHTMLElement('input', '', new Map([
+    return this.buildHTMLElement('input', '', new Map<string, string>([
       ['class', cssClass.name],
       ['type', 'text'],
       ['placeholder', control.placeholder.getValue()],

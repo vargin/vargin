@@ -9,7 +9,7 @@ extends DOMStaticControlCompiler<ContainerControl> {
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
-      new Map([['class', cssClass.name]])
+      new Map<string, string>([['class', cssClass.name]])
     );
   }
 }

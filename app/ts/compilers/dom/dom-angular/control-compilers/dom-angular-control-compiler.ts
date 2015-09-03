@@ -4,7 +4,7 @@ import { Control } from 'core/controls/control';
 export class DOMAngularControlCompiler<TControl extends Control>
        extends DOMStaticControlCompiler<TControl> {
 
-  protected getEventHandlers(control: Control): Iterable<[string, string]> {
+  protected getEventHandlers(control: Control): Array<[string, string]> {
     var eventHandlers = [];
 
     control.events.forEach((actions, eventKey) => {

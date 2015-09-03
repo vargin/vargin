@@ -8,7 +8,7 @@ export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl
     return this.buildHTMLElement(
       'span',
       DOMAngularControlCompiler.getDynamicPropertyValue(control, 'text'),
-      new Map([
+      new Map<string, string>([
         ['id', control.id],
         ['class', cssClass.name],
         [

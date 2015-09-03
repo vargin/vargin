@@ -28,10 +28,10 @@ export class Control {
     this._meta = meta;
     this._parent = null;
     this._children = [];
-    this._properties = new Map();
-    this._events = new Map();
+    this._properties = new Map<string, IProperty<string>>();
+    this._events = new Map<string, IProperty<IAction[]>>();
 
-    var parameters = parameters || {};
+    var parameters = parameters || <IControlParameters>{};
 
     this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       var controlProperty = 'getOptions' in metaProperty ?

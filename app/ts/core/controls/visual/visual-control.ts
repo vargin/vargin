@@ -15,12 +15,13 @@ export interface IVisualControlParameters extends IControlParameters {
 }
 
 export class VisualControl extends Control {
-  private _styles: Map<string, IProperty<string>> = new Map();
+  private _styles: Map<string, IProperty<string>> =
+    new Map<string, IProperty<string>>();
 
   constructor(id, meta, parameters?: IVisualControlParameters) {
     super(id, meta, parameters);
 
-    var parameters = parameters || {};
+    var parameters = parameters || <IVisualControlParameters>{};
 
     (<VisualControlMetadata>this.meta).supportedStyles.forEach(
       (metaProperty, styleKey) => {

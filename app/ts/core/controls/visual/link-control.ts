@@ -10,21 +10,17 @@ import { EventService } from 'services/event-service';
 import { IAction } from 'core/actions/action';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['text', new Property('Text', '[Button]')],
-  ['title', new Property('Title', '[Button Title]')],
-  ['type', new PropertyWithOptions('Type', [
-    new Property('Submit', 'submit'),
-    new Property('Reset', 'reset'),
-    new Property('Button', 'button')
+  ['text', new Property('Text', '[Link]')],
+  ['title', new Property('Title', '[Link Title]')],
+  ['address', new Property('Address', '', 'url')],
+  ['target', new PropertyWithOptions('Target', [
+    new Property('Same Tab', '_self'),
+    new Property('New Tab', '_blank')
   ])]
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
   ['background-color', StyleService.getDescriptor('background-color')],
-  ['background-image', StyleService.getDescriptor('background-image')],
-  ['background-position', StyleService.getDescriptor('background-position')],
-  ['background-repeat', StyleService.getDescriptor('background-repeat')],
-  ['background-size', StyleService.getDescriptor('background-size')],
   ['border', StyleService.getDescriptor('border')],
   ['border-radius', StyleService.getDescriptor('border-radius')],
   ['color', StyleService.getDescriptor('color')],
@@ -34,7 +30,8 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
   ['font-size', StyleService.getDescriptor('font-size')],
   ['height', StyleService.getDescriptor('height')],
   ['line-height', StyleService.getDescriptor('line-height')],
-  ['padding', StyleService.getDescriptor('padding')]
+  ['padding', StyleService.getDescriptor('padding')],
+  ['text-decoration', StyleService.getDescriptor('text-decoration')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
@@ -43,17 +40,21 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
 ]);
 
 const METADATA = Object.freeze(new VisualControlMetadata(
-  'button',
-  'Button',
-  'HTML Button',
+  'link',
+  'Link',
+  'Link to another Web Page',
   SUPPORTED_EVENTS,
   SUPPORTED_PROPERTIES,
   SUPPORTED_STYLES
 ));
 
-export class ButtonControl extends VisualControl {
+export class LinkControl extends VisualControl {
   constructor(id, parameters?) {
-    super(id, ButtonControl.getMeta(), parameters);
+    super(id, LinkControl.getMeta(), parameters);
+  }
+
+  get address() {
+    return this._properties.get('address');
   }
 
   get text() {
@@ -64,8 +65,8 @@ export class ButtonControl extends VisualControl {
     return this._properties.get('title');
   }
 
-  get type() {
-    return this._properties.get('type');
+  get target() {
+    return this._properties.get('target');
   }
 
   static getMeta() {

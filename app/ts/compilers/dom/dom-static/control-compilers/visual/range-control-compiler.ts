@@ -6,7 +6,7 @@ import { RangeControl } from 'core/controls/visual/range-control';
 export class RangeControlCompiler
        extends DOMStaticControlCompiler<RangeControl> {
   getMarkup(control: RangeControl, cssClass) {
-    return this.buildHTMLElement('input', '', new Map([
+    return this.buildHTMLElement('input', '', new Map<string, string>([
       ['class', cssClass.name],
       ['type', 'range'],
       ['min', control.min.getValue()],

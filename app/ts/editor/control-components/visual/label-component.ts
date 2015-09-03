@@ -10,9 +10,9 @@ import { BaseComponent } from 'editor/control-components/base-component';
 @Component({
   selector: 'vargin-label',
   properties: ['control'],
-  host: {
-    '(^click)': 'onClick($event)'
-  }
+  host: new Map([
+    ['(^click)', 'onClick($event)']
+  ])
 })
 @View({
   template: `

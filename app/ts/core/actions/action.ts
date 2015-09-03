@@ -19,7 +19,7 @@ export class Action implements IAction {
 
   constructor(meta: ActionMetadata, properties?: Map<string, string>) {
     this._meta = meta;
-    this._properties = new Map();
+    this._properties = new Map<string, IProperty<string>>();
 
     meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       var controlProperty = 'getOptions' in metaProperty ?

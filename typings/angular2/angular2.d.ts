@@ -13,7 +13,6 @@
 // If you don't have them installed you can install them using TSD
 // https://github.com/DefinitelyTyped/tsd
 
-///<reference path="../es6-promise/es6-promise.d.ts"/>
 ///<reference path="../rx/rx.d.ts"/>
 
 

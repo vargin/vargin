@@ -75,11 +75,13 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     var controlParameters = compiledControl.parameters;
     if (controlParameters) {
       if (controlParameters.properties) {
-        parameters.properties = new Map(controlParameters.properties);
+        parameters.properties = new Map<string, string>(
+          controlParameters.properties
+        );
       }
 
       if (controlParameters.styles) {
-        parameters.styles = new Map(controlParameters.styles);
+        parameters.styles = new Map<string, string>(controlParameters.styles);
       }
 
       if (controlParameters.events) {
