@@ -13,7 +13,7 @@ independent JSON format that can potentially be used by native application gener
 If appropriate application generator is available you can pack your lovely IoT
 board with any application or service you need.
 
-In case you want to go with web application (that is highly recommended _default_ option!)
+In case you want to go with web application (that is highly recommended _default option_!)
 application will be based on modern web stack that will provide you with
 multithreading, plugin-less media and first-class offline experience.
 
