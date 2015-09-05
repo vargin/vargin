@@ -30,10 +30,9 @@ const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
   [TextInputControl, new TextInputControlCompiler()]
 ]);
 
-export class DOMStaticApplicationCompiler
-       implements IApplicationCompiler<string> {
+export class DOMStaticApplicationCompiler implements IApplicationCompiler<string> {
   compile(application: Application) {
-    var compiledRoot = this.compileControl(application.pages[0].root);
+    let compiledRoot = this.compileControl(application.pages[0].root);
 
     return `
       <!DOCTYPE html>
@@ -48,16 +47,16 @@ export class DOMStaticApplicationCompiler
     `;
   }
 
-  decompile(compiledApplication: string) {
+  decompile(compiledApplication: string): Application {
     return null;
   }
 
   private compileControl(control: Control): IDOMStaticCompiledControl {
-    var controlCompiler = <DOMStaticControlCompiler<Control>>
+    let controlCompiler = <DOMStaticControlCompiler<Control>>
       CONTROL_COMPILERS.get(control.constructor);
-    var compiledControl = controlCompiler.compile(control);
+    let compiledControl = controlCompiler.compile(control);
 
-    var children = control.getChildren();
+    let children = control.getChildren();
     if (children.length) {
       let childrenCssText = '';
       let childrenMarkup = '';

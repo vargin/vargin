@@ -16,7 +16,7 @@
 
     "gulp-sass": "^2.0.4",
 
-    "typescript": "Microsoft/TypeScript"
+    "typescript": "1.6.0-beta"
   },
 
   "dependencies": {

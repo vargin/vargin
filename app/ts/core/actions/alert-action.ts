@@ -22,7 +22,7 @@ export class AlertAction extends Action {
     try {
       alert(this.properties.get('alert-message').getValue());
       return Promise.resolve(true);
-    } catch(e) {
+    } catch (e) {
       return Promise.reject<boolean>(e);
     }
   }

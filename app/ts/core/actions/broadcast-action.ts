@@ -31,7 +31,7 @@ export class BroadcastAction extends Action {
         )
       );
       return Promise.resolve(true);
-    } catch(e) {
+    } catch (e) {
       return Promise.reject<boolean>(e);
     }
   }

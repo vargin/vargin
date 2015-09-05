@@ -11,7 +11,7 @@ export interface IMessageChannel {
    * Sends message to the channel.
    * @param {IMessage} message
    */
-  send(message: IMessage);
+  send(message: IMessage): void;
 }
 
 export class MessageChannel implements IMessageChannel {

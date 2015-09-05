@@ -68,7 +68,7 @@ class Vargin {
             type: control.type
           };
         })
-      }
+      };
     });
   }
 }

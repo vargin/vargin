@@ -24,7 +24,7 @@ export class ActionService {
       throw new Error('Not supported action type: ' + type);
     }
 
-    var ActionClass = <{ new(properties: Map<string, string>): TAction; }>
+    let ActionClass = <{ new(properties: Map<string, string>): TAction; }>
       ACTIONS.get(type);
 
     return new ActionClass(properties);

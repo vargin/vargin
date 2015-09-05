@@ -6,7 +6,7 @@ export class ControlProperty<T> implements IProperty<T> {
 
   constructor(property: IProperty<T>, value?: T) {
     this._property = property;
-    this._value = value !== undefined ? value: property.getValue();
+    this._value = value !== undefined ? value : property.getValue();
   }
 
   getName() {
@@ -21,7 +21,7 @@ export class ControlProperty<T> implements IProperty<T> {
     return this._value;
   }
 
-  setValue(value) {
+  setValue(value: T) {
     this._value = value;
   }
 
@@ -30,9 +30,7 @@ export class ControlProperty<T> implements IProperty<T> {
   }
 }
 
-export class ControlPropertyWithOptions<T>
-       extends ControlProperty<T>
-       implements IPropertyWithOptions<T> {
+export class ControlPropertyWithOptions<T> extends ControlProperty<T> implements IPropertyWithOptions<T> {
   constructor(property: IProperty<T>, value?: T) {
     super(property, value);
   }

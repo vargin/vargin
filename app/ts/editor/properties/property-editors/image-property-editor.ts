@@ -27,7 +27,7 @@ class ImagePropertyEditor {
   }
 
   onChange(value: Blob) {
-    var reader  = new FileReader();
+    let reader = new FileReader();
     reader.onloadend = () => this.property.setValue(`url(${reader.result})`);
     reader.readAsDataURL(value);
   }

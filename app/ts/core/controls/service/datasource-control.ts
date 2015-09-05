@@ -7,7 +7,7 @@ const METADATA = Object.freeze(
 );
 
 export class DataSourceControl extends Control {
-  constructor(id) {
+  constructor(id: string) {
     super(id, DataSourceControl.getMeta());
   }
 

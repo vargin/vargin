@@ -15,14 +15,14 @@ interface IJSONApplication {
     id: string;
     name: string;
     root: IJSONControl;
-  }>
+  }>;
 }
 
 export class JSONApplicationCompiler implements IApplicationCompiler<string> {
   private _controlCompiler: JSONControlCompiler = new JSONControlCompiler();
 
   compile(application: Application) {
-    var plainApplicationObject = {
+    let plainApplicationObject = {
       id: application.id,
       name: application.name,
       description: application.description,
@@ -39,7 +39,7 @@ export class JSONApplicationCompiler implements IApplicationCompiler<string> {
   }
 
   decompile(compiledApplication: string) {
-    var plainApplicationObject = <IJSONApplication>JSON.parse(
+    let plainApplicationObject = <IJSONApplication>JSON.parse(
       compiledApplication
     );
 

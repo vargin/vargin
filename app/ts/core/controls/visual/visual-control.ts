@@ -11,28 +11,33 @@ import {
 import { IControlParameters, Control } from 'core/controls/control';
 
 export interface IVisualControlParameters extends IControlParameters {
-  styles?: Map<string, string>
+  styles?: Map<string, string>;
 }
 
 export class VisualControl extends Control {
   private _styles: Map<string, IProperty<string>> =
     new Map<string, IProperty<string>>();
 
-  constructor(id, meta, parameters?: IVisualControlParameters) {
+  constructor(
+    id: string,
+    meta: VisualControlMetadata,
+    parameters?: IVisualControlParameters
+  ) {
     super(id, meta, parameters);
 
-    var parameters = parameters || <IVisualControlParameters>{};
+    let controlParameters = parameters || <IVisualControlParameters>{};
 
     (<VisualControlMetadata>this.meta).supportedStyles.forEach(
       (metaProperty, styleKey) => {
-        var controlStyleProperty = 'getOptions' in metaProperty ?
+        let controlStyleProperty = 'getOptions' in metaProperty ?
           new ControlPropertyWithOptions(
               <ControlPropertyWithOptions<string>>metaProperty
           ) :
           new ControlProperty(metaProperty);
 
-        if (parameters.styles && parameters.styles.has(styleKey)) {
-          controlStyleProperty.setValue(parameters.styles.get(styleKey));
+        if (controlParameters.styles &&
+            controlParameters.styles.has(styleKey)) {
+          controlStyleProperty.setValue(controlParameters.styles.get(styleKey));
         }
 
         this._styles.set(styleKey, controlStyleProperty);

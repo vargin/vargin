@@ -5,7 +5,7 @@ export class ApplicationPage {
   private _name: string;
   private _root: Control;
 
-  constructor(id, name, root) {
+  constructor(id: string, name: string, root: Control) {
     this._id = id;
     this._name = name;
     this._root = root;

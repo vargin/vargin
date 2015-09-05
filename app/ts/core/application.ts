@@ -8,7 +8,9 @@ export class Application {
   private _description: string;
   private _pages: ApplicationPage[];
 
-  constructor(id, name, description, pages = []) {
+  constructor(
+    id: string, name: string, description: string, pages: ApplicationPage[] = []
+  ) {
     this._id = id;
     this._name = name;
     this._description = description;
@@ -38,7 +40,7 @@ export class Application {
         name || `Page #${this.pages.length}`,
         new ContainerControl(UtilsService.uuid())
       )
-    )
+    );
   }
 
   removePage(id: string) {

@@ -23,7 +23,7 @@ export class ChangePropertyAction extends Action {
 
   perform() {
     try {
-      var control = ApplicationService.findControlById(
+      let control = ApplicationService.findControlById(
         this.properties.get('control-id').getValue()
       );
 
@@ -31,7 +31,7 @@ export class ChangePropertyAction extends Action {
         this.properties.get('property-value').getValue()
       );
       return Promise.resolve(true);
-    } catch(e) {
+    } catch (e) {
       return Promise.reject<boolean>(e);
     }
   }

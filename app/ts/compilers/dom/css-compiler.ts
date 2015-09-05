@@ -8,9 +8,9 @@ export interface ICompiledCSSClass {
 
 class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
   compile(control: VisualControl) {
-    var cssClassName = `vargin-${control.meta.type}-${control.id}`;
+    let cssClassName = `vargin-${control.meta.type}-${control.id}`;
 
-    var text = `.${cssClassName} {`;
+    let text = `.${cssClassName} {`;
     control.styles.forEach((styleProperty, styleKey) => {
       text += `${styleKey}: ${styleProperty.getValue()};`;
     });
@@ -22,7 +22,7 @@ class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
     };
   }
 
-  decompile(compiledCSSClass: ICompiledCSSClass) {
+  decompile(compiledCSSClass: ICompiledCSSClass): VisualControl {
     return null;
   }
 }

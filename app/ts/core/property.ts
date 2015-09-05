@@ -41,7 +41,7 @@ export class Property<T> implements IProperty<T>  {
     return this._value;
   }
 
-  setValue(value) {
+  setValue(value: T) {
     this._value = value;
   }
 
@@ -50,9 +50,7 @@ export class Property<T> implements IProperty<T>  {
   }
 }
 
-export class PropertyWithOptions<T>
-       extends Property<T>
-       implements IPropertyWithOptions<T> {
+export class PropertyWithOptions<T> extends Property<T> implements IPropertyWithOptions<T> {
   private _options: Array<IProperty<T>>;
 
   constructor(

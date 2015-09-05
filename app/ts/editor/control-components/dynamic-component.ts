@@ -50,7 +50,7 @@ class DynamicComponent extends BaseComponent {
       this.element,
       'container',
       Injector.resolve([bind(Control).toValue(this.control)])
-    )
+    );
   }
 }
 

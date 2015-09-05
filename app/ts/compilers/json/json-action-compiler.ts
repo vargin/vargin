@@ -9,7 +9,7 @@ export interface IJSONAction {
 
 export class JSONActionCompiler implements ICompiler<IAction, IJSONAction> {
   compile(action: IAction) {
-    var properties = [];
+    let properties: [string, string][] = [];
     action.properties.forEach((propertyValue, propertyKey) => {
       properties.push([propertyKey, propertyValue.getValue()]);
     });

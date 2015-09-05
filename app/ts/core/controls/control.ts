@@ -7,8 +7,8 @@ import {
 import { ControlMetadata } from 'core/controls/control-metadata';
 
 export interface IControlParameters {
-  properties?: Map<string, string>,
-  events?: Map<string, IAction[]>
+  properties?: Map<string, string>;
+  events?: Map<string, IAction[]>;
 }
 
 export class Control {
@@ -31,27 +31,28 @@ export class Control {
     this._properties = new Map<string, IProperty<string>>();
     this._events = new Map<string, IProperty<IAction[]>>();
 
-    var parameters = parameters || <IControlParameters>{};
+    let controlParameters = parameters || <IControlParameters>{};
 
     this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
-      var controlProperty = 'getOptions' in metaProperty ?
+      let controlProperty = 'getOptions' in metaProperty ?
         new ControlPropertyWithOptions(
           <ControlPropertyWithOptions<string>>metaProperty
         ) :
         new ControlProperty(metaProperty);
 
-      if (parameters.properties && parameters.properties.has(propertyKey)) {
-        controlProperty.setValue(parameters.properties.get(propertyKey));
+      if (controlParameters.properties &&
+          controlParameters.properties.has(propertyKey)) {
+        controlProperty.setValue(controlParameters.properties.get(propertyKey));
       }
 
       this._properties.set(propertyKey, controlProperty);
     });
 
     this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
-      var controlEventProperty =  new ControlProperty(metaProperty);
+      let controlEventProperty =  new ControlProperty(metaProperty);
 
-      if (parameters.events && parameters.events.has(eventKey)) {
-        controlEventProperty.setValue(parameters.events.get(eventKey));
+      if (controlParameters.events && controlParameters.events.has(eventKey)) {
+        controlEventProperty.setValue(controlParameters.events.get(eventKey));
       } else {
         controlEventProperty.setValue([]);
       }
@@ -105,7 +106,7 @@ export class Control {
    * @param {string} id Id of the control to find.
    * @returns {Control} Found child control.
    */
-  find(id: string) {
+  find(id: string): Control {
     if (this.id === id) {
       return this;
     }
@@ -135,7 +136,7 @@ export class Control {
    * @param {Control} control Child control to remove.
    */
   removeChild(control: Control) {
-    var childIndex = this._children.indexOf(control);
+    let childIndex = this._children.indexOf(control);
 
     if (childIndex >= 0) {
       // Remove control children.

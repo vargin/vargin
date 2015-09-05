@@ -65,7 +65,7 @@ class VarginWorkspace {
     this.workspace.application.addPage();
   }
 
-  removePage(pageId) {
+  removePage(pageId: string) {
     this.workspace.application.removePage(pageId);
 
     if (this.activePageIndex >= this.workspace.application.pages.length) {
@@ -86,15 +86,15 @@ class VarginWorkspace {
   }
 
   toAngularApp() {
-    var compiledApp = this.domAngularCompiler.compile(
+    let compiledApp = this.domAngularCompiler.compile(
       this.workspace.application
     );
 
-    var jsonCompiledApplication = this.jsonCompiler.compile(
+    let jsonCompiledApplication = this.jsonCompiler.compile(
       this.workspace.application
     );
 
-    var angularAppWindow = window.open(
+    let angularAppWindow = window.open(
       'ng-compiler/index.html?ts=' + Date.now()
     );
 

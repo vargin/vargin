@@ -33,10 +33,12 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 })
 export class ActionEditor {
   private action: IAction;
-  private actionProperties: Array<IProperty<string>> = [];
+  private actionProperties: IProperty<string>[] = [];
   private close: Function;
 
-  constructor(@Inject(Action) action: IAction, @Inject(Function) close) {
+  constructor(
+    @Inject(Action) action: IAction, @Inject(Function) close: Function
+  ) {
     this.action = action;
     this.close = close;
 

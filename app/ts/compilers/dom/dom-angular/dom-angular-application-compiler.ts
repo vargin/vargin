@@ -33,24 +33,23 @@ const CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
   [TextInputControl, new TextInputControlCompiler()]
 ]);
 
-export class DOMAngularApplicationCompiler
-       implements IApplicationCompiler<string> {
+export class DOMAngularApplicationCompiler implements IApplicationCompiler<string> {
   compile(application: Application) {
-    var compiledRoot = this.compileControl(application.pages[0].root);
+    let compiledRoot = this.compileControl(application.pages[0].root);
 
     return `<style type="text/css">${compiledRoot.cssClass.text}</style><page>${compiledRoot.markup}</page>`;
   }
 
-  decompile(compiledApplication: string) {
+  decompile(compiledApplication: string): Application {
     return null;
   }
 
   private compileControl(control: Control): IDOMStaticCompiledControl {
-    var controlCompiler = <DOMAngularControlCompiler<Control>>
+    let controlCompiler = <DOMAngularControlCompiler<Control>>
       CONTROL_COMPILERS.get(control.constructor);
-    var compiledControl = controlCompiler.compile(control);
+    let compiledControl = controlCompiler.compile(control);
 
-    var children = control.getChildren();
+    let children = control.getChildren();
     if (children.length) {
       let childrenCssText = '';
       let childrenMarkup = '';

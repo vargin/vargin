@@ -31,7 +31,7 @@ export class ControlService {
 
   static controlSelected: EventEmitter = new EventEmitter();
 
-  get activeControl() {
+  static get activeControl() {
     return ControlService._activeControl;
   }
 
@@ -51,7 +51,7 @@ export class ControlService {
   }
 
   static create<TControl extends Control>(
-    type: { new(id, parameters?): TControl; },
+    type: { new(id: string, parameters?: IControlParameters): TControl; },
     parameters?: IControlParameters,
     id?: string
   ): TControl {
@@ -67,8 +67,11 @@ export class ControlService {
       throw new Error('Not supported control type: ' + type);
     }
 
-    var ControlClass = <{ new(id, parameters?, children?): TControl; }>
-      CONTROLS.get(type);
+    let ControlClass = <{
+      new(
+        id: string, parameters?: IControlParameters, children?: Control[]
+      ): TControl;
+    }>CONTROLS.get(type);
 
     return new ControlClass(id || UtilsService.uuid(), parameters);
   }

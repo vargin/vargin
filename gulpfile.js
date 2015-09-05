@@ -91,6 +91,11 @@ gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.in
   var appBuilder = new Builder({
     transpiler: 'typescript',
 
+    typescriptOptions: {
+      'noImplicitAny': true,
+      'removeComments': true
+    },
+
     paths: {
       '*': 'app/ts/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'

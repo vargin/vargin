@@ -50,7 +50,7 @@ export class ActionList {
     this.property = property;
   }
 
-  addNewAction(newActionSelect) {
+  addNewAction(newActionSelect: HTMLSelectElement) {
     switch (newActionSelect.value) {
       case 'alert-action':
         this.property.getValue().push(new AlertAction());
@@ -74,7 +74,7 @@ export class ActionList {
   }
 
   removeAction(action: IAction) {
-    var propertyActions = this.property.getValue();
+    let propertyActions = this.property.getValue();
     propertyActions.splice(propertyActions.indexOf(action), 1);
   }
 }

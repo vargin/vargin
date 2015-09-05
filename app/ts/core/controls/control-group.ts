@@ -64,12 +64,14 @@ export class ControlGroup {
    * group.
    * @returns {ControlGroup} Registered control group
    */
-  static register(type, name, description, items): ControlGroup {
+  static register(
+    type: string, name: string, description: string, items: ControlMetadata[]
+  ): ControlGroup {
     if (groups.has(type)) {
       throw new Error('Group with type ' + type + ' is already registered!');
     }
 
-    var group = new ControlGroup(type, name, description, items);
+    let group = new ControlGroup(type, name, description, items);
     groups.set(type, group);
 
     return group;

@@ -1,5 +1,8 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { VisualControl } from 'core/controls/visual/visual-control';
+import {
+  VisualControl,
+  IVisualControlParameters
+} from 'core/controls/visual/visual-control';
 import { ControlProperty } from 'core/controls/control-property';
 import {
     VisualControlMetadata
@@ -35,7 +38,7 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class RangeControl extends VisualControl {
-  constructor(id, parameters?) {
+  constructor(id: string, parameters?: IVisualControlParameters) {
     super(id, RangeControl.getMeta(), parameters);
   }
 

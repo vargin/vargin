@@ -12,7 +12,7 @@ export class ChannelService {
       throw new Error('Channel "' + channelName + '" already exists.');
     }
 
-    var channel = new MessageChannel(channelName);
+    let channel = new MessageChannel(channelName);
     ChannelService._channels.set(channelName, channel);
 
     return channel;

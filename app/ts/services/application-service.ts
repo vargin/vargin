@@ -12,7 +12,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
     root: {
       id: 'bc5bcb33-f72b-440a-b72a-6596caed8b2e',
       type: 'container',
-      children:[{
+      children: [{
         id: '732cfe61-346e-4666-b918-eb3581dfe95b',
         type: 'container',
         children: [{
@@ -256,7 +256,7 @@ export class ApplicationService {
 
   static findControlById(controlId: string) {
     for (var page of ApplicationService.current.pages) {
-      var control = page.root.find(controlId);
+      let control = page.root.find(controlId);
       if (control) {
         return control;
       }
@@ -270,4 +270,3 @@ export class ApplicationService {
 ApplicationService.current = (new JSONApplicationCompiler()).decompile(
   JSON.stringify(DEFAULT_SERIALIZED_APPLICATION)
 );
-

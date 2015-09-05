@@ -31,7 +31,7 @@ class AppController {
   }
 
   onControlAction(controlId: string, eventName: string) {
-    var control = ApplicationService.findControlById(controlId);
+    let control = ApplicationService.findControlById(controlId);
 
     if (control.events.has(eventName)) {
       control.events.get(eventName).getValue().forEach(

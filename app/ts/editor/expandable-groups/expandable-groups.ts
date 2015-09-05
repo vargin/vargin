@@ -9,7 +9,7 @@ interface IExpandableGroupItem {
 export interface IExpandableGroup {
   name: string;
   expanded: boolean;
-  items: IExpandableGroupItem[]
+  items: IExpandableGroupItem[];
 }
 
 @Component({
@@ -23,7 +23,7 @@ export interface IExpandableGroup {
 export class VarginExpandableGroups {
   groups: IExpandableGroup[] = [];
 
-  toggleGroupState(group) {
+  toggleGroupState(group: IExpandableGroup) {
     group.expanded = !group.expanded;
   }
 

@@ -12,10 +12,9 @@ export interface IDOMStaticCompiledControl {
   cssClass?: ICompiledCSSClass;
 }
 
-export class DOMStaticControlCompiler<TControl extends Control>
-       implements IControlCompiler<IDOMStaticCompiledControl> {
+export class DOMStaticControlCompiler<TControl extends Control> implements IControlCompiler<IDOMStaticCompiledControl> {
   compile(control: TControl) {
-    var cssClass = null;
+    let cssClass: ICompiledCSSClass = null;
 
     if (VisualControl.isVisualControl(control)) {
       cssClass = CSSClassCompiler.compile(<VisualControl>(<Control>control));
@@ -25,10 +24,10 @@ export class DOMStaticControlCompiler<TControl extends Control>
       source: control,
       markup: this.getMarkup(control, cssClass),
       cssClass: cssClass
-    }
+    };
   }
 
-  decompile() {
+  decompile(): TControl {
     return null;
   }
 
@@ -39,13 +38,13 @@ export class DOMStaticControlCompiler<TControl extends Control>
   protected buildHTMLElement(
     tagName: string, content: string = '', attributes?: Map<string, string>
   ) {
-    var attributesString = '';
+    let attributesString = '';
     if (attributes && attributes.size) {
       attributes.forEach((value, key) => {
-        attributesString += ` ${key}="${value}"`
+        attributesString += ` ${key}="${value}"`;
       });
     }
 
-    return `<${tagName}${attributesString}>${content}</${tagName}>`
+    return `<${tagName}${attributesString}>${content}</${tagName}>`;
   }
 }

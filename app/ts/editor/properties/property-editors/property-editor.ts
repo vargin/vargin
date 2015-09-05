@@ -6,9 +6,9 @@ import {
   Inject,
   Injector,
   LifecycleEvent,
+  Type,
   View,
-  ViewContainerRef,
-  Type
+  ViewContainerRef
 } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
@@ -52,14 +52,14 @@ class PropertyEditor {
         this.viewContainer.element,
         'container',
         Injector.resolve([bind(Property).toValue(this.property)])
-      )
+      );
     });
   }
 
   static getEditorType(property: IProperty<any>): Type {
-    var propertyType = 'getOptions' in property ?
+    let propertyType = 'getOptions' in property ?
       'options' : property.getType();
-    switch(propertyType) {
+    switch (propertyType) {
       case 'background-color':
       case 'color':
         return ColorPropertyEditor;
@@ -71,7 +71,7 @@ class PropertyEditor {
       case 'click':
       case 'hover':
       case 'change':
-        return EventPropertyEditor;
+        return <Type>EventPropertyEditor;
       case 'image':
         return ImagePropertyEditor;
       default:

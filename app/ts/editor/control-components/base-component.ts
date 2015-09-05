@@ -12,7 +12,7 @@ export class BaseComponent {
     this.control = control;
   }
 
-  onClick(e) {
+  onClick(e: Event) {
     e.stopPropagation();
     e.preventDefault();
 
@@ -21,9 +21,9 @@ export class BaseComponent {
 
   getControlStyles() {
     if (VisualControl.isVisualControl(this.control)) {
-      var visualControl = <VisualControl>this.control;
+      let visualControl = <VisualControl>this.control;
 
-      var controlStyles = <{ [key: string]: string; }>{};
+      let controlStyles = <{ [key: string]: string; }>{};
       visualControl.styles.forEach((styleProperty, styleKey) => {
         if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
           controlStyles[styleKey] = styleProperty.getValue();
@@ -37,11 +37,11 @@ export class BaseComponent {
   }
 
   getContainerStyles(control?: Control) {
-    var targetControl = control || this.control;
+    let targetControl = control || this.control;
     if (VisualControl.isVisualControl(targetControl)) {
-      var visualControl = <VisualControl>targetControl;
+      let visualControl = <VisualControl>targetControl;
 
-      var containerStyles = <{ [key: string]: string; }>{};
+      let containerStyles = <{ [key: string]: string; }>{};
       CONTAINER_ONLY_STYLES.forEach((styleKey) => {
         if (visualControl.styles.has(styleKey)) {
           containerStyles[styleKey] = visualControl.styles.get(

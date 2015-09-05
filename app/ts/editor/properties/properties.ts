@@ -8,6 +8,7 @@ import {
   Injector,
   NgFor,
   NgIf,
+  Type,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -169,11 +170,11 @@ class VarginProperties {
   private onActionSelected(action: IAction) {
     if (this.actionEditor) {
       this.actionEditor.instance.setAction(action);
-      return
+      return;
     }
 
     this.componentLoader.loadIntoLocation(
-      ActionEditor,
+      <Type>ActionEditor,
       this.viewContainer.element,
       'container',
       Injector.resolve([

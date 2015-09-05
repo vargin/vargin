@@ -47,7 +47,7 @@ class EventPropertyEditor {
     if (this.actionList) {
       this.actionList.dispose();
       this.actionList = null;
-      return
+      return;
     }
 
     this.componentLoader.loadIntoLocation(

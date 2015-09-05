@@ -22,7 +22,7 @@ export class Action implements IAction {
     this._properties = new Map<string, IProperty<string>>();
 
     meta.supportedProperties.forEach((metaProperty, propertyKey) => {
-      var controlProperty = 'getOptions' in metaProperty ?
+      let controlProperty = 'getOptions' in metaProperty ?
         new ControlPropertyWithOptions(
           <ControlPropertyWithOptions<string>>metaProperty
         ) :
