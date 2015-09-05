@@ -3,7 +3,10 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
-import { ControlProperty } from 'core/controls/control-property';
+import {
+  ControlProperty,
+  ControlPropertyWithOptions
+} from 'core/controls/control-property';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
@@ -23,18 +26,29 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
+  ['align-items', new ControlPropertyWithOptions(
+    StyleService.getDescriptor('align-items'), 'center'
+  )],
   ['background-color', StyleService.getDescriptor('background-color')],
   ['border', StyleService.getDescriptor('border')],
   ['border-radius', StyleService.getDescriptor('border-radius')],
-  ['color', StyleService.getDescriptor('color')],
+  ['color', new ControlProperty(
+    StyleService.getDescriptor('color'), '#0000ee'
+  )],
+  ['display', new ControlPropertyWithOptions(
+    StyleService.getDescriptor('display'), 'flex'
+  )],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],
   ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
   ['font-size', StyleService.getDescriptor('font-size')],
   ['height', StyleService.getDescriptor('height')],
+  ['justify-content', StyleService.getDescriptor('justify-content')],
   ['line-height', StyleService.getDescriptor('line-height')],
   ['padding', StyleService.getDescriptor('padding')],
-  ['text-decoration', StyleService.getDescriptor('text-decoration')]
+  ['text-decoration', new ControlPropertyWithOptions(
+    StyleService.getDescriptor('text-decoration'), 'underline'
+  )]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([

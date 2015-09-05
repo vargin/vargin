@@ -5,6 +5,7 @@ import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { LabelControl } from 'core/controls/visual/label-control';
+import { LinkControl } from 'core/controls/visual/link-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
@@ -19,6 +20,7 @@ import {
 import { ButtonControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/button-control-compiler';
 import { ContainerControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/container-control-compiler';
 import { LabelControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/label-control-compiler';
+import { LinkControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/link-control-compiler';
 import { RangeControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/range-control-compiler';
 import { TextInputControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/text-input-control-compiler';
 
@@ -26,6 +28,7 @@ const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
   [ButtonControl, new ButtonControlCompiler()],
   [ContainerControl, new ContainerControlCompiler()],
   [LabelControl, new LabelControlCompiler()],
+  [LinkControl, new LinkControlCompiler()],
   [RangeControl, new RangeControlCompiler()],
   [TextInputControl, new TextInputControlCompiler()]
 ]);

@@ -145,6 +145,7 @@ vargin-dynamic {
   > vargin-button,
   > vargin-container,
   > vargin-label,
+  > vargin-link,
   > vargin-range,
   > vargin-text-input {
     @include flexbox;
@@ -153,6 +154,7 @@ vargin-dynamic {
 }
 
 vargin-label > span,
+vargin-link > span,
 vargin-button > button,
 vargin-range > input,
 vargin-text-input > input,
