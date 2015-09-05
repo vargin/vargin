@@ -1,21 +1,11 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  Component,
-  Inject,
-  LifecycleEvent,
-  NgFor,
-  View
-} from 'angular2/angular2';
+import { Component, Inject, NgFor, View } from 'angular2/angular2';
 import { IAction, Action } from 'core/actions/action';
-import { IProperty, Property } from 'core/property';
+import { IProperty } from 'core/property';
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
 
 @Component({
-  selector: 'vargin-action-editor',
-  lifecycle: [LifecycleEvent.onChange],
-  host: {
-    '(click)': 'close()'
-  }
+  selector: 'vargin-action-editor'
 })
 @View({
   template: `
@@ -34,32 +24,12 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 export class ActionEditor {
   private action: IAction;
   private actionProperties: IProperty<string>[] = [];
-  private close: Function;
 
-  constructor(
-    @Inject(Action) action: IAction, @Inject(Function) close: Function
-  ) {
+  constructor(@Inject(Action) action: IAction) {
     this.action = action;
-    this.close = close;
 
     this.action.properties.forEach((property) => {
       this.actionProperties.push(property);
     });
-  }
-
-  onChange() {
-    this.actionProperties = [];
-
-    if (this.action) {
-      this.action.properties.forEach((property) => {
-        this.actionProperties.push(property);
-      });
-    }
-  }
-
-  setAction(action: IAction) {
-    this.action = action;
-
-    this.onChange();
   }
 }

@@ -1,17 +1,21 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import {
+  bind,
   Component,
   Inject,
+  Injector,
   NgFor,
+  Type,
   View
 } from 'angular2/angular2';
-import { IAction } from 'core/actions/action';
+import { IAction, Action } from 'core/actions/action';
 import { IProperty, Property } from 'core/property';
 
 import { ActionService } from 'services/action-service';
 
 import { AlertAction } from 'core/actions/alert-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
+import { DialogService } from 'services/dialog-service';
 
 @Component({
   selector: 'vargin-action-list'
@@ -70,7 +74,12 @@ export class ActionList {
   }
 
   editAction(action: IAction) {
-    ActionService.selectAction(action);
+    System.import('editor/properties/action-editor').then((module: any) => {
+      DialogService.show({
+        component: <Type>module.ActionEditor,
+        bindings: Injector.resolve([bind(Action).toValue(action)])
+      });
+    });
   }
 
   removeAction(action: IAction) {

@@ -1,36 +1,21 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  bind,
-  Component,
-  ComponentRef,
-  DynamicComponentLoader,
-  Inject,
-  Injector,
-  NgFor,
-  NgIf,
-  Type,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { IProperty, Property } from 'core/property';
-import { IAction, Action } from 'core/actions/action';
+import { IAction } from 'core/actions/action';
 
 import PropertyEditor from 'editor/properties/property-editors/property-editor';
-import { ActionEditor } from 'editor/properties/action-editor';
 
-import { ApplicationService } from 'services/application-service';
 import { ControlService } from 'services/control-service';
-import { ActionService } from 'services/action-service';
 
 @Component({
   selector: 'vargin-properties'
 })
 @View({
   template: `
-    <section #container>
+    <section>
       <section class="expandable-group"
                *ng-if="!!groups.properties.items.length"
                [attr.aria-expanded]="groups.properties.expanded">
@@ -84,9 +69,6 @@ import { ActionService } from 'services/action-service';
 })
 class VarginProperties {
   private activeControl: Control;
-  private actionEditor: ComponentRef;
-  private viewContainer: ViewContainerRef;
-  private componentLoader: DynamicComponentLoader;
   private groups: {
     properties: {
       name: string,
@@ -109,19 +91,9 @@ class VarginProperties {
     events: null
   };
 
-  constructor(
-    @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
-    @Inject(ViewContainerRef) viewContainer: ViewContainerRef
-  ) {
-    this.componentLoader = componentLoader;
-    this.viewContainer = viewContainer;
-
+  constructor() {
     ControlService.controlSelected.toRx().subscribeOnNext(
       this.onControlSelected.bind(this)
-    );
-
-    ActionService.actionSelected.toRx().subscribeOnNext(
-      this.onActionSelected.bind(this)
     );
 
     this.groups.properties = {
@@ -167,25 +139,6 @@ class VarginProperties {
     }
   }
 
-  private onActionSelected(action: IAction) {
-    if (this.actionEditor) {
-      this.actionEditor.instance.setAction(action);
-      return;
-    }
-
-    this.componentLoader.loadIntoLocation(
-      <Type>ActionEditor,
-      this.viewContainer.element,
-      'container',
-      Injector.resolve([
-        bind(Action).toValue(action),
-        bind(Function).toValue(this.disposeActionEditor.bind(this))
-      ])
-    ).then((component: ComponentRef) => {
-      this.actionEditor = component;
-    });
-  }
-
   private getControlId() {
     return this.activeControl && this.activeControl.id;
   }
@@ -200,21 +153,12 @@ class VarginProperties {
     this.reset();
   }
 
-  private disposeActionEditor() {
-    if (this.actionEditor) {
-      this.actionEditor.dispose();
-      this.actionEditor = null;
-    }
-  }
-
   private reset() {
     this.activeControl = null;
 
     Object.keys(this.groups).forEach((groupKey) => {
       this.groups[groupKey].items = [];
     });
-
-   this.disposeActionEditor();
   }
 }
 

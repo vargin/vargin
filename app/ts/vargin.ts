@@ -1,5 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
-import { bootstrap, Component, View } from 'angular2/angular2';
+import { bootstrap, Component, Type, View } from 'angular2/angular2';
 
 import {
   IExpandableGroup,
@@ -7,15 +7,19 @@ import {
 } from 'editor/expandable-groups/expandable-groups';
 import VarginWorkspace from 'editor/workspace/workspace';
 import VarginProperties from 'editor/properties/properties';
+import { DialogManager } from 'editor/dialog-manager/dialog-manager';
 
 import { ControlGroup } from 'core/controls/control-group';
 
 import { ControlService } from 'services/control-service';
 
+/** Dynamic dependencies **/
+import { ActionEditor } from 'editor/properties/action-editor';
+/** End of Dynamic dependencies **/
+
 @Component({
   selector: 'vargin'
 })
-
 @View({
   template: `
     <article class="vargin-editor">
@@ -29,12 +33,16 @@ import { ControlService } from 'services/control-service';
         <vargin-properties />
       </section>
     </article>
+    <dialog-manager></dialog-manager>
   `,
-  directives: [VarginExpandableGroups, VarginWorkspace, VarginProperties]
+  directives: [
+    DialogManager, VarginExpandableGroups, VarginWorkspace, VarginProperties
+  ]
 })
 
 class Vargin {
   private controlGroups: IExpandableGroup[];
+  private dynamicDependencies: Type[] = [ActionEditor];
 
   constructor() {
     this.controlGroups = [

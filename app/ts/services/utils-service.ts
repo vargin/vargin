@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts" />
 let l: string[] = [];
 for (var i = 0; i < 256; i++) {
   l[i] = (i < 16 ? '0' : '') + (i).toString(16);
