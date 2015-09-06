@@ -17,7 +17,9 @@ import { IDialogRequest, DialogService } from 'services/dialog-service';
 })
 @View({
   template: `<section class="dialog-manager__container" (click)="close()">
-               <div #placeholder hidden></div>
+               <div class="dialog-manager__content">
+                 <div #placeholder hidden></div>
+               </div>
              </section>`
 })
 export class DialogManager {

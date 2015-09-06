@@ -19,6 +19,7 @@ import StringPropertyEditor from 'editor/properties/property-editors/string-prop
 import PropertyWithOptionsEditor from 'editor/properties/property-editors/property-with-options-editor';
 import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor';
 import ImagePropertyEditor from 'editor/properties/property-editors/image-property-editor';
+import URLPropertyEditor from 'editor/properties/property-editors/url/editor';
 
 @Component({
   selector: 'property-editor',
@@ -74,6 +75,8 @@ class PropertyEditor {
         return <Type>EventPropertyEditor;
       case 'image':
         return ImagePropertyEditor;
+      case 'url':
+        return URLPropertyEditor;
       default:
         return StringPropertyEditor;
     }

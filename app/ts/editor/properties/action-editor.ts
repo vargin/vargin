@@ -9,15 +9,13 @@ import PropertyEditor from 'editor/properties/property-editors/property-editor';
 })
 @View({
   template: `
-    <section class="vargin-action-editor__content">
-      <header>Setup action</header>
-      <ul class="vargin-action-editor__properties">
-        <li class="vargin-action-editor__property"
-            *ng-for="#property of actionProperties">
-          <property-editor [property]="property"></property-editor>
-        </li>
-      </ul>
-    </section>
+    <header>Setup action</header>
+    <ul class="vargin-action-editor__properties">
+      <li class="vargin-action-editor__property"
+          *ng-for="#property of actionProperties">
+        <property-editor [property]="property"></property-editor>
+      </li>
+    </ul>
   `,
   directives: [NgFor, PropertyEditor]
 })

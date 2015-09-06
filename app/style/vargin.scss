@@ -2,6 +2,7 @@
 @import '../../node_modules/sass-flex-mixin/flex.scss';
 @import '../ts/editor/expandable-groups/expandable-groups';
 @import '../ts/editor/dialog-manager/dialog-manager.scss';
+@import '../ts/editor/properties/property-editors/url/style.scss';
 
 html, body {
   height: 100%;
@@ -215,13 +216,6 @@ vargin-container > div {
   cursor: pointer;
 }
 
-.vargin-action-editor__content {
-  border: 1px solid #ddd;
-  background: #fff;
-
-  padding: 1rem;
-}
-
 .vargin-action-editor__properties {
   padding: 0;
 
@@ -235,19 +229,4 @@ vargin-container > div {
 
 image-property-editor input[type=file] {
   display: none;
-}
-
-.url-editor__input {
-  @include flexbox;
-  @include align-items(center);
-}
-
-.url-editor__input-value {
-  @include flex(1);
-
-  min-width: 0;
-
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
