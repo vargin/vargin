@@ -26,7 +26,7 @@ export class DialogManager {
   private renderer: DomRenderer;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
-  private instance: ComponentRef;
+  private instances: ComponentRef[] = [];
 
   constructor(
     @Inject(DomRenderer) renderer: DomRenderer,
@@ -43,28 +43,32 @@ export class DialogManager {
   }
 
   close() {
-    if (this.instance) {
+    if (this.instances.length) {
+      let instance = this.instances.pop();
+      instance.dispose();
+    }
+
+    if (this.instances.length === 0) {
       this.renderer.setElementClass(
         this.viewContainer.element, 'dialog-manager_visible', false
       );
-      this.instance.dispose();
-      this.instance = null;
     }
   }
 
   private onDialogRequested(dialogRequest: IDialogRequest) {
-    this.close();
-
     this.componentLoader.loadIntoLocation(
       dialogRequest.component,
       this.viewContainer.element,
       'placeholder',
       dialogRequest.bindings
     ).then((component: ComponentRef) => {
-      this.instance = component;
-      this.renderer.setElementClass(
-        this.viewContainer.element, 'dialog-manager_visible', true
-      );
+      this.instances.push(component);
+
+      if (this.instances.length === 1) {
+        this.renderer.setElementClass(
+          this.viewContainer.element, 'dialog-manager_visible', true
+        );
+      }
     });
   }
 }

@@ -29,4 +29,13 @@ dialog-manager {
   background: #fff;
 
   padding: 1rem;
+  min-width: 20rem;
+
+  > * {
+    display: none;
+  }
+
+  >:last-child {
+    display: block;
+  }
 }

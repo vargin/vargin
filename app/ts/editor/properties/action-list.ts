@@ -15,6 +15,7 @@ import { ActionService } from 'services/action-service';
 
 import { AlertAction } from 'core/actions/alert-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
+import { NavigateAction } from 'core/actions/navigate-action';
 import { DialogService } from 'services/dialog-service';
 
 @Component({
@@ -39,6 +40,7 @@ import { DialogService } from 'services/dialog-service';
             </option>
             <option value="alert-action">Alert</option>
             <option value="change-property-action">Change property</option>
+            <option value="navigate-action">Navigate</option>
           </select>
         </li>
       </ul>
@@ -63,6 +65,9 @@ export class ActionList {
         this.property.getValue().push(
           new ChangePropertyAction()
         );
+        break;
+      case 'navigate-action':
+        this.property.getValue().push(new NavigateAction());
         break;
       case 'default':
         return;
