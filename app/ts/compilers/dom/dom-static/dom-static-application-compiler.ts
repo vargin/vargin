@@ -33,20 +33,39 @@ const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
   [TextInputControl, new TextInputControlCompiler()]
 ]);
 
+const PAGE_REGEX = /href="page:([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"/g;
+
 export class DOMStaticApplicationCompiler implements IApplicationCompiler<string> {
   compile(application: Application) {
-    let compiledRoot = this.compileControl(application.pages[0].root);
+    let compiledApp = {
+      styles: '',
+      content: ''
+    };
+
+    application.pages.forEach((page) => {
+      let compiledRoot = this.compileControl(page.root);
+
+      let markup = compiledRoot.markup.replace(
+        PAGE_REGEX, (markup, pageId) => `href="#${pageId}"`
+      );
+
+      compiledApp.styles += `
+        <style type="text/css">${compiledRoot.cssClass.text}</style>
+      `;
+
+      compiledApp.content += `<section id="${page.id}">${markup}</section><hr />`;
+    });
 
     return `
       <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <title>${application.name}</title>
-          <style type="text/css">${compiledRoot.cssClass.text}</style>
-        </head>
-        <body>${compiledRoot.markup}</body>
-      </html>
+       <html lang="en">
+         <head>
+           <meta charset="UTF-8">
+           <title>${application.name}</title>
+           ${compiledApp.styles}
+         </head>
+         <body>${compiledApp.content}</body>
+       </html>
     `;
   }
 
