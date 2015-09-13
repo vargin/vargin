@@ -5,7 +5,7 @@ import {
   DynamicComponentLoader,
   Inject,
   Injector,
-  LifecycleEvent,
+  OnChanges,
   Type,
   View,
   ViewContainerRef
@@ -23,13 +23,12 @@ import URLPropertyEditor from 'editor/properties/property-editors/url/editor';
 
 @Component({
   selector: 'property-editor',
-  properties: ['property'],
-  lifecycle: [LifecycleEvent.onChange]
+  properties: ['property']
 })
 @View({
   template: `<div #container hidden></div>`
 })
-class PropertyEditor {
+class PropertyEditor implements OnChanges {
   private loader: DynamicComponentLoader;
   private viewContainer: ViewContainerRef;
   private property: IProperty<any>;
@@ -42,7 +41,7 @@ class PropertyEditor {
     this.viewContainer = viewContainer;
   }
 
-  onChange() {
+  onChanges() {
     if (!this.property) {
       return;
     }

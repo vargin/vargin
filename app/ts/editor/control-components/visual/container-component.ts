@@ -20,7 +20,7 @@ import { ControlService } from 'services/control-service';
   selector: 'vargin-container',
   properties: ['control'],
   host: {
-    '(^click)': 'onClick($event)'
+    '(click)': 'onClick($event)'
   }
 })
 @View({

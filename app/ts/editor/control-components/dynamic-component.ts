@@ -6,7 +6,7 @@ import {
   ElementRef,
   Inject,
   Injector,
-  LifecycleEvent,
+  OnChanges,
   View
 } from 'angular2/angular2';
 
@@ -19,13 +19,12 @@ import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
   selector: 'vargin-dynamic',
-  properties: ['control'],
-  lifecycle: [LifecycleEvent.onChange]
+  properties: ['control']
 })
 @View({
   template: `<div class="vargin-dynamic-anchor" #container hidden></div>`
 })
-class DynamicComponent extends BaseComponent {
+class DynamicComponent extends BaseComponent implements OnChanges {
   private loader: DynamicComponentLoader;
   private element: ElementRef;
   control: Control;
@@ -40,7 +39,7 @@ class DynamicComponent extends BaseComponent {
     this.element = element;
   }
 
-  onChange() {
+  onChanges() {
     if (!this.control) {
       return;
     }

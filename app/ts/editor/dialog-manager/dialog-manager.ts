@@ -17,7 +17,7 @@ import { IDialogRequest, DialogService } from 'services/dialog-service';
 })
 @View({
   template: `<section class="dialog-manager__container" (click)="close()">
-               <div class="dialog-manager__content">
+               <div class="dialog-manager__content" (click)="$event.stopPropagation()">
                  <div #placeholder hidden></div>
                </div>
              </section>`

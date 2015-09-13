@@ -11,7 +11,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   selector: 'vargin-label',
   properties: ['control'],
   host: {
-    '(^click)': 'onClick($event)'
+    '(click)': 'onClick($event)'
   }
 })
 @View({
