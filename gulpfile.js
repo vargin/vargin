@@ -59,6 +59,24 @@ var ng2Builder = new Builder({
   defaultJSExtensions: true
 });
 
+var ng2RouterBuilder = new Builder({
+  paths: {
+    'angular2/*': 'node_modules/angular2/es6/dev/*.js',
+    rx: 'node_modules/angular2/node_modules/rx/dist/rx.js'
+  },
+
+  meta: {
+    'angular2/angular2': { build: false },
+    'angular2/di': { build: false },
+    'angular2/core': { build: false },
+    'angular2/change_detection': { build: false },
+    'angular2/src/core/*': { build: false },
+    rx: { build: false }
+  },
+
+  defaultJSExtensions: true
+});
+
 gulp.task('clean.dev', function () {
   return del(PATH.dest.dev.all);
 });
@@ -124,9 +142,16 @@ gulp.task('build.dev.angular-compiler.libs', function() {
 });
 
 gulp.task('build.dev.angular-compiler.ng2', function () {
-  return ng2Builder.build(
-    'angular2/angular2', PATH.dest.dev.ngCompiler.lib + '/angular2.js', {}
-  );
+  return Promise.all([
+    ng2Builder.build(
+      'angular2/angular2', PATH.dest.dev.ngCompiler.lib + '/angular2.js', {}
+    ),
+    ng2RouterBuilder.build(
+      'angular2/router',
+      PATH.dest.dev.ngCompiler.lib + '/angular2-router.js',
+      {}
+    )
+  ]);
 });
 
 gulp.task('build.dev.angular-compiler.app', function() {
