@@ -29,7 +29,7 @@ export class Application {
     return this._description;
   }
 
-  get pages() {
+  get pages(): ApplicationPage[] {
     return this._pages;
   }
 
