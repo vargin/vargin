@@ -36,14 +36,29 @@ const CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
   [TextInputControl, new TextInputControlCompiler()]
 ]);
 
-export class DOMAngularApplicationCompiler implements IApplicationCompiler<string> {
-  compile(application: Application) {
-    let compiledRoot = this.compileControl(application.pages[0].root);
+export interface ICompiledDOMAngularApplication {
+  pages: Array<{ id: string; name: string; markup: string }>;
+}
 
-    return `<style type="text/css">${compiledRoot.cssClass.text}</style><page>${compiledRoot.markup}</page>`;
+export class DOMAngularApplicationCompiler implements IApplicationCompiler<ICompiledDOMAngularApplication> {
+  compile(application: Application) {
+    return {
+      pages: application.pages.map((page: ApplicationPage) => {
+        let compiledRoot = this.compileControl(page.root);
+
+        return {
+          id: page.id,
+          name: page.name,
+          markup: `
+            <style type="text/css">${compiledRoot.cssClass.text}</style>
+            ${compiledRoot.markup}
+          `
+        };
+      })
+    };
   }
 
-  decompile(compiledApplication: string): Application {
+  decompile(compiledApplication: ICompiledDOMAngularApplication): Application {
     return null;
   }
 
