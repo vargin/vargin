@@ -60,6 +60,7 @@ class ContainerComponent extends BaseComponent {
       ControlService.createByType(e.dataTransfer.getData('text/plain'))
     );
     e.preventDefault();
+    e.stopPropagation();
   }
 }
 
