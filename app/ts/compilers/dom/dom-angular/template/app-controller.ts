@@ -13,6 +13,7 @@ import {
   HashLocationStrategy,
   ROUTER_BINDINGS,
   ROUTER_DIRECTIVES,
+  RouterLink,
   RouteConfig,
   RouteParams
 } from 'angular2/router';
@@ -31,7 +32,7 @@ import { application, pages } from 'app-description';
     return markup +
       `<div *ng-if="id === '${page.id}'">${page.markup}</div>`;
   }, ''),
-  directives: [NgIf]
+  directives: [NgIf, RouterLink]
 })
 class PageController {
   private id: string;

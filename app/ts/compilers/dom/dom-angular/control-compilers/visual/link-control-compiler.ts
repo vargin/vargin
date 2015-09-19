@@ -6,6 +6,12 @@ import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
 
 export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> {
   getMarkup(control: LinkControl, cssClass: ICompiledCSSClass) {
+    let address = control.address.getValue();
+
+    let addressAttribute = address.startsWith('page:') ?
+      ['[router-link]', `[\'/page\', { id: \'${address.split(':')[1]}\' }]`] :
+      ['href', address];
+
     // Here we should be smart and analyze if any of the control properties
     // can be changed, if it's it should be replaced with dynamic markup,
     // otherwise we should render static value.
@@ -15,7 +21,7 @@ export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> 
       new Map<string, string>([
         ['id', control.id],
         ['class', cssClass.name],
-        ['href', control.address.getValue()],
+        addressAttribute,
         [
           'title',
           DOMAngularControlCompiler.getDynamicPropertyValue(control, 'title')
