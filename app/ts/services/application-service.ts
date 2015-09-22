@@ -213,7 +213,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
       }],
       parameters: {
         styles: [
-          ['border', '3px solid #ddd'],
+          ['background-color', '#ffffff'],
           ['display', 'flex'],
           ['flex-direction', 'column'],
           ['min-height', '30rem']

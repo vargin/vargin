@@ -17,12 +17,7 @@ import { EventService } from 'services/event-service';
 
 const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['align-items', StyleService.getDescriptor('align-items')],
-  [
-    'background-color',
-    new ControlProperty(
-      StyleService.getDescriptor('background-color'), '#ffffff'
-    )
-  ],
+  ['background-color', StyleService.getDescriptor('background-color')],
   ['border', StyleService.getDescriptor('border')],
   ['color', StyleService.getDescriptor('color')],
   ['display', new ControlPropertyWithOptions(

@@ -32,7 +32,11 @@ import {
       </li>
     </ul>
     <section class="workspace-editor">
-      <vargin-container [control]="getRoot()"></vargin-container>
+      <div class="workspace-editor__visual">
+        <vargin-container [control]="getRoot()"></vargin-container>
+      </div>
+      <div class="workspace-editor__service">
+      </div>
     </section>
     <footer class="workspace-toolbar">
       <button (click)="startFromScratch()">Start from scratch</button>

@@ -97,8 +97,29 @@ body {
 }
 
 .workspace-editor {
+  @include flexbox;
+  @include flex-direction(column);
+
   background-color: #eee;
   padding: 0.5rem;
+}
+
+.workspace-editor__visual {
+  @include flex(1);
+
+  border: 0.1rem dashed #ddd;
+}
+
+.workspace-editor__service {
+  max-height: 3rem;
+  min-height: 3rem;
+  margin-top: 0.5rem;
+
+  border: 0.1rem dashed #ddd;
+}
+
+.workspace-editor__service:-moz-drag-over {
+  border-color: #333333;
 }
 
 .workspace-toolbar {
@@ -120,7 +141,7 @@ body {
 }
 
 .vargin-component:-moz-drag-over {
-  border: 5px solid black !important;
+  border: 0.2rem dashed #d2cfcf !important;
 }
 
 .vargin-dynamic-anchor {
