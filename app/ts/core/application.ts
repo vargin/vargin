@@ -38,6 +38,7 @@ export class Application {
       new ApplicationPage(
         UtilsService.uuid(),
         name || `Page #${this.pages.length}`,
+        new ContainerControl(UtilsService.uuid()),
         new ContainerControl(UtilsService.uuid())
       )
     );

@@ -24,7 +24,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
 @View({
   template: `<div class="vargin-dynamic-anchor" #container hidden></div>`
 })
-class DynamicComponent extends BaseComponent implements OnChanges {
+export class DynamicComponent extends BaseComponent implements OnChanges {
   private loader: DynamicComponentLoader;
   private element: ElementRef;
   control: Control;
@@ -52,5 +52,3 @@ class DynamicComponent extends BaseComponent implements OnChanges {
     );
   }
 }
-
-export default DynamicComponent;

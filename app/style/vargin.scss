@@ -111,6 +111,8 @@ body {
 }
 
 .workspace-editor__service {
+  @include flexbox;
+
   max-height: 3rem;
   min-height: 3rem;
   margin-top: 0.5rem;
@@ -181,7 +183,13 @@ vargin-link > span,
 vargin-button > button,
 vargin-range > input,
 vargin-text-input > input,
-vargin-container > div {
+vargin-container > div,
+vargin-service-container > div {
+  @include flex;
+}
+
+vargin-service-container {
+  @include flexbox;
   @include flex;
 }
 

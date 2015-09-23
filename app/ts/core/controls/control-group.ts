@@ -51,7 +51,7 @@ export class ControlGroup {
    * List of controls associated with the group.
    * @returns {Array<ControlMetadata>}
    */
-  get items() {
+  get items(): ControlMetadata[] {
     return this._items;
   }
 

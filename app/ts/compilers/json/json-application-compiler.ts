@@ -15,6 +15,7 @@ interface IJSONApplication {
     id: string;
     name: string;
     root: IJSONControl;
+    serviceRoot: IJSONControl;
   }>;
 }
 
@@ -30,7 +31,8 @@ export class JSONApplicationCompiler implements IApplicationCompiler<string> {
         return {
           id: page.id,
           name: page.name,
-          root: this._controlCompiler.compile(page.root)
+          root: this._controlCompiler.compile(page.root),
+          serviceRoot: this._controlCompiler.compile(page.serviceRoot)
         };
       })
     };
@@ -51,7 +53,8 @@ export class JSONApplicationCompiler implements IApplicationCompiler<string> {
         return new ApplicationPage(
           plainApplicationPage.id,
           plainApplicationPage.name,
-          this._controlCompiler.decompile(plainApplicationPage.root)
+          this._controlCompiler.decompile(plainApplicationPage.root),
+          this._controlCompiler.decompile(plainApplicationPage.serviceRoot)
         );
       })
     );

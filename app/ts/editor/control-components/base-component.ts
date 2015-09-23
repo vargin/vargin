@@ -21,30 +21,41 @@ export class BaseComponent {
   }
 
   onDragOver(e: DragEvent) {
-    e.preventDefault();
+    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+      e.preventDefault();
+    }
   }
 
   onDragEnter(e: DragEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.dragEnterCounter++;
+    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.dragEnterCounter++;
+    }
   }
 
   onDragLeave(e: DragEvent) {
-    e.stopPropagation();
-
-    this.dragEnterCounter--;
+    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+      e.stopPropagation();
+      this.dragEnterCounter--;
+    }
   }
 
   onDrop(e: DragEvent) {
-    this.control.addChild(
-      ControlService.createByType(e.dataTransfer.getData('text/plain'))
-    );
-    e.preventDefault();
-    e.stopPropagation();
+    let controlType = e.dataTransfer.getData('text/plain');
+    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+      this.control.addChild(
+        ControlService.createByType(controlType)
+      );
+      e.preventDefault();
+      e.stopPropagation();
 
-    this.dragEnterCounter = 0;
+      this.dragEnterCounter = 0;
+    }
+  }
+
+  acceptDrop(controlType: string) {
+    return false;
   }
 
   getControlStyles() {

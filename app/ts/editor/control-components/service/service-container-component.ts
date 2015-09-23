@@ -4,6 +4,7 @@ import {
   Inject,
   NgFor,
   NgStyle,
+  OnChanges,
   Optional,
   View
 } from 'angular2/angular2';
@@ -18,11 +19,8 @@ import { BaseComponent } from 'editor/control-components/base-component';
 import { ControlService } from 'services/control-service';
 
 @Component({
-  selector: 'vargin-container',
-  properties: ['control'],
-  host: {
-    '(click)': 'onClick($event)'
-  }
+  selector: 'vargin-service-container',
+  properties: ['control']
 })
 @View({
   template: `
@@ -43,18 +41,31 @@ import { ControlService } from 'services/control-service';
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-class ContainerComponent extends BaseComponent {
+export class ServiceContainerComponent extends BaseComponent implements OnChanges  {
   control: ContainerControl;
 
-  constructor(@Optional() @Inject(Control) control?: ContainerControl) {
+  constructor(@Optional() @Inject(Control) control: ContainerControl) {
     super(control || ControlService.create(ContainerControl));
+
+    this.setupStyles();
   }
 
   acceptDrop(controlType: string) {
-    return !!ControlGroup.get('visual').items.find((meta: ControlMetadata) => {
+    return !!ControlGroup.get('service').items.find((meta: ControlMetadata) => {
       return meta.type === controlType;
     });
   }
-}
 
-export default ContainerComponent;
+  onChanges() {
+    if (this.control) {
+      this.setupStyles();
+    }
+  }
+
+  private setupStyles() {
+    this.control.styles.get('align-items').setValue('center');
+    this.control.styles.get('display').setValue('flex');
+    this.control.styles.get('min-height').setValue('0');
+    this.control.styles.get('min-width').setValue('0');
+  }
+}

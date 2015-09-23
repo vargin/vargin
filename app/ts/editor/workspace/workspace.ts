@@ -1,6 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 import ContainerComponent from 'editor/control-components/visual/container-component';
+import { ServiceContainerComponent } from 'editor/control-components/service/service-container-component';
 import { ApplicationService } from 'services/application-service';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
 import {
@@ -36,6 +37,8 @@ import {
         <vargin-container [control]="getRoot()"></vargin-container>
       </div>
       <div class="workspace-editor__service">
+        <vargin-service-container [control]="getServiceRoot()">
+        </vargin-service-container>
       </div>
     </section>
     <footer class="workspace-toolbar">
@@ -45,7 +48,7 @@ import {
       <button (click)="toStaticHTML()">To Static HTML App</button>
     </footer>
   `,
-  directives: [ContainerComponent, NgFor, NgIf]
+  directives: [ContainerComponent, ServiceContainerComponent, NgFor, NgIf]
 })
 class VarginWorkspace {
   private workspace: Workspace;
@@ -79,6 +82,10 @@ class VarginWorkspace {
 
   getRoot() {
     return this.workspace.application.pages[this.activePageIndex].root;
+  }
+
+  getServiceRoot() {
+    return this.workspace.application.pages[this.activePageIndex].serviceRoot;
   }
 
   toJSON() {
