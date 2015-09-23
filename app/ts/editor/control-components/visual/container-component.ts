@@ -27,7 +27,9 @@ import { ControlService } from 'services/control-service';
   template: `
     <div
       class="vargin-component"
+      [class.vargin-component_drop-target]="dragEnterCounter > 0"
       [ng-style]="getControlStyles()"
+      (dragleave)="onDragLeave($event)"
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
@@ -45,22 +47,6 @@ class ContainerComponent extends BaseComponent {
 
   constructor(@Optional() @Inject(Control) control?: ContainerControl) {
     super(control || ControlService.create(ContainerControl));
-  }
-
-  onDragOver(e: DragEvent) {
-    e.preventDefault();
-  }
-
-  onDragEnter(e: DragEvent) {
-    e.preventDefault();
-  }
-
-  onDrop(e: DragEvent) {
-    this.control.addChild(
-      ControlService.createByType(e.dataTransfer.getData('text/plain'))
-    );
-    e.preventDefault();
-    e.stopPropagation();
   }
 }
 

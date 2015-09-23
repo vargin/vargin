@@ -35,7 +35,12 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
       StyleService.getDescriptor('min-height'), '5rem'
     )
   ],
-  ['min-width', StyleService.getDescriptor('min-width')],
+  [
+    'min-width',
+    new ControlProperty(
+      StyleService.getDescriptor('min-width'), '5rem'
+    )
+  ],
   ['padding', StyleService.getDescriptor('padding')]
 ]);
 

@@ -7,6 +7,7 @@ const CONTAINER_ONLY_STYLES = ['flex-basis', 'flex-grow', 'flex-shrink'];
 
 export class BaseComponent {
   public control: Control;
+  protected dragEnterCounter: number = 0;
 
   constructor(control: Control) {
     this.control = control;
@@ -17,6 +18,33 @@ export class BaseComponent {
     e.preventDefault();
 
     ControlService.selectControl(this.control);
+  }
+
+  onDragOver(e: DragEvent) {
+    e.preventDefault();
+  }
+
+  onDragEnter(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.dragEnterCounter++;
+  }
+
+  onDragLeave(e: DragEvent) {
+    e.stopPropagation();
+
+    this.dragEnterCounter--;
+  }
+
+  onDrop(e: DragEvent) {
+    this.control.addChild(
+      ControlService.createByType(e.dataTransfer.getData('text/plain'))
+    );
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.dragEnterCounter = 0;
   }
 
   getControlStyles() {
