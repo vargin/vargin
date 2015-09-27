@@ -1,5 +1,13 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
+import {
+  Component,
+  DomRenderer,
+  Inject,
+  NgStyle,
+  Optional,
+  View,
+  ViewContainerRef
+} from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
 import { LinkControl } from 'core/controls/visual/link-control';
@@ -28,8 +36,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 class LinkComponent extends BaseComponent {
   control: LinkControl;
 
-  constructor(@Optional() @Inject(Control) control?: LinkControl) {
-    super(control || ControlService.create(LinkControl));
+  constructor(
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Optional() @Inject(Control) control?: LinkControl
+  ) {
+    super(
+      control || ControlService.create(LinkControl),
+      renderer,
+      viewContainer
+    );
   }
 }
 

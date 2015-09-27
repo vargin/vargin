@@ -1,12 +1,14 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
+  DomRenderer,
   Inject,
   NgFor,
   NgStyle,
   OnChanges,
   Optional,
-  View
+  View,
+  ViewContainerRef
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
@@ -43,8 +45,16 @@ import { ControlService } from 'services/control-service';
 export class ServiceContainerComponent extends BaseComponent implements OnChanges  {
   control: ContainerControl;
 
-  constructor(@Optional() @Inject(Control) control: ContainerControl) {
-    super(control || ControlService.create(ContainerControl));
+  constructor(
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Optional() @Inject(Control) control: ContainerControl
+  ) {
+    super(
+      control || ControlService.create(ContainerControl),
+      renderer,
+      viewContainer
+    );
 
     this.setupStyles();
   }

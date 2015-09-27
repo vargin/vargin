@@ -1,5 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
-import { EventEmitter } from 'angular2/angular2';
+import { EventEmitter, ViewContainerRef } from 'angular2/angular2';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
 import { IAction } from 'core/actions/action';
@@ -27,18 +27,30 @@ const CONTROLS = new Map<string, any>([
 ]);
 
 export class ControlService {
-  private static _activeControl: Control;
+  private static _activeControl: { control: Control, view: ViewContainerRef };
 
   static controlSelected: EventEmitter = new EventEmitter();
+  static controlUnselected: EventEmitter = new EventEmitter();
 
   static get activeControl() {
     return ControlService._activeControl;
   }
 
-  static selectControl(control: Control) {
-    if (control !== this._activeControl) {
-      ControlService._activeControl = control;
-      ControlService.controlSelected.next(control);
+  static selectControl(control: Control, view: ViewContainerRef) {
+    if (this._activeControl && this._activeControl.control !== control) {
+      ControlService.unselectCurrentControl();
+    }
+
+    if (!this._activeControl || this._activeControl.control !== control) {
+      ControlService._activeControl = { control, view };
+      ControlService.controlSelected.next(ControlService._activeControl);
+    }
+  }
+
+  static unselectCurrentControl() {
+    if (this._activeControl) {
+      ControlService.controlUnselected.next(this._activeControl);
+      this._activeControl = null;
     }
   }
 

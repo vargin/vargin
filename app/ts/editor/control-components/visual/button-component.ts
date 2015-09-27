@@ -1,10 +1,12 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
+  DomRenderer,
   Inject,
   NgStyle,
   Optional,
-  View
+  View,
+  ViewContainerRef
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
@@ -33,8 +35,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 class ButtonComponent extends BaseComponent {
   control: ButtonControl;
 
-  constructor(@Optional() @Inject(Control) control?: ButtonControl) {
-    super(control || ControlService.create(ButtonControl));
+  constructor(
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Optional() @Inject(Control) control?: ButtonControl
+  ) {
+    super(
+      control || ControlService.create(ButtonControl),
+      renderer,
+      viewContainer
+    );
   }
 }
 

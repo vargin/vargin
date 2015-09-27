@@ -1,5 +1,13 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
+import {
+  Component,
+  DomRenderer,
+  Inject,
+  NgStyle,
+  Optional,
+  View,
+  ViewContainerRef
+} from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
 import { TextInputControl} from 'core/controls/visual/text-input-control';
@@ -29,8 +37,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 class TextInputComponent extends BaseComponent {
   control: TextInputControl;
 
-  constructor(@Optional() @Inject(Control) control?: TextInputControl) {
-    super(control || ControlService.create(TextInputControl));
+  constructor(
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Optional() @Inject(Control) control?: TextInputControl
+  ) {
+    super(
+      control || ControlService.create(TextInputControl),
+      renderer,
+      viewContainer
+    );
   }
 }
 

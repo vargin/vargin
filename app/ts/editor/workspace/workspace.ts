@@ -4,6 +4,7 @@ import ContainerComponent from 'editor/control-components/visual/container-compo
 import { ServiceContainerComponent } from 'editor/control-components/service/service-container-component';
 import { ApplicationService } from 'services/application-service';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
+import { ControlService } from 'services/control-service';
 import {
   JSONApplicationCompiler
 } from 'compilers/json/json-application-compiler';
@@ -22,7 +23,7 @@ import {
     <ul class="workspace-pager">
       <li class="workspace-pager__page{{activePageIndex === i ? ' workspace-pager__page_active' : ''}}"
           *ng-for="#page of workspace.application.pages; #i = index"
-          (click)="activePageIndex = i">
+          (click)="goToPage(i)">
         {{page.name}}
         <button class="workspace-pager__page__remove" title="Remove page"
                 *ng-if="workspace.application.pages.length > 1"
@@ -75,8 +76,17 @@ class VarginWorkspace {
   removePage(pageId: string) {
     this.workspace.application.removePage(pageId);
 
+    ControlService.unselectCurrentControl();
+
     if (this.activePageIndex >= this.workspace.application.pages.length) {
       this.activePageIndex = this.workspace.application.pages.length - 1;
+    }
+  }
+
+  goToPage(pageIndex: number) {
+    if (pageIndex !== this.activePageIndex) {
+      ControlService.unselectCurrentControl();
+      this.activePageIndex = pageIndex;
     }
   }
 

@@ -2,15 +2,14 @@
 import {
   bind,
   Component,
+  DomRenderer,
   DynamicComponentLoader,
-  ElementRef,
   Inject,
   Injector,
   OnChanges,
-  View
+  View,
+  ViewContainerRef
 } from 'angular2/angular2';
-
-import { ControlService } from 'services/control-service';
 
 import { Control } from 'core/controls/control';
 import ComponentControlMap from 'editor/control-components/component-control-map';
@@ -26,17 +25,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 })
 export class DynamicComponent extends BaseComponent implements OnChanges {
   private loader: DynamicComponentLoader;
-  private element: ElementRef;
   control: Control;
 
   constructor(
-    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
-    @Inject(ElementRef) element: ElementRef
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader
   ) {
-    super(this.control);
+    super(this.control, renderer, viewContainer);
 
     this.loader = loader;
-    this.element = element;
   }
 
   onChanges() {
@@ -46,7 +44,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
 
     this.loader.loadIntoLocation(
       ComponentControlMap.getComponentType(this.control.meta.type),
-      this.element,
+      this.viewContainer.element,
       'container',
       Injector.resolve([bind(Control).toValue(this.control)])
     );

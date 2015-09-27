@@ -96,6 +96,10 @@ class VarginProperties {
       this.onControlSelected.bind(this)
     );
 
+    ControlService.controlUnselected.toRx().subscribeOnNext(
+      this.onControlUnselected.bind(this)
+    );
+
     this.groups.properties = {
       name: 'Common Properties',
       expanded: false,
@@ -115,10 +119,10 @@ class VarginProperties {
     };
   }
 
-  private onControlSelected(control: Control) {
+  private onControlSelected(controlDescription: { control: Control }) {
     this.reset();
 
-    this.activeControl = control;
+    let control = this.activeControl = controlDescription.control;
 
     if (control.meta.supportedProperties.size) {
       control.meta.supportedProperties.forEach((property, propertyKey) => {
@@ -139,6 +143,10 @@ class VarginProperties {
     }
   }
 
+  private onControlUnselected() {
+    this.reset();
+  }
+
   private getControlId() {
     return this.activeControl && this.activeControl.id;
   }
@@ -150,7 +158,7 @@ class VarginProperties {
 
     this.activeControl.remove();
 
-    this.reset();
+    ControlService.unselectCurrentControl();
   }
 
   private reset() {

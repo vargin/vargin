@@ -1,5 +1,13 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
-import { Component, Inject, NgStyle, Optional, View } from 'angular2/angular2';
+import {
+  Component,
+  DomRenderer,
+  Inject,
+  NgStyle,
+  Optional,
+  View,
+  ViewContainerRef
+} from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
 import { LabelControl } from 'core/controls/visual/label-control';
@@ -25,8 +33,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 class LabelComponent extends BaseComponent {
   control: LabelControl;
 
-  constructor(@Optional() @Inject(Control) control?: LabelControl) {
-    super(control || ControlService.create(LabelControl));
+  constructor(
+    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Optional() @Inject(Control) control?: LabelControl
+  ) {
+    super(
+      control || ControlService.create(LabelControl),
+      renderer,
+      viewContainer
+    );
   }
 }
 

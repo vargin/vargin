@@ -1,4 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
+import { DomRenderer, ViewContainerRef} from 'angular2/angular2';
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { ControlService } from 'services/control-service';
@@ -8,16 +9,30 @@ const CONTAINER_ONLY_STYLES = ['flex-basis', 'flex-grow', 'flex-shrink'];
 export class BaseComponent {
   public control: Control;
   protected dragEnterCounter: number = 0;
+  protected renderer: DomRenderer;
+  protected viewContainer: ViewContainerRef;
 
-  constructor(control: Control) {
+  constructor(
+    control: Control, renderer: DomRenderer, viewContainer: ViewContainerRef
+  ) {
     this.control = control;
+    this.renderer = renderer;
+    this.viewContainer = viewContainer;
+
+    ControlService.controlSelected.toRx().subscribeOnNext(
+      this.onControlSelected.bind(this)
+    );
+
+    ControlService.controlUnselected.toRx().subscribeOnNext(
+      this.onControlUnselected.bind(this)
+    );
   }
 
   onClick(e: Event) {
     e.stopPropagation();
     e.preventDefault();
 
-    ControlService.selectControl(this.control);
+    ControlService.selectControl(this.control, this.viewContainer);
   }
 
   onDragOver(e: DragEvent) {
@@ -94,6 +109,26 @@ export class BaseComponent {
     }
 
     return null;
+  }
+
+  private onControlSelected(
+    controlDescription: { control: Control, view: ViewContainerRef }
+  ) {
+    this.renderer.setElementClass(
+      controlDescription.view.element,
+      'vargin-component_active',
+      true
+    );
+  }
+
+  private onControlUnselected(
+    controlDescription: { control: Control, view: ViewContainerRef }
+  ) {
+    this.renderer.setElementClass(
+      controlDescription.view.element,
+      'vargin-component_active',
+      false
+    );
   }
 
   private domStringListToArray(list: DOMStringList) {

@@ -148,6 +148,10 @@ body {
   border: 0.2rem dashed #d2cfcf !important;
 }
 
+.vargin-component_active {
+  box-shadow: 0 0 1rem #9ecaed;
+}
+
 .vargin-dynamic-anchor {
   display: none;
 }
@@ -161,6 +165,10 @@ body {
     display: contents;
   }
 }*/
+
+vargin-container {
+  display: block;
+}
 
 vargin-dynamic {
   @include inline-flex;
@@ -193,6 +201,10 @@ vargin-service-container > div {
 vargin-service-container {
   @include flexbox;
   @include flex;
+
+  vargin-dynamic {
+    margin-left: 0.3rem;
+  }
 }
 
 .vargin-property-editor {
@@ -241,14 +253,13 @@ image-property-editor input[type=file] {
 .vargin-service-component {
   display: inline-block;
 
-  width: 3rem;
+  width: 2.5rem;
 
   font: normal normal normal 2.2rem/1 'Vargin Icons';
   text-rendering: auto;
   text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  border-right: 0.1rem dashed #bbbbbb;
 }
 
 .vargin-service-component__datasource {
