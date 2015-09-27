@@ -13,10 +13,13 @@ import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
   selector: 'vargin-datasource',
-  properties: ['control']
+  properties: ['control'],
+  host: {
+    '(click)': 'onClick($event)'
+  }
 })
 @View({
-  template: `<div>{{ control.meta.name }}</div>`
+  template: `<div class="vargin-service-component vargin-service-component__datasource"></div>`
 })
 class DataSourceComponent extends BaseComponent {
   control: DataSourceControl;

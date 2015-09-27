@@ -8,6 +8,8 @@ import LinkComponent from 'editor/control-components/visual/link-component';
 import RangeComponent from 'editor/control-components/visual/range-component';
 import TextInputComponent from 'editor/control-components/visual/text-input-component';
 
+import DataSourceComponent from 'editor/control-components/service/datasource-component';
+
 class ComponentControlMap {
   static getComponentType(type: string): Type {
     switch (type) {
@@ -23,6 +25,8 @@ class ComponentControlMap {
         return RangeComponent;
       case 'text-input':
         return TextInputComponent;
+      case 'datasource':
+        return DataSourceComponent;
       default:
         throw new Error('Unsupported control type: ' + type);
     }

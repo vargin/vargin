@@ -20,6 +20,7 @@ import PropertyWithOptionsEditor from 'editor/properties/property-editors/proper
 import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor';
 import ImagePropertyEditor from 'editor/properties/property-editors/image-property-editor';
 import URLPropertyEditor from 'editor/properties/property-editors/url/editor';
+import { SchemaPropertyEditor } from 'editor/properties/property-editors/schema/editor';
 
 @Component({
   selector: 'property-editor',
@@ -76,6 +77,8 @@ class PropertyEditor implements OnChanges {
         return ImagePropertyEditor;
       case 'url':
         return URLPropertyEditor;
+      case 'schema':
+        return SchemaPropertyEditor;
       default:
         return StringPropertyEditor;
     }

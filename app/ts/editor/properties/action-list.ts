@@ -23,28 +23,26 @@ import { DialogService } from 'services/dialog-service';
 })
 @View({
   template: `
-    <section>
-      <ul class="vargin-action-list" #actioneditor>
-        <li class="vargin-action-list__item"
-            *ng-for="#action of property.getValue()">
-          <span (click)="editAction(action)">{{ action.name }}</span>
-          <button class="vargin-action-list__remove"
-                  (click)="removeAction(action)">
-            &#x274c;
-          </button>
-        </li>
-        <li class="vargin-action-list__item">
-          <select #newaction (change)="addNewAction(newaction)">
-            <option value="default" selected="{{isDefaultSelected}}">
-              (+ Choose new action)
-            </option>
-            <option value="alert-action">Alert</option>
-            <option value="change-property-action">Change property</option>
-            <option value="navigate-action">Navigate</option>
-          </select>
-        </li>
-      </ul>
-    </section>
+    <ul class="vargin-list vargin-action-list" #actioneditor>
+      <li class="vargin-list__item"
+          *ng-for="#action of property.getValue()">
+        <span (click)="editAction(action)">{{ action.name }}</span>
+        <button class="vargin-list__remove-item"
+                (click)="removeAction(action)">
+          &#x274c;
+        </button>
+      </li>
+      <li class="vargin-list__item">
+        <select #newaction (change)="addNewAction(newaction)">
+          <option value="default" selected="{{isDefaultSelected}}">
+            (+ Choose new action)
+          </option>
+          <option value="alert-action">Alert</option>
+          <option value="change-property-action">Change property</option>
+          <option value="navigate-action">Navigate</option>
+        </select>
+      </li>
+    </ul>
   `,
   directives: [NgFor]
 })

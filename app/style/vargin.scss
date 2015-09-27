@@ -1,8 +1,10 @@
 @import 'fonts.scss';
 @import '../../node_modules/sass-flex-mixin/flex.scss';
+@import 'lists.scss';
 @import '../ts/editor/expandable-groups/expandable-groups';
 @import '../ts/editor/dialog-manager/dialog-manager.scss';
 @import '../ts/editor/properties/property-editors/url/style.scss';
+@import '../ts/editor/properties/property-editors/schema/style.scss';
 
 html, body {
   height: 100%;
@@ -217,32 +219,8 @@ vargin-service-container {
   }
 }
 
-.vargin-action-list__item {
-  list-style: none;
-
-  margin: 0.5rem 0;
-
-  &:hover {
-    .vargin-action-list__remove {
-      visibility: visible;
-    }
-  }
-}
-
 .vargin-action-list {
   padding-left: 1rem;
-}
-
-.vargin-action-list__remove {
-  visibility: hidden;
-
-  padding: 0;
-
-  background: transparent;
-  border: none;
-  color: #000;
-
-  cursor: pointer;
 }
 
 .vargin-action-editor__properties {
@@ -258,4 +236,28 @@ vargin-service-container {
 
 image-property-editor input[type=file] {
   display: none;
+}
+
+.vargin-service-component {
+  display: inline-block;
+
+  width: 3rem;
+
+  font: normal normal normal 2.2rem/1 'Vargin Icons';
+  text-rendering: auto;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-right: 0.1rem dashed #bbbbbb;
+}
+
+.vargin-service-component__datasource {
+  &:before {
+    content: 'a';
+  }
+}
+
+vargin-datasource {
+  @include flexbox;
+  @include align-items(center);
 }

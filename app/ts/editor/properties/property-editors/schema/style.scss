@@ -1,0 +1,21 @@
+@import '../../../../../../node_modules/sass-flex-mixin/flex';
+
+.schema-editor-dialog__header {
+  margin-bottom: 0.5rem;
+}
+
+.schema-editor__input {
+  @include flexbox;
+  @include align-items(center);
+}
+
+.schema-editor__input-value {
+  @include flex(1);
+
+  min-width: 0;
+  margin-right: 0.2rem;
+
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
