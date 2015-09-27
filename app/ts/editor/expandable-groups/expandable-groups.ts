@@ -8,6 +8,7 @@ interface IExpandableGroupItem {
 
 export interface IExpandableGroup {
   name: string;
+  type: string;
   expanded: boolean;
   items: IExpandableGroupItem[];
 }
@@ -27,8 +28,12 @@ export class VarginExpandableGroups {
     group.expanded = !group.expanded;
   }
 
-  onDragStart(e: DragEvent, item: IExpandableGroupItem) {
-    e.dataTransfer.setData('text/plain', item.type);
+  onDragStart(
+    e: DragEvent,
+    group: IExpandableGroup,
+    item: IExpandableGroupItem
+  ) {
+    e.dataTransfer.setData(`text/${group.type}`, item.type);
   }
 }
 

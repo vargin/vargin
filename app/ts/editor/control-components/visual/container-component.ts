@@ -9,7 +9,6 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ControlGroup } from 'core/controls/control-group';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { DynamicComponent } from 'editor/control-components/dynamic-component';
@@ -50,10 +49,8 @@ class ContainerComponent extends BaseComponent {
     super(control || ControlService.create(ContainerControl));
   }
 
-  acceptDrop(controlType: string) {
-    return !!ControlGroup.get('visual').items.find((meta: ControlMetadata) => {
-      return meta.type === controlType;
-    });
+  acceptDrop(typesToDrop: string[]) {
+    return typesToDrop.indexOf('text/visual') >= 0;
   }
 }
 

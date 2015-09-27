@@ -66,9 +66,10 @@ class Vargin {
         'Service components',
         [ControlService.getMetadata('datasource')]
       )
-    ].map((controlGroup) => {
+    ].map((controlGroup: ControlGroup) => {
       return {
         name: controlGroup.name,
+        type: controlGroup.type,
         expanded: false,
         items: controlGroup.items.map((control) => {
           return {

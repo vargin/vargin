@@ -10,7 +10,6 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ControlGroup } from 'core/controls/control-group';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { DynamicComponent } from 'editor/control-components/dynamic-component';
@@ -50,10 +49,8 @@ export class ServiceContainerComponent extends BaseComponent implements OnChange
     this.setupStyles();
   }
 
-  acceptDrop(controlType: string) {
-    return !!ControlGroup.get('service').items.find((meta: ControlMetadata) => {
-      return meta.type === controlType;
-    });
+  acceptDrop(typesToDrop: string[]) {
+    return typesToDrop.indexOf('text/service') >= 0;
   }
 
   onChanges() {

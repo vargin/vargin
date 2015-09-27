@@ -21,13 +21,13 @@ export class BaseComponent {
   }
 
   onDragOver(e: DragEvent) {
-    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+    if (this.acceptDrop(this.domStringListToArray(e.dataTransfer.types))) {
       e.preventDefault();
     }
   }
 
   onDragEnter(e: DragEvent) {
-    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+    if (this.acceptDrop(this.domStringListToArray(e.dataTransfer.types))) {
       e.preventDefault();
       e.stopPropagation();
       this.dragEnterCounter++;
@@ -35,17 +35,18 @@ export class BaseComponent {
   }
 
   onDragLeave(e: DragEvent) {
-    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+    if (this.acceptDrop(this.domStringListToArray(e.dataTransfer.types))) {
       e.stopPropagation();
       this.dragEnterCounter--;
     }
   }
 
   onDrop(e: DragEvent) {
-    let controlType = e.dataTransfer.getData('text/plain');
-    if (this.acceptDrop(e.dataTransfer.getData('text/plain'))) {
+    if (this.acceptDrop(this.domStringListToArray(e.dataTransfer.types))) {
       this.control.addChild(
-        ControlService.createByType(controlType)
+        ControlService.createByType(
+          e.dataTransfer.getData(e.dataTransfer.types[0])
+        )
       );
       e.preventDefault();
       e.stopPropagation();
@@ -54,7 +55,7 @@ export class BaseComponent {
     }
   }
 
-  acceptDrop(controlType: string) {
+  acceptDrop(typesToDrop: string[]) {
     return false;
   }
 
@@ -93,5 +94,13 @@ export class BaseComponent {
     }
 
     return null;
+  }
+
+  private domStringListToArray(list: DOMStringList) {
+    let stringArray = [];
+    for (let i = 0; i < list.length; i++) {
+      stringArray[i] = list[i];
+    }
+    return stringArray;
   }
 }
