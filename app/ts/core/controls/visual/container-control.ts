@@ -3,10 +3,7 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
+import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
@@ -20,8 +17,8 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['background-color', StyleService.getDescriptor('background-color')],
   ['border', StyleService.getDescriptor('border')],
   ['color', StyleService.getDescriptor('color')],
-  ['display', new ControlPropertyWithOptions(
-    StyleService.getDescriptor('display'), 'block'
+  ['display', new OwnedPropertyWithOptions(
+    null, StyleService.getDescriptor('display'), 'block'
   )],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-direction', StyleService.getDescriptor('flex-direction')],
@@ -31,14 +28,14 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['justify-content', StyleService.getDescriptor('justify-content')],
   [
     'min-height',
-    new ControlProperty(
-      StyleService.getDescriptor('min-height'), '5rem'
+    new OwnedProperty(
+      null, StyleService.getDescriptor('min-height'), '5rem'
     )
   ],
   [
     'min-width',
-    new ControlProperty(
-      StyleService.getDescriptor('min-width'), '5rem'
+    new OwnedProperty(
+      null, StyleService.getDescriptor('min-width'), '5rem'
     )
   ],
   ['padding', StyleService.getDescriptor('padding')]

@@ -3,7 +3,6 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
-import { ControlProperty } from 'core/controls/control-property';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';

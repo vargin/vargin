@@ -3,10 +3,7 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
+import { OwnedPropertyWithOptions } from 'core/owned-property';
 import {
     VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
@@ -21,13 +18,13 @@ const SUPPORTED_PROPERTIES =  new Map<string, IProperty<string>>([
 ]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  ['align-items', new ControlPropertyWithOptions(
-    StyleService.getDescriptor('align-items'), 'center'
+  ['align-items', new OwnedPropertyWithOptions(
+    null, StyleService.getDescriptor('align-items'), 'center'
   )],
   ['background-color', StyleService.getDescriptor('background-color')],
   ['color', StyleService.getDescriptor('color')],
-  ['display', new ControlPropertyWithOptions(
-    StyleService.getDescriptor('display'), 'flex'
+  ['display', new OwnedPropertyWithOptions(
+    null, StyleService.getDescriptor('display'), 'flex'
   )],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],

@@ -1,8 +1,5 @@
 import { IProperty } from 'core/property';
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
+import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { ActionMetadata } from 'core/actions/action-metadata';
 
 export interface IAction {
@@ -23,10 +20,10 @@ export class Action implements IAction {
 
     meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       let controlProperty = 'getOptions' in metaProperty ?
-        new ControlPropertyWithOptions(
-          <ControlPropertyWithOptions<string>>metaProperty
+        new OwnedPropertyWithOptions(
+          this, <OwnedPropertyWithOptions<string, Action>>metaProperty
         ) :
-        new ControlProperty(metaProperty);
+        new OwnedProperty(this, metaProperty);
 
       if (properties && properties.has(propertyKey)) {
         controlProperty.setValue(properties.get(propertyKey));

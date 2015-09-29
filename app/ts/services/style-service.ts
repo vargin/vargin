@@ -5,11 +5,6 @@ import {
   PropertyWithOptions
 } from 'core/property';
 
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
-
 const STYLES = new Map<string, IProperty<string>>([
   [
     'align-items', new PropertyWithOptions('Align items', [

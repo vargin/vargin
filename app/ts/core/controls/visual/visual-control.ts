@@ -4,10 +4,7 @@ import { IAction } from 'core/actions/action';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
+import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { IControlParameters, Control } from 'core/controls/control';
 
 export interface IVisualControlParameters extends IControlParameters {
@@ -30,10 +27,10 @@ export class VisualControl extends Control {
     (<VisualControlMetadata>this.meta).supportedStyles.forEach(
       (metaProperty, styleKey) => {
         let controlStyleProperty = 'getOptions' in metaProperty ?
-          new ControlPropertyWithOptions(
-              <ControlPropertyWithOptions<string>>metaProperty
+          new OwnedPropertyWithOptions(
+            this, <OwnedPropertyWithOptions<string, VisualControl>>metaProperty
           ) :
-          new ControlProperty(metaProperty);
+          new OwnedProperty(this, metaProperty);
 
         if (controlParameters.styles &&
             controlParameters.styles.has(styleKey)) {

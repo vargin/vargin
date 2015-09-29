@@ -3,7 +3,7 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
-import { ControlProperty } from 'core/controls/control-property';
+import { OwnedProperty } from 'core/owned-property';
 import {
     VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
@@ -21,8 +21,8 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
   ['background-color', StyleService.getDescriptor('background-color')],
   [
     'border',
-    new ControlProperty(
-      StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
+    new OwnedProperty(
+      null, StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
     )
   ],
   ['color', StyleService.getDescriptor('color')],

@@ -1,9 +1,6 @@
 import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
-import {
-  ControlProperty,
-  ControlPropertyWithOptions
-} from 'core/controls/control-property';
+import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
 export interface IControlParameters {
@@ -35,10 +32,10 @@ export class Control {
 
     this._meta.supportedProperties.forEach((metaProperty, propertyKey) => {
       let controlProperty = 'getOptions' in metaProperty ?
-        new ControlPropertyWithOptions(
-          <ControlPropertyWithOptions<string>>metaProperty
+        new OwnedPropertyWithOptions(
+          this, <OwnedPropertyWithOptions<string, Control>>metaProperty
         ) :
-        new ControlProperty(metaProperty);
+        new OwnedProperty(this, metaProperty);
 
       if (controlParameters.properties &&
           controlParameters.properties.has(propertyKey)) {
@@ -49,7 +46,7 @@ export class Control {
     });
 
     this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
-      let controlEventProperty =  new ControlProperty(metaProperty);
+      let controlEventProperty =  new OwnedProperty(this, metaProperty);
 
       if (controlParameters.events && controlParameters.events.has(eventKey)) {
         controlEventProperty.setValue(controlParameters.events.get(eventKey));

@@ -1,12 +1,18 @@
 import { IProperty, IPropertyWithOptions } from 'core/property';
 
-export class ControlProperty<T> implements IProperty<T> {
+export class OwnedProperty<T, TOwner> implements IProperty<T> {
+  public _owner: TOwner;
   protected _property: IProperty<T>;
   private _value: T;
 
-  constructor(property: IProperty<T>, value?: T) {
+  constructor(owner: TOwner, property: IProperty<T>, value?: T) {
+    this._owner = owner;
     this._property = property;
     this._value = value !== undefined ? value : property.getValue();
+  }
+
+  get owner() {
+    return this._owner;
   }
 
   getName() {
@@ -30,9 +36,9 @@ export class ControlProperty<T> implements IProperty<T> {
   }
 }
 
-export class ControlPropertyWithOptions<T> extends ControlProperty<T> implements IPropertyWithOptions<T> {
-  constructor(property: IProperty<T>, value?: T) {
-    super(property, value);
+export class OwnedPropertyWithOptions<T, TOwner> extends OwnedProperty<T, TOwner> implements IPropertyWithOptions<T> {
+  constructor(owner: TOwner, property: IProperty<T>, value?: T) {
+    super(owner, property, value);
   }
 
   getOptions() {
