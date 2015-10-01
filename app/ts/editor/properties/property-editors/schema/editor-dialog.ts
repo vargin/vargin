@@ -1,11 +1,7 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
 import { IProperty, Property } from 'core/property';
-
-interface ISchemaField {
-  name: string;
-  type: string;
-}
+import { Schema, SchemaFieldType } from 'core/data/schema';
 
 @Component({
   selector: 'schema-property-editor-dialog'
@@ -14,7 +10,7 @@ interface ISchemaField {
   template: `
     <header class="schema-editor-dialog__header">Define Schema</header>
     <ul class="vargin-list">
-      <li class="vargin-list__item" *ng-for="#field of schema; #i = index">
+      <li class="vargin-list__item" *ng-for="#field of schema.fields; #i = index">
         <input #fieldname
                type="text"
                placeholder="Define field name"
@@ -23,11 +19,12 @@ interface ISchemaField {
         <select #fieldtype
                 [value]="field.type"
                 (change)="onFieldTypeChange(i, fieldtype.value)" >
-          <option value="string">String</option>
-          <option value="number">Number</option>
-          <option value="image">Image</option>
+          <option value="0">String</option>
+          <option value="1">Number</option>
+          <option value="2">Date</option>
+          <option value="3">Binary</option>
         </select>
-        <button *ng-if="schema.length > 1"
+        <button *ng-if="schema.fields.length > 1"
                 class="vargin-list__remove-item"
                 (click)="removeField(i)">
           &#x274c;
@@ -39,48 +36,32 @@ interface ISchemaField {
   directives: [NgFor, NgIf]
 })
 export class SchemaPropertyEditorDialog {
-  private property: IProperty<string>;
-  private schema: ISchemaField[] = [];
+  private schema: Schema;
 
-  constructor(@Inject(Property) property: IProperty<string>) {
-    this.property = property;
+  constructor(@Inject(Schema) schema: Schema) {
+    this.schema = schema;
 
-    let schemaJSON = this.property.getValue();
-    this.schema = schemaJSON ? JSON.parse(schemaJSON) : [];
-
-    if (!this.schema.length) {
+    if (!this.schema.fields.length) {
       this.addField();
     }
   }
 
   private removeField(index) {
-    this.schema.splice(index, 1);
-
-    this.refreshProperty();
+    this.schema.fields.splice(index, 1);
   }
 
   private addField() {
-    this.schema.push({
+    this.schema.fields.push({
       name: '',
-      type: 'string'
+      type: SchemaFieldType.STRING
     });
   }
 
   private onFieldTypeChange(index: number, type: string) {
-    this.schema[index].type = type;
-
-    this.refreshProperty();
+    this.schema.fields[index].type = +type;
   }
 
   private onFieldNameChange(index: number, name: string) {
-    this.schema[index].name = name;
-
-    this.refreshProperty();
-  }
-
-  private refreshProperty() {
-    this.property.setValue(
-      JSON.stringify(this.schema.filter((field) => field.name && field.type))
-    );
+    this.schema.fields[index].name = name;
   }
 }

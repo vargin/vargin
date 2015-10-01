@@ -12,6 +12,11 @@ import {
 
 import { IDialogRequest, DialogService } from 'services/dialog-service';
 
+interface IDialogDescriptor {
+  uuid: string;
+  component: ComponentRef;
+}
+
 @Component({
   selector: 'dialog-manager'
 })
@@ -26,7 +31,7 @@ export class DialogManager {
   private renderer: DomRenderer;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
-  private instances: ComponentRef[] = [];
+  private instances: IDialogDescriptor[] = [];
 
   constructor(
     @Inject(DomRenderer) renderer: DomRenderer,
@@ -45,7 +50,8 @@ export class DialogManager {
   close() {
     if (this.instances.length) {
       let instance = this.instances.pop();
-      instance.dispose();
+      instance.component.dispose();
+      DialogService.hide(instance.uuid);
     }
 
     if (this.instances.length === 0) {
@@ -62,7 +68,7 @@ export class DialogManager {
       'placeholder',
       dialogRequest.bindings
     ).then((component: ComponentRef) => {
-      this.instances.push(component);
+      this.instances.push({ component, uuid: dialogRequest.uuid });
 
       if (this.instances.length === 1) {
         this.renderer.setElementClass(

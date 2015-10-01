@@ -78,10 +78,10 @@ export class ActionList {
 
   editAction(action: IAction) {
     System.import('editor/properties/action-editor').then((module: any) => {
-      DialogService.show({
-        component: <Type>module.ActionEditor,
-        bindings: Injector.resolve([bind(Action).toValue(action)])
-      });
+      DialogService.show(
+        <Type>module.ActionEditor,
+        Injector.resolve([bind(Action).toValue(action)])
+      );
     });
   }
 

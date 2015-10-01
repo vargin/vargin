@@ -1,8 +1,8 @@
 import { IProperty, IPropertyWithOptions } from 'core/property';
 
 export class OwnedProperty<T, TOwner> implements IProperty<T> {
-  public _owner: TOwner;
   protected _property: IProperty<T>;
+  private _owner: TOwner;
   private _value: T;
 
   constructor(owner: TOwner, property: IProperty<T>, value?: T) {

@@ -3,6 +3,31 @@ for (var i = 0; i < 256; i++) {
   l[i] = (i < 16 ? '0' : '') + (i).toString(16);
 }
 
+export class Deferred<T> {
+  private internalResolve: Function;
+  private internalReject: Function;
+  private internalPromise: Promise<T>;
+
+  constructor() {
+    this.internalPromise = new Promise<T>((resolve, reject) => {
+      this.internalResolve = resolve;
+      this.internalReject = reject;
+    });
+  }
+
+  resolve<T>(value?: T) {
+    this.internalResolve(value);
+  }
+
+  reject(value?: any) {
+    this.internalReject(value);
+  }
+
+  get promise() {
+    return this.internalPromise;
+  }
+}
+
 export class UtilsService {
   static uuid(): string {
     let d0 = Math.random() * 0xffffffff | 0;

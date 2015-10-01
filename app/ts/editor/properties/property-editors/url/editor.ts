@@ -54,10 +54,10 @@ class URLPropertyEditor {
   }
 
   changeURL() {
-    DialogService.show({
-      component: URLPropertyEditorDialog,
-      bindings: Injector.resolve([bind(Property).toValue(this.property)])
-    });
+    DialogService.show(
+      URLPropertyEditorDialog,
+      Injector.resolve([bind(Property).toValue(this.property)])
+    );
   }
 }
 
