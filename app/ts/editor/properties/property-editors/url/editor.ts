@@ -2,6 +2,7 @@
 import { bind, Component, Inject, Injector, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
+import { Address, AddressType } from 'core/data/address';
 import { DialogService } from 'services/dialog-service';
 import { URLPropertyEditorDialog } from 'editor/properties/property-editors/url/editor-dialog';
 import { ApplicationService } from 'services/application-service';
@@ -15,8 +16,8 @@ import { ApplicationService } from 'services/application-service';
     <label class="vargin-property-editor">
       <span class="vargin-property-editor__label">{{property.getName()}}</span>
       <div class="vargin-property-editor__input url-editor__input">
-        <span class="url-editor__input-value" [title]="getURL()">
-          {{getURL()}}
+        <span class="url-editor__input-value" [title]="getValue()">
+          {{getValue()}}
         </span>
         <button type="button" (click)="changeURL()">...</button>
       </div>
@@ -24,40 +25,53 @@ import { ApplicationService } from 'services/application-service';
 })
 class URLPropertyEditor {
   private property: IProperty<string>;
+  private address: Address;
 
   constructor(@Inject(Property) property: IProperty<string>) {
     this.property = property;
+
+    let urlString = this.property.getValue();
+    this.address = urlString ? Address.deserialize(urlString) : new Address();
   }
 
-  getURL() {
-    let urlString = this.property.getValue();
-
-    if (!urlString) {
+  getValue() {
+    if (!this.address.value) {
       return '[Not defined]';
     }
 
-    if (urlString.startsWith('page:')) {
-      let pageId = urlString.split(':')[1];
+    if (this.address.type === AddressType.APP_PAGE) {
       let page = ApplicationService.current.pages.find(
-        (page) => page.id === pageId
+        (page) => page.id === this.address.value
       );
 
       if (page) {
         return page.name;
       } else {
-        this.property.setValue('');
+        this.reset();
+
         return '[Not defined]';
       }
     }
 
-    return urlString;
+    return this.address.value;
   }
 
   changeURL() {
     DialogService.show(
       URLPropertyEditorDialog,
-      Injector.resolve([bind(Property).toValue(this.property)])
-    );
+      Injector.resolve([bind(Address).toValue(this.address)])
+    ).then(() => {
+      if (this.address.value) {
+        this.property.setValue(Address.serialize(this.address));
+      } else {
+       this.reset();
+      }
+    });
+  }
+
+  private reset() {
+    this.property.setValue('');
+    this.address = new Address();
   }
 }
 

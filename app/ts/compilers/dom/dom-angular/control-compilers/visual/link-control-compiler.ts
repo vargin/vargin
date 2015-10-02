@@ -3,14 +3,17 @@ import {
 } from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
 import { LinkControl } from 'core/controls/visual/link-control';
 import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+import { Address, AddressType } from 'core/data/address';
 
 export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> {
   getMarkup(control: LinkControl, cssClass: ICompiledCSSClass) {
-    let address = control.address.getValue();
+    let addressString = control.address.getValue();
+    let address = addressString ?
+      Address.deserialize(addressString) : new Address();
 
-    let addressAttribute = address.startsWith('page:') ?
-      ['[router-link]', `[\'/page\', { id: \'${address.split(':')[1]}\' }]`] :
-      ['href', address];
+    let addressAttribute =  address.type === AddressType.APP_PAGE ?
+      ['[router-link]', `[\'/page\', { id: \'${address.value}\' }]`] :
+      ['href', address.value];
 
     // Here we should be smart and analyze if any of the control properties
     // can be changed, if it's it should be replaced with dynamic markup,

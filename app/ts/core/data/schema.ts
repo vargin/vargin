@@ -29,7 +29,7 @@ export class Schema {
   static deserialize(json: string): Schema {
     return new Schema(
       JSON.parse(json).map((jsonField) => {
-        return new SchemaField(jsonField.name, <SchemaFieldType>jsonField.type);
+        return new SchemaField(jsonField.name, +jsonField.type);
       })
     );
   }
