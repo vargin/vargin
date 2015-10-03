@@ -46,7 +46,7 @@ export class SchemaPropertyEditorDialog {
     }
   }
 
-  private removeField(index) {
+  private removeField(index: number) {
     this.schema.fields.splice(index, 1);
   }
 

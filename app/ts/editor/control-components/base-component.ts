@@ -132,7 +132,7 @@ export class BaseComponent {
   }
 
   private domStringListToArray(list: DOMStringList) {
-    let stringArray = [];
+    let stringArray: string[] = [];
     for (let i = 0; i < list.length; i++) {
       stringArray[i] = list[i];
     }
