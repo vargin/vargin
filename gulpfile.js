@@ -14,7 +14,6 @@ var PATH = {
     dev: {
       all: 'dist/dev',
       lib: 'dist/dev/lib',
-      ng2: 'dist/dev/lib/angular2.js',
       style: 'dist/dev/style',
       fonts: 'dist/dev/style/fonts',
       ngCompiler: {
@@ -30,62 +29,20 @@ var PATH = {
   src: {
     // Order is quite important here for the HTML tag injection.
     lib: [
-      './node_modules/angular2/node_modules/traceur/bin/traceur-runtime.js',
-
-      './node_modules/reflect-metadata/temp/Reflect.js',
-      './node_modules/reflect-metadata/temp/Reflect.js.map',
-
+      './node_modules/angular2/bundles/angular2.dev.js',
+      './node_modules/angular2/bundles/router.dev.js',
       './node_modules/systemjs/dist/system-csp-production.js',
       './node_modules/systemjs/dist/system-csp-production.js.map',
-      './node_modules/systemjs/dist/system-csp-production.src.js',
-
-      './node_modules/zone.js/dist/zone.min.js'
+      './node_modules/systemjs/dist/system-csp-production.src.js'
     ]
   }
 };
-
-var ng2Builder = new Builder({
-  paths: {
-    'angular2/*': 'node_modules/angular2/es6/dev/*.js',
-    rx: 'node_modules/angular2/node_modules/rx/dist/rx.js'
-  },
-
-  meta: {
-    rx: {
-      format: 'cjs'
-    }
-  },
-
-  defaultJSExtensions: true
-});
-
-var ng2RouterBuilder = new Builder({
-  paths: {
-    'angular2/*': 'node_modules/angular2/es6/dev/*.js',
-    rx: 'node_modules/angular2/node_modules/rx/dist/rx.js'
-  },
-
-  meta: {
-    'angular2/angular2': { build: false },
-    'angular2/di': { build: false },
-    'angular2/core': { build: false },
-    'angular2/change_detection': { build: false },
-    'angular2/src/core/*': { build: false },
-    rx: { build: false }
-  },
-
-  defaultJSExtensions: true
-});
 
 gulp.task('clean.dev', function () {
   return del(PATH.dest.dev.all);
 });
 
-gulp.task('build.dev.ng2', ['clean.dev'], function () {
-  return ng2Builder.build('angular2/angular2', PATH.dest.dev.ng2, {});
-});
-
-gulp.task('build.dev.lib', ['build.dev.ng2'], function () {
+gulp.task('build.dev.lib', function () {
   return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.lib));
 });
 
@@ -126,7 +83,7 @@ gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.in
     }
   });
 
-  return appBuilder.build('vargin', PATH.dest.dev.all + '/vargin.js', {
+  return appBuilder.bundle('vargin', PATH.dest.dev.all + '/vargin.js', {
     minify: false
   });
 });
@@ -139,19 +96,6 @@ gulp.task('build.dev.angular-compiler.html', function() {
 
 gulp.task('build.dev.angular-compiler.libs', function() {
   return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.ngCompiler.lib));
-});
-
-gulp.task('build.dev.angular-compiler.ng2', function () {
-  return Promise.all([
-    ng2Builder.build(
-      'angular2/angular2', PATH.dest.dev.ngCompiler.lib + '/angular2.js', {}
-    ),
-    ng2RouterBuilder.build(
-      'angular2/router',
-      PATH.dest.dev.ngCompiler.lib + '/angular2-router.js',
-      {}
-    )
-  ]);
 });
 
 gulp.task('build.dev.angular-compiler.app', function() {
@@ -173,7 +117,7 @@ gulp.task('build.dev.angular-compiler.app', function() {
     }
   });
 
-  return angularCompilerAppBuilder.build(
+  return angularCompilerAppBuilder.bundle(
     'compilers/dom/dom-angular/template/app-controller',
     PATH.dest.dev.ngCompiler.all + '/app-controller.js',
     {}
@@ -184,7 +128,6 @@ gulp.task('build.dev.angular-compiler', function(done) {
   runSequence(
     'build.dev.angular-compiler.html',
     'build.dev.angular-compiler.libs',
-    'build.dev.angular-compiler.ng2',
     'build.dev.angular-compiler.app',
     done
   );

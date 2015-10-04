@@ -12,7 +12,7 @@ export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> 
       Address.deserialize(addressString) : new Address();
 
     let addressAttribute =  address.type === AddressType.APP_PAGE ?
-      ['[router-link]', `[\'/page\', { id: \'${address.value}\' }]`] :
+      ['[router-link]', `[\'/Page\', { id: \'${address.value}\' }]`] :
       ['href', address.value];
 
     // Here we should be smart and analyze if any of the control properties

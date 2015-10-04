@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { DomRenderer, ViewContainerRef} from 'angular2/angular2';
+import { Renderer, ViewContainerRef} from 'angular2/angular2';
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { ControlService } from 'services/control-service';
@@ -9,23 +9,23 @@ const CONTAINER_ONLY_STYLES = ['flex-basis', 'flex-grow', 'flex-shrink'];
 export class BaseComponent {
   public control: Control;
   protected dragEnterCounter: number = 0;
-  protected renderer: DomRenderer;
+  protected renderer: Renderer;
   protected viewContainer: ViewContainerRef;
 
   constructor(
-    control: Control, renderer: DomRenderer, viewContainer: ViewContainerRef
+    control: Control, renderer: Renderer, viewContainer: ViewContainerRef
   ) {
     this.control = control;
     this.renderer = renderer;
     this.viewContainer = viewContainer;
 
-    ControlService.controlSelected.toRx().subscribeOnNext(
-      this.onControlSelected.bind(this)
-    );
+    ControlService.controlSelected.observer({
+      next:  this.onControlSelected.bind(this)
+    });
 
-    ControlService.controlUnselected.toRx().subscribeOnNext(
-      this.onControlUnselected.bind(this)
-    );
+    ControlService.controlUnselected.observer({
+      next: this.onControlUnselected.bind(this)
+    });
   }
 
   onClick(e: Event) {

@@ -3,9 +3,9 @@ import {
   bind,
   Component,
   ComponentRef,
-  DomRenderer,
   DynamicComponentLoader,
   Inject,
+  Renderer,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -28,13 +28,13 @@ interface IDialogDescriptor {
              </section>`
 })
 export class DialogManager {
-  private renderer: DomRenderer;
+  private renderer: Renderer;
   private viewContainer: ViewContainerRef;
   private componentLoader: DynamicComponentLoader;
   private instances: IDialogDescriptor[] = [];
 
   constructor(
-    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(Renderer) renderer: Renderer,
     @Inject(DynamicComponentLoader) componentLoader: DynamicComponentLoader,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef
   ) {
@@ -42,9 +42,9 @@ export class DialogManager {
     this.componentLoader = componentLoader;
     this.viewContainer = viewContainer;
 
-    DialogService.onRequest.toRx().subscribeOnNext(
-      this.onDialogRequested.bind(this)
-    );
+    DialogService.onRequest.observer({
+      next: this.onDialogRequested.bind(this)
+    });
   }
 
   close() {

@@ -13,6 +13,7 @@ import {
   HashLocationStrategy,
   ROUTER_BINDINGS,
   ROUTER_DIRECTIVES,
+  ROUTER_PRIMARY_COMPONENT,
   RouterLink,
   RouteConfig,
   RouteParams
@@ -64,11 +65,11 @@ class PageController {
   directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([{
-  as: 'default-page',
+  as: 'Default',
   path: '/',
   component: PageController
 }, {
-  as: 'page',
+  as: 'Page',
   path: '/page/:id',
   component: PageController
 }])
@@ -86,5 +87,9 @@ class AppController {
 
 bootstrap(
   AppController,
-  [ROUTER_BINDINGS, bind(LocationStrategy).toClass(HashLocationStrategy)]
+  [
+    ROUTER_BINDINGS,
+    bind(LocationStrategy).toClass(HashLocationStrategy),
+    bind(ROUTER_PRIMARY_COMPONENT).toValue(AppController)
+  ]
 );

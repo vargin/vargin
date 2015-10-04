@@ -1,9 +1,9 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
-  DomRenderer,
   Inject,
   Optional,
+  Renderer,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -27,7 +27,7 @@ class DataSourceComponent extends BaseComponent {
   control: DataSourceControl;
 
   constructor(
-    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: DataSourceControl
   ) {

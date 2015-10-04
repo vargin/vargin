@@ -2,11 +2,11 @@
 import {
   bind,
   Component,
-  DomRenderer,
   DynamicComponentLoader,
   Inject,
   Injector,
   OnChanges,
+  Renderer,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -28,7 +28,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
   control: Control;
 
   constructor(
-    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader
   ) {

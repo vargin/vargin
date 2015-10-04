@@ -92,13 +92,13 @@ class VarginProperties {
   };
 
   constructor() {
-    ControlService.controlSelected.toRx().subscribeOnNext(
-      this.onControlSelected.bind(this)
-    );
+    ControlService.controlSelected.observer({
+      next: this.onControlSelected.bind(this)
+    });
 
-    ControlService.controlUnselected.toRx().subscribeOnNext(
-      this.onControlUnselected.bind(this)
-    );
+    ControlService.controlUnselected.observer({
+      next: this.onControlUnselected.bind(this)
+    });
 
     this.groups.properties = {
       name: 'Common Properties',

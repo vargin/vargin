@@ -1,10 +1,10 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
-  DomRenderer,
   Inject,
   NgStyle,
   Optional,
+  Renderer,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -37,7 +37,7 @@ class LinkComponent extends BaseComponent {
   control: LinkControl;
 
   constructor(
-    @Inject(DomRenderer) renderer: DomRenderer,
+    @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: LinkControl
   ) {
