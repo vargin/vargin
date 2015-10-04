@@ -28,7 +28,7 @@ export class Schema {
 
   static deserialize(json: string): Schema {
     return new Schema(
-      JSON.parse(json).map((jsonField) => {
+      JSON.parse(json).map((jsonField: { name: string; type: string }) => {
         return new SchemaField(jsonField.name, +jsonField.type);
       })
     );

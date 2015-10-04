@@ -1,5 +1,5 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
-import { bind, Component, Inject, Injector, View } from 'angular2/angular2';
+import { bind, Component, Inject, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
 import { Address, AddressType } from 'core/data/address';
@@ -58,8 +58,7 @@ class URLPropertyEditor {
 
   changeURL() {
     DialogService.show(
-      URLPropertyEditorDialog,
-      Injector.resolve([bind(Address).toValue(this.address)])
+      URLPropertyEditorDialog, [bind(Address).toValue(this.address)]
     ).then(() => {
       if (this.address.value) {
         this.property.setValue(Address.serialize(this.address));

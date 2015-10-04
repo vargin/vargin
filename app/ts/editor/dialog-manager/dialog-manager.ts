@@ -5,6 +5,7 @@ import {
   ComponentRef,
   DynamicComponentLoader,
   Inject,
+  Injector,
   Renderer,
   View,
   ViewContainerRef
@@ -66,7 +67,10 @@ export class DialogManager {
       dialogRequest.component,
       this.viewContainer.element,
       'placeholder',
-      dialogRequest.bindings
+      Injector.resolve([
+        ...dialogRequest.bindings,
+        bind('dispose').toValue(() => this.close())
+      ])
     ).then((component: ComponentRef) => {
       this.instances.push({ component, uuid: dialogRequest.uuid });
 

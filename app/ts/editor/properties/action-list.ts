@@ -3,7 +3,6 @@ import {
   bind,
   Component,
   Inject,
-  Injector,
   NgFor,
   Type,
   View
@@ -80,7 +79,7 @@ export class ActionList {
     System.import('editor/properties/action-editor').then((module: any) => {
       DialogService.show(
         <Type>module.ActionEditor,
-        Injector.resolve([bind(Action).toValue(action)])
+        [bind(Action).toValue(action)]
       );
     });
   }
