@@ -1,7 +1,7 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
-import { Control } from 'core/controls/control';
+import { Control, IControlParameters } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
@@ -25,8 +25,8 @@ const METADATA = Object.freeze(
 );
 
 export class DataSourceControl extends Control {
-  constructor(id: string) {
-    super(id, DataSourceControl.getMeta());
+  constructor(id: string, parameters?: IControlParameters) {
+    super(id, DataSourceControl.getMeta(), parameters);
   }
 
   get name() {

@@ -95,7 +95,7 @@ class VarginWorkspace {
   }
 
   getServiceRoot() {
-    return this.workspace.application.pages[this.activePageIndex].serviceRoot;
+    return this.workspace.application.serviceRoot;
   }
 
   toJSON() {

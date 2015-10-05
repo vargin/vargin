@@ -6,13 +6,38 @@ const DEFAULT_SERIALIZED_APPLICATION = {
   id: '4013f806-000b-4a91-b2ca-2f19c9138734',
   name: 'Messages App',
   description: 'Messages App Description',
+  serviceRoot: {
+    id: 'bc5bcb33-f73b-440a-b72a-6596caed8b2e',
+    type: 'container',
+    children: [{
+      id: '2688dc02-9682-433f-aec5-06c6dcf67d63',
+      type: 'datasource',
+      parameters: {
+        properties: [
+          ['name', 'Messages DB'],
+          ['schema', `[
+            {"name": "Id", "type": 1},
+            {"name": "Sender", "type": 0},
+            {"name": "Timestamp", "type": 2}
+          ]`],
+          ['items', `[
+            [
+              ["Id", "1"],
+              ["Sender", "+123"],
+              ["Timestamp", "1444077904444"]
+            ], [
+              ["Id","2"],
+              ["Sender", "+49176567"],
+              ["Timestamp", "1444077927247"]
+            ]
+          ]`]
+        ]
+      }
+    }]
+  },
   pages: [{
     id: '7544cda3-62a4-49f6-9a7f-a7b7370823e3',
     name: '(Default Page)',
-    serviceRoot: {
-      id: 'bc5bcb33-f73b-440a-b72a-6596caed8b2e',
-      type: 'container'
-    },
     root: {
       id: 'bc5bcb33-f72b-440a-b72a-6596caed8b2e',
       type: 'container',
@@ -231,13 +256,13 @@ const EMPTY_SERIALIZED_APPLICATION = {
   id: '4013f806-000b-4a91-b2ca-2f19c9138734',
   name: '(Empty App)',
   description: 'Empty App Description',
+  serviceRoot: {
+    id: 'bc5bcb33-f73b-440a-b72a-6596caed8b2e',
+    type: 'container'
+  },
   pages: [{
     id: '7544cda3-62a4-49f6-9a7f-a7b7370823e3',
     name: '(Default Page)',
-    serviceRoot: {
-      id: 'bc5bcb33-f73b-440a-b72a-6596caed8b2e',
-      type: 'container'
-    },
     root: {
       id: 'bc5bcb33-f72b-440a-b72a-6596caed8b2e',
       type: 'container'
