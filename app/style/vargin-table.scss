@@ -5,3 +5,11 @@
 .vargin-table__header-cell {
   text-align: start;
 }
+
+.vargin-table__data-cell {
+  &:hover {
+    .vargin-list__remove-item {
+      visibility: visible;
+    }
+  }
+}

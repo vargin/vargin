@@ -78,8 +78,7 @@ export class ActionList {
   editAction(action: IAction) {
     System.import('editor/properties/action-editor').then((module: any) => {
       DialogService.show(
-        <Type>module.ActionEditor,
-        [bind(Action).toValue(action)]
+        <Type>module.ActionEditor, [bind(Action).toValue(action)]
       );
     });
   }

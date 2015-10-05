@@ -1,0 +1,25 @@
+@import '../../../../../../node_modules/sass-flex-mixin/flex';
+
+.items-list-dialog__header {
+  margin-bottom: 0.5rem;
+}
+
+.items-editor-dialog__save {
+  float: right;
+}
+
+.items-editor__input {
+  @include flexbox;
+  @include align-items(center);
+}
+
+.items-editor__input-value {
+  @include flex(1);
+
+  min-width: 0;
+  margin-right: 0.2rem;
+
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

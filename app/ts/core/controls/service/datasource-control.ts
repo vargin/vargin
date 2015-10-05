@@ -6,7 +6,8 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
   ['name', new Property('Name', '[DataSource]')],
-  ['schema', new Property('Schema', null, 'schema')]
+  ['schema', new Property('Schema', null, 'schema')],
+  ['items', new Property('Items', null, 'items')]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
@@ -34,6 +35,10 @@ export class DataSourceControl extends Control {
 
   get schema() {
     return this._properties.get('schema');
+  }
+
+  get items() {
+    return this._properties.get('items');
   }
 
   static getMeta() {
