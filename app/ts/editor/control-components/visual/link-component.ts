@@ -11,7 +11,6 @@ import {
 
 import { Control } from 'core/controls/control';
 import { LinkControl } from 'core/controls/visual/link-control';
-import { ControlService } from 'services/control-service';
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
@@ -41,11 +40,7 @@ class LinkComponent extends BaseComponent {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: LinkControl
   ) {
-    super(
-      control || ControlService.create(LinkControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 

@@ -9,8 +9,7 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { DataSourceControl } from 'core/controls/service/datasource-control';
-import { ControlService } from 'services/control-service';
+import { DatasourceControl } from 'core/controls/service/datasource-control';
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
@@ -23,20 +22,16 @@ import { BaseComponent } from 'editor/control-components/base-component';
 @View({
   template: `<div class="vargin-service-component vargin-service-component__datasource"></div>`
 })
-class DataSourceComponent extends BaseComponent {
-  control: DataSourceControl;
+class DatasourceComponent extends BaseComponent {
+  control: DatasourceControl;
 
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
-    @Optional() @Inject(Control) control?: DataSourceControl
+    @Optional() @Inject(Control) control?: DatasourceControl
   ) {
-    super(
-      control || ControlService.create(DataSourceControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 
-export default DataSourceComponent;
+export default DatasourceComponent;

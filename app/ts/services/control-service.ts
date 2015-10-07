@@ -8,7 +8,7 @@ import { Control, IControlParameters } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ContainerControl } from 'core/controls/visual/container-control';
-import { DataSourceControl } from 'core/controls/service/datasource-control';
+import { DatasourceControl } from 'core/controls/service/datasource-control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { LinkControl } from 'core/controls/visual/link-control';
 import { RangeControl } from 'core/controls/visual/range-control';
@@ -19,7 +19,7 @@ import { UtilsService } from 'services/utils-service';
 const CONTROLS = new Map<string, any>([
   ['button', ButtonControl],
   ['container', ContainerControl],
-  ['datasource', DataSourceControl],
+  ['datasource', DatasourceControl],
   ['label', LabelControl],
   ['link', LinkControl],
   ['range', RangeControl],

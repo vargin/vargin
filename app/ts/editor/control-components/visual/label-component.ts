@@ -11,7 +11,6 @@ import {
 
 import { Control } from 'core/controls/control';
 import { LabelControl } from 'core/controls/visual/label-control';
-import { ControlService } from 'services/control-service';
 
 import { BaseComponent } from 'editor/control-components/base-component';
 
@@ -38,11 +37,7 @@ class LabelComponent extends BaseComponent {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: LabelControl
   ) {
-    super(
-      control || ControlService.create(LabelControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 

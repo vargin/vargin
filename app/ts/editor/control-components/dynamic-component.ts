@@ -7,12 +7,13 @@ import {
   Injector,
   OnChanges,
   Renderer,
+  Type,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import ComponentControlMap from 'editor/control-components/component-control-map';
+import { ControlGroup } from 'core/controls/control-group';
 
 import { BaseComponent } from 'editor/control-components/base-component';
 
@@ -32,7 +33,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Inject(DynamicComponentLoader) loader: DynamicComponentLoader
   ) {
-    super(this.control, renderer, viewContainer);
+    super(renderer, viewContainer, this.control);
 
     this.loader = loader;
   }
@@ -42,11 +43,18 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
       return;
     }
 
-    this.loader.loadIntoLocation(
-      ComponentControlMap.getComponentType(this.control.meta.type),
-      this.viewContainer.element,
-      'container',
-      Injector.resolve([bind(Control).toValue(this.control)])
-    );
+    let controlType = this.control.meta.type;
+    let controlGroupType = ControlGroup.findByControlType(controlType).type;
+
+    System.import(
+      `editor/control-components/${controlGroupType}/${controlType}-component`
+    ).then((module: any) => {
+      return this.loader.loadIntoLocation(
+        module.default,
+        this.viewContainer.element,
+        'container',
+        Injector.resolve([bind(Control).toValue(this.control)])
+      );
+    });
   }
 }

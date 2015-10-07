@@ -12,8 +12,6 @@ import {
 import { Control } from 'core/controls/control';
 import { TextInputControl} from 'core/controls/visual/text-input-control';
 
-import { ControlService } from 'services/control-service';
-
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
@@ -42,11 +40,7 @@ class TextInputComponent extends BaseComponent {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: TextInputControl
   ) {
-    super(
-      control || ControlService.create(TextInputControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 

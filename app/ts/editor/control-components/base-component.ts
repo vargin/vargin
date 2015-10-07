@@ -13,7 +13,7 @@ export class BaseComponent {
   protected viewContainer: ViewContainerRef;
 
   constructor(
-    control: Control, renderer: Renderer, viewContainer: ViewContainerRef
+    renderer: Renderer, viewContainer: ViewContainerRef, control: Control
   ) {
     this.control = control;
     this.renderer = renderer;

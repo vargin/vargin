@@ -56,6 +56,24 @@ export class ControlGroup {
   }
 
   /**
+   * Finds group for the specified control type.
+   * @param {string} controlType Type of the control.
+   * @returns {ControlGroup}
+   */
+  static findByControlType(controlType: string): ControlGroup {
+    let foundGroup = null;
+
+    groups.forEach((group) => {
+      if (!foundGroup &&
+          group.items.some((meta) => meta.type === controlType)) {
+        foundGroup = group;
+      }
+    });
+
+    return foundGroup;
+  }
+
+  /**
    * Register new control group into static repository.
    * @param {string} type Type of the control group.
    * @param {string} name Name of the control group.

@@ -11,9 +11,6 @@ import {
 
 import { Control } from 'core/controls/control';
 import { RangeControl } from 'core/controls/visual/range-control';
-
-import { ControlService } from 'services/control-service';
-
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
@@ -44,11 +41,7 @@ class RangeComponent extends BaseComponent {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: RangeControl
   ) {
-    super(
-      control || ControlService.create(RangeControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 

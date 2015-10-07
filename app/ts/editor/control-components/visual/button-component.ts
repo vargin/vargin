@@ -11,7 +11,6 @@ import {
 
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
-import { ControlService } from 'services/control-service';
 import { BaseComponent } from 'editor/control-components/base-component';
 
 @Component({
@@ -40,11 +39,7 @@ class ButtonComponent extends BaseComponent {
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control?: ButtonControl
   ) {
-    super(
-      control || ControlService.create(ButtonControl),
-      renderer,
-      viewContainer
-    );
+    super(renderer, viewContainer, control);
   }
 }
 

@@ -24,9 +24,9 @@ const METADATA = Object.freeze(
   )
 );
 
-export class DataSourceControl extends Control {
+export class DatasourceControl extends Control {
   constructor(id: string, parameters?: IControlParameters) {
-    super(id, DataSourceControl.getMeta(), parameters);
+    super(id, DatasourceControl.getMeta(), parameters);
   }
 
   get name() {

@@ -15,6 +15,28 @@ import { ControlService } from 'services/control-service';
 
 /** Dynamic dependencies **/
 import { ActionEditor } from 'editor/properties/action-editor';
+import ButtonComponent from 'editor/control-components/visual/button-component';
+import LabelComponent from 'editor/control-components/visual/label-component';
+import LinkComponent from 'editor/control-components/visual/link-component';
+import RangeComponent from 'editor/control-components/visual/range-component';
+import TextInputComponent from 'editor/control-components/visual/text-input-component';
+import DatasourceComponent from 'editor/control-components/service/datasource-component';
+
+export const EDITORS_COMPONENTS = [
+  ActionEditor
+];
+
+const VISUAL_COMPONENTS = [
+  ButtonComponent,
+  LabelComponent,
+  LinkComponent,
+  RangeComponent,
+  TextInputComponent
+];
+
+const SERVICE_COMPONENTS = [
+  DatasourceComponent
+];
 /** End of Dynamic dependencies **/
 
 @Component({
@@ -42,7 +64,6 @@ import { ActionEditor } from 'editor/properties/action-editor';
 
 class Vargin {
   private controlGroups: IExpandableGroup[];
-  private dynamicDependencies: Type[] = [ActionEditor];
 
   constructor() {
     this.controlGroups = [

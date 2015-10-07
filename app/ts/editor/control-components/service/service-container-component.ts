@@ -17,8 +17,6 @@ import { ContainerControl } from 'core/controls/visual/container-control';
 import { DynamicComponent } from 'editor/control-components/dynamic-component';
 import { BaseComponent } from 'editor/control-components/base-component';
 
-import { ControlService } from 'services/control-service';
-
 @Component({
   selector: 'vargin-service-container',
   properties: ['control']
@@ -50,13 +48,7 @@ export class ServiceContainerComponent extends BaseComponent implements OnChange
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
     @Optional() @Inject(Control) control: ContainerControl
   ) {
-    super(
-      control || ControlService.create(ContainerControl),
-      renderer,
-      viewContainer
-    );
-
-    this.setupStyles();
+    super(renderer, viewContainer, control);
   }
 
   acceptDrop(typesToDrop: string[]) {
