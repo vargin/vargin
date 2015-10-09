@@ -11,6 +11,7 @@ import { ContainerControl } from 'core/controls/visual/container-control';
 import { DatasourceControl } from 'core/controls/service/datasource-control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { LinkControl } from 'core/controls/visual/link-control';
+import { ListControl } from 'core/controls/visual/list-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
@@ -24,6 +25,7 @@ const CONTROLS = new Map<string, any>([
   ['datasource', DatasourceControl],
   ['label', LabelControl],
   ['link', LinkControl],
+  ['list', ListControl],
   ['range', RangeControl],
   ['text-input', TextInputControl]
 ]);

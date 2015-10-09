@@ -1,0 +1,78 @@
+@import '../../node_modules/sass-flex-mixin/flex.scss';
+
+.vargin-component_drop-target {
+  border: 0.2rem dashed #d2cfcf !important;
+}
+
+.vargin-component_active {
+  box-shadow: 0 0 1rem #9ecaed;
+}
+
+/*@supports (display: contents){
+  vargin-dynamic,
+  vargin-button,
+  vargin-container,
+  vargin-label,
+  vargin-range {
+    display: contents;
+  }
+}*/
+
+vargin-container,
+vargin-list {
+  display: block;
+}
+
+vargin-dynamic {
+  @include inline-flex;
+
+  &[type=container],
+  &[type=list] {
+    @include flexbox;
+  }
+
+  > vargin-button,
+  > vargin-container,
+  > vargin-label,
+  > vargin-link,
+  > vargin-list,
+  > vargin-range,
+  > vargin-text-input {
+    @include flexbox;
+    @include flex;
+  }
+}
+
+vargin-label > span,
+vargin-link > span,
+vargin-button > button,
+vargin-range > input,
+vargin-text-input > input,
+vargin-container > div,
+vargin-list > div,
+vargin-service-container > div {
+  @include flex;
+}
+
+.vargin-service-component {
+  display: inline-block;
+
+  width: 2.5rem;
+
+  font: normal normal normal 2.2rem/1 'Vargin Icons';
+  text-rendering: auto;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vargin-service-component__datasource {
+  &:before {
+    content: 'a';
+  }
+}
+
+vargin-datasource {
+  @include flexbox;
+  @include align-items(center);
+}

@@ -4,6 +4,7 @@ import { IAction } from 'core/actions/action';
 const EVENTS = new Map<string, IProperty<Array<IAction>>>([
   ['change', new Property<Array<IAction>>('Change', null, 'change')],
   ['click', new Property<Array<IAction>>('Click', null, 'click')],
+  ['item-click', new Property<Array<IAction>>('Item click', null, 'item-click')],
   ['hover', new Property<Array<IAction>>('Hover', null, 'hover')]
 ]);
 

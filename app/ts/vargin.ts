@@ -18,6 +18,7 @@ import { ActionEditor } from 'editor/properties/action-editor';
 import ButtonComponent from 'editor/control-components/visual/button-component';
 import LabelComponent from 'editor/control-components/visual/label-component';
 import LinkComponent from 'editor/control-components/visual/link-component';
+import ListComponent from 'editor/control-components/visual/list-component';
 import RangeComponent from 'editor/control-components/visual/range-component';
 import TextInputComponent from 'editor/control-components/visual/text-input-component';
 import DatasourceComponent from 'editor/control-components/service/datasource-component';
@@ -30,6 +31,7 @@ const VISUAL_COMPONENTS = [
   ButtonComponent,
   LabelComponent,
   LinkComponent,
+  ListComponent,
   RangeComponent,
   TextInputComponent
 ];
@@ -74,6 +76,7 @@ class Vargin {
         [
           ControlService.getMetadata('label'),
           ControlService.getMetadata('link'),
+          ControlService.getMetadata('list'),
           ControlService.getMetadata('button'),
           ControlService.getMetadata('container'),
           ControlService.getMetadata('range'),
