@@ -18,21 +18,13 @@ export class BaseComponent {
     this.control = control;
     this.renderer = renderer;
     this.viewContainer = viewContainer;
-
-    ControlService.controlSelected.observer({
-      next:  this.onControlSelected.bind(this)
-    });
-
-    ControlService.controlUnselected.observer({
-      next: this.onControlUnselected.bind(this)
-    });
   }
 
   onClick(e: Event) {
     e.stopPropagation();
     e.preventDefault();
 
-    ControlService.selectControl(this.control, this.viewContainer);
+    ControlService.selectComponent(this);
   }
 
   onDragOver(e: DragEvent) {
@@ -111,23 +103,15 @@ export class BaseComponent {
     return null;
   }
 
-  private onControlSelected(
-    controlDescription: { control: Control, view: ViewContainerRef }
-  ) {
+  select() {
     this.renderer.setElementClass(
-      controlDescription.view.element,
-      'vargin-component_active',
-      true
+      this.viewContainer.element, 'vargin-component_active', true
     );
   }
 
-  private onControlUnselected(
-    controlDescription: { control: Control, view: ViewContainerRef }
-  ) {
+  unselect() {
     this.renderer.setElementClass(
-      controlDescription.view.element,
-      'vargin-component_active',
-      false
+      this.viewContainer.element, 'vargin-component_active', false
     );
   }
 

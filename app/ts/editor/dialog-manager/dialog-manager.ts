@@ -43,9 +43,7 @@ export class DialogManager {
     this.componentLoader = componentLoader;
     this.viewContainer = viewContainer;
 
-    DialogService.onRequest.observer({
-      next: this.onDialogRequested.bind(this)
-    });
+    DialogService.onRequest.toRx().subscribe(this.onDialogRequested.bind(this));
   }
 
   close() {

@@ -14,6 +14,8 @@ import { LinkControl } from 'core/controls/visual/link-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
+import { BaseComponent } from 'editor/control-components/base-component';
+
 import { UtilsService } from 'services/utils-service';
 
 const CONTROLS = new Map<string, any>([
@@ -27,31 +29,41 @@ const CONTROLS = new Map<string, any>([
 ]);
 
 export class ControlService {
-  private static _activeControl: { control: Control, view: ViewContainerRef };
+  private static _activeComponent: BaseComponent;
 
   static controlSelected: EventEmitter = new EventEmitter();
   static controlUnselected: EventEmitter = new EventEmitter();
 
-  static get activeControl() {
-    return ControlService._activeControl;
+  static selectComponent(component: BaseComponent) {
+    // Special case when different components have the same control attached.
+    let isSilent = this._activeComponent &&
+      this._activeComponent.control === component.control;
+
+    if (this._activeComponent !== component) {
+      this.unselectCurrentComponent(isSilent);
+    }
+
+    if (!this._activeComponent || this._activeComponent !== component) {
+      ControlService._activeComponent = component;
+      component.select();
+
+      if (!isSilent) {
+        ControlService.controlSelected.next(component.control);
+      }
+    }
   }
 
-  static selectControl(control: Control, view: ViewContainerRef) {
-    if (this._activeControl && this._activeControl.control !== control) {
-      ControlService.unselectCurrentControl();
+  static unselectCurrentComponent(isSilent: boolean = false) {
+    if (!this._activeComponent) {
+      return;
     }
 
-    if (!this._activeControl || this._activeControl.control !== control) {
-      ControlService._activeControl = { control, view };
-      ControlService.controlSelected.next(ControlService._activeControl);
+    if (!isSilent) {
+      ControlService.controlUnselected.next(this._activeComponent.control);
     }
-  }
 
-  static unselectCurrentControl() {
-    if (this._activeControl) {
-      ControlService.controlUnselected.next(this._activeControl);
-      this._activeControl = null;
-    }
+    this._activeComponent.unselect();
+    this._activeComponent = null;
   }
 
   static getMetadata(type: string): ControlMetadata {
