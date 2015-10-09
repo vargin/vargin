@@ -76,8 +76,7 @@ class VarginWorkspace {
   removePage(pageId: string) {
     this.workspace.application.removePage(pageId);
 
-    ControlService.unselectCurrentControl();
-
+    ControlService.unselectCurrentComponent();
     if (this.activePageIndex >= this.workspace.application.pages.length) {
       this.activePageIndex = this.workspace.application.pages.length - 1;
     }
@@ -85,7 +84,7 @@ class VarginWorkspace {
 
   goToPage(pageIndex: number) {
     if (pageIndex !== this.activePageIndex) {
-      ControlService.unselectCurrentControl();
+      ControlService.unselectCurrentComponent();
       this.activePageIndex = pageIndex;
     }
   }
