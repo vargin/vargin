@@ -4,7 +4,9 @@ import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { ControlService } from 'services/control-service';
 
-const CONTAINER_ONLY_STYLES = ['flex-basis', 'flex-grow', 'flex-shrink'];
+const CONTAINER_ONLY_STYLES = [
+  'flex-basis', 'flex-grow', 'flex-shrink', 'margin'
+];
 
 export class BaseComponent {
   public control: Control;

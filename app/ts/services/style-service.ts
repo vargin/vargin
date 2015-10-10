@@ -100,6 +100,7 @@ const STYLES = new Map<string, IProperty<string>>([
     ], 'flex-start',  'justify-content')
   ],
   ['line-height', new Property('Line height', 'auto')],
+  ['margin', new Property('Margin', '0', 'margin')],
   ['min-height', new Property('Min height', '0')],
   ['min-width', new Property('Min width', '0')],
   ['opacity', new Property('Opacity', '1', 'opacity')],

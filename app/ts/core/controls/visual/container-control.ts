@@ -26,6 +26,7 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
   ['font-size', StyleService.getDescriptor('font-size')],
   ['justify-content', StyleService.getDescriptor('justify-content')],
+  ['margin', StyleService.getDescriptor('margin')],
   [
     'min-height',
     new OwnedProperty(
