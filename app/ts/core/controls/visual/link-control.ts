@@ -33,7 +33,7 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
     null, StyleService.getDescriptor('color'), '#0000ee'
   )],
   ['display', new OwnedPropertyWithOptions(
-    null, StyleService.getDescriptor('display'), 'flex'
+    null, StyleService.getDescriptor('display'), 'inline'
   )],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],

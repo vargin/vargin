@@ -55,7 +55,9 @@ export default class ListComponent extends BaseComponent {
     let children = this.control.getChildren();
 
     if (children.length === 0) {
-      itemTemplate = new ContainerControl(UtilsService.uuid());
+      itemTemplate = new ContainerControl(UtilsService.uuid(), {
+        styles: new Map([['border', '0.1rem dashed #cccccc']])
+      });
       this.control.addChild(itemTemplate);
     } else {
       itemTemplate = children[0];

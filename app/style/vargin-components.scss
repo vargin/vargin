@@ -43,13 +43,13 @@ vargin-dynamic {
   }
 }
 
+vargin-button > button,
+vargin-container > div,
 vargin-label > span,
 vargin-link > a,
-vargin-button > button,
+vargin-list > div,
 vargin-range > input,
 vargin-text-input > input,
-vargin-container > div,
-vargin-list > div,
 vargin-service-container > div {
   @include flex;
 }

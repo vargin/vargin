@@ -169,7 +169,8 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ['title', '']
             ],
             styles: [
-              ['font-size', '2rem']
+              ['font-size', '2rem'],
+              ['display', 'flex']
             ]
           }
         }],

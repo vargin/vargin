@@ -18,14 +18,18 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['border', StyleService.getDescriptor('border')],
   ['color', StyleService.getDescriptor('color')],
   ['display', new OwnedPropertyWithOptions(
-    null, StyleService.getDescriptor('display'), 'block'
+    null, StyleService.getDescriptor('display'), 'flex'
   )],
   ['flex-basis', StyleService.getDescriptor('flex-basis')],
-  ['flex-direction', StyleService.getDescriptor('flex-direction')],
+  ['flex-direction', new OwnedPropertyWithOptions(
+    null, StyleService.getDescriptor('flex-direction'), 'column'
+  )],
   ['flex-grow', StyleService.getDescriptor('flex-grow')],
   ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
   ['font-size', StyleService.getDescriptor('font-size')],
-  ['justify-content', StyleService.getDescriptor('justify-content')],
+  ['justify-content', new OwnedPropertyWithOptions(
+    null, StyleService.getDescriptor('justify-content'), 'space-between'
+  )],
   [
     'min-height',
     new OwnedProperty(
@@ -38,7 +42,12 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
       null, StyleService.getDescriptor('min-width'), '5rem'
     )
   ],
-  ['padding', StyleService.getDescriptor('padding')]
+  [
+    'padding',
+    new OwnedProperty(
+      null, StyleService.getDescriptor('padding'), '1rem'
+    )
+  ]
 ]);
 
 const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
