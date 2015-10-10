@@ -22,6 +22,7 @@ import ImagePropertyEditor from 'editor/properties/property-editors/image-proper
 import URLPropertyEditor from 'editor/properties/property-editors/url/editor';
 import { SchemaPropertyEditor } from 'editor/properties/property-editors/schema/editor';
 import { ItemsPropertyEditor } from 'editor/properties/property-editors/items/editor';
+import DatasourcePropertyEditor from 'editor/properties/property-editors/datasource-property-editor';
 
 @Component({
   selector: 'property-editor',
@@ -82,6 +83,8 @@ class PropertyEditor implements OnChanges {
         return SchemaPropertyEditor;
       case 'items':
         return ItemsPropertyEditor;
+      case 'datasource':
+        return DatasourcePropertyEditor;
       default:
         return StringPropertyEditor;
     }

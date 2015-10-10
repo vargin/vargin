@@ -7,10 +7,14 @@ import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import {
   VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
-import { IProperty } from 'core/property';
+import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'services/style-service';
 import { EventService } from 'services/event-service';
+
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
+  ['datasource', new Property<string>('Datasource', '', 'datasource')]
+]);
 
 const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
   ['align-items', StyleService.getDescriptor('align-items')],
@@ -60,13 +64,17 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   'List',
   'List of the items',
   SUPPORTED_EVENTS,
-  null,
+  SUPPORTED_PROPERTIES,
   SUPPORTED_STYLES
 ));
 
 export class ListControl extends VisualControl {
   constructor(id: string, parameters?: IVisualControlParameters) {
     super(id, ListControl.getMeta(), parameters);
+  }
+
+  get datasource() {
+    return this._properties.get('datasource');
   }
 
   static getMeta() {
