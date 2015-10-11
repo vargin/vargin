@@ -9,10 +9,10 @@ export class RangeControlCompiler extends DOMStaticControlCompiler<RangeControl>
     return this.buildHTMLElement('input', '', new Map<string, string>([
       ['class', cssClass.name],
       ['type', 'range'],
-      ['min', control.min.getValue()],
-      ['max', control.max.getValue()],
-      ['step', control.step.getValue()],
-      ['value', control.value.getValue()]
+      ['min', this.getValue(control.min)],
+      ['max', this.getValue(control.max)],
+      ['step', this.getValue(control.step)],
+      ['value', this.getValue(control.value)]
     ]));
   }
 }

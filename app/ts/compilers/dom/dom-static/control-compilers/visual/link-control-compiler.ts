@@ -13,11 +13,11 @@ export class LinkControlCompiler extends DOMStaticControlCompiler<LinkControl> {
 
     return this.buildHTMLElement(
       'a',
-      control.text.getValue(),
+      this.getValue(control.text),
       new Map<string, string>([
         ['class', cssClass.name],
-        ['title', control.title.getValue()],
-        ['target', control.target.getValue()],
+        ['title', this.getValue(control.title)],
+        ['target', this.getValue(control.target)],
         ['href', address.value]
       ])
     );

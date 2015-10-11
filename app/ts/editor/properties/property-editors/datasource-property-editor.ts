@@ -17,9 +17,7 @@ import { ApplicationService } from 'services/application-service';
       <span class="vargin-property-editor__label">{{property.getName()}}</span>
       <select class="vargin-property-editor__input"
               (change)="onChange($event.target.value)">
-        <option [value]="''">
-          [Not Defined]
-        </option>
+        <option>[Not Defined]</option>
         <option
           *ng-for="#datasource of getDatasources()"
           [value]="datasource.id"

@@ -10,6 +10,8 @@ import { ListControl } from 'core/controls/visual/list-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
+import { DatasourceControl } from 'core/controls/service/datasource-control';
+
 import { IApplicationCompiler } from 'compilers/application-compiler';
 import { IControlCompiler } from 'compilers/control-compiler';
 
@@ -38,7 +40,14 @@ const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
 
 const PAGE_REGEX = /href="page:([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"/g;
 
+interface IBinding {
+  index: number;
+  item: Map<string, string>;
+}
+
 export class DOMStaticApplicationCompiler implements IApplicationCompiler<string> {
+  bindingStack: IBinding[] = [];
+
   compile(application: Application) {
     let compiledApp = {
       styles: '',
@@ -46,7 +55,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     };
 
     application.pages.forEach((page) => {
-      let compiledRoot = this.compileControl(page.root);
+      let compiledRoot = this.compileControl(page.root, application);
 
       let markup = compiledRoot.markup.replace(
         PAGE_REGEX, (markup, pageId) => `href="#${pageId}"`
@@ -76,22 +85,33 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     return null;
   }
 
-  private compileControl(control: Control): IDOMStaticCompiledControl {
-    let controlCompiler = <DOMStaticControlCompiler<Control>>
-      CONTROL_COMPILERS.get(control.constructor);
-    let compiledControl = controlCompiler.compile(control);
+  private compileControl(control: Control, application: Application): IDOMStaticCompiledControl {
+    let compiledControl = this.getCompilerForControl(control).compile(control);
 
-    let children = control.getChildren();
-    if (children.length) {
+    let controlChildren = control.getChildren();
+    if (controlChildren.length > 0) {
       let childrenCssText = '';
       let childrenMarkup = '';
 
-      for (let child of children) {
-        let compiledChild = this.compileControl(child);
+      let bindings: Iterable<[string, string]>[] = null;
 
-        childrenCssText += compiledChild.cssClass.text;
-        childrenMarkup += compiledChild.markup;
+      if ('datasource' in control) {
+        let datasource = <DatasourceControl>application.serviceRoot.find(
+          control['datasource'].getValue()
+        );
+
+        let serializedItems = datasource.items.getValue();
+        if (serializedItems) {
+          bindings = JSON.parse(datasource.items.getValue());
+        }
       }
+
+      this.forEachChild(controlChildren, bindings, (child: Control) => {
+        let { cssClass, markup } = this.compileControl(child, application);
+
+        childrenCssText += cssClass.text;
+        childrenMarkup += markup;
+      });
 
       compiledControl.cssClass.text += childrenCssText;
       compiledControl.markup = compiledControl.markup.replace(
@@ -100,5 +120,39 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     }
 
     return compiledControl;
+  }
+
+  private getCompilerForControl(control: Control) {
+    let controlCompiler = <DOMStaticControlCompiler<Control>>
+      CONTROL_COMPILERS.get(control.constructor);
+
+    if (this.bindingStack.length) {
+      controlCompiler.binding = this.bindingStack[0].item;
+    }
+
+    return controlCompiler;
+  }
+
+  private forEachChild(
+    children: Control[],
+    bindings: Iterable<[string, string]>[],
+    callback: (control: Control) => void
+  ) {
+    if (bindings && bindings.length) {
+      let template = children[0];
+
+      for (let index = 0; index < bindings.length; index++) {
+        this.bindingStack.unshift({
+          index: index,
+          item: new Map(bindings[index])
+        });
+
+        callback(template);
+
+        this.bindingStack.unshift();
+      }
+    } else {
+      children.forEach(callback);
+    }
   }
 }

@@ -3,6 +3,7 @@ import {
   ICompiledCSSClass,
   CSSClassCompiler
 } from 'compilers/dom/css-compiler';
+import { IProperty } from 'core/property';
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 
@@ -13,6 +14,8 @@ export interface IDOMStaticCompiledControl {
 }
 
 export class DOMStaticControlCompiler<TControl extends Control> implements IControlCompiler<IDOMStaticCompiledControl> {
+  binding: Map<string, string>;
+
   compile(control: TControl) {
     let cssClass: ICompiledCSSClass = null;
 
@@ -29,6 +32,16 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
 
   decompile(): TControl {
     return null;
+  }
+
+  protected getValue(property: IProperty<string>): string {
+    let rawValue = property.getValue();
+
+    if (this.binding && rawValue.startsWith('bind:')) {
+      return this.binding.get(rawValue.split(':')[1]);
+    }
+
+    return rawValue;
   }
 
   protected getMarkup(control: TControl, cssClass?: ICompiledCSSClass) {

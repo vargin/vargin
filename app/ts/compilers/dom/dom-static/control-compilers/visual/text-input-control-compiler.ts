@@ -9,8 +9,8 @@ export class TextInputControlCompiler extends DOMStaticControlCompiler<TextInput
     return this.buildHTMLElement('input', '', new Map<string, string>([
       ['class', cssClass.name],
       ['type', 'text'],
-      ['placeholder', control.placeholder.getValue()],
-      ['value', control.value.getValue()]
+      ['placeholder', this.getValue(control.placeholder)],
+      ['value', this.getValue(control.value)]
     ]));
   }
 }
