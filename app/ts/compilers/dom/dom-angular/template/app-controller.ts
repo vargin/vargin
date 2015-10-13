@@ -3,9 +3,6 @@ import {
   bind,
   bootstrap,
   Component,
-  Inject,
-  NgIf,
-  Type,
   View
 } from 'angular2/angular2';
 import {
@@ -14,48 +11,13 @@ import {
   ROUTER_BINDINGS,
   ROUTER_DIRECTIVES,
   ROUTER_PRIMARY_COMPONENT,
-  RouterLink,
-  RouteConfig,
-  RouteParams
+  RouteConfig
 } from 'angular2/router';
-import { IProperty } from 'core/property';
-import { IAction } from 'core/actions/action';
 import { Application } from 'core/application';
 import { ApplicationService } from 'services/application-service';
 import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
-import { application, pages } from 'app-description';
-
-@Component({
-  selector: 'page'
-})
-@View({
-  template: pages.reduce((markup, page) => {
-    return markup +
-      `<div *ng-if="id === '${page.id}'">${page.markup}</div>`;
-  }, ''),
-  directives: [NgIf, RouterLink]
-})
-class PageController {
-  private id: string;
-
-  constructor(@Inject(RouteParams) params: RouteParams) {
-    this.id = params && params.get('id') || pages[0].id;
-  }
-
-  getControl(id: string) {
-    return ApplicationService.findControlById(id);
-  }
-
-  onControlAction(controlId: string, eventName: string) {
-    let control = ApplicationService.findControlById(controlId);
-
-    if (control.events.has(eventName)) {
-      control.events.get(eventName).getValue().forEach(
-        (action: IAction) => action.perform()
-      );
-    }
-  }
-}
+import { PageController } from 'compilers/dom/dom-angular/template/page-controller';
+import { application } from 'app-description';
 
 @Component({
   selector: 'angular-app'
