@@ -29,7 +29,12 @@ import { ListControlCompiler } from 'compilers/dom/dom-angular/control-compilers
 import { RangeControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/range-control-compiler';
 import { TextInputControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/text-input-control-compiler';
 
-const CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>([
+import {
+  ISerializedServiceControl,
+  ServiceControlCompiler
+} from 'compilers/dom/dom-angular/control-compilers/service/service-control-compiler';
+
+const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>([
   [ButtonControl, new ButtonControlCompiler()],
   [ContainerControl, new ContainerControlCompiler()],
   [LabelControl, new LabelControlCompiler()],
@@ -39,35 +44,42 @@ const CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
   [TextInputControl, new TextInputControlCompiler()]
 ]);
 
+const SERVICE_CONTROL_COMPILER = new ServiceControlCompiler();
+
 export interface ICompiledDOMAngularApplication {
   pages: Array<{ id: string; name: string; markup: string }>;
+  services: ISerializedServiceControl[];
 }
 
 export class DOMAngularApplicationCompiler implements IApplicationCompiler<ICompiledDOMAngularApplication> {
   compile(application: Application) {
-    return {
-      pages: application.pages.map((page: ApplicationPage) => {
-        let compiledRoot = this.compileControl(page.root);
+    let services = application.serviceRoot.getChildren().map(
+      (control: Control) => SERVICE_CONTROL_COMPILER.compile(control)
+    );
 
-        return {
-          id: page.id,
-          name: page.name,
-          markup: `
+    let pages = application.pages.map((page: ApplicationPage) => {
+      let compiledRoot = this.compileVisualControl(page.root);
+
+      return {
+        id: page.id,
+        name: page.name,
+        markup: `
             <style type="text/css">${compiledRoot.cssClass.text}</style>
             ${compiledRoot.markup}
           `
-        };
-      })
-    };
+      };
+    });
+
+    return { services, pages };
   }
 
   decompile(compiledApplication: ICompiledDOMAngularApplication): Application {
     return null;
   }
 
-  private compileControl(control: Control): IDOMStaticCompiledControl {
+  private compileVisualControl(control: Control): IDOMStaticCompiledControl {
     let controlCompiler = <DOMAngularControlCompiler<Control>>
-      CONTROL_COMPILERS.get(control.constructor);
+      VISUAL_CONTROL_COMPILERS.get(control.constructor);
     let compiledControl = controlCompiler.compile(control);
 
     let children = control.getChildren();
@@ -76,7 +88,7 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
       let childrenMarkup = '';
 
       for (let child of children) {
-        let compiledChild = this.compileControl(child);
+        let compiledChild = this.compileVisualControl(child);
 
         childrenCssText += compiledChild.cssClass.text.trim();
         childrenMarkup += compiledChild.markup.trim();
