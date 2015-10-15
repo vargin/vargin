@@ -1,5 +1,5 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
-import { bind, Component, Inject, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
 import { OwnedProperty } from 'core/owned-property';
@@ -59,8 +59,8 @@ export class ItemsPropertyEditor {
     DialogService.show(
       ItemsPropertyListDialog,
       [
-        bind(Schema).toValue(Schema.deserialize(serializedSchema)),
-        bind(Array).toValue(this.items)
+        provide(Schema, { useValue: Schema.deserialize(serializedSchema) }),
+        provide(Array, { useValue: this.items })
       ]
     ).then(() => {
       if (this.items.length) {

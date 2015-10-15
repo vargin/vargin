@@ -1,5 +1,5 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
-import { bind, Component, Inject, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
 import { DialogService } from 'services/dialog-service';
@@ -38,7 +38,7 @@ export class SchemaPropertyEditor {
 
   changeSchema() {
     DialogService.show(
-      SchemaPropertyEditorDialog, [bind(Schema).toValue(this.schema)]
+      SchemaPropertyEditorDialog, [provide(Schema, { useValue: this.schema })]
     ).then(() => {
       this.schema.fields = this.schema.fields.filter((field) => !!field.name);
 

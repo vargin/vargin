@@ -1,16 +1,16 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
 import {
-  bind,
   bootstrap,
   Component,
+  provide,
   View
 } from 'angular2/angular2';
 import {
   LocationStrategy,
   HashLocationStrategy,
-  ROUTER_BINDINGS,
   ROUTER_DIRECTIVES,
   ROUTER_PRIMARY_COMPONENT,
+  ROUTER_PROVIDERS,
   RouteConfig
 } from 'angular2/router';
 import { Application } from 'core/application';
@@ -50,8 +50,8 @@ class AppController {
 bootstrap(
   AppController,
   [
-    ROUTER_BINDINGS,
-    bind(LocationStrategy).toClass(HashLocationStrategy),
-    bind(ROUTER_PRIMARY_COMPONENT).toValue(AppController)
+    ROUTER_PROVIDERS,
+    provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppController })
   ]
 );

@@ -1,9 +1,9 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   Inject,
   NgFor,
+  provide,
   Type,
   View
 } from 'angular2/angular2';
@@ -78,7 +78,7 @@ export class ActionList {
   editAction(action: IAction) {
     System.import('editor/properties/action-editor').then((module: any) => {
       DialogService.show(
-        <Type>module.ActionEditor, [bind(Action).toValue(action)]
+        <Type>module.ActionEditor, [provide(Action, { useValue: action })]
       );
     });
   }

@@ -1,11 +1,11 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   DynamicComponentLoader,
   Inject,
   Injector,
   OnChanges,
+  provide,
   Renderer,
   Type,
   View,
@@ -53,7 +53,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
         module.default,
         this.viewContainer.element,
         'container',
-        Injector.resolve([bind(Control).toValue(this.control)])
+        Injector.resolve([provide(Control, { useValue: this.control })])
       );
     });
   }

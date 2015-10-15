@@ -1,11 +1,11 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   ComponentRef,
   DynamicComponentLoader,
   Inject,
   Injector,
+  provide,
   View,
   ViewContainerRef
 } from 'angular2/angular2';
@@ -54,7 +54,7 @@ class EventPropertyEditor {
       ActionList,
       this.viewContainer.element,
       'actioncontainer',
-      Injector.resolve([bind(Property).toValue(this.property)])
+      Injector.resolve([provide(Property, { useValue: this.property })])
     ).then((actionList) => this.actionList = actionList);
   }
 }

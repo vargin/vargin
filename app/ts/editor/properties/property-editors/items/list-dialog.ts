@@ -1,10 +1,10 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   Inject,
   NgFor,
   NgIf,
+  provide,
   View
 } from 'angular2/angular2';
 import { Property } from 'core/property';
@@ -69,7 +69,10 @@ export class ItemsPropertyListDialog {
 
     DialogService.show(
       ItemsPropertyEditorDialog,
-      [bind(Schema).toValue(this.schema), bind(Array).toValue(newItem)]
+      [
+        provide(Schema, { useValue: this.schema }),
+        provide(Array, { useValue: newItem })
+      ]
     ).then(() => {
       if (newItem.some(([key, value]) => !!value)) {
         this.items.push(new Map<string, string>(newItem));

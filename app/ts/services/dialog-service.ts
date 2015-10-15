@@ -1,22 +1,22 @@
 /// <reference path="../../../typings/tsd.d.ts" />
-import { EventEmitter, Binding, Type } from 'angular2/angular2';
+import { EventEmitter, Provider, Type } from 'angular2/angular2';
 import { Deferred, UtilsService } from 'services/utils-service';
 
 export interface IDialogRequest {
   uuid: string;
   component: Type;
-  bindings: Binding[];
+  providers: Provider[];
 }
 
 export class DialogService {
   static onRequest: EventEmitter = new EventEmitter();
   private static dialogs: Map<string, Deferred<void>> = new Map();
 
-  static show(component: Type, bindings: Binding[]): Promise<void> {
+  static show(component: Type, providers: Provider[]): Promise<void> {
     let dialogRequest = {
       uuid: UtilsService.uuid(),
       component: component,
-      bindings: bindings
+      providers: providers
     };
 
     let dialogDeferred = new Deferred<void>();

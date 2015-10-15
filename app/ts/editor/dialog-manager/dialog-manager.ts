@@ -1,11 +1,11 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   ComponentRef,
   DynamicComponentLoader,
   Inject,
   Injector,
+  provide,
   Renderer,
   View,
   ViewContainerRef
@@ -66,8 +66,8 @@ export class DialogManager {
       this.viewContainer.element,
       'placeholder',
       Injector.resolve([
-        ...dialogRequest.bindings,
-        bind('dispose').toValue(() => this.close())
+        ...dialogRequest.providers,
+        provide('dispose', { useValue: () => this.close() })
       ])
     ).then((component: ComponentRef) => {
       this.instances.push({ component, uuid: dialogRequest.uuid });

@@ -1,11 +1,11 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
-  bind,
   Component,
   DynamicComponentLoader,
   Inject,
   Injector,
   OnChanges,
+  provide,
   Type,
   View,
   ViewContainerRef
@@ -54,7 +54,7 @@ class PropertyEditor implements OnChanges {
         PropertyEditor.getEditorType(this.property),
         this.viewContainer.element,
         'container',
-        Injector.resolve([bind(Property).toValue(this.property)])
+        Injector.resolve([provide(Property, { useValue: this.property })])
       );
     });
   }
