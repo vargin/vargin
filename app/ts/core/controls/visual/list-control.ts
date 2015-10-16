@@ -1,4 +1,5 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
+import { Control } from 'core/controls/control';
 import {
   VisualControl,
   IVisualControlParameters
@@ -75,6 +76,22 @@ export class ListControl extends VisualControl {
 
   get datasource() {
     return this._properties.get('datasource');
+  }
+
+  getTemplate(): Control {
+    let children = this.getChildren();
+    return children.length ? children[0] : null;
+  }
+
+  setTemplate(template: Control) {
+    let children = this.getChildren();
+    if (children.length) {
+      this.removeChild(children[0]);
+    }
+
+    if (template) {
+      this.addChild(template);
+    }
   }
 
   static getMeta() {

@@ -34,7 +34,7 @@ import { UtilsService } from 'services/utils-service';
       <vargin-dynamic *ng-for="#itemTemplate of itemTemplates"
                       [control]="itemTemplate"
                       [ng-style]="getContainerStyles(itemTemplate)"
-                      attr.type="{{itemTemplate.meta.type}}">
+                      attr.type="{{ itemTemplate.meta.type }}">
       </vargin-dynamic>
     </div>
   `,
@@ -51,16 +51,12 @@ export default class ListComponent extends BaseComponent {
   ) {
     super(renderer, viewContainer, control);
 
-    let itemTemplate: Control = null;
-    let children = this.control.getChildren();
-
-    if (children.length === 0) {
+    let itemTemplate = this.control.getTemplate();
+    if (!itemTemplate) {
       itemTemplate = new ContainerControl(UtilsService.uuid(), {
         styles: new Map([['border', '0.1rem dashed #cccccc']])
       });
-      this.control.addChild(itemTemplate);
-    } else {
-      itemTemplate = children[0];
+      this.control.setTemplate(itemTemplate);
     }
 
     this.itemTemplates = [itemTemplate, itemTemplate, itemTemplate];
