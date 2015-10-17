@@ -20,7 +20,7 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.42",
+    "angular2": "2.0.0-alpha.44",
     "systemjs": "^0.19.4",
     "es6-module-loader": "^0.17.8",
     "zone.js": "^0.5.8",
