@@ -1,4 +1,4 @@
-import { Control } from 'core/controls/control';
+import { Control, IControlParameters } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { VisualControlMetadata } from 'core/controls/visual/visual-control-metadata';
 
@@ -17,113 +17,143 @@ export interface IJSONControl {
   id?: string;
   children?: IJSONControl[];
   parameters?: {
-    properties?: Iterable<[string, string]>;
-    events?: Iterable<[string, Array<IJSONAction>]>;
-    styles?: Iterable<[string, string]>;
+    properties?: [string, string][];
+    events?: [string, IJSONAction[]][];
+    styles?: [string, string][];
   };
 }
 
+const actionCompiler = new JSONActionCompiler();
+
 export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
-  private _actionCompiler: JSONActionCompiler = new JSONActionCompiler();
+  compile(control: Control): Promise<IJSONControl> {
+    return Promise.all<any>([
+      JSONControlCompiler.compileProperties(control),
+      JSONControlCompiler.compileEvents(control),
+      JSONControlCompiler.compileStyles(<VisualControl>control)
+    ]).then<IJSONControl>(([properties, events, styles]) => {
+      return Promise.all(
+        control.getChildren().map((child: Control) => this.compile(child))
+      ).then((compiledChildren) => {
+        return <IJSONControl>{
+          id: control.id,
+          type: control.meta.type,
+          children: compiledChildren,
+          parameters: { properties, events, styles }
+        };
+      });
+    });
+  }
 
-  compile(control: Control): IJSONControl {
-    let parameters = <{
-      properties: [string, string][],
-      events: [string, IJSONAction[]][],
-      styles: [string, string][]
-    }>{
-      properties: [],
-      events: [],
-      styles: []
-    };
+  decompile(compiledControl: IJSONControl) {
+    return Promise.all<any>([
+      JSONControlCompiler.decompileProperties(compiledControl),
+      JSONControlCompiler.decompileEvents(compiledControl),
+      JSONControlCompiler.decompileStyles(compiledControl)
+    ]).then(([properties, events, styles]) => {
+      return ControlService.createByType(
+        compiledControl.type,
+        <IControlParameters>{
+          properties: <Map<string, string>>properties,
+          events: <Map<string, IAction[]>>events,
+          styles: <Map<string, string>>styles
+        },
+        compiledControl.id
+      );
+    }).then((control: Control) => {
+      if (compiledControl.children && compiledControl.children.length) {
+        return Promise.all<Control>(
+          compiledControl.children.map((child) => this.decompile(child))
+        ).then((children) => {
+          children.forEach((child) => control.addChild(child));
 
+          return control;
+        });
+      }
+
+      return Promise.resolve(control);
+    });
+  }
+
+  private static compileProperties(control: Control): Promise<[string, string][]> {
+    let properties = [];
     control.meta.supportedProperties.forEach((property, propertyKey) => {
-      parameters.properties.push([
+      properties.push([
         propertyKey, (<IProperty<string>>control[propertyKey]).getValue()
       ]);
     });
 
-    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
-      let actions = control.events.get(eventKey).getValue();
+    return Promise.resolve(properties);
+  }
 
-      if (actions.length) {
-        parameters.events.push([
-          eventKey,
-          actions.map((action) => this._actionCompiler.compile(action))
-        ]);
-      }
+  private static decompileProperties(control: IJSONControl): Promise<Map<string, string>> {
+    let hasProperties = control.parameters && control.parameters.properties;
+    return Promise.resolve(
+      hasProperties ?
+        new Map<string, string>(control.parameters.properties) :
+        null
+    );
+  }
+
+  private static compileEvents(control: Control): Promise<[string, IJSONAction[]][]> {
+    let actionCompilePromises = [];
+    let events = [];
+
+    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
+      actionCompilePromises.push(
+        Promise.all(
+          control.events.get(eventKey).getValue().map(
+            (action) => actionCompiler.compile(action)
+          )
+        ).then(
+          (compiledActions) => events.push([eventKey, compiledActions])
+        )
+      );
     });
 
-    if (VisualControl.isVisualControl(control)) {
-      let visualControl = <VisualControl>control;
+    return Promise.all(actionCompilePromises).then(() => events);
+  }
 
-      (<VisualControlMetadata>visualControl.meta).supportedStyles.forEach(
+  private static decompileEvents(control: IJSONControl): Promise<Map<string, IAction[]>> {
+    let hasEvents = control.parameters && control.parameters.events;
+
+    if (!hasEvents) {
+      return Promise.resolve(null);
+    }
+
+    let actionDecompilePromises = [];
+    let events = new Map<string, IAction[]>();
+
+    control.parameters.events.forEach(([eventKey, actions]) => {
+      actionDecompilePromises.push(
+        Promise.all(
+          actions.map((action) => actionCompiler.decompile(action))
+        ).then((decompiledActions: IAction[]) => {
+          events.set(eventKey, decompiledActions);
+        })
+      );
+    });
+
+    return Promise.all(actionDecompilePromises).then(() => events);
+  }
+
+  private static compileStyles(control: VisualControl): Promise<[string, string][]> {
+    let styles = [];
+    if (VisualControl.isVisualControl(control)) {
+      (<VisualControlMetadata>control.meta).supportedStyles.forEach(
         (style, styleKey) => {
-          parameters.styles.push(
-            [styleKey, visualControl.styles.get(styleKey).getValue()]
-          );
+          styles.push([styleKey, control.styles.get(styleKey).getValue()]);
         }
       );
     }
 
-    return {
-      id: control.id,
-      type: control.meta.type,
-      children: control.getChildren().map(
-        (child: Control) => this.compile(child)
-      ),
-      parameters: parameters
-    };
+    return Promise.resolve(styles);
   }
 
-  decompile(compiledControl: IJSONControl) {
-    let parameters = <{
-      properties: Map<string, string>,
-      styles: Map<string, string>,
-      events: Map<string, IAction[]>
-    }>{
-      properties: null,
-      styles: null,
-      events: null
-    };
-
-    let controlParameters = compiledControl.parameters;
-    if (controlParameters) {
-      if (controlParameters.properties) {
-        parameters.properties = new Map<string, string>(
-          controlParameters.properties
-        );
-      }
-
-      if (controlParameters.styles) {
-        parameters.styles = new Map<string, string>(controlParameters.styles);
-      }
-
-      if (controlParameters.events) {
-        parameters.events = new Map<string, IAction[]>();
-        let compiledEvents = new Map(controlParameters.events);
-
-        compiledEvents.forEach((compiledActions, eventKey) => {
-          parameters.events.set(
-            eventKey,
-            compiledActions.map(
-              (compiledAction) => this._actionCompiler.decompile(compiledAction)
-            )
-          );
-        });
-      }
-    }
-
-    let control = ControlService.createByType(
-      compiledControl.type, parameters, compiledControl.id
+  private static decompileStyles(control: IJSONControl): Promise<Map<string, string>> {
+    let hasStyles = control.parameters && control.parameters.styles;
+    return Promise.resolve(
+      hasStyles ? new Map<string, string>(control.parameters.styles) : null
     );
-
-    if (compiledControl.children && compiledControl.children.length) {
-      compiledControl.children.forEach(
-        (child) => control.addChild(this.decompile(child))
-      );
-    }
-
-    return control;
   }
 }

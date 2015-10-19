@@ -8,21 +8,23 @@ export interface IJSONAction {
 }
 
 export class JSONActionCompiler implements ICompiler<IAction, IJSONAction> {
-  compile(action: IAction) {
+  compile(action: IAction): Promise<IJSONAction> {
     let properties: [string, string][] = [];
     action.properties.forEach((propertyValue, propertyKey) => {
       properties.push([propertyKey, propertyValue.getValue()]);
     });
 
-    return {
+    return Promise.resolve<IJSONAction>({
       type: action.type,
       properties: properties
-    };
+    });
   }
 
-  decompile(compiledAction: IJSONAction) {
-    return ActionService.createByType(
-      compiledAction.type, new Map<string, string>(compiledAction.properties)
+  decompile(compiledAction: IJSONAction): Promise<IAction> {
+    return Promise.resolve(
+      ActionService.createByType(
+        compiledAction.type, new Map<string, string>(compiledAction.properties)
+      )
     );
   }
 }

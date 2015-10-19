@@ -23,21 +23,27 @@ export class JSONApplicationCompiler implements IApplicationCompiler<string> {
   private _controlCompiler: JSONControlCompiler = new JSONControlCompiler();
 
   compile(application: Application) {
-    let plainApplicationObject = {
-      id: application.id,
-      name: application.name,
-      description: application.description,
-      serviceRoot: this._controlCompiler.compile(application.serviceRoot),
-      pages: application.pages.map((page) => {
-        return {
-          id: page.id,
-          name: page.name,
-          root: this._controlCompiler.compile(page.root)
-        };
-      })
-    };
-
-    return JSON.stringify(plainApplicationObject);
+    return this._controlCompiler.compile(application.serviceRoot).then(
+      (compiledServiceRoot) => {
+        return Promise.all(
+          application.pages.map((page) => {
+            return this._controlCompiler.compile(page.root).then(
+              (compiledRoot) => {
+                return { id: page.id, name: page.name, root: compiledRoot };
+              }
+            );
+          })
+        ).then((compiledPages) => {
+          return JSON.stringify({
+            id: application.id,
+            name: application.name,
+            description: application.description,
+            serviceRoot: compiledServiceRoot,
+            pages: compiledPages
+          });
+        });
+      }
+    );
   }
 
   decompile(compiledApplication: string) {
@@ -45,18 +51,29 @@ export class JSONApplicationCompiler implements IApplicationCompiler<string> {
       compiledApplication
     );
 
-    return new Application(
-      plainApplicationObject.id,
-      plainApplicationObject.name,
-      plainApplicationObject.description,
-      this._controlCompiler.decompile(plainApplicationObject.serviceRoot),
-      plainApplicationObject.pages.map((plainApplicationPage) => {
-        return new ApplicationPage(
-          plainApplicationPage.id,
-          plainApplicationPage.name,
-          this._controlCompiler.decompile(plainApplicationPage.root)
+    return this._controlCompiler.decompile(
+      plainApplicationObject.serviceRoot
+    ).then((decompiledServiceRoot) => {
+      let pagePromises = plainApplicationObject.pages.map((plainApplicationPage) => {
+        return this._controlCompiler.decompile(
+          plainApplicationPage.root
+        ).then((decompiledPageRoot) => {
+          return new ApplicationPage(
+            plainApplicationPage.id,
+            plainApplicationPage.name,
+            decompiledPageRoot
+          );
+        });
+      });
+      return Promise.all(pagePromises).then((decompiledPages) => {
+        return new Application(
+          plainApplicationObject.id,
+          plainApplicationObject.name,
+          plainApplicationObject.description,
+          decompiledServiceRoot,
+          decompiledPages
         );
-      })
-    );
+      });
+    });
   }
 }
