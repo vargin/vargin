@@ -1,4 +1,4 @@
 export interface ICompiler<TEntity, TCompiledEntity> {
-  compile(entity: TEntity): TCompiledEntity;
-  decompile(compiledEntity: TCompiledEntity): TEntity;
+  compile(entity: TEntity): Promise<TCompiledEntity>;
+  decompile(compiledEntity: TCompiledEntity): Promise<TEntity>;
 }
