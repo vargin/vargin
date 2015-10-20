@@ -274,6 +274,15 @@ const EMPTY_SERIALIZED_APPLICATION = {
 export class ApplicationService {
   private static _currentApplication: Application;
 
+  static initialize() {
+    // Create default application. TESTING ONLY!
+    return (new JSONApplicationCompiler()).decompile(
+      JSON.stringify(DEFAULT_SERIALIZED_APPLICATION)
+    ).then((decompiledApplication) => {
+      ApplicationService.current = decompiledApplication;
+    });
+  }
+
   static get current() {
     return ApplicationService._currentApplication;
   }
@@ -283,9 +292,11 @@ export class ApplicationService {
   }
 
   static reset() {
-    ApplicationService.current = (new JSONApplicationCompiler()).decompile(
+    (new JSONApplicationCompiler()).decompile(
       JSON.stringify(EMPTY_SERIALIZED_APPLICATION)
-    );
+    ).then((decompiledApplication) => {
+      ApplicationService.current = decompiledApplication;
+    });
   }
 
   static findControlById(controlId: string) {
@@ -299,8 +310,3 @@ export class ApplicationService {
     return null;
   }
 }
-
-// Create default application. TESTING ONLY!
-ApplicationService.current = (new JSONApplicationCompiler()).decompile(
-  JSON.stringify(DEFAULT_SERIALIZED_APPLICATION)
-);

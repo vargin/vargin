@@ -13,7 +13,8 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ControlGroup } from 'core/controls/control-group';
+
+import { ControlConfigService } from 'services/control-config-service';
 
 import { BaseComponent } from 'editor/control-components/base-component';
 
@@ -44,13 +45,10 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
     }
 
     let controlType = this.control.meta.type;
-    let controlGroupType = ControlGroup.findByControlType(controlType).type;
 
-    System.import(
-      `editor/control-components/${controlGroupType}/${controlType}-component`
-    ).then((module: any) => {
+    ControlConfigService.loadComponentType(controlType).then((type: Type) => {
       return this.loader.loadIntoLocation(
-        module.default,
+        type,
         this.viewContainer.element,
         'container',
         Injector.resolve([provide(Control, { useValue: this.control })])

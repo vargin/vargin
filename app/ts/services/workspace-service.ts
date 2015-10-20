@@ -26,9 +26,7 @@ export class Workspace {
 }
 
 export class WorkspaceService {
-  static create(application: Application): Promise<Workspace> {
-    return Promise.resolve(
-      new Workspace(UtilsService.uuid(), '(Default)', application)
-    );
+  static create(application: Application): Workspace {
+    return new Workspace(UtilsService.uuid(), '(Default)', application);
   }
 }

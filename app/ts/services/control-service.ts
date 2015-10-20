@@ -1,34 +1,21 @@
 /// <reference path="../../../typings/tsd.d.ts" />
-import { EventEmitter, ViewContainerRef } from 'angular2/angular2';
+import { EventEmitter } from 'angular2/angular2';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
-import { IAction } from 'core/actions/action';
-
 import { Control, IControlParameters } from 'core/controls/control';
-import { VisualControl } from 'core/controls/visual/visual-control';
-import { ButtonControl } from 'core/controls/visual/button-control';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { DatasourceControl } from 'core/controls/service/datasource-control';
-import { LabelControl } from 'core/controls/visual/label-control';
-import { LinkControl } from 'core/controls/visual/link-control';
-import { ListControl } from 'core/controls/visual/list-control';
-import { RangeControl } from 'core/controls/visual/range-control';
-import { TextInputControl } from 'core/controls/visual/text-input-control';
 
 import { BaseComponent } from 'editor/control-components/base-component';
 
 import { UtilsService } from 'services/utils-service';
+import { ControlConfigService } from 'services/control-config-service';
 
-const CONTROLS = new Map<string, any>([
-  ['button', ButtonControl],
-  ['container', ContainerControl],
-  ['datasource', DatasourceControl],
-  ['label', LabelControl],
-  ['link', LinkControl],
-  ['list', ListControl],
-  ['range', RangeControl],
-  ['text-input', TextInputControl]
-]);
+interface IControlType<TControl> {
+  new(
+    id: string,
+    parameters?: IControlParameters,
+    children?: Control[]
+  ): TControl;
+}
 
 export class ControlService {
   private static _activeComponent: BaseComponent;
@@ -68,18 +55,14 @@ export class ControlService {
     this._activeComponent = null;
   }
 
-  static getMetadata(type: string): ControlMetadata {
-    if (!CONTROLS.has(type)) {
-      throw new Error('Type is not supported: ' + type);
-    }
-
-    return CONTROLS.get(type).getMeta();
+  static getMetadata(type: string): Promise<ControlMetadata> {
+    return ControlConfigService.loadControlType(type).then((type: any) => {
+      return type.getMeta();
+    });
   }
 
   static create<TControl extends Control>(
-    type: { new(id: string, parameters?: IControlParameters): TControl; },
-    parameters?: IControlParameters,
-    id?: string
+    type: IControlType<TControl>, parameters?: IControlParameters, id?: string
   ): TControl {
     return new type(id || UtilsService.uuid(), parameters);
   }
@@ -88,17 +71,12 @@ export class ControlService {
     type: string,
     parameters?: IControlParameters,
     id?: string
-  ): TControl {
-    if (!CONTROLS.has(type)) {
-      throw new Error('Not supported control type: ' + type);
-    }
+  ): Promise<TControl> {
 
-    let ControlClass = <{
-      new(
-        id: string, parameters?: IControlParameters, children?: Control[]
-      ): TControl;
-    }>CONTROLS.get(type);
-
-    return new ControlClass(id || UtilsService.uuid(), parameters);
+    return ControlConfigService.loadControlType(type).then(
+      (ControlType: IControlType<TControl>) => {
+        return new ControlType(id || UtilsService.uuid(), parameters);
+      }
+    );
   }
 }

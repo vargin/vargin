@@ -13,33 +13,13 @@ import { ControlGroup } from 'core/controls/control-group';
 
 import { ControlService } from 'services/control-service';
 
-/** Dynamic dependencies **/
-import { ActionEditor } from 'editor/properties/action-editor';
-import ButtonComponent from 'editor/control-components/visual/button-component';
-import LabelComponent from 'editor/control-components/visual/label-component';
-import LinkComponent from 'editor/control-components/visual/link-component';
-import ListComponent from 'editor/control-components/visual/list-component';
-import RangeComponent from 'editor/control-components/visual/range-component';
-import TextInputComponent from 'editor/control-components/visual/text-input-component';
-import DatasourceComponent from 'editor/control-components/service/datasource-component';
-
-export const EDITORS_COMPONENTS = [
-  ActionEditor
-];
-
-const VISUAL_COMPONENTS = [
-  ButtonComponent,
-  LabelComponent,
-  LinkComponent,
-  ListComponent,
-  RangeComponent,
-  TextInputComponent
-];
-
-const SERVICE_COMPONENTS = [
-  DatasourceComponent
-];
-/** End of Dynamic dependencies **/
+import {
+  VISUAL_CONTROLS,
+  SERVICE_CONTROLS,
+  VISUAL_COMPONENTS,
+  SERVICE_COMPONENTS,
+  EDITORS_COMPONENTS
+} from 'providers';
 
 @Component({
   selector: 'vargin'
@@ -65,45 +45,65 @@ const SERVICE_COMPONENTS = [
 })
 
 class Vargin {
-  private controlGroups: IExpandableGroup[];
+  private dependencies: Type[] = [
+    ...VISUAL_CONTROLS,
+    ...SERVICE_CONTROLS,
+    ...VISUAL_COMPONENTS,
+    ...SERVICE_COMPONENTS,
+    ...EDITORS_COMPONENTS
+  ];
+  private controlGroups: IExpandableGroup[] = [];
 
   constructor() {
-    this.controlGroups = [
-      ControlGroup.register(
-        'visual',
-        'Visual',
-        'Visual components',
-        [
-          ControlService.getMetadata('label'),
-          ControlService.getMetadata('link'),
-          ControlService.getMetadata('list'),
-          ControlService.getMetadata('button'),
-          ControlService.getMetadata('container'),
-          ControlService.getMetadata('range'),
-          ControlService.getMetadata('text-input')
-        ]
-      ),
+    Promise.all([
+      ControlService.getMetadata('label'),
+      ControlService.getMetadata('link'),
+      ControlService.getMetadata('list'),
+      ControlService.getMetadata('button'),
+      ControlService.getMetadata('container'),
+      ControlService.getMetadata('range'),
+      ControlService.getMetadata('text-input')
+    ]).then((controlsMetadata) => {
+      this.controlGroups.push(
+        this.controlGroupToExpandableGroup(
+          ControlGroup.register(
+            'visual',
+            'Visual',
+            'Visual components',
+            controlsMetadata
+          )
+        )
+      );
+    });
 
-      ControlGroup.register(
-        'service',
-        'Service',
-        'Service components',
-        [ControlService.getMetadata('datasource')]
-      )
-    ].map((controlGroup: ControlGroup) => {
-      return {
-        name: controlGroup.name,
-        type: controlGroup.type,
-        expanded: false,
-        items: controlGroup.items.map((control) => {
-          return {
-            name: control.name,
-            type: control.type
-          };
-        })
-      };
+    Promise.all([
+      ControlService.getMetadata('datasource')
+    ]).then((controlsMetadata) => {
+      this.controlGroups.push(
+        this.controlGroupToExpandableGroup(
+          ControlGroup.register(
+            'service',
+            'Service',
+            'Service components',
+            controlsMetadata
+          )
+        )
+      );
     });
   }
-}
 
+  private controlGroupToExpandableGroup(controlGroup: ControlGroup) {
+    return {
+      name: controlGroup.name,
+      type: controlGroup.type,
+      expanded: false,
+      items: controlGroup.items.map((control) => {
+        return {
+          name: control.name,
+          type: control.type
+        };
+      })
+    };
+  }
+}
 bootstrap(Vargin);

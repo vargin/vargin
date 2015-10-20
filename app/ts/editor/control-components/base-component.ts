@@ -52,13 +52,14 @@ export class BaseComponent {
 
   onDrop(e: DragEvent) {
     if (this.acceptDrop(this.domStringListToArray(e.dataTransfer.types))) {
-      this.control.addChild(
-        ControlService.createByType(
-          e.dataTransfer.getData(e.dataTransfer.types[0])
-        )
-      );
       e.preventDefault();
       e.stopPropagation();
+
+      ControlService.createByType(
+        e.dataTransfer.getData(e.dataTransfer.types[0])
+      ).then((control: Control) => {
+        this.control.addChild(control);
+      });
 
       this.dragEnterCounter = 0;
     }
@@ -69,7 +70,7 @@ export class BaseComponent {
   }
 
   getControlStyles() {
-    if (VisualControl.isVisualControl(this.control)) {
+    if (this.control && VisualControl.isVisualControl(this.control)) {
       let visualControl = <VisualControl>this.control;
 
       let controlStyles = <{ [key: string]: string; }>{};
@@ -87,7 +88,7 @@ export class BaseComponent {
 
   getContainerStyles(control?: Control) {
     let targetControl = control || this.control;
-    if (VisualControl.isVisualControl(targetControl)) {
+    if (targetControl && VisualControl.isVisualControl(targetControl)) {
       let visualControl = <VisualControl>targetControl;
 
       let containerStyles = <{ [key: string]: string; }>{};
@@ -103,6 +104,10 @@ export class BaseComponent {
     }
 
     return null;
+  }
+
+  getChildren() {
+    return this.control ? this.control.getChildren() : [];
   }
 
   select() {

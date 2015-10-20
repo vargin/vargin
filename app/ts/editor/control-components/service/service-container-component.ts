@@ -12,7 +12,6 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { DynamicComponent } from 'editor/control-components/dynamic-component';
 import { BaseComponent } from 'editor/control-components/base-component';
@@ -31,7 +30,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of control.getChildren()"
+      <vargin-dynamic *ng-for="#child of getChildren()"
                       [control]="child"
                       [ng-style]="getContainerStyles(child)"
                       attr.type="{{child.meta.type}}">

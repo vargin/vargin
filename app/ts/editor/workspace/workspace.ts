@@ -1,6 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
-import ContainerComponent from 'editor/control-components/visual/container-component';
+import { Control } from 'core/controls/control';
+import { ContainerComponent } from 'editor/control-components/visual/container-component';
 import { ServiceContainerComponent } from 'editor/control-components/service/service-container-component';
 import { ApplicationService } from 'services/application-service';
 import { Workspace, WorkspaceService } from 'services/workspace-service';
@@ -22,11 +23,12 @@ import {
   template: `
     <ul class="workspace-pager">
       <li class="workspace-pager__page{{activePageIndex === i ? ' workspace-pager__page_active' : ''}}"
-          *ng-for="#page of workspace.application.pages; #i = index"
+          *ng-for="#page of getPages(); #i = index"
           (click)="goToPage(i)">
         {{page.name}}
-        <button class="workspace-pager__page__remove" title="Remove page"
-                *ng-if="workspace.application.pages.length > 1"
+        <button class="workspace-pager__page__remove"
+                title="Remove page"
+                *ng-if="getPages().length > 1"
                 (click)="removePage(page.id)">&#x274c;</button>
       </li>
       <li class="workspace-pager__add-new">
@@ -35,21 +37,22 @@ import {
     </ul>
     <section class="workspace-editor">
       <div class="workspace-editor__visual">
-        <vargin-container [control]="getRoot()"></vargin-container>
+        <vargin-container [control]="getActivePage()?.root">
+        </vargin-container>
       </div>
       <div class="workspace-editor__service">
-        <vargin-service-container [control]="getServiceRoot()">
+        <vargin-service-container [control]="workspace?.application?.serviceRoot">
         </vargin-service-container>
       </div>
     </section>
     <footer class="workspace-toolbar">
       <button (click)="startFromScratch()">Start from scratch</button>
-      <button (click)="toJSON('a')">To JSON</button>
+      <button (click)="toJSON()">To JSON</button>
       <button (click)="toAngularApp()">To Angular App</button>
       <button (click)="toStaticHTML()">To Static HTML App</button>
     </footer>
   `,
-  directives: [ContainerComponent, ServiceContainerComponent, NgFor, NgIf]
+  directives: [ContainerComponent, NgFor, NgIf, ServiceContainerComponent]
 })
 class VarginWorkspace {
   private workspace: Workspace;
@@ -64,9 +67,9 @@ class VarginWorkspace {
     this.domStaticCompiler = new DOMStaticApplicationCompiler();
     this.domAngularCompiler = new DOMAngularApplicationCompiler();
 
-    WorkspaceService.create(ApplicationService.current).then(
-      (workspace) => this.workspace = workspace
-    );
+    ApplicationService.initialize().then(() => {
+      this.workspace = WorkspaceService.create(ApplicationService.current);
+    });
   }
 
   addPage() {
@@ -74,11 +77,11 @@ class VarginWorkspace {
   }
 
   removePage(pageId: string) {
-    this.workspace.application.removePage(pageId);
+    this. workspace.application.removePage(pageId);
 
     ControlService.unselectCurrentComponent();
-    if (this.activePageIndex >= this.workspace.application.pages.length) {
-      this.activePageIndex = this.workspace.application.pages.length - 1;
+    if (this.activePageIndex >= workspace.application.pages.length) {
+      this.activePageIndex = workspace.application.pages.length - 1;
     }
   }
 
@@ -89,61 +92,68 @@ class VarginWorkspace {
     }
   }
 
-  getRoot() {
-    return this.workspace.application.pages[this.activePageIndex].root;
+  getActivePage() {
+    if (!this.workspace) {
+      return null;
+    }
+
+    return this.workspace.application.pages[this.activePageIndex];
   }
 
-  getServiceRoot() {
-    return this.workspace.application.serviceRoot;
+  getPages() {
+    return this.workspace ? this.workspace.application.pages : [];
   }
 
   toJSON() {
-    window.open(
-      'data:application/json,' + encodeURIComponent(
-        this.jsonCompiler.compile(this.workspace.application)
-      )
+    this.jsonCompiler.compile(this.workspace.application).then(
+      (compiledApplication) => {
+        window.open(
+          'data:application/json,' + encodeURIComponent(compiledApplication)
+        );
+      }
     );
   }
 
-  toAngularApp() {
-    let compiledApp = this.domAngularCompiler.compile(
-      this.workspace.application
-    );
+  /*toAngularApp() {
+    Promise.all([
+      this.domAngularCompiler.compile(
+	    this.workspace.application
+      ),
+      this.jsonCompiler.compile(
+        this.workspace.application
+      )
+    ]).then(([compiledApp, jsonCompiledApplication]) => {
+      let angularAppWindow = window.open(
+        'ng-compiler/index.html?ts=' + Date.now()
+      );
 
-    let jsonCompiledApplication = this.jsonCompiler.compile(
-      this.workspace.application
-    );
+      angularAppWindow.addEventListener('load', function onAppWindowLoad() {
+        angularAppWindow.removeEventListener('load', onAppWindowLoad);
 
-    let angularAppWindow = window.open(
-      'ng-compiler/index.html?ts=' + Date.now()
-    );
-
-    angularAppWindow.addEventListener('load', function onAppWindowLoad() {
-      angularAppWindow.removeEventListener('load', onAppWindowLoad);
-
-      angularAppWindow.postMessage({
-        compiledApp: compiledApp,
-        jsonCompiledApplication: jsonCompiledApplication
-      }, '*');
+	angularAppWindow.postMessage(
+          { compiledApp, jsonCompiledApplication }
+	  '*'
+	);
+      });  
     });
   }
 
   toStaticHTML() {
-    window.open(
-      'data:text/html,' + encodeURIComponent(
-        this.domStaticCompiler.compile(this.workspace.application)
-      )
+   this.domStaticCompiler.compile(this.workspace.application).then(
+     (compiledApplication) => {
+       window.open(
+        'data:text/html,' + encodeURIComponent(compiledApplication)
+       );
+     }
     );
-  }
+  }*/
 
   startFromScratch() {
     this.activePageIndex = 0;
 
     ApplicationService.reset();
 
-    WorkspaceService.create(ApplicationService.current).then(
-      (workspace) => this.workspace = workspace
-    );
+    this.workspace = WorkspaceService.create(ApplicationService.current);
   }
 }
 
