@@ -32,9 +32,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [NgStyle]
 })
-class TextInputComponent extends BaseComponent {
-  control: TextInputControl;
-
+export class TextInputComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -43,5 +41,3 @@ class TextInputComponent extends BaseComponent {
     super(renderer, viewContainer, control);
   }
 }
-
-export default TextInputComponent;

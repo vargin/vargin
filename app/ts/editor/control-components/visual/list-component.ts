@@ -11,12 +11,13 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { ListControl } from 'core/controls/visual/list-control';
+import {
+  ListControl,
+  ListItemControl
+} from 'core/controls/visual/list-control';
 import { BaseComponent } from 'editor/control-components/base-component';
 import { DynamicComponent } from 'editor/control-components/dynamic-component';
 
-import { ControlService } from 'services/control-service';
 import { UtilsService } from 'services/utils-service';
 
 @Component({
@@ -40,7 +41,7 @@ import { UtilsService } from 'services/utils-service';
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-export default class ListComponent extends BaseComponent {
+export class ListComponent extends BaseComponent {
   control: ListControl;
   itemTemplates: Control[];
 
@@ -53,7 +54,7 @@ export default class ListComponent extends BaseComponent {
 
     let itemTemplate = this.control.getTemplate();
     if (!itemTemplate) {
-      itemTemplate = new ContainerControl(UtilsService.uuid(), {
+      itemTemplate = new ListItemControl(UtilsService.uuid(), {
         styles: new Map([['border', '0.1rem dashed #cccccc']])
       });
       this.control.setTemplate(itemTemplate);

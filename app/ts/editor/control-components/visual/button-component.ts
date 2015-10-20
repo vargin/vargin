@@ -31,9 +31,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [NgStyle]
 })
-class ButtonComponent extends BaseComponent {
-  control: ButtonControl;
-
+export class ButtonComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -42,5 +40,3 @@ class ButtonComponent extends BaseComponent {
     super(renderer, viewContainer, control);
   }
 }
-
-export default ButtonComponent;

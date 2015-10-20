@@ -12,7 +12,7 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'services/style-service';
 import { EventService } from 'services/event-service';
 
-const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
+const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
   ['align-items', StyleService.getDescriptor('align-items')],
   ['background-color', StyleService.getDescriptor('background-color')],
   ['border', StyleService.getDescriptor('border')],
@@ -47,7 +47,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
   ['hover', EventService.getDescriptor('hover')]
 ]);
 
-const METADATA = Object.freeze(new VisualControlMetadata(
+const METADATA: VisualControlMetadata = Object.freeze(new VisualControlMetadata(
   'container',
   'Container',
   'Container',

@@ -29,9 +29,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [NgStyle]
 })
-class LabelComponent extends BaseComponent {
-  control: LabelControl;
-
+export class LabelComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -40,5 +38,3 @@ class LabelComponent extends BaseComponent {
     super(renderer, viewContainer, control);
   }
 }
-
-export default LabelComponent;

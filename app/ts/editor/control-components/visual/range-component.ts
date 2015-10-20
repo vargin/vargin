@@ -33,9 +33,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [NgStyle]
 })
-class RangeComponent extends BaseComponent {
-  control: RangeControl;
-
+export class RangeComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -44,5 +42,3 @@ class RangeComponent extends BaseComponent {
     super(renderer, viewContainer, control);
   }
 }
-
-export default RangeComponent;

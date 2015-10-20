@@ -4,6 +4,7 @@ import {
   VisualControl,
   IVisualControlParameters
 } from 'core/controls/visual/visual-control';
+import { ContainerControl } from 'core/controls/visual/container-control';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import {
   VisualControlMetadata
@@ -12,6 +13,25 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'services/style-service';
 import { EventService } from 'services/event-service';
+
+const LIST_ITEM_METADATA = Object.freeze(new VisualControlMetadata(
+  'list-item',
+  'List Item',
+  'List item',
+  ContainerControl.getMeta().supportedEvents,
+  null,
+  ContainerControl.getMeta().supportedStyles
+));
+
+export class ListItemControl extends VisualControl {
+  constructor(id: string, parameters?: IVisualControlParameters) {
+    super(id, LIST_ITEM_METADATA, parameters);
+  }
+
+  static getMeta() {
+    return LIST_ITEM_METADATA;
+  }
+}
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
   ['datasource', new Property<string>('Datasource', '', 'datasource')]
@@ -78,12 +98,12 @@ export class ListControl extends VisualControl {
     return this._properties.get('datasource');
   }
 
-  getTemplate(): Control {
+  getTemplate(): ListItemControl {
     let children = this.getChildren();
-    return children.length ? children[0] : null;
+    return children.length ? <ListItemControl>children[0] : null;
   }
 
-  setTemplate(template: Control) {
+  setTemplate(template: ListItemControl) {
     let children = this.getChildren();
     if (children.length) {
       this.removeChild(children[0]);

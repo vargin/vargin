@@ -32,7 +32,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
         (dragover)="onDragOver($event)"
         (dragenter)="onDragEnter($event)"
         (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of control.getChildren()"
+      <vargin-dynamic *ng-for="#child of getChildren()"
                       [control]="child"
                       [ng-style]="getContainerStyles(child)"
                       attr.type="{{child.meta.type}}">
@@ -41,9 +41,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [DynamicComponent, NgFor, NgStyle]
 })
-class ContainerComponent extends BaseComponent {
-  control: ContainerControl;
-
+export class ContainerComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -56,5 +54,3 @@ class ContainerComponent extends BaseComponent {
     return typesToDrop.indexOf('text/visual') >= 0;
   }
 }
-
-export default ContainerComponent;

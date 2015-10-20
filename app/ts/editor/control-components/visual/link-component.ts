@@ -32,9 +32,7 @@ import { BaseComponent } from 'editor/control-components/base-component';
   `,
   directives: [NgStyle]
 })
-class LinkComponent extends BaseComponent {
-  control: LinkControl;
-
+export class LinkComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
@@ -43,5 +41,3 @@ class LinkComponent extends BaseComponent {
     super(renderer, viewContainer, control);
   }
 }
-
-export default LinkComponent;
