@@ -49,6 +49,13 @@ const CONTROL_CONFIG = new Map<string, [ITypeDescription, ITypeDescription]>([
     name: 'ListComponent',
     path: 'editor/control-components/visual/list-component'
   }]],
+  ['list-item', [{
+    name: 'ListItemControl',
+    path: 'core/controls/visual/list-control'
+  }, {
+    name: 'ContainerComponent',
+    path: 'editor/control-components/visual/container-component'
+  }]],
   ['range', [{
     name: 'RangeControl',
     path: 'core/controls/visual/range-control'
