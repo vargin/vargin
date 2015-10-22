@@ -292,7 +292,7 @@ export class ApplicationService {
   }
 
   static reset() {
-    (new JSONApplicationCompiler()).decompile(
+    return (new JSONApplicationCompiler()).decompile(
       JSON.stringify(EMPTY_SERIALIZED_APPLICATION)
     ).then((decompiledApplication) => {
       ApplicationService.current = decompiledApplication;

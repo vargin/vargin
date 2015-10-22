@@ -80,8 +80,8 @@ class VarginWorkspace {
     this. workspace.application.removePage(pageId);
 
     ControlService.unselectCurrentComponent();
-    if (this.activePageIndex >= workspace.application.pages.length) {
-      this.activePageIndex = workspace.application.pages.length - 1;
+    if (this.activePageIndex >= this.workspace.application.pages.length) {
+      this.activePageIndex = this.workspace.application.pages.length - 1;
     }
   }
 
@@ -114,14 +114,12 @@ class VarginWorkspace {
     );
   }
 
-  /*toAngularApp() {
-    Promise.all([
-      this.domAngularCompiler.compile(
-	    this.workspace.application
-      ),
-      this.jsonCompiler.compile(
-        this.workspace.application
-      )
+  toAngularApp() {
+    alert('Temporary disabled!');
+
+    /*Promise.all([
+      this.domAngularCompiler.compile(this.workspace.application),
+      this.jsonCompiler.compile(this.workspace.application)
     ]).then(([compiledApp, jsonCompiledApplication]) => {
       let angularAppWindow = window.open(
         'ng-compiler/index.html?ts=' + Date.now()
@@ -130,13 +128,12 @@ class VarginWorkspace {
       angularAppWindow.addEventListener('load', function onAppWindowLoad() {
         angularAppWindow.removeEventListener('load', onAppWindowLoad);
 
-	angularAppWindow.postMessage(
-          { compiledApp, jsonCompiledApplication }
-	  '*'
-	);
+        angularAppWindow.postMessage(
+          { compiledApp, jsonCompiledApplication }, '*'
+        );
       });  
-    });
-  }*/
+    });*/
+  }
 
   toStaticHTML() {
    this.domStaticCompiler.compile(this.workspace.application).then(
@@ -151,9 +148,9 @@ class VarginWorkspace {
   startFromScratch() {
     this.activePageIndex = 0;
 
-    ApplicationService.reset();
-
-    this.workspace = WorkspaceService.create(ApplicationService.current);
+    ApplicationService.reset().then(() => {
+      this.workspace = WorkspaceService.create(ApplicationService.current);
+    });
   }
 }
 
