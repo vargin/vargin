@@ -136,7 +136,7 @@ class VarginWorkspace {
 	);
       });  
     });
-  }
+  }*/
 
   toStaticHTML() {
    this.domStaticCompiler.compile(this.workspace.application).then(
@@ -146,7 +146,7 @@ class VarginWorkspace {
        );
      }
     );
-  }*/
+  }
 
   startFromScratch() {
     this.activePageIndex = 0;

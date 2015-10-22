@@ -1,12 +1,17 @@
 import { Application } from 'core/application';
 import { ApplicationPage } from 'core/application-page';
 
+import { PromiseQueue } from 'core/tools/promise-queue';
+
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { LinkControl } from 'core/controls/visual/link-control';
-import { ListControl } from 'core/controls/visual/list-control';
+import {
+  ListControl,
+  ListItemControl
+} from 'core/controls/visual/list-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
@@ -34,6 +39,7 @@ const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
   [LabelControl, new LabelControlCompiler()],
   [LinkControl, new LinkControlCompiler()],
   [ListControl, new ListControlCompiler()],
+  [ListItemControl, new ContainerControlCompiler()],
   [RangeControl, new RangeControlCompiler()],
   [TextInputControl, new TextInputControlCompiler()]
 ]);
@@ -46,80 +52,100 @@ interface IBinding {
 }
 
 export class DOMStaticApplicationCompiler implements IApplicationCompiler<string> {
-  bindingStack: IBinding[] = [];
+  bindingStack: IBinding[];
 
-  compile(application: Application) {
+  compile(application: Application): Promise<string> {
+    let queue = new PromiseQueue();
+
     let compiledApp = {
       styles: '',
       content: ''
     };
 
+    this.bindingStack = [];
+
     application.pages.forEach((page) => {
-      let compiledRoot = this.compileControl(page.root, application);
+      queue.enqueue(() => {
+        return this.compileControl(page.root, application).then((root) => {
+          let markup = root.markup.replace(
+            PAGE_REGEX, (markup, pageId) => `href="#${pageId}"`
+          );
 
-      let markup = compiledRoot.markup.replace(
-        PAGE_REGEX, (markup, pageId) => `href="#${pageId}"`
-      );
+          compiledApp.styles += `<style type="text/css">${root.cssClass.text}</style>`;
 
-      compiledApp.styles += `
-        <style type="text/css">${compiledRoot.cssClass.text}</style>
-      `;
-
-      compiledApp.content += `<section id="${page.id}">${markup}</section><hr />`;
+          compiledApp.content += `<section id="${page.id}">${markup}</section><hr />`;
+        });
+      });
     });
 
-    return `
-      <!DOCTYPE html>
-       <html lang="en">
-         <head>
-           <meta charset="UTF-8">
-           <title>${application.name}</title>
-           ${compiledApp.styles}
-         </head>
-         <body>${compiledApp.content}</body>
-       </html>
-    `;
+    return queue.enqueue(() => {
+      return `
+        <!DOCTYPE html>
+         <html lang="en">
+           <head>
+             <meta charset="UTF-8">
+             <title>${application.name}</title>
+             ${compiledApp.styles}
+           </head>
+           <body>${compiledApp.content}</body>
+         </html>
+      `;
+    });
   }
 
-  decompile(compiledApplication: string): Application {
+  decompile(compiledApplication: string): Promise<Application> {
     return null;
   }
 
-  private compileControl(control: Control, application: Application): IDOMStaticCompiledControl {
-    let compiledControl = this.getCompilerForControl(control).compile(control);
+  private compileControl(
+    control: Control,
+    application: Application
+  ): Promise<IDOMStaticCompiledControl> {
+    return this.getCompilerForControl(control).compile(control).then(
+      (compiledControl) => {
+        let controlChildren = control.getChildren();
 
-    let controlChildren = control.getChildren();
-    if (controlChildren.length > 0) {
-      let childrenCssText = '';
-      let childrenMarkup = '';
-
-      let bindings: Iterable<[string, string]>[] = null;
-
-      if ('datasource' in control) {
-        let datasource = <DatasourceControl>application.serviceRoot.find(
-          control['datasource'].getValue()
-        );
-
-        let serializedItems = datasource.items.getValue();
-        if (serializedItems) {
-          bindings = JSON.parse(datasource.items.getValue());
+        if (!controlChildren.length) {
+          return compiledControl;
         }
+
+        let childrenCssText = '';
+        let childrenMarkup = '';
+
+        let bindings: Iterable<[string, string]>[] = null;
+
+        if ('datasource' in control) {
+          let datasource = <DatasourceControl>application.serviceRoot.find(
+            control['datasource'].getValue()
+          );
+
+          let serializedItems = datasource.items.getValue();
+          if (serializedItems) {
+            bindings = JSON.parse(datasource.items.getValue());
+          }
+        }
+
+        return this.forEachChild(
+          controlChildren,
+          bindings,
+          (child: Control) => {
+            return this.compileControl(child, application).then(
+              ({ cssClass, markup }) => {
+                childrenCssText += cssClass.text;
+                childrenMarkup += markup;
+              }
+            );
+          }
+        ).enqueue(() => {
+          compiledControl.cssClass.text += childrenCssText;
+          compiledControl.markup = compiledControl.markup.replace(
+            '{children}', childrenMarkup
+          );
+
+          return compiledControl;
+        });
       }
-
-      this.forEachChild(controlChildren, bindings, (child: Control) => {
-        let { cssClass, markup } = this.compileControl(child, application);
-
-        childrenCssText += cssClass.text;
-        childrenMarkup += markup;
-      });
-
-      compiledControl.cssClass.text += childrenCssText;
-      compiledControl.markup = compiledControl.markup.replace(
-        '{children}', childrenMarkup
-      );
-    }
-
-    return compiledControl;
+    );
   }
 
   private getCompilerForControl(control: Control) {
@@ -138,21 +164,22 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     bindings: Iterable<[string, string]>[],
     callback: (control: Control) => void
   ) {
+    let queue = new PromiseQueue();
+
     if (bindings && bindings.length) {
       let template = children[0];
 
-      for (let index = 0; index < bindings.length; index++) {
-        this.bindingStack.unshift({
-          index: index,
-          item: new Map(bindings[index])
+      bindings.forEach((binding, index) => {
+        queue.enqueue(() => {
+          this.bindingStack.unshift({ index: index, item: new Map(binding) });
+          return callback(template);
         });
-
-        callback(template);
-
-        this.bindingStack.unshift();
-      }
+        queue.enqueue(() => this.bindingStack.unshift());
+      });
     } else {
-      children.forEach(callback);
+      children.forEach((child) => queue.enqueue(() => callback(child)));
     }
+
+    return queue;
   }
 }

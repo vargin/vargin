@@ -16,21 +16,21 @@ export interface IDOMStaticCompiledControl {
 export class DOMStaticControlCompiler<TControl extends Control> implements IControlCompiler<IDOMStaticCompiledControl> {
   binding: Map<string, string>;
 
-  compile(control: TControl) {
+  compile(control: TControl): Promise<IDOMStaticCompiledControl> {
     let cssClass: ICompiledCSSClass = null;
 
     if (VisualControl.isVisualControl(control)) {
       cssClass = CSSClassCompiler.compile(<VisualControl>(<Control>control));
     }
 
-    return {
+    return Promise.resolve({
       source: control,
       markup: this.getMarkup(control, cssClass),
       cssClass: cssClass
-    };
+    });
   }
 
-  decompile(): TControl {
+  decompile(): Promise<TControl> {
     return null;
   }
 
