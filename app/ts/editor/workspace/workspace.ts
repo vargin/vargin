@@ -22,7 +22,8 @@ import {
 @View({
   template: `
     <ul class="workspace-pager">
-      <li class="workspace-pager__page{{activePageIndex === i ? ' workspace-pager__page_active' : ''}}"
+      <li class="workspace-pager__page"
+          [class.workspace-pager__page_active]="activePageIndex === i"
           *ng-for="#page of getPages(); #i = index"
           (click)="goToPage(i)">
         {{page.name}}
