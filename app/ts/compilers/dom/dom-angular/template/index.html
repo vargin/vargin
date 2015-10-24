@@ -12,24 +12,24 @@
 <body>
   <angular-app></angular-app>
   <script>
-    window.addEventListener('message', function onBootstrapMessage(e) {
-      window.removeEventListener('message', onBootstrapMessage);
+    var application = window.opener.application;
 
-      System.register('app-description', [], function(exports) {
-        return {
-          setters: [],
-          execute: function() {
-            exports('pages', e.data.compiledApp.pages);
-            exports('services', e.data.compiledApp.services);
-            exports('application', e.data.jsonCompiledApplication)
-          }
+    System.register('app-description', [], function(exports) {
+      return {
+        setters: [],
+        execute: function() {
+          exports('pages', application.compiledApp.pages);
+          exports('services', application.compiledApp.services);
+          exports('application', application.jsonCompiledApplication)
         }
-      });
+      }
+    });
 
-      System.import(
-        'compilers/dom/dom-angular/template/app-controller'
-      ).catch(function(e) { console.error(e); })
-    })
+    System.import(
+      'compilers/dom/dom-angular/template/app-controller'
+    ).catch(function(e) {
+      console.error(e);
+    });
   </script>
 </body>
 </html>

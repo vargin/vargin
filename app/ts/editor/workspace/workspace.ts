@@ -115,24 +115,14 @@ class VarginWorkspace {
   }
 
   toAngularApp() {
-    alert('Temporary disabled!');
-
-    /*Promise.all([
+    Promise.all([
       this.domAngularCompiler.compile(this.workspace.application),
       this.jsonCompiler.compile(this.workspace.application)
     ]).then(([compiledApp, jsonCompiledApplication]) => {
-      let angularAppWindow = window.open(
-        'ng-compiler/index.html?ts=' + Date.now()
-      );
+      window.open('ng-compiler/index.html?ts=' + Date.now());
 
-      angularAppWindow.addEventListener('load', function onAppWindowLoad() {
-        angularAppWindow.removeEventListener('load', onAppWindowLoad);
-
-        angularAppWindow.postMessage(
-          { compiledApp, jsonCompiledApplication }, '*'
-        );
-      });  
-    });*/
+      window['application'] = { compiledApp, jsonCompiledApplication };
+    });
   }
 
   toStaticHTML() {
