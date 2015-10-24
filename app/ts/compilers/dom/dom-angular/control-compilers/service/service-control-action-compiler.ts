@@ -14,15 +14,17 @@ export class SerializedServiceControlActionCompiler implements ICompiler<IAction
       properties.push([propertyKey, propertyValue.getValue()]);
     });
 
-    return {
+    return Promise.resolve({
       type: action.type,
       properties: properties
-    };
+    });
   }
 
   decompile(compiledAction: ISerializedServiceControlAction) {
-    return ActionService.createByType(
-      compiledAction.type, new Map<string, string>(compiledAction.properties)
+    return Promise.resolve(
+      ActionService.createByType(
+        compiledAction.type, new Map<string, string>(compiledAction.properties)
+      )
     );
   }
 }

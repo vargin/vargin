@@ -1,12 +1,17 @@
 import { Application } from 'core/application';
 import { ApplicationPage } from 'core/application-page';
 
+import { PromiseQueue } from 'core/tools/promise-queue';
+
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { LinkControl } from 'core/controls/visual/link-control';
-import { ListControl } from 'core/controls/visual/list-control';
+import {
+  ListControl,
+  ListItemControl
+} from 'core/controls/visual/list-control';
 import { RangeControl } from 'core/controls/visual/range-control';
 import { TextInputControl } from 'core/controls/visual/text-input-control';
 
@@ -40,6 +45,7 @@ const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Con
   [LabelControl, new LabelControlCompiler()],
   [LinkControl, new LinkControlCompiler()],
   [ListControl, new ListControlCompiler()],
+  [ListItemControl, new ContainerControlCompiler()],
   [RangeControl, new RangeControlCompiler()],
   [TextInputControl, new TextInputControlCompiler()]
 ]);
@@ -53,53 +59,72 @@ export interface ICompiledDOMAngularApplication {
 
 export class DOMAngularApplicationCompiler implements IApplicationCompiler<ICompiledDOMAngularApplication> {
   compile(application: Application) {
-    let services = application.serviceRoot.getChildren().map(
-      (control: Control) => SERVICE_CONTROL_COMPILER.compile(control)
-    );
+    let queue = new PromiseQueue();
 
-    let pages = application.pages.map((page: ApplicationPage) => {
-      let compiledRoot = this.compileVisualControl(page.root);
-
-      return {
-        id: page.id,
-        name: page.name,
-        markup: `
-            <style type="text/css">${compiledRoot.cssClass.text}</style>
-            ${compiledRoot.markup}
-          `
-      };
+    let services = [];
+    application.serviceRoot.getChildren().forEach((control: Control) => {
+      queue.enqueue(() => {
+        return SERVICE_CONTROL_COMPILER.compile(control).then(
+          (service) => services.push(service)
+        );
+      });
     });
 
-    return { services, pages };
+    let pages = [];
+    application.pages.forEach((page: ApplicationPage) => {
+      queue.enqueue(() => {
+        return this.compileVisualControl(page.root).then((root) => {
+          pages.push({
+            id: page.id,
+            name: page.name,
+            markup: `
+            <style type="text/css">${root.cssClass.text}</style>
+            ${root.markup}
+          `
+          });
+        });
+      });
+    });
+
+    return queue.enqueue(() => ({ services, pages }));
   }
 
-  decompile(compiledApplication: ICompiledDOMAngularApplication): Application {
+  decompile(compiledApplication: ICompiledDOMAngularApplication) {
     return null;
   }
 
-  private compileVisualControl(control: Control): IDOMStaticCompiledControl {
+  private compileVisualControl(control: Control): Promise<IDOMStaticCompiledControl> {
     let controlCompiler = <DOMAngularControlCompiler<Control>>
       VISUAL_CONTROL_COMPILERS.get(control.constructor);
-    let compiledControl = controlCompiler.compile(control);
 
-    let children = control.getChildren();
-    if (children.length) {
+    return controlCompiler.compile(control).then((compiledControl) => {
+      let children = control.getChildren();
+
+      if (!children.length) {
+        return compiledControl;
+      }
+
+      let queue = new PromiseQueue();
       let childrenCssText = '';
       let childrenMarkup = '';
 
-      for (let child of children) {
-        let compiledChild = this.compileVisualControl(child);
+      children.forEach((child) => {
+        queue.enqueue(() => {
+          return this.compileVisualControl(child).then((compiledChild) => {
+            childrenCssText += compiledChild.cssClass.text.trim();
+            childrenMarkup += compiledChild.markup.trim();
+          });
+        });
+      });
 
-        childrenCssText += compiledChild.cssClass.text.trim();
-        childrenMarkup += compiledChild.markup.trim();
-      }
+      return queue.enqueue(() => {
+        compiledControl.cssClass.text += childrenCssText;
+        compiledControl.markup = compiledControl.markup.replace(
+          '{children}', childrenMarkup
+        );
 
-      compiledControl.cssClass.text += childrenCssText;
-      compiledControl.markup = compiledControl.markup.replace(
-        '{children}', childrenMarkup
-      );
-    }
-
-    return compiledControl;
+        return compiledControl;
+      });
+    });
   }
 }

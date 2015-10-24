@@ -15,40 +15,53 @@ export interface ISerializedServiceControl {
   };
 }
 
+const actionCompiler = new SerializedServiceControlActionCompiler();
+
 export class ServiceControlCompiler implements IControlCompiler<ISerializedServiceControl> {
-  private _actionCompiler = new SerializedServiceControlActionCompiler();
-
   compile(control: Control) {
-    let parameters = <{
-      properties: [string, string][],
-      events: [string, ISerializedServiceControlAction[]][]
-    }>{ properties: [], events: [] };
+    return Promise.all<any>([
+      ServiceControlCompiler.compileProperties(control),
+      ServiceControlCompiler.compileEvents(control)
+    ]).then<ISerializedServiceControl>(([properties, events]) => {
+      return <ISerializedServiceControl>{
+        id: control.id,
+        type: control.meta.type,
+        parameters: { properties, events }
+      };
+    });
+  }
 
+  decompile(compiledControl: ISerializedServiceControl): Promise<Control> {
+    throw new Error('Not Implemented!');
+  }
+
+  private static compileProperties(control: Control): Promise<[string, string][]> {
+    let properties = [];
     control.meta.supportedProperties.forEach((property, propertyKey) => {
-      parameters.properties.push([
+      properties.push([
         propertyKey, (<IProperty<string>>control[propertyKey]).getValue()
       ]);
     });
 
-    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
-      let actions = control.events.get(eventKey).getValue();
-
-      if (actions.length) {
-        parameters.events.push([
-          eventKey,
-          actions.map((action) => this._actionCompiler.compile(action))
-        ]);
-      }
-    });
-
-    return {
-      id: control.id,
-      type: control.meta.type,
-      parameters: parameters
-    };
+    return Promise.resolve(properties);
   }
 
-  decompile(compiledControl: ISerializedServiceControl): Control {
-    throw new Error('Not Implemented!');
+  private static compileEvents(control: Control): Promise<[string, ISerializedServiceControlAction[]][]> {
+    let actionCompilePromises = [];
+    let events = [];
+
+    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
+      actionCompilePromises.push(
+        Promise.all(
+          control.events.get(eventKey).getValue().map(
+            (action) => actionCompiler.compile(action)
+          )
+        ).then(
+          (compiledActions) => events.push([eventKey, compiledActions])
+        )
+      );
+    });
+
+    return Promise.all(actionCompilePromises).then(() => events);
   }
 }
