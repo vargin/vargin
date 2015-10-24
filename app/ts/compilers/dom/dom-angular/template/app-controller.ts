@@ -20,14 +20,8 @@ import { JSONApplicationCompiler } from 'compilers/json/json-application-compile
 import { PageController } from 'compilers/dom/dom-angular/template/page-controller';
 import { application } from 'app-description';
 
-import { ButtonControl } from 'core/controls/visual/button-control';
-import { LabelControl } from 'core/controls/visual/label-control';
-import { LinkControl } from 'core/controls/visual/link-control';
-import { ListControl } from 'core/controls/visual/list-control';
-import { ListItemControl } from 'core/controls/visual/list-control';
-import { RangeControl } from 'core/controls/visual/range-control';
-import { TextInputControl } from 'core/controls/visual/text-input-control';
-import { DatasourceControl } from 'core/controls/service/datasource-control';
+import { REGISTRY as VISUAL_CONTROLS } from 'core/controls/visual/_registry';
+import { REGISTRY as SERVICE_CONTROLS } from 'core/controls/service/_registry';
 
 @Component({
   selector: 'angular-app'
@@ -47,15 +41,8 @@ import { DatasourceControl } from 'core/controls/service/datasource-control';
 }])
 class AppController {
   private dependencies: Type[] = [
-    ButtonControl,
-    LabelControl,
-    LinkControl,
-    ListControl,
-    ListItemControl,
-    RangeControl,
-    TextInputControl,
-
-    DatasourceControl
+    ...VISUAL_CONTROLS,
+    ...SERVICE_CONTROLS
   ];
 }
 

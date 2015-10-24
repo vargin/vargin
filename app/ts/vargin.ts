@@ -13,13 +13,9 @@ import { ControlGroup } from 'core/controls/control-group';
 
 import { ControlService } from 'services/control-service';
 
-import {
-  VISUAL_CONTROLS,
-  SERVICE_CONTROLS,
-  VISUAL_COMPONENTS,
-  SERVICE_COMPONENTS,
-  EDITORS_COMPONENTS
-} from 'providers';
+import { REGISTRY as VISUAL_CONTROLS } from 'core/controls/visual/_registry';
+import { REGISTRY as SERVICE_CONTROLS } from 'core/controls/service/_registry';
+import { REGISTRY as EDITOR_COMPONENTS } from 'editor/_registry';
 
 @Component({
   selector: 'vargin'
@@ -48,9 +44,7 @@ class Vargin {
   private dependencies: Type[] = [
     ...VISUAL_CONTROLS,
     ...SERVICE_CONTROLS,
-    ...VISUAL_COMPONENTS,
-    ...SERVICE_COMPONENTS,
-    ...EDITORS_COMPONENTS
+    ...EDITOR_COMPONENTS
   ];
   private controlGroups: IExpandableGroup[] = [];
 
