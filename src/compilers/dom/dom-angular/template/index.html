@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM Angular App</title>
+  <script src="js/lib/system-csp-production.js"></script>
+  <script src="js/lib/angular2.dev.js"></script>
+  <script src="js/lib/router.dev.js"></script>
+  <script src="js/app-controller.js"></script>
+  <base href="/dist/dev/editor/ng2-compiler/">
+</head>
+<body>
+  <angular-app></angular-app>
+  <script>
+    var application = window.opener.application;
+
+    System.register('app-description', [], function(exports) {
+      return {
+        setters: [],
+        execute: function() {
+          exports('pages', application.compiledApp.pages);
+          exports('services', application.compiledApp.services);
+          exports('application', application.jsonCompiledApplication)
+        }
+      }
+    });
+
+    System.import(
+      'compilers/dom/dom-angular/template/app-controller'
+    ).catch(function(e) {
+      console.error(e);
+    });
+  </script>
+</body>
+</html>

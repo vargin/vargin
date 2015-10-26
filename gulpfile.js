@@ -8,25 +8,19 @@ var sourcemaps = require('gulp-sourcemaps');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 
-var PATH = {
+var EDITOR_PATH = {
   dest: {
-    all: 'dist',
+    base: 'dist/editor',
+
     dev: {
-      all: 'dist/dev',
-      lib: 'dist/dev/lib',
-      style: 'dist/dev/style',
-      fonts: 'dist/dev/style/fonts',
-      ngCompiler: {
-        all: 'dist/dev/ng-compiler',
-        lib: 'dist/dev/ng-compiler/lib'
-      }
-    },
-    prod: {
-      all: 'dist/prod',
-      lib: 'dist/prod/lib'
+      base: 'dist/dev/editor',
+      ng2Compiler: 'dist/dev/editor/ng2-compiler'
     }
   },
+
   src: {
+    base: 'src/editor',
+    ng2Compiler: 'src/compilers/dom/dom-angular',
     // Order is quite important here for the HTML tag injection.
     lib: [
       './node_modules/angular2/bundles/angular2.dev.js',
@@ -38,31 +32,54 @@ var PATH = {
   }
 };
 
-gulp.task('clean.dev', function () {
-  return del(PATH.dest.dev.all);
+gulp.task('clean.dev.editor', function () {
+  var environment = 'dev';
+
+  return del(EDITOR_PATH.dest[environment].base);
 });
 
-gulp.task('build.dev.lib', function () {
-  return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.lib));
+gulp.task('build.dev.editor-lib', function () {
+  var environment = 'dev';
+  return gulp.src(EDITOR_PATH.src.lib).pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].base + '/js/lib')
+  );
 });
 
-gulp.task('build.dev.fonts', function () {
-  return gulp.src('./app/style/fonts/**').pipe(gulp.dest(PATH.dest.dev.fonts));
+gulp.task('build.dev.editor-fonts', function () {
+  var environment = 'dev';
+
+  return gulp.src(EDITOR_PATH.src.base + '/style/fonts/**').pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].base + '/style/fonts/')
+  );
 });
 
-gulp.task('build.dev.styles', function () {
-  return gulp.src('./app/style/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(PATH.dest.dev.style));
+gulp.task('build.dev.editor-styles', function () {
+  var environment = 'dev';
+
+  return gulp.src(EDITOR_PATH.src.base + '/style/**/*.scss').pipe(
+    sass().on('error', sass.logError)
+  ).pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].base + '/style/')
+  );
 });
 
-gulp.task('build.dev.index', function() {
-  gulp.src('./app/ts/editor/**/*.html').pipe(gulp.dest(PATH.dest.dev.all));
+gulp.task('build.dev.editor-html', function() {
+  var environment = 'dev';
 
-  return gulp.src(['./app/index.html']).pipe(gulp.dest(PATH.dest.dev.all));
+  gulp.src(EDITOR_PATH.src.base + '/**/*.html').pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].base)
+  );
+
+  return gulp.src(EDITOR_PATH.src.base + '/index.html').pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].base)
+  );
 });
 
-gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.index'], function() {
+gulp.task('build.dev.editor-app', [
+  'build.dev.editor-styles', 'build.dev.editor-fonts', 'build.dev.editor-html'
+], function() {
+  var environment = 'dev';
+
   var appBuilder = new Builder({
     transpiler: 'typescript',
 
@@ -72,7 +89,9 @@ gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.in
     },
 
     paths: {
-      '*': 'app/ts/*.ts',
+      'editor/*': 'src/editor/ts/*.ts',
+      'core/*': 'src/core/*.ts',
+      'compilers/*': 'src/compilers/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'
     },
 
@@ -83,27 +102,38 @@ gulp.task('build.dev.app', ['build.dev.styles', 'build.dev.fonts', 'build.dev.in
     }
   });
 
-  return appBuilder.bundle('vargin', PATH.dest.dev.all + '/vargin.js', {
-    minify: false
-  });
-});
-
-gulp.task('build.dev.angular-compiler.html', function() {
-  return gulp.src('./app/ts/compilers/dom/dom-angular/template/*.html').pipe(
-    gulp.dest(PATH.dest.dev.ngCompiler.all)
+  return appBuilder.bundle(
+    EDITOR_PATH.src.base + '/ts/vargin-editor.ts',
+    EDITOR_PATH.dest[environment].base + '/js/vargin-editor.js',
+    { minify: false }
   );
 });
 
-gulp.task('build.dev.angular-compiler.libs', function() {
-  return gulp.src(PATH.src.lib).pipe(gulp.dest(PATH.dest.dev.ngCompiler.lib));
+gulp.task('build.dev.angular-compiler-html', function() {
+  var environment = 'dev';
+
+  return gulp.src(EDITOR_PATH.src.ng2Compiler + '/template/*.html').pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].ng2Compiler)
+  );
 });
 
-gulp.task('build.dev.angular-compiler.app', function() {
+gulp.task('build.dev.angular-compiler-lib', function() {
+  var environment = 'dev';
+  return gulp.src(EDITOR_PATH.src.lib).pipe(
+    gulp.dest(EDITOR_PATH.dest[environment].ng2Compiler + '/js/lib')
+  );
+});
+
+gulp.task('build.dev.angular-compiler-app', function() {
+  var environment = 'dev';
+
   var angularCompilerAppBuilder = new Builder({
     transpiler: 'typescript',
 
     paths: {
-      '*': 'app/ts/*.ts',
+      'editor/*': 'src/editor/ts/*.ts',
+      'core/*': 'src/core/*.ts',
+      'compilers/*': 'src/compilers/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'
     },
 
@@ -118,28 +148,24 @@ gulp.task('build.dev.angular-compiler.app', function() {
   });
 
   return angularCompilerAppBuilder.bundle(
-    'compilers/dom/dom-angular/template/app-controller',
-    PATH.dest.dev.ngCompiler.all + '/app-controller.js',
+    EDITOR_PATH.src.ng2Compiler + '/template/app-controller.ts',
+    EDITOR_PATH.dest[environment].ng2Compiler + '/js/app-controller.js',
     {}
   );
 });
 
-gulp.task('build.dev.angular-compiler', function(done) {
+gulp.task('build.dev.editor', function(done) {
   runSequence(
-    'build.dev.angular-compiler.html',
-    'build.dev.angular-compiler.libs',
-    'build.dev.angular-compiler.app',
+    'clean.dev.editor',
+    'build.dev.editor-lib',
+    'build.dev.editor-app',
+    'build.dev.angular-compiler-html',
+    'build.dev.angular-compiler-lib',
+    'build.dev.angular-compiler-app',
     done
   );
 });
 
-gulp.task('build.dev', function(done) {
-  runSequence(
-    'clean.dev', 'build.dev.lib', 'build.dev.app', 'build.dev.angular-compiler',
-    done
-  );
-});
-
-gulp.task('default', ['build.dev'], function () {
-  gulp.watch('./app/**', ['build.dev.app', 'build.dev.angular-compiler']);
+gulp.task('default', ['build.dev.editor'], function () {
+  gulp.watch('./src/**', ['build.dev.editor']);
 });

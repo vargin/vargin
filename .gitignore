@@ -1,7 +1,8 @@
 .idea
 node_modules
 dist
-app/ts/**/*.js
-app/ts/**/*.map
-app/style/**/*.css
-app/style/**/*.map
+src/compilers/**/*.js
+src/core/**/*.js
+src/editor/**/*.js
+src/**/*.map
+src/**/*.css
