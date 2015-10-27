@@ -13,8 +13,8 @@ import {
 import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
-import { DynamicComponent } from 'editor/control-components/dynamic-component';
-import { BaseComponent } from 'editor/control-components/base-component';
+import { DynamicComponent } from 'editor/ts/control-components/dynamic-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-container',

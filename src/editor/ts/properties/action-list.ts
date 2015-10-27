@@ -15,7 +15,7 @@ import { ActionService } from 'core/services/action-service';
 import { AlertAction } from 'core/actions/alert-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
 import { NavigateAction } from 'core/actions/navigate-action';
-import { DialogService } from 'editor/services/dialog-service';
+import { DialogService } from 'editor/ts/services/dialog-service';
 
 @Component({
   selector: 'vargin-action-list'

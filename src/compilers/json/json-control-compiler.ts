@@ -2,7 +2,7 @@ import { Control, IControlParameters } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { VisualControlMetadata } from 'core/controls/visual/visual-control-metadata';
 
-import { ControlService } from 'editor/services/control-service';
+import { ControlService } from 'editor/ts/services/control-service';
 
 import { IControlCompiler } from 'compilers/control-compiler';
 import { IProperty } from 'core/property';

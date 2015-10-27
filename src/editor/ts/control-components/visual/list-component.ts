@@ -15,8 +15,8 @@ import {
   ListControl,
   ListItemControl
 } from 'core/controls/visual/list-control';
-import { BaseComponent } from 'editor/control-components/base-component';
-import { DynamicComponent } from 'editor/control-components/dynamic-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
+import { DynamicComponent } from 'editor/ts/control-components/dynamic-component';
 
 import { UtilsService } from 'core/services/utils-service';
 

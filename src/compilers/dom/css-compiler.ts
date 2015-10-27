@@ -16,13 +16,13 @@ class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
     });
     text += '}';
 
-    return {
+    return Promise.resolve({
       name: cssClassName,
       text: text
-    };
+    });
   }
 
-  decompile(compiledCSSClass: ICompiledCSSClass): VisualControl {
+  decompile(compiledCSSClass: ICompiledCSSClass): Promise<VisualControl> {
     return null;
   }
 }

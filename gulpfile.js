@@ -10,8 +10,6 @@ var sass = require('gulp-sass');
 
 var EDITOR_PATH = {
   dest: {
-    base: 'dist/editor',
-
     dev: {
       base: 'dist/dev/editor',
       ng2Compiler: 'dist/dev/editor/ng2-compiler'
@@ -89,7 +87,7 @@ gulp.task('build.dev.editor-app', [
     },
 
     paths: {
-      'editor/*': 'src/editor/ts/*.ts',
+      'editor/ts/*': 'src/editor/ts/*.ts',
       'core/*': 'src/core/*.ts',
       'compilers/*': 'src/compilers/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'
@@ -131,7 +129,7 @@ gulp.task('build.dev.angular-compiler-app', function() {
     transpiler: 'typescript',
 
     paths: {
-      'editor/*': 'src/editor/ts/*.ts',
+      'editor/ts/*': 'src/editor/ts/*.ts',
       'core/*': 'src/core/*.ts',
       'compilers/*': 'src/compilers/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'

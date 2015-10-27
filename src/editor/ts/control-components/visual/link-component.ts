@@ -11,7 +11,7 @@ import {
 
 import { Control } from 'core/controls/control';
 import { LinkControl } from 'core/controls/visual/link-control';
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-link',

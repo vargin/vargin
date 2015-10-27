@@ -4,10 +4,10 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 
 import { Control, IControlParameters } from 'core/controls/control';
 
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 import { UtilsService } from 'core/services/utils-service';
-import { ControlConfigService } from 'editor/services/control-config-service';
+import { ControlConfigService } from 'editor/ts/services/control-config-service';
 
 interface IControlType<TControl> {
   new(

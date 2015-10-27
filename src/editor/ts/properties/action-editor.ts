@@ -2,7 +2,7 @@
 import { Component, Inject, NgFor, View } from 'angular2/angular2';
 import { IAction, Action } from 'core/actions/action';
 import { IProperty } from 'core/property';
-import PropertyEditor from 'editor/properties/property-editors/property-editor';
+import PropertyEditor from 'editor/ts/properties/property-editors/property-editor';
 
 @Component({
   selector: 'vargin-action-editor'

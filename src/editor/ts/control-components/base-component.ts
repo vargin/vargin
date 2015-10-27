@@ -2,7 +2,7 @@
 import { Renderer, ViewContainerRef} from 'angular2/angular2';
 import { Control } from 'core/controls/control';
 import { VisualControl } from 'core/controls/visual/visual-control';
-import { ControlService } from 'editor/services/control-service';
+import { ControlService } from 'editor/ts/services/control-service';
 
 const CONTAINER_ONLY_STYLES = [
   'flex-basis', 'flex-grow', 'flex-shrink', 'margin'

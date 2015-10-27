@@ -4,8 +4,8 @@ import { Component, Inject, provide, View } from 'angular2/angular2';
 import { IProperty, Property } from 'core/property';
 import { OwnedProperty } from 'core/owned-property';
 import { Control } from 'core/controls/control';
-import { DialogService } from 'editor/services/dialog-service';
-import { ItemsPropertyListDialog } from 'editor/properties/property-editors/items/list-dialog';
+import { DialogService } from 'editor/ts/services/dialog-service';
+import { ItemsPropertyListDialog } from 'editor/ts/properties/property-editors/items/list-dialog';
 import { Schema } from 'core/data/schema';
 
 @Component({

@@ -3,8 +3,8 @@ import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
 import { Address, AddressType } from 'core/data/address';
-import { DialogService } from 'editor/services/dialog-service';
-import { URLPropertyEditorDialog } from 'editor/properties/property-editors/url/editor-dialog';
+import { DialogService } from 'editor/ts/services/dialog-service';
+import { URLPropertyEditorDialog } from 'editor/ts/properties/property-editors/url/editor-dialog';
 import { ApplicationService } from 'core/services/application-service';
 
 @Component({

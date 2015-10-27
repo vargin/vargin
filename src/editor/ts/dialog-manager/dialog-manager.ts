@@ -11,7 +11,7 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { IDialogRequest, DialogService } from 'editor/services/dialog-service';
+import { IDialogRequest, DialogService } from 'editor/ts/services/dialog-service';
 
 interface IDialogDescriptor {
   uuid: string;

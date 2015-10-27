@@ -10,8 +10,8 @@ import {
 import { Property } from 'core/property';
 import { OwnedProperty } from 'core/owned-property';
 import { Control } from 'core/controls/control';
-import { DialogService } from 'editor/services/dialog-service';
-import { ItemsPropertyEditorDialog } from 'editor/properties/property-editors/items/editor-dialog';
+import { DialogService } from 'editor/ts/services/dialog-service';
+import { ItemsPropertyEditorDialog } from 'editor/ts/properties/property-editors/items/editor-dialog';
 import { Schema } from 'core/data/schema';
 
 @Component({

@@ -1,11 +1,11 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 import { Control } from 'core/controls/control';
-import { ContainerComponent } from 'editor/control-components/visual/container-component';
-import { ServiceContainerComponent } from 'editor/control-components/service/service-container-component';
+import { ContainerComponent } from 'editor/ts/control-components/visual/container-component';
+import { ServiceContainerComponent } from 'editor/ts/control-components/service/service-container-component';
 import { ApplicationService } from 'core/services/application-service';
-import { Workspace, WorkspaceService } from 'editor/services/workspace-service';
-import { ControlService } from 'editor/services/control-service';
+import { Workspace, WorkspaceService } from 'editor/ts/services/workspace-service';
+import { ControlService } from 'editor/ts/services/control-service';
 import {
   JSONApplicationCompiler
 } from 'compilers/json/json-application-compiler';

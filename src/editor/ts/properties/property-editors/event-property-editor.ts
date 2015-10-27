@@ -13,7 +13,7 @@ import {
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 
-import { ActionList } from 'editor/properties/action-list';
+import { ActionList } from 'editor/ts/properties/action-list';
 
 @Component({
   selector: 'event-property-editor',

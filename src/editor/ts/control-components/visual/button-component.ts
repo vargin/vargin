@@ -11,7 +11,7 @@ import {
 
 import { Control } from 'core/controls/control';
 import { ButtonControl } from 'core/controls/visual/button-control';
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-button',

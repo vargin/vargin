@@ -12,7 +12,7 @@ import {
 import { Control } from 'core/controls/control';
 import { TextInputControl} from 'core/controls/visual/text-input-control';
 
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-text-input',

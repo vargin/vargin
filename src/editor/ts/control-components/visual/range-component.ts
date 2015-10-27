@@ -11,7 +11,7 @@ import {
 
 import { Control } from 'core/controls/control';
 import { RangeControl } from 'core/controls/visual/range-control';
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-range',

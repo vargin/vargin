@@ -13,16 +13,16 @@ import {
 
 import { IProperty, Property } from 'core/property';
 
-import ColorPropertyEditor from 'editor/properties/property-editors/color-property-editor';
-import NumberPropertyEditor from 'editor/properties/property-editors/number-property-editor';
-import StringPropertyEditor from 'editor/properties/property-editors/string-property-editor';
-import PropertyWithOptionsEditor from 'editor/properties/property-editors/property-with-options-editor';
-import EventPropertyEditor from 'editor/properties/property-editors/event-property-editor';
-import ImagePropertyEditor from 'editor/properties/property-editors/image-property-editor';
-import URLPropertyEditor from 'editor/properties/property-editors/url/editor';
-import { SchemaPropertyEditor } from 'editor/properties/property-editors/schema/editor';
-import { ItemsPropertyEditor } from 'editor/properties/property-editors/items/editor';
-import DatasourcePropertyEditor from 'editor/properties/property-editors/datasource-property-editor';
+import ColorPropertyEditor from 'editor/ts/properties/property-editors/color-property-editor';
+import NumberPropertyEditor from 'editor/ts/properties/property-editors/number-property-editor';
+import StringPropertyEditor from 'editor/ts/properties/property-editors/string-property-editor';
+import PropertyWithOptionsEditor from 'editor/ts/properties/property-editors/property-with-options-editor';
+import EventPropertyEditor from 'editor/ts/properties/property-editors/event-property-editor';
+import ImagePropertyEditor from 'editor/ts/properties/property-editors/image-property-editor';
+import URLPropertyEditor from 'editor/ts/properties/property-editors/url/editor';
+import { SchemaPropertyEditor } from 'editor/ts/properties/property-editors/schema/editor';
+import { ItemsPropertyEditor } from 'editor/ts/properties/property-editors/items/editor';
+import DatasourcePropertyEditor from 'editor/ts/properties/property-editors/datasource-property-editor';
 
 @Component({
   selector: 'property-editor',

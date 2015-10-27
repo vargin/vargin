@@ -6,9 +6,9 @@ import { VisualControl } from 'core/controls/visual/visual-control';
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 
-import PropertyEditor from 'editor/properties/property-editors/property-editor';
+import PropertyEditor from 'editor/ts/properties/property-editors/property-editor';
 
-import { ControlService } from 'editor/services/control-service';
+import { ControlService } from 'editor/ts/services/control-service';
 
 @Component({
   selector: 'vargin-properties'

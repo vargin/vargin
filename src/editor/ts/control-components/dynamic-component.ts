@@ -14,9 +14,9 @@ import {
 
 import { Control } from 'core/controls/control';
 
-import { ControlConfigService } from 'editor/services/control-config-service';
+import { ControlConfigService } from 'editor/ts/services/control-config-service';
 
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-dynamic',

@@ -12,7 +12,7 @@ import {
 import { Control } from 'core/controls/control';
 import { LabelControl } from 'core/controls/visual/label-control';
 
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-label',

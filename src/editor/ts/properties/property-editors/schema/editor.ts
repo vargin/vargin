@@ -2,8 +2,8 @@
 import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from 'core/property';
-import { DialogService } from 'editor/services/dialog-service';
-import { SchemaPropertyEditorDialog } from 'editor/properties/property-editors/schema/editor-dialog';
+import { DialogService } from 'editor/ts/services/dialog-service';
+import { SchemaPropertyEditorDialog } from 'editor/ts/properties/property-editors/schema/editor-dialog';
 import { Schema } from 'core/data/schema';
 
 @Component({

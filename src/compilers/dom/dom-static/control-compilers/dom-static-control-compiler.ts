@@ -17,16 +17,22 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
   binding: Map<string, string>;
 
   compile(control: TControl): Promise<IDOMStaticCompiledControl> {
-    let cssClass: ICompiledCSSClass = null;
+    let cssClassPromise: Promise<ICompiledCSSClass>;
 
     if (VisualControl.isVisualControl(control)) {
-      cssClass = CSSClassCompiler.compile(<VisualControl>(<Control>control));
+      cssClassPromise = CSSClassCompiler.compile(
+        <VisualControl>(<Control>control)
+      );
+    } else {
+      cssClassPromise = Promise.resolve(null);
     }
 
-    return Promise.resolve({
-      source: control,
-      markup: this.getMarkup(control, cssClass),
-      cssClass: cssClass
+    return cssClassPromise.then((cssClass) => {
+      return {
+        source: control,
+        markup: this.getMarkup(control, cssClass),
+        cssClass: cssClass
+      };
     });
   }
 

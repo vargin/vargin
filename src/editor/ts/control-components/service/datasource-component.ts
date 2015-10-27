@@ -9,7 +9,7 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { BaseComponent } from 'editor/control-components/base-component';
+import { BaseComponent } from 'editor/ts/control-components/base-component';
 
 @Component({
   selector: 'vargin-datasource',
