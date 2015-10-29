@@ -1,8 +1,8 @@
 .idea
 node_modules
 dist
-src/compilers/**/*.js
-src/core/**/*.js
-src/editor/**/*.js
+src/**/*.js
 src/**/*.map
+test/**/*.js
+test/**/*.map
 src/**/*.css

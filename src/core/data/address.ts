@@ -18,8 +18,8 @@ export class Address {
     return `${address.type}:${address.value}`;
   }
 
-  static deserialize(url: string): Address {
+  static deserialize(addressString: string): Address {
     // Schema is {type}:{value}
-    return new Address(+url[0], url.substring(2));
+    return new Address(+addressString[0], addressString.substring(2));
   }
 }
