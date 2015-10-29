@@ -16,6 +16,11 @@
 
     "gulp-sass": "^2.0.4",
 
+    "karma": "^0.12.23",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.3.6",
+    "karma-mocha-reporter": "^1.1.1",
+
     "typescript": "1.6.2"
   },
 
@@ -27,5 +32,10 @@
     "reflect-metadata": "0.1.2",
 
     "sass-flex-mixin": "1.0.0"
+  },
+
+  "scripts": {
+    "watch": "./node_modules/typescript/bin/tsc --watch",
+    "test": "./node_modules/typescript/bin/tsc && karma start karma.conf.js"
   }
 }
