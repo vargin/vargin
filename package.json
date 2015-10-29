@@ -12,12 +12,12 @@
 
     "gulp-plumber": "~1.0.1",
     "gulp-sourcemaps": "~1.6.0",
-    "systemjs-builder": "^0.14.8",
+    "systemjs-builder": "^0.14.9",
 
-    "gulp-sass": "^2.0.4",
+    "gulp-sass": "^2.1.0",
 
-    "karma": "^0.12.23",
-    "karma-chrome-launcher": "^0.1.4",
+    "karma": "^0.13.14",
+    "karma-chrome-launcher": "^0.2.1",
     "karma-jasmine": "^0.3.6",
     "karma-mocha-reporter": "^1.1.1",
 
@@ -25,8 +25,8 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.44",
-    "systemjs": "^0.19.4",
+    "angular2": "2.0.0-alpha.45",
+    "systemjs": "^0.19.5",
     "es6-module-loader": "^0.17.8",
     "zone.js": "^0.5.8",
     "reflect-metadata": "0.1.2",
