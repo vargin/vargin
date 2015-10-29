@@ -9,7 +9,7 @@ export class ButtonControlCompiler extends DOMStaticControlCompiler<ButtonContro
     return this.buildHTMLElement(
       'button',
       this.getValue(control.text),
-      new Map<string, string>([
+      new Map<string, string>(<[string, string][]>[
         ['class', cssClass.name],
         ['title', this.getValue(control.title)],
         ['type', this.getValue(control.type)]

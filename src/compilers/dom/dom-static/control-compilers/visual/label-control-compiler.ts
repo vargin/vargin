@@ -9,7 +9,7 @@ export class LabelControlCompiler extends DOMStaticControlCompiler<LabelControl>
     return this.buildHTMLElement(
       'span',
       this.getValue(control.text),
-      new Map<string, string>([['class', cssClass.name]])
+      new Map<string, string>(<[string, string][]>[['class', cssClass.name]])
     );
   }
 }

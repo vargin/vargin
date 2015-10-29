@@ -13,7 +13,7 @@ export class ListControlCompiler extends DOMAngularControlCompiler<ListControl> 
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
-      new Map<string, string>([
+      new Map<string, string>(<[string, string][]>[
         ['id', control.id],
         ['class', cssClass.name],
         ...this.getEventHandlers(control)

@@ -10,7 +10,8 @@ export interface IDialogRequest {
 
 export class DialogService {
   static onRequest: EventEmitter = new EventEmitter();
-  private static dialogs: Map<string, Deferred<void>> = new Map();
+  private static dialogs: Map<string, Deferred<void>> =
+    new Map<string, Deferred<void>>();
 
   static show(component: Type, providers: Provider[]): Promise<void> {
     let dialogRequest = {

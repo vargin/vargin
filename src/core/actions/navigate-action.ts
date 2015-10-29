@@ -2,13 +2,15 @@ import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { Action } from 'core/actions/action';
 import { ActionMetadata } from 'core/actions/action-metadata';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['address', new Property('Address', '', 'url')],
-  ['target', new PropertyWithOptions('Target', [
-    new Property('Same Tab', '_self'),
-    new Property('New Tab', '_blank')
-  ])]
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['address', new Property('Address', '', 'url')],
+    ['target', new PropertyWithOptions('Target', [
+      new Property('Same Tab', '_self'),
+      new Property('New Tab', '_blank')
+    ])]
+  ]
+);
 
 const METADATA = Object.freeze(new ActionMetadata(
   'navigate-action',

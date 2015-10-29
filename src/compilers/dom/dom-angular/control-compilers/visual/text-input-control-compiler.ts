@@ -6,16 +6,18 @@ import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
 
 export class TextInputControlCompiler extends DOMAngularControlCompiler<TextInputControl> {
   getMarkup(control: TextInputControl, cssClass: ICompiledCSSClass) {
-    return this.buildHTMLElement('input', '', new Map<string, string>([
-      ['id', control.id],
-      ['class', cssClass.name],
-      ['type', 'text'],
-      ['placeholder', control.placeholder.getValue()],
-      [
-        'value',
-        DOMAngularControlCompiler.getDynamicPropertyValue(control, 'value')
-      ],
-      ...this.getEventHandlers(control)
-    ]));
+    return this.buildHTMLElement('input', '', new Map<string, string>(
+      <[string, string][]>[
+        ['id', control.id],
+        ['class', cssClass.name],
+        ['type', 'text'],
+        ['placeholder', control.placeholder.getValue()],
+        [
+          'value',
+          DOMAngularControlCompiler.getDynamicPropertyValue(control, 'value')
+        ],
+        ...this.getEventHandlers(control)
+      ]
+    ));
   }
 }

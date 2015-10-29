@@ -3,11 +3,13 @@ import { Action } from 'core/actions/action';
 import { ActionMetadata } from 'core/actions/action-metadata';
 import { ApplicationService } from 'core/services/application-service';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['control-id', new Property('Control', '', 'control')],
-  ['property-name', new Property('Property Name', '')],
-  ['property-value', new Property('Property Value', '')],
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['control-id', new Property('Control', '', 'control')],
+    ['property-name', new Property('Property Name', '')],
+    ['property-value', new Property('Property Value', '')],
+  ]
+);
 
 const METADATA = Object.freeze(new ActionMetadata(
   'change-property-action',

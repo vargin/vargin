@@ -4,7 +4,7 @@ import { ICompiler } from 'compilers/compiler';
 
 export interface ISerializedServiceControlAction {
   type: string;
-  properties: Iterable<[string, string]>;
+  properties: [string, string][];
 }
 
 export class SerializedServiceControlActionCompiler implements ICompiler<IAction, ISerializedServiceControlAction> {

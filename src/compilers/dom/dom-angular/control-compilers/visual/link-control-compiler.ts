@@ -22,7 +22,7 @@ export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> 
     return this.buildHTMLElement(
       'a',
       DOMAngularControlCompiler.getDynamicPropertyValue(control, 'text'),
-      new Map<string, string>([
+      new Map<string, string>(<[string, string][]>[
         ['id', control.id],
         ['class', cssClass.name],
         addressAttribute,

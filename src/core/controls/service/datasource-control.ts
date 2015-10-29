@@ -4,15 +4,19 @@ import { IAction } from 'core/actions/action';
 import { Control, IControlParameters } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['name', new Property('Name', '[DataSource]')],
-  ['schema', new Property('Schema', null, 'schema')],
-  ['items', new Property('Items', null, 'items')]
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['name', new Property('Name', '[DataSource]')],
+    ['schema', new Property('Schema', null, 'schema')],
+    ['items', new Property('Items', null, 'items')]
+  ]
+);
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
-  ['item-added', new Property<IAction[]>('Item added', null, 'item-added')]
-]);
+const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
+  <[string, IProperty<Array<IAction>>][]>[
+    ['item-added', new Property<IAction[]>('Item added', null, 'item-added')]
+  ]
+);
 
 const METADATA = Object.freeze(
   new ControlMetadata(

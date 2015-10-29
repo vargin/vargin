@@ -9,7 +9,7 @@ export class ListControlCompiler extends DOMStaticControlCompiler<ListControl> {
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
-      new Map<string, string>([['class', cssClass.name]])
+      new Map<string, string>(<[string, string][]>[['class', cssClass.name]])
     );
   }
 }

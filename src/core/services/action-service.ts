@@ -6,7 +6,7 @@ import { BroadcastAction } from 'core/actions/broadcast-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
 import { NavigateAction } from 'core/actions/navigate-action';
 
-const ACTIONS = new Map<string, any>([
+const ACTIONS = new Map<string, any>(<[string, any][]>[
   ['alert-action', AlertAction],
   ['broadcast-action', BroadcastAction],
   ['change-property-action', ChangePropertyAction],

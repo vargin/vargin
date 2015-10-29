@@ -55,7 +55,9 @@ export class ListComponent extends BaseComponent {
     let itemTemplate = this.control.getTemplate();
     if (!itemTemplate) {
       itemTemplate = new ListItemControl(UtilsService.uuid(), {
-        styles: new Map([['border', '0.1rem dashed #cccccc']])
+        styles: new Map(
+          <[string, string][]>[['border', '0.1rem dashed #cccccc']]
+        )
       });
       this.control.setTemplate(itemTemplate);
     }

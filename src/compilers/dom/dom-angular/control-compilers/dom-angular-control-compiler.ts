@@ -3,7 +3,7 @@ import { Control } from 'core/controls/control';
 
 export class DOMAngularControlCompiler<TControl extends Control> extends DOMStaticControlCompiler<TControl> {
 
-  protected getEventHandlers(control: Control): Array<[string, string]> {
+  getEventHandlers(control: Control): Array<[string, string]> {
     let eventHandlers: Array<[string, string]> = [];
 
     control.events.forEach((actions, eventKey) => {
@@ -17,7 +17,7 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
     return eventHandlers;
   }
 
-  protected static getDynamicPropertyValue(
+  static getDynamicPropertyValue(
     control: Control, propertyName: string
   ) {
     return `{{getControl(\'${control.id}\').${propertyName}.getValue()}}`;

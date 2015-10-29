@@ -4,11 +4,13 @@ import { ActionMetadata } from 'core/actions/action-metadata';
 import { Message } from 'core/events/message';
 import { ChannelService } from 'core/services/channel-service';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['channel', new Property('Channel Name', '')],
-  ['message-name', new Property('Message Name', '')],
-  ['message-data', new Property('Message Data', '')],
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['channel', new Property('Channel Name', '')],
+    ['message-name', new Property('Message Name', '')],
+    ['message-data', new Property('Message Data', '')],
+  ]
+);
 
 const METADATA = Object.freeze(new ActionMetadata(
   'broadcast-action',

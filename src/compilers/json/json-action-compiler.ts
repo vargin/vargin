@@ -4,7 +4,7 @@ import { ICompiler } from 'compilers/compiler';
 
 export interface IJSONAction {
   type: string;
-  properties: Iterable<[string, string]>;
+  properties: [string, string][];
 }
 
 export class JSONActionCompiler implements ICompiler<IAction, IJSONAction> {

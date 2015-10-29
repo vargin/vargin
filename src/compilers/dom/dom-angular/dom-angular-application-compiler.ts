@@ -39,16 +39,18 @@ import {
   ServiceControlCompiler
 } from 'compilers/dom/dom-angular/control-compilers/service/service-control-compiler';
 
-const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>([
-  [ButtonControl, new ButtonControlCompiler()],
-  [ContainerControl, new ContainerControlCompiler()],
-  [LabelControl, new LabelControlCompiler()],
-  [LinkControl, new LinkControlCompiler()],
-  [ListControl, new ListControlCompiler()],
-  [ListItemControl, new ContainerControlCompiler()],
-  [RangeControl, new RangeControlCompiler()],
-  [TextInputControl, new TextInputControlCompiler()]
-]);
+const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
+  <[Function, DOMAngularControlCompiler<Control>][]>[
+    [ButtonControl, new ButtonControlCompiler()],
+    [ContainerControl, new ContainerControlCompiler()],
+    [LabelControl, new LabelControlCompiler()],
+    [LinkControl, new LinkControlCompiler()],
+    [ListControl, new ListControlCompiler()],
+    [ListItemControl, new ContainerControlCompiler()],
+    [RangeControl, new RangeControlCompiler()],
+    [TextInputControl, new TextInputControlCompiler()]
+  ]
+);
 
 const SERVICE_CONTROL_COMPILER = new ServiceControlCompiler();
 

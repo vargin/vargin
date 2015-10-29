@@ -1,3 +1,4 @@
+/// <reference path="../../../typings/tsd.d.ts" />
 import { IProperty } from 'core/property';
 
 export class ActionMetadata {

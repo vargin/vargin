@@ -11,21 +11,27 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['min', new Property('Minimum', '0')],
-  ['max', new Property('Maximum', '100')],
-  ['step', new Property('Step', '1')],
-  ['value', new Property('Value', '0')],
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['min', new Property('Minimum', '0')],
+    ['max', new Property('Maximum', '100')],
+    ['step', new Property('Step', '1')],
+    ['value', new Property('Value', '0')],
+  ]
+);
 
-const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  ['opacity', StyleService.getDescriptor('opacity')],
-  ['padding', StyleService.getDescriptor('padding')]
-]);
+const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['opacity', StyleService.getDescriptor('opacity')],
+    ['padding', StyleService.getDescriptor('padding')]
+  ]
+);
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
-  ['change', EventService.getDescriptor('change')]
-]);
+const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
+  <[string, IProperty<Array<IAction>>][]>[
+    ['change', EventService.getDescriptor('change')]
+  ]
+);
 
 const METADATA = Object.freeze(new VisualControlMetadata(
   'range',

@@ -10,8 +10,8 @@ export interface ISerializedServiceControl {
   type: string;
   id: string;
   parameters?: {
-    properties?: Iterable<[string, string]>;
-    events?: Iterable<[string, Array<ISerializedServiceControlAction>]>;
+    properties?: [string, string][];
+    events?: [string, Array<ISerializedServiceControlAction>][];
   };
 }
 

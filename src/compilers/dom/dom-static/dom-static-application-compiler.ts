@@ -33,16 +33,18 @@ import { ListControlCompiler } from 'compilers/dom/dom-static/control-compilers/
 import { RangeControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/range-control-compiler';
 import { TextInputControlCompiler } from 'compilers/dom/dom-static/control-compilers/visual/text-input-control-compiler';
 
-const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>([
-  [ButtonControl, new ButtonControlCompiler()],
-  [ContainerControl, new ContainerControlCompiler()],
-  [LabelControl, new LabelControlCompiler()],
-  [LinkControl, new LinkControlCompiler()],
-  [ListControl, new ListControlCompiler()],
-  [ListItemControl, new ContainerControlCompiler()],
-  [RangeControl, new RangeControlCompiler()],
-  [TextInputControl, new TextInputControlCompiler()]
-]);
+const CONTROL_COMPILERS = new Map<Function, DOMStaticControlCompiler<Control>>(
+  <[Function, DOMStaticControlCompiler<Control>][]>[
+    [ButtonControl, new ButtonControlCompiler()],
+    [ContainerControl, new ContainerControlCompiler()],
+    [LabelControl, new LabelControlCompiler()],
+    [LinkControl, new LinkControlCompiler()],
+    [ListControl, new ListControlCompiler()],
+    [ListItemControl, new ContainerControlCompiler()],
+    [RangeControl, new RangeControlCompiler()],
+    [TextInputControl, new TextInputControlCompiler()]
+  ]
+);
 
 const PAGE_REGEX = /href="page:([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"/g;
 
@@ -112,7 +114,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
         let childrenCssText = '';
         let childrenMarkup = '';
 
-        let bindings: Iterable<[string, string]>[] = null;
+        let bindings: [string, string][][] = null;
 
         if ('datasource' in control) {
           let datasource = <DatasourceControl>application.serviceRoot.find(
@@ -161,7 +163,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
 
   private forEachChild(
     children: Control[],
-    bindings: Iterable<[string, string]>[],
+    bindings: [string, string][][],
     callback: (control: Control) => void
   ) {
     let queue = new PromiseQueue();

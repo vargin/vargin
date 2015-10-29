@@ -33,52 +33,58 @@ export class ListItemControl extends VisualControl {
   }
 }
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['datasource', new Property<string>('Datasource', '', 'datasource')]
-]);
-
-const SUPPORTED_STYLES =  new Map<string, IProperty<string>>([
-  ['align-items', StyleService.getDescriptor('align-items')],
-  ['background-color', StyleService.getDescriptor('background-color')],
-  ['border', StyleService.getDescriptor('border')],
-  ['color', StyleService.getDescriptor('color')],
-  ['display', new OwnedPropertyWithOptions(
-    null, StyleService.getDescriptor('display'), 'flex'
-  )],
-  ['flex-basis', StyleService.getDescriptor('flex-basis')],
-  ['flex-direction', new OwnedPropertyWithOptions(
-    null, StyleService.getDescriptor('flex-direction'), 'column'
-  )],
-  ['flex-grow', StyleService.getDescriptor('flex-grow')],
-  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
-  ['font-size', StyleService.getDescriptor('font-size')],
-  ['justify-content', new OwnedPropertyWithOptions(
-    null, StyleService.getDescriptor('justify-content'), 'space-between'
-  )],
-  [
-    'min-height',
-    new OwnedProperty(
-      null, StyleService.getDescriptor('min-height'), '5rem'
-    )
-  ],
-  [
-    'min-width',
-    new OwnedProperty(
-      null, StyleService.getDescriptor('min-width'), '5rem'
-    )
-  ],
-  [
-    'padding',
-    new OwnedProperty(
-      null, StyleService.getDescriptor('padding'), '1rem'
-    )
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['datasource', new Property<string>('Datasource', '', 'datasource')]
   ]
-]);
+);
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
-  ['click', EventService.getDescriptor('click')],
-  ['hover', EventService.getDescriptor('hover')]
-]);
+const SUPPORTED_STYLES =  new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['align-items', StyleService.getDescriptor('align-items')],
+    ['background-color', StyleService.getDescriptor('background-color')],
+    ['border', StyleService.getDescriptor('border')],
+    ['color', StyleService.getDescriptor('color')],
+    ['display', new OwnedPropertyWithOptions(
+      null, StyleService.getDescriptor('display'), 'flex'
+    )],
+    ['flex-basis', StyleService.getDescriptor('flex-basis')],
+    ['flex-direction', new OwnedPropertyWithOptions(
+      null, StyleService.getDescriptor('flex-direction'), 'column'
+    )],
+    ['flex-grow', StyleService.getDescriptor('flex-grow')],
+    ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
+    ['font-size', StyleService.getDescriptor('font-size')],
+    ['justify-content', new OwnedPropertyWithOptions(
+      null, StyleService.getDescriptor('justify-content'), 'space-between'
+    )],
+    [
+      'min-height',
+      new OwnedProperty(
+        null, StyleService.getDescriptor('min-height'), '5rem'
+      )
+    ],
+    [
+      'min-width',
+      new OwnedProperty(
+        null, StyleService.getDescriptor('min-width'), '5rem'
+      )
+    ],
+    [
+      'padding',
+      new OwnedProperty(
+        null, StyleService.getDescriptor('padding'), '1rem'
+      )
+    ]
+  ]
+);
+
+const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
+  <[string, IProperty<Array<IAction>>][]>[
+    ['click', EventService.getDescriptor('click')],
+    ['hover', EventService.getDescriptor('hover')]
+  ]
+);
 
 const METADATA = Object.freeze(new VisualControlMetadata(
   'list',

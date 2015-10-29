@@ -1,3 +1,4 @@
+/// <reference path="../../../typings/tsd.d.ts" />
 import { IProperty } from 'core/property';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { ActionMetadata } from 'core/actions/action-metadata';

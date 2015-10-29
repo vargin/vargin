@@ -12,30 +12,36 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 
-const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>([
-  ['placeholder', new Property('Placeholder', '[Placeholder]')],
-  ['value', new Property('Value', '')],
-]);
+const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['placeholder', new Property('Placeholder', '[Placeholder]')],
+    ['value', new Property('Value', '')],
+  ]
+);
 
-const SUPPORTED_STYLES = new Map<string, IProperty<string>>([
-  ['background-color', StyleService.getDescriptor('background-color')],
-  [
-    'border',
-    new OwnedProperty(
-      null, StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
-    )
-  ],
-  ['color', StyleService.getDescriptor('color')],
-  ['flex-basis', StyleService.getDescriptor('flex-basis')],
-  ['flex-grow', StyleService.getDescriptor('flex-grow')],
-  ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
-  ['font-size', StyleService.getDescriptor('font-size')],
-  ['padding', StyleService.getDescriptor('padding')]
-]);
+const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
+    ['background-color', StyleService.getDescriptor('background-color')],
+    [
+      'border',
+      new OwnedProperty(
+        null, StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
+      )
+    ],
+    ['color', StyleService.getDescriptor('color')],
+    ['flex-basis', StyleService.getDescriptor('flex-basis')],
+    ['flex-grow', StyleService.getDescriptor('flex-grow')],
+    ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
+    ['font-size', StyleService.getDescriptor('font-size')],
+    ['padding', StyleService.getDescriptor('padding')]
+  ]
+);
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>([
-  ['change', EventService.getDescriptor('change')]
-]);
+const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
+  <[string, IProperty<Array<IAction>>][]>[
+    ['change', EventService.getDescriptor('change')]
+  ]
+);
 
 const METADATA = Object.freeze(new VisualControlMetadata(
   'text-input',

@@ -33,7 +33,7 @@ export class ItemsPropertyEditor {
       let itemsJSON = this.property.getValue();
       if (itemsJSON) {
         this.items = JSON.parse(itemsJSON).map(
-          (propertyMap: Iterable<[string, string]>) => {
+          (propertyMap: [string, string][]) => {
             return new Map(propertyMap);
           }
         );
