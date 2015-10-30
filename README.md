@@ -19,4 +19,4 @@ multithreading, plugin-less media and first-class offline experience.
 
 Vargin is successor and inspired by my old fancy project [__Mikapp__](https://www.youtube.com/watch?v=EwzPWSHY7jA) and [__Style My Image!__](http://azasypkin.github.io/style-my-image/) tool.
 
-__Current status:__ [in active development] (https://vargin.github.io/vargin/dist/dev/).
+__Current status:__ [in active development] (https://vargin.github.io/vargin/dist/dev/editor).
