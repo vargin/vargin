@@ -40,7 +40,93 @@ const DEFAULT_SERIALIZED_APPLICATION = {
     name: 'Inbox',
     root: {
       id: '29280d16-6d39-42fb-9a0e-b51a49cb266b',
-      type: 'container'
+      type: 'container',
+      children: [{
+        id: '832cfe61-346e-4666-b918-eb3581dfe95b',
+        type: 'container',
+        children: [{
+          id: '949d4260-dec6-487c-af3d-cfe18f83dfe8',
+          type: 'label',
+          parameters: {
+            properties: [
+              ['text', 'Messages'],
+              ['title', '']
+            ],
+            styles: [
+              ['display', 'flex'],
+              ['flex-grow', '1'],
+              ['justify-content', 'center']
+            ]
+          }
+        }, {
+          id: '3688dc02-9682-433f-aec5-06c6dcf37d63',
+          type: 'link',
+          parameters: {
+            properties: [
+              ['address', '1:7544cda3-62a4-49f6-9a7f-a7b7370823e3'],
+              ['text', '\uD83D\uDD89'],
+              ['title', 'New Message'],
+              ['target', '_self']
+            ],
+            styles: [
+              ['color', '#ffffff'],
+              ['font-weight', 'bold'],
+              ['padding', '0 1rem'],
+              ['text-decoration', 'none']
+            ]
+          }
+        }, {
+          id: 'f8655539-b9a4-42f4-879a-a915496b899a',
+          type: 'button',
+          parameters: {
+            properties: [
+              ['text', '…'],
+              ['title', 'Show Options'],
+              ['type', 'button']
+            ],
+            styles: [
+              ['font-weight', 'bold']
+            ],
+            events: [
+              ['click', [{
+                type: 'alert-action',
+                properties: [['alert-message', 'Show options (not implemented)']]
+              }]]
+            ]
+          }
+        }],
+        parameters: {
+          styles: [
+            ['color', '#ffffff'],
+            ['background-color', '#27c8c2'],
+            ['border', 'none'],
+            ['display', 'flex'],
+            ['font-size', '1.5rem'],
+            ['justify-content', 'space-between'],
+            ['min-height', '0'],
+            ['padding', '0.4rem 0.3rem']
+          ]
+        }
+      }, {
+        id: 'fa852827-5ca9-49fd-8b7b-c59e93bad795',
+        type: 'container',
+        parameters: {
+          styles: [
+            ['border', 'none'],
+            ['display', 'flex'],
+            ['flex-grow', '1'],
+            ['justify-content', 'center']
+          ]
+        }
+      }],
+      parameters: {
+        styles: [
+          ['background-color', '#ffffff'],
+          ['display', 'flex'],
+          ['flex-direction', 'column'],
+          ['min-height', '30rem']
+        ]
+      }
     }
   }, {
     id: '7544cda3-62a4-49f6-9a7f-a7b7370823e3',
@@ -53,18 +139,18 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         children: [{
           id: '2688dc02-9682-433f-aec5-06c6dcf37d63',
-          type: 'button',
+          type: 'link',
           parameters: {
             properties: [
+              ['address', '1:29280d16-6d39-42fb-9a0e-b51a49cb266a'],
               ['text', '\u3008'],
-              ['title', 'Go back'],
-              ['type', 'button']
+              ['title', 'Go to Inbox'],
+              ['target', '_self']
             ],
-            events: [
-              ['click', [{
-                type: 'alert-action',
-                properties: [['alert-message', 'Going back!']]
-              }]]
+            styles: [
+              ['color', '#ffffff'],
+              ['font-weight', 'bold'],
+              ['text-decoration', 'none']
             ]
           }
         }, {
@@ -84,6 +170,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ['text', '…'],
               ['title', 'Show Options'],
               ['type', 'button']
+            ],
+            styles: [
+              ['font-weight', 'bold']
+            ],
+            events: [
+              ['click', [{
+                type: 'alert-action',
+                properties: [['alert-message', 'Show options (not implemented)']]
+              }]]
             ]
           }
         }],
@@ -93,9 +188,10 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             ['background-color', '#27c8c2'],
             ['border', 'none'],
             ['display', 'flex'],
+            ['font-size', '1.5rem'],
             ['justify-content', 'space-between'],
             ['min-height', '0'],
-            ['padding', '0.2rem 0.3rem']
+            ['padding', '0.4rem 0.3rem']
           ]
         }
       }, {
