@@ -33,6 +33,7 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
     ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
     ['font-size', StyleService.getDescriptor('font-size')],
+    ['font-weight', StyleService.getDescriptor('font-weight')],
     ['padding', StyleService.getDescriptor('padding')]
   ]
 );

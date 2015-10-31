@@ -89,6 +89,27 @@ const STYLES = new Map<string, IProperty<string>>(
     ['flex-shrink', new Property('Flex shrink', '1')],
     ['font-size', new Property('Font size', 'inherit')],
     [
+      'font-weight',
+      new PropertyWithOptions('Font weight', [
+        new Property('Normal', 'normal'),
+        new Property('Bold', 'bold'),
+        new Property('Lighter', 'lighter'),
+        new Property('Bolder', 'bolder'),
+        new Property('100', '100'),
+        new Property('200', '200'),
+        new Property('300', '300'),
+        new Property('400', '400'),
+        new Property('500', '500'),
+        new Property('600', '600'),
+        new Property('700', '700'),
+        new Property('800', '800'),
+        new Property('900', '900'),
+        new Property('Inherit', 'inherit'),
+        new Property('Initial', 'initial'),
+        new Property('Unset', 'unset')
+      ], 'font-weight',  'normal')
+    ],
+    [
       'justify-content',
       new PropertyWithOptions('Justify content', [
         new Property('Start', 'flex-start'),
