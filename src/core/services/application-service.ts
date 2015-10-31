@@ -36,8 +36,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
     }]
   },
   pages: [{
+    id: '29280d16-6d39-42fb-9a0e-b51a49cb266a',
+    name: 'Inbox',
+    root: {
+      id: '29280d16-6d39-42fb-9a0e-b51a49cb266b',
+      type: 'container'
+    }
+  }, {
     id: '7544cda3-62a4-49f6-9a7f-a7b7370823e3',
-    name: '(Default Page)',
+    name: 'New Message',
     root: {
       id: 'bc5bcb33-f72b-440a-b72a-6596caed8b2e',
       type: 'container',
