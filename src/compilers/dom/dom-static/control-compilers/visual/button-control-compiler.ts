@@ -8,11 +8,11 @@ export class ButtonControlCompiler extends DOMStaticControlCompiler<ButtonContro
   getMarkup(control: ButtonControl, cssClass: ICompiledCSSClass) {
     return this.buildHTMLElement(
       'button',
-      this.getValue(control.text),
+      this.bindValue(control, 'text'),
       new Map<string, string>(<[string, string][]>[
         ['class', cssClass.name],
-        ['title', this.getValue(control.title)],
-        ['type', this.getValue(control.type)]
+        ['title', this.bindValue(control, 'title')],
+        ['type', this.bindValue(control, 'type')]
       ])
     );
   }

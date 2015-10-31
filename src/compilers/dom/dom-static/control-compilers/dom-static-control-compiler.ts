@@ -40,8 +40,8 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
     return null;
   }
 
-  protected getValue(property: IProperty<string>): string {
-    let rawValue = property.getValue();
+  protected bindValue(control: Control, propertyName: string): string {
+    let rawValue = control[propertyName].getValue();
 
     if (this.binding && rawValue.startsWith('bind:')) {
       return this.binding.get(rawValue.split(':')[1]);

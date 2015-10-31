@@ -11,11 +11,8 @@ export class TextInputControlCompiler extends DOMAngularControlCompiler<TextInpu
         ['id', control.id],
         ['class', cssClass.name],
         ['type', 'text'],
-        ['placeholder', control.placeholder.getValue()],
-        [
-          'value',
-          DOMAngularControlCompiler.getDynamicPropertyValue(control, 'value')
-        ],
+        ['placeholder', this.bindValue(control, 'placeholder')],
+        ['value', this.bindValue(control, 'value')],
         ...this.getEventHandlers(control)
       ]
     ));

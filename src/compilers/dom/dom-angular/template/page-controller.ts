@@ -3,12 +3,14 @@ import {
   Component,
   Inject,
   NgIf,
+  NgFor,
   View
 } from 'angular2/angular2';
 import { RouterLink, RouteParams } from 'angular2/router';
 import { IAction } from 'core/actions/action';
 import { ApplicationService } from 'core/services/application-service';
 import { pages } from 'app-description';
+import { ServicesController } from 'compilers/dom/dom-angular/template/services-controller';
 
 @Component({
   selector: 'page'
@@ -18,7 +20,7 @@ import { pages } from 'app-description';
     return markup +
       `<div *ng-if="id === '${page.id}'">${page.markup}</div>`;
   }, ''),
-  directives: [NgIf, RouterLink]
+  directives: [NgIf, NgFor, RouterLink]
 })
 export class PageController {
   private id: string;
@@ -39,5 +41,9 @@ export class PageController {
         (action: IAction) => action.perform()
       );
     }
+  }
+
+  getDatasource(id: string) {
+    return ServicesController.getDatasource(id);
   }
 }

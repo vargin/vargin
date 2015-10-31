@@ -10,8 +10,8 @@ export class TextInputControlCompiler extends DOMStaticControlCompiler<TextInput
       <[string, string][]>[
         ['class', cssClass.name],
         ['type', 'text'],
-        ['placeholder', this.getValue(control.placeholder)],
-        ['value', this.getValue(control.value)]
+        ['placeholder', this.bindValue(control, 'placeholder')],
+        ['value', this.bindValue(control, 'value')]
       ]
     ));
   }

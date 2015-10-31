@@ -17,9 +17,13 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
     return eventHandlers;
   }
 
-  static getDynamicPropertyValue(
-    control: Control, propertyName: string
-  ) {
-    return `{{getControl(\'${control.id}\').${propertyName}.getValue()}}`;
+  protected bindValue(control: Control, propertyName: string): string {
+    let rawValue = control[propertyName].getValue();
+
+    if (rawValue.startsWith('bind:')) {
+      return `{{ item.get('${rawValue.split(':')[1]}') }}`;
+    }
+
+    return `{{ getControl(\'${control.id}\').${propertyName}.getValue() }}`;
   }
 }

@@ -31,6 +31,7 @@ import { ContainerControlCompiler } from 'compilers/dom/dom-angular/control-comp
 import { LabelControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/label-control-compiler';
 import { LinkControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/link-control-compiler';
 import { ListControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/list-control-compiler';
+import { ListItemControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/list-item-control-compiler';
 import { RangeControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/range-control-compiler';
 import { TextInputControlCompiler } from 'compilers/dom/dom-angular/control-compilers/visual/text-input-control-compiler';
 
@@ -46,7 +47,7 @@ const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Con
     [LabelControl, new LabelControlCompiler()],
     [LinkControl, new LinkControlCompiler()],
     [ListControl, new ListControlCompiler()],
-    [ListItemControl, new ContainerControlCompiler()],
+    [ListItemControl, new ListItemControlCompiler()],
     [RangeControl, new RangeControlCompiler()],
     [TextInputControl, new TextInputControlCompiler()]
   ]

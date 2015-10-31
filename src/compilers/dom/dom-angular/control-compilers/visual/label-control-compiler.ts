@@ -8,14 +8,11 @@ export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl
   getMarkup(control: LabelControl, cssClass: ICompiledCSSClass) {
     return this.buildHTMLElement(
       'span',
-      DOMAngularControlCompiler.getDynamicPropertyValue(control, 'text'),
+      this.bindValue(control, 'text'),
       new Map<string, string>(<[string, string][]>[
         ['id', control.id],
         ['class', cssClass.name],
-        [
-          'title',
-          DOMAngularControlCompiler.getDynamicPropertyValue(control, 'title')
-        ],
+        ['title', this.bindValue(control, 'title')],
         ...this.getEventHandlers(control)
       ])
     );

@@ -1,5 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
-
+import { it, describe, expect } from 'angular2/testing';
 import { Address, AddressType } from '../../../src/core/data/address';
 
 describe('core/data/address', () => {

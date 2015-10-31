@@ -21,15 +21,12 @@ export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> 
     // otherwise we should render static value.
     return this.buildHTMLElement(
       'a',
-      DOMAngularControlCompiler.getDynamicPropertyValue(control, 'text'),
+      this.bindValue(control, 'text'),
       new Map<string, string>(<[string, string][]>[
         ['id', control.id],
         ['class', cssClass.name],
         addressAttribute,
-        [
-          'title',
-          DOMAngularControlCompiler.getDynamicPropertyValue(control, 'title')
-        ],
+        ['title', this.bindValue(control, 'title')],
         ['target', control.target.getValue()],
         ...this.getEventHandlers(control)
       ])

@@ -10,10 +10,10 @@ export class RangeControlCompiler extends DOMStaticControlCompiler<RangeControl>
       <[string, string][]>[
         ['class', cssClass.name],
         ['type', 'range'],
-        ['min', this.getValue(control.min)],
-        ['max', this.getValue(control.max)],
-        ['step', this.getValue(control.step)],
-        ['value', this.getValue(control.value)]
+        ['min', this.bindValue(control, 'min')],
+        ['max', this.bindValue(control, 'max')],
+        ['step', this.bindValue(control, 'step')],
+        ['value', this.bindValue(control, 'value')]
       ]
     ));
   }

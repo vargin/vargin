@@ -11,10 +11,10 @@ export class RangeControlCompiler extends DOMAngularControlCompiler<RangeControl
         ['id', control.id],
         ['class', cssClass.name],
         ['type', 'range'],
-        ['min', control.min.getValue()],
-        ['max', control.max.getValue()],
-        ['step', control.step.getValue()],
-        ['value', control.value.getValue()],
+        ['min', this.bindValue(control, 'min')],
+        ['max', this.bindValue(control, 'max')],
+        ['step', this.bindValue(control, 'step')],
+        ['value', this.bindValue(control, 'value')],
         ...this.getEventHandlers(control)
       ]
     ));
