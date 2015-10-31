@@ -76,7 +76,7 @@ export class ActionList {
   }
 
   editAction(action: IAction) {
-    System.import('editor/properties/action-editor').then((module: any) => {
+    System.import('editor/ts/properties/action-editor').then((module: any) => {
       DialogService.show(
         <Type>module.ActionEditor, [provide(Action, { useValue: action })]
       );
