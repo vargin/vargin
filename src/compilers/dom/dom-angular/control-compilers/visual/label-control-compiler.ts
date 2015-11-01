@@ -3,12 +3,16 @@ import {
 } from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
 import { LabelControl } from 'core/controls/visual/label-control';
 import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+import { StringFormatter } from 'core/tools/string-formatter';
 
 export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl> {
   getMarkup(control: LabelControl, cssClass: ICompiledCSSClass) {
+    let formatPipe = StringFormatter.toPipe(+control.format.getValue());
+    let value = this.bindValue(control, 'text');
+
     return this.buildHTMLElement(
       'span',
-      this.bindValue(control, 'text'),
+      formatPipe ? value.replace('}}', `| ${formatPipe} }}`) : value,
       new Map<string, string>(<[string, string][]>[
         ['id', control.id],
         ['class', cssClass.name],

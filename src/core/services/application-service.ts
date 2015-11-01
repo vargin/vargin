@@ -27,61 +27,61 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ["Id", 1],
               ["Sender", "BIG-THREAD-MIXED"],
               ["Body", "Hey Big Thread"],
-              ["Timestamp", 1444077904444],
+              ["Timestamp", ${Date.UTC(2015, 1, 10, 10, 20)}],
               ["HasUnread", false]
             ], [
               ["Id", 2],
               ["Sender", "BIG-THREAD-SMS"],
               ["Body", "message sms message"],
-              ["Timestamp", 1444077904487],
+              ["Timestamp", ${Date.UTC(2015, 1, 10, 10, 15)}],
               ["HasUnread", false]
             ], [
               ["Id", 3],
               ["Sender", "+123456789"],
               ["Body", "message from unknown"],
-              ["Timestamp", 1444077914487],
+              ["Timestamp", ${Date.UTC(2015, 1, 5, 14, 17)}],
               ["HasUnread", false]
             ], [
               ["Id", 4],
               ["Sender", "+987654321"],
               ["Body", "your balance is xxx"],
-              ["Timestamp", 1444077924487],
+              ["Timestamp", ${Date.UTC(2015, 1, 3, 17, 18)}],
               ["HasUnread", true]
             ], [
               ["Id", 5],
               ["Sender", "+978563412"],
               ["Body", "call me back"],
-              ["Timestamp", 1444077934487],
+              ["Timestamp", ${Date.UTC(2015, 1, 3, 15, 20)}],
               ["HasUnread", false]
             ], [
               ["Id", 6],
               ["Sender", "Friend"],
               ["Body", "How are you?"],
-              ["Timestamp", 1444077944487],
+              ["Timestamp", ${Date.UTC(2015, 1, 2, 10, 10)}],
               ["HasUnread", true]
             ], [
               ["Id", 7],
               ["Sender", "Operator"],
               ["Body", "New service is added!"],
-              ["Timestamp", 1444077954487],
+              ["Timestamp", ${Date.UTC(2015, 1, 2, 5, 30)}],
               ["HasUnread", false]
             ], [
               ["Id", 8],
               ["Sender", "Bina Laikova"],
               ["Body", "Are you sure?"],
-              ["Timestamp", 1444077964487],
+              ["Timestamp", ${Date.UTC(2015, 1, 1, 20, 45)}],
               ["HasUnread", false]
             ], [
               ["Id", 9],
               ["Sender", "Zona Lamber"],
               ["Body", "....waiting.... for you!"],
-              ["Timestamp", 1444077974487],
+              ["Timestamp", ${Date.UTC(2015, 1, 1, 19, 5)}],
               ["HasUnread", true]
             ], [
               ["Id", 10],
               ["Sender", "+101010101"],
               ["Body", "Welcome in ONetwork"],
-              ["Timestamp", 1444077984487],
+              ["Timestamp", ${Date.UTC(2015, 1, 1, 10, 10)}],
               ["HasUnread", false]
             ]
           ]`]
@@ -257,7 +257,8 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                   type: 'label',
                   parameters: {
                     properties: [
-                      ['text', 'bind:Timestamp']
+                      ['text', 'bind:Timestamp'],
+                      ['format', '4']
                     ],
                     styles: [
                       ['margin', '0 0.5rem 0 0'],

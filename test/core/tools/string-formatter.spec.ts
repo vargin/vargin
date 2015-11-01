@@ -192,4 +192,20 @@ describe('core/tools/string-formatter', () => {
       () => StringFormatter.format('text', StringFormatType.ShortDate)
     ).toThrow();
   });
+
+  it('toPipe(format)', function() {
+    expect(StringFormatter.toPipe(StringFormatType.PlainText)).toBeNull();
+    expect(StringFormatter.toPipe(100)).toBeNull();
+    expect(StringFormatter.toPipe(StringFormatType.Number)).toEqual('number');
+    expect(StringFormatter.toPipe(StringFormatType.Percent)).toEqual('percent');
+    expect(StringFormatter.toPipe(StringFormatType.Currency)).toEqual(
+      'currency:\'EUR\':true'
+    );
+    expect(StringFormatter.toPipe(StringFormatType.ShortTime)).toEqual(
+      'date:\'shortTime\''
+    );
+    expect(StringFormatter.toPipe(StringFormatType.ShortDate)).toEqual(
+      'date:\'shortDate\''
+    );
+  });
 });

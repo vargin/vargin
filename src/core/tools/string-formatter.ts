@@ -54,4 +54,26 @@ export class StringFormatter {
 
     return stringToFormat;
   }
+
+  /**
+   * Provides Angular Pipe expression for the specified string type.
+   * @param {StringFormatType} format Format to find angular type for.
+   * @returns {string} Angular Pipe expression.
+   */
+  static toPipe(format: StringFormatType) {
+    switch (format) {
+      case StringFormatType.Number:
+        return 'number';
+      case StringFormatType.Currency:
+        return 'currency:\'EUR\':true';
+      case StringFormatType.Percent:
+        return 'percent';
+      case StringFormatType.ShortTime:
+        return 'date:\'shortTime\'';
+      case StringFormatType.ShortDate:
+        return 'date:\'shortDate\'';
+      default:
+        return null;
+    }
+  }
 }

@@ -1,9 +1,13 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
+  CurrencyPipe,
+  DatePipe,
+  DecimalPipe,
   Inject,
   NgIf,
   NgFor,
+  PercentPipe,
   View
 } from 'angular2/angular2';
 import { RouterLink, RouteParams } from 'angular2/router';
@@ -20,7 +24,8 @@ import { ServicesController } from 'compilers/dom/dom-angular/template/services-
     return markup +
       `<div *ng-if="id === '${page.id}'">${page.markup}</div>`;
   }, ''),
-  directives: [NgIf, NgFor, RouterLink]
+  directives: [NgIf, NgFor, RouterLink],
+  pipes: [CurrencyPipe, DatePipe, DecimalPipe, PercentPipe]
 })
 export class PageController {
   private id: string;

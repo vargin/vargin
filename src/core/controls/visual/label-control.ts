@@ -7,15 +7,24 @@ import { OwnedPropertyWithOptions } from 'core/owned-property';
 import {
     VisualControlMetadata
 } from 'core/controls/visual/visual-control-metadata';
-import { IProperty, Property } from 'core/property';
+import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
+import { StringFormatType } from 'core/tools/string-formatter';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
     ['text', new Property('Text', '[Label]')],
-    ['title', new Property('Title', '[Label Title]')]
+    ['title', new Property('Title', '[Label Title]')],
+    ['format', new PropertyWithOptions('Format', [
+      new Property('Plain Text', StringFormatType.PlainText.toString()),
+      new Property('Number', StringFormatType.Number.toString()),
+      new Property('Percent', StringFormatType.Percent.toString()),
+      new Property('Currency', StringFormatType.Currency.toString()),
+      new Property('Short Time', StringFormatType.ShortTime.toString()),
+      new Property('Short Date', StringFormatType.ShortDate.toString())
+    ])]
   ]
 );
 
@@ -68,6 +77,10 @@ export class LabelControl extends VisualControl {
 
   get title() {
     return this._properties.get('title');
+  }
+
+  get format() {
+    return this._properties.get('format');
   }
 
   static getMeta() {

@@ -44,7 +44,7 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
     let rawValue = control[propertyName].getValue();
 
     if (this.binding && rawValue.startsWith('bind:')) {
-      return this.binding.get(rawValue.split(':')[1]);
+      return this.binding.get(rawValue.split(':')[1]).toString();
     }
 
     return rawValue;
