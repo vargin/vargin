@@ -107,7 +107,7 @@ const STYLES = new Map<string, IProperty<string>>(
         new Property('Inherit', 'inherit'),
         new Property('Initial', 'initial'),
         new Property('Unset', 'unset')
-      ], 'font-weight',  'normal')
+      ], 'normal', 'font-weight')
     ],
     [
       'justify-content',

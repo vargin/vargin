@@ -18,17 +18,71 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           ['schema', `[
             {"name": "Id", "type": 1},
             {"name": "Sender", "type": 0},
-            {"name": "Timestamp", "type": 2}
+            {"name": "Body", "type": 0},
+            {"name": "Timestamp", "type": 2},
+            {"name": "HasUnread", "type": 4}
           ]`],
           ['items', `[
             [
-              ["Id", "1"],
-              ["Sender", "+123"],
-              ["Timestamp", "1444077904444"]
+              ["Id", 1],
+              ["Sender", "BIG-THREAD-MIXED"],
+              ["Body", "Hey Big Thread"],
+              ["Timestamp", 1444077904444],
+              ["HasUnread", false]
             ], [
-              ["Id","2"],
-              ["Sender", "+49176567"],
-              ["Timestamp", "1444077927247"]
+              ["Id", 2],
+              ["Sender", "BIG-THREAD-SMS"],
+              ["Body", "message sms message"],
+              ["Timestamp", 1444077904487],
+              ["HasUnread", false]
+            ], [
+              ["Id", 3],
+              ["Sender", "+123456789"],
+              ["Body", "message from unknown"],
+              ["Timestamp", 1444077914487],
+              ["HasUnread", false]
+            ], [
+              ["Id", 4],
+              ["Sender", "+987654321"],
+              ["Body", "your balance is xxx"],
+              ["Timestamp", 1444077924487],
+              ["HasUnread", true]
+            ], [
+              ["Id", 5],
+              ["Sender", "+978563412"],
+              ["Body", "call me back"],
+              ["Timestamp", 1444077934487],
+              ["HasUnread", false]
+            ], [
+              ["Id", 6],
+              ["Sender", "Friend"],
+              ["Body", "How are you?"],
+              ["Timestamp", 1444077944487],
+              ["HasUnread", true]
+            ], [
+              ["Id", 7],
+              ["Sender", "Operator"],
+              ["Body", "New service is added!"],
+              ["Timestamp", 1444077954487],
+              ["HasUnread", false]
+            ], [
+              ["Id", 8],
+              ["Sender", "Bina Laikova"],
+              ["Body", "Are you sure?"],
+              ["Timestamp", 1444077964487],
+              ["HasUnread", false]
+            ], [
+              ["Id", 9],
+              ["Sender", "Zona Lamber"],
+              ["Body", "....waiting.... for you!"],
+              ["Timestamp", 1444077974487],
+              ["HasUnread", true]
+            ], [
+              ["Id", 10],
+              ["Sender", "+101010101"],
+              ["Body", "Welcome in ONetwork"],
+              ["Timestamp", 1444077984487],
+              ["HasUnread", false]
             ]
           ]`]
         ]
@@ -117,7 +171,112 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             ['flex-grow', '1'],
             ['justify-content', 'center']
           ]
-        }
+        },
+        children: [{
+          id: 'fa852827-5ca9-49fd-8b7b-c59e93bad895',
+          type: 'list',
+          parameters: {
+            properties: [
+              ['datasource', '2688dc02-9682-433f-aec5-06c6dcf67d63']
+            ],
+            styles: [
+              ['flex-grow', '1'],
+              ['min-width', '10rem']
+            ]
+          },
+          children: [{
+            id: '3788dc02-9682-433f-aec5-06c6dcf67d63',
+            type: 'list-item',
+            parameters: {
+              styles: [
+                ['display', 'flex'],
+                ['margin', '0 0 0.5rem'],
+                ['min-height', 'auto'],
+                ['padding', '0.5rem 0']
+              ]
+            },
+            children: [{
+              id: '4788dc02-9782-443f-aec5-06c6dcf67d63',
+              type: 'container',
+              parameters: {
+                styles: [
+                  ['align-items', 'center'],
+                  ['display', 'flex'],
+                  ['justify-content', 'center'],
+                  ['min-height', 'auto'],
+                  ['min-width', '1rem']
+                ]
+              },
+              children: [{
+                id: '4788dc02-9883-453f-aec5-07c7dcf67d63',
+                type: 'label',
+                parameters: {
+                  properties: [
+                    ['text', '\u25CF']
+                  ],
+                  styles: [
+                    ['color', '#52B6CC'],
+                    ['font-size', '0.5rem'],
+                    ['margin', '0 0.5rem 0 0']
+                  ]
+                }
+              }]
+            }, {
+              id: '4788dc02-9782-453f-aec5-06c6dcf67d63',
+              type: 'container',
+              parameters: {
+                styles: [
+                  ['flex-grow', '1'],
+                  ['min-height', 'auto'],
+                  ['min-width', '2rem']
+                ]
+              },
+              children: [{
+                id: '4788dc02-9782-453f-aec5-07c7dcf67d63',
+                type: 'label',
+                parameters: {
+                  properties: [
+                    ['text', 'bind:Sender']
+                  ],
+                  styles: [
+                    ['display', 'block'],
+                    ['margin', '0 0 0.5rem']
+                  ]
+                }
+              }, {
+                id: '5788dc06-9782-453f-aec5-07c7dcf67d63',
+                type: 'container',
+                parameters: {
+                  styles: [
+                    ['color', '#868686'],
+                    ['min-height', 'auto']
+                  ]
+                },
+                children: [{
+                  id: '4788dc05-9791-453a-aec5-07c7dcf67d63',
+                  type: 'label',
+                  parameters: {
+                    properties: [
+                      ['text', 'bind:Timestamp']
+                    ],
+                    styles: [
+                      ['margin', '0 0.5rem 0 0'],
+                      ['min-height', 'auto']
+                    ]
+                  }
+                }, {
+                  id: '4788dc15-9795-453a-aec5-07c7dcf67d63',
+                  type: 'label',
+                  parameters: {
+                    properties: [
+                      ['text', 'bind:Body']
+                    ]
+                  }
+                }]
+              }]
+            }]
+          }]
+        }]
       }],
       parameters: {
         styles: [

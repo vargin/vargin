@@ -35,6 +35,7 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['font-size', StyleService.getDescriptor('font-size')],
     ['font-weight', StyleService.getDescriptor('font-weight')],
     ['justify-content', StyleService.getDescriptor('justify-content')],
+    ['margin', StyleService.getDescriptor('margin')],
     ['padding', StyleService.getDescriptor('padding')],
     ['text-decoration', StyleService.getDescriptor('text-decoration')]
   ]
