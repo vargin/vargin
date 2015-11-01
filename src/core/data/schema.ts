@@ -2,7 +2,8 @@ export enum SchemaFieldType {
   STRING,
   NUMBER,
   DATE,
-  BINARY
+  BINARY,
+  BOOLEAN
 }
 
 export class SchemaField {

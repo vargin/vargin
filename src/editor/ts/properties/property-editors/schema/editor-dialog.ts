@@ -1,6 +1,5 @@
 /// <reference path="../../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
-import { IProperty, Property } from 'core/property';
 import { Schema, SchemaFieldType } from 'core/data/schema';
 
 @Component({
@@ -23,6 +22,7 @@ import { Schema, SchemaFieldType } from 'core/data/schema';
           <option value="1">Number</option>
           <option value="2">Date</option>
           <option value="3">Binary</option>
+          <option value="4">Boolean</option>
         </select>
         <button *ng-if="schema.fields.length > 1"
                 class="vargin-list__remove-item"
