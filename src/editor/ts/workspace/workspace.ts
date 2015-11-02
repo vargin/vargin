@@ -130,7 +130,7 @@ class VarginWorkspace {
    this.domStaticCompiler.compile(this.workspace.application).then(
      (compiledApplication) => {
        window.open(
-        'data:text/html,' + encodeURIComponent(compiledApplication)
+        'data:text/html;charset=UTF-8,' + encodeURIComponent(compiledApplication)
        );
      }
     );

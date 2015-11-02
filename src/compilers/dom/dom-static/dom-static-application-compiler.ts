@@ -85,7 +85,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
         <!DOCTYPE html>
          <html lang="en">
            <head>
-             <meta charset="UTF-8">
+             <meta charset="utf-8" />
              <title>${application.name}</title>
              ${compiledApp.styles}
            </head>
