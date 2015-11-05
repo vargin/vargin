@@ -13,6 +13,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
+import { ControlState } from 'core/controls/control-state';
 
 const LIST_ITEM_METADATA = Object.freeze(new VisualControlMetadata(
   'list-item',
@@ -24,8 +25,10 @@ const LIST_ITEM_METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class ListItemControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, LIST_ITEM_METADATA, parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+  ) {
+    super(id, LIST_ITEM_METADATA, states, parameters);
   }
 
   static getMeta() {
@@ -97,12 +100,14 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class ListControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, ListControl.getMeta(), parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+  ) {
+    super(id, ListControl.getMeta(), states, parameters);
   }
 
   get datasource() {
-    return this._properties.get('datasource');
+    return this.getProperty('datasource');
   }
 
   getTemplate(): ListItemControl {

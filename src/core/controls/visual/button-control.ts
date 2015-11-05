@@ -10,6 +10,7 @@ import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { IAction } from 'core/actions/action';
+import { ControlState } from 'core/controls/control-state';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -61,20 +62,20 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class ButtonControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, ButtonControl.getMeta(), parameters);
+  constructor(id: string, states?: ControlState[], parameters?: IVisualControlParameters) {
+    super(id, ButtonControl.getMeta(), states, parameters);
   }
 
   get text() {
-    return this._properties.get('text');
+    return this.getProperty('text');
   }
 
   get title() {
-    return this._properties.get('title');
+    return this.getProperty('title');
   }
 
   get type() {
-    return this._properties.get('type');
+    return this.getProperty('type');
   }
 
   static getMeta() {

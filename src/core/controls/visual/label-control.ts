@@ -12,6 +12,7 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { StringFormatType } from 'core/tools/string-formatter';
+import { ControlState } from 'core/controls/control-state';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -67,20 +68,22 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class LabelControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, LabelControl.getMeta(), parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+  ) {
+    super(id, LabelControl.getMeta(), states, parameters);
   }
 
   get text() {
-    return this._properties.get('text');
+    return this.getProperty('text');
   }
 
   get title() {
-    return this._properties.get('title');
+    return this.getProperty('title');
   }
 
   get format() {
-    return this._properties.get('format');
+    return this.getProperty('format');
   }
 
   static getMeta() {

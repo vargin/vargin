@@ -11,6 +11,7 @@ import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
+import { ControlState } from 'core/controls/control-state';
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -62,8 +63,10 @@ const METADATA: VisualControlMetadata = Object.freeze(new VisualControlMetadata(
 ));
 
 export class ContainerControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, ContainerControl.getMeta(), parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+  ) {
+    super(id, ContainerControl.getMeta(), states, parameters);
   }
 
   static getMeta() {

@@ -6,6 +6,7 @@ import {
 } from 'core/controls/visual/visual-control-metadata';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { IControlParameters, Control } from 'core/controls/control';
+import { ControlState } from 'core/controls/control-state';
 
 export interface IVisualControlParameters extends IControlParameters {
   styles?: Map<string, string>;
@@ -18,9 +19,10 @@ export class VisualControl extends Control {
   constructor(
     id: string,
     meta: VisualControlMetadata,
+    states?: ControlState[],
     parameters?: IVisualControlParameters
   ) {
-    super(id, meta, parameters);
+    super(id, meta, states, parameters);
 
     let controlParameters = parameters || <IVisualControlParameters>{};
 

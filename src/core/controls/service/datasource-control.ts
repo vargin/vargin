@@ -3,6 +3,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { Control, IControlParameters } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
+import { ControlState } from 'core/controls/control-state';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -29,20 +30,22 @@ const METADATA = Object.freeze(
 );
 
 export class DatasourceControl extends Control {
-  constructor(id: string, parameters?: IControlParameters) {
-    super(id, DatasourceControl.getMeta(), parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IControlParameters
+  ) {
+    super(id, DatasourceControl.getMeta(), states, parameters);
   }
 
   get name() {
-    return this._properties.get('name');
+    return this.getProperty('name');
   }
 
   get schema() {
-    return this._properties.get('schema');
+    return this.getProperty('schema');
   }
 
   get items() {
-    return this._properties.get('items');
+    return this.getProperty('items');
   }
 
   static getMeta() {

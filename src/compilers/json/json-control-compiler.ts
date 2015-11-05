@@ -1,4 +1,5 @@
 import { Control, IControlParameters } from 'core/controls/control';
+import { ControlState } from 'core/controls/control-state';
 import { VisualControl } from 'core/controls/visual/visual-control';
 import { VisualControlMetadata } from 'core/controls/visual/visual-control-metadata';
 
@@ -12,12 +13,20 @@ import {
   JSONActionCompiler
 } from 'compilers/json/json-action-compiler';
 
+export interface IJSONControlState {
+  name: string;
+  isEnabled: boolean;
+  overrides: {
+    properties?: [string, string][]
+  };
+}
+
 export interface IJSONControl {
   type: string;
   id?: string;
   children?: IJSONControl[];
+  states?: IJSONControlState[];
   parameters?: {
-    properties?: [string, string][];
     events?: [string, IJSONAction[]][];
     styles?: [string, string][];
   };
@@ -28,10 +37,10 @@ const actionCompiler = new JSONActionCompiler();
 export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
   compile(control: Control): Promise<IJSONControl> {
     return Promise.all<any>([
-      JSONControlCompiler.compileProperties(control),
+      JSONControlCompiler.compileStates(control),
       JSONControlCompiler.compileEvents(control),
       JSONControlCompiler.compileStyles(<VisualControl>control)
-    ]).then<IJSONControl>(([properties, events, styles]) => {
+    ]).then<IJSONControl>(([states, events, styles]) => {
       return Promise.all(
         control.getChildren().map((child: Control) => this.compile(child))
       ).then((compiledChildren) => {
@@ -39,7 +48,8 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
           id: control.id,
           type: control.meta.type,
           children: compiledChildren,
-          parameters: { properties, events, styles }
+          states: states,
+          parameters: { events, styles }
         };
       });
     });
@@ -47,14 +57,14 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
 
   decompile(compiledControl: IJSONControl) {
     return Promise.all<any>([
-      JSONControlCompiler.decompileProperties(compiledControl),
+      JSONControlCompiler.decompileStates(compiledControl),
       JSONControlCompiler.decompileEvents(compiledControl),
       JSONControlCompiler.decompileStyles(compiledControl)
-    ]).then(([properties, events, styles]) => {
+    ]).then(([states, events, styles]) => {
       return ControlService.createByType(
         compiledControl.type,
+        states,
         <IControlParameters>{
-          properties: <Map<string, string>>properties,
           events: <Map<string, IAction[]>>events,
           styles: <Map<string, string>>styles
         },
@@ -75,24 +85,46 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     });
   }
 
-  private static compileProperties(control: Control): Promise<[string, string][]> {
-    let properties = [];
-    control.meta.supportedProperties.forEach((property, propertyKey) => {
-      properties.push([
-        propertyKey, (<IProperty<string>>control[propertyKey]).getValue()
-      ]);
-    });
+  private static compileStates(control: Control): Promise<IJSONControlState[]> {
+    let states = control.states.filter((state) => state.hasOverrides()).map(
+      (state) => {
+        let jsonState = <IJSONControlState>{
+          name: state.name,
+          isEnabled: state.isEnabled,
+          overrides: {}
+        };
 
-    return Promise.resolve(properties);
+        if (state.overrides.properties.size > 0) {
+          jsonState.overrides.properties = [];
+          state.overrides.properties.forEach((propertyValue, propertyKey) => {
+            jsonState.overrides.properties.push([propertyKey, propertyValue]);
+          });
+        }
+
+        return jsonState;
+      }
+    );
+
+    return Promise.resolve(states);
   }
 
-  private static decompileProperties(control: IJSONControl): Promise<Map<string, string>> {
-    let hasProperties = control.parameters && control.parameters.properties;
-    return Promise.resolve(
-      hasProperties ?
-        new Map<string, string>(control.parameters.properties) :
-        null
+  private static decompileStates(control: IJSONControl): Promise<ControlState[]> {
+    let decompiledStates = (control.states || []).map(
+      (jsonState: IJSONControlState) => {
+        return new ControlState(
+          jsonState.name,
+          {
+            properties: new Map<string, string>(
+              jsonState.overrides.properties || []
+            )
+          },
+          typeof jsonState.isEnabled === 'boolean'
+            ? jsonState.isEnabled : true
+        );
+      }
     );
+
+    return Promise.resolve(decompiledStates);
   }
 
   private static compileEvents(control: Control): Promise<[string, IJSONAction[]][]> {

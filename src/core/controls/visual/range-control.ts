@@ -10,6 +10,7 @@ import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
+import { ControlState } from 'core/controls/control-state';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -43,24 +44,26 @@ const METADATA = Object.freeze(new VisualControlMetadata(
 ));
 
 export class RangeControl extends VisualControl {
-  constructor(id: string, parameters?: IVisualControlParameters) {
-    super(id, RangeControl.getMeta(), parameters);
+  constructor(
+    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+  ) {
+    super(id, RangeControl.getMeta(), states, parameters);
   }
 
   get min() {
-    return this._properties.get('min');
+    return this.getProperty('min');
   }
 
   get max() {
-    return this._properties.get('max');
+    return this.getProperty('max');
   }
 
   get step() {
-    return this._properties.get('step');
+    return this.getProperty('step');
   }
 
   get value() {
-    return this._properties.get('value');
+    return this.getProperty('value');
   }
 
   static getMeta() {

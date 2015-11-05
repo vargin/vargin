@@ -12,17 +12,19 @@ const DEFAULT_SERIALIZED_APPLICATION = {
     children: [{
       id: '2688dc02-9682-433f-aec5-06c6dcf67d63',
       type: 'datasource',
-      parameters: {
-        properties: [
-          ['name', 'Messages DB'],
-          ['schema', `[
-            {"name": "Id", "type": 1},
-            {"name": "Sender", "type": 0},
-            {"name": "Body", "type": 0},
-            {"name": "Timestamp", "type": 2},
-            {"name": "HasUnread", "type": 4}
-          ]`],
-          ['items', `[
+      states: [{
+        name: 'default',
+        overrides: {
+          properties: [
+            ['name', 'Messages DB'],
+            ['schema', `[
+              {"name": "Id", "type": 1},
+              {"name": "Sender", "type": 0},
+              {"name": "Body", "type": 0},
+              {"name": "Timestamp", "type": 2},
+              {"name": "HasUnread", "type": 4}
+            ]`],
+            ['items', `[
             [
               ["Id", 1],
               ["Sender", "BIG-THREAD-MIXED"],
@@ -85,8 +87,9 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ["HasUnread", false]
             ]
           ]`]
-        ]
-      }
+          ]
+        }
+      }]
     }]
   },
   pages: [{
@@ -101,11 +104,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: '949d4260-dec6-487c-af3d-cfe18f83dfe8',
           type: 'label',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', 'Messages'],
+                ['title', '']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', 'Messages'],
-              ['title', '']
-            ],
             styles: [
               ['display', 'flex'],
               ['flex-grow', '1'],
@@ -115,13 +123,18 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: '3688dc02-9682-433f-aec5-06c6dcf37d63',
           type: 'link',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['address', '1:7544cda3-62a4-49f6-9a7f-a7b7370823e3'],
+                ['text', '\uD83D\uDD89'],
+                ['title', 'New Message'],
+                ['target', '_self']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['address', '1:7544cda3-62a4-49f6-9a7f-a7b7370823e3'],
-              ['text', '\uD83D\uDD89'],
-              ['title', 'New Message'],
-              ['target', '_self']
-            ],
             styles: [
               ['color', '#ffffff'],
               ['font-weight', 'bold'],
@@ -132,12 +145,17 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: 'f8655539-b9a4-42f4-879a-a915496b899a',
           type: 'button',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', '…'],
+                ['title', 'Show Options'],
+                ['type', 'button']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', '…'],
-              ['title', 'Show Options'],
-              ['type', 'button']
-            ],
             styles: [
               ['font-weight', 'bold']
             ],
@@ -175,10 +193,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: 'fa852827-5ca9-49fd-8b7b-c59e93bad895',
           type: 'list',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['datasource', '2688dc02-9682-433f-aec5-06c6dcf67d63']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['datasource', '2688dc02-9682-433f-aec5-06c6dcf67d63']
-            ],
             styles: [
               ['flex-grow', '1'],
               ['min-width', '10rem']
@@ -210,10 +233,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               children: [{
                 id: '4788dc02-9883-453f-aec5-07c7dcf67d63',
                 type: 'label',
+                states: [{
+                  name: 'default',
+                  overrides: {
+                    properties: [
+                      ['text', '\u25CF']
+                    ]
+                  }
+                }],
                 parameters: {
-                  properties: [
-                    ['text', '\u25CF']
-                  ],
                   styles: [
                     ['color', '#52B6CC'],
                     ['font-size', '0.5rem'],
@@ -234,10 +262,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               children: [{
                 id: '4788dc02-9782-453f-aec5-07c7dcf67d63',
                 type: 'label',
+                states: [{
+                  name: 'default',
+                  overrides: {
+                    properties: [
+                      ['text', 'bind:Sender']
+                    ]
+                  }
+                }],
                 parameters: {
-                  properties: [
-                    ['text', 'bind:Sender']
-                  ],
                   styles: [
                     ['display', 'block'],
                     ['margin', '0 0 0.5rem']
@@ -255,11 +288,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 children: [{
                   id: '4788dc05-9791-453a-aec5-07c7dcf67d63',
                   type: 'label',
+                  states: [{
+                    name: 'default',
+                    overrides: {
+                      properties: [
+                        ['text', 'bind:Timestamp'],
+                        ['format', '4']
+                      ]
+                    }
+                  }],
                   parameters: {
-                    properties: [
-                      ['text', 'bind:Timestamp'],
-                      ['format', '4']
-                    ],
                     styles: [
                       ['margin', '0 0.5rem 0 0'],
                       ['min-height', 'auto']
@@ -268,11 +306,14 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 }, {
                   id: '4788dc15-9795-453a-aec5-07c7dcf67d63',
                   type: 'label',
-                  parameters: {
-                    properties: [
-                      ['text', 'bind:Body']
-                    ]
-                  }
+                  states: [{
+                    name: 'default',
+                    overrides: {
+                      properties: [
+                        ['text', 'bind:Body']
+                      ]
+                    }
+                  }]
                 }]
               }]
             }]
@@ -300,13 +341,18 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: '2688dc02-9682-433f-aec5-06c6dcf37d63',
           type: 'link',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['address', '1:29280d16-6d39-42fb-9a0e-b51a49cb266a'],
+                ['text', '\u3008'],
+                ['title', 'Go to Inbox'],
+                ['target', '_self']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['address', '1:29280d16-6d39-42fb-9a0e-b51a49cb266a'],
-              ['text', '\u3008'],
-              ['title', 'Go to Inbox'],
-              ['target', '_self']
-            ],
             styles: [
               ['color', '#ffffff'],
               ['font-weight', 'bold'],
@@ -316,21 +362,29 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: '939d4260-dec6-487c-af3d-cfe18f83dfe8',
           type: 'label',
-          parameters: {
-            properties: [
-              ['text', 'New Message'],
-              ['title', '']
-            ]
-          }
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', 'New Message'],
+                ['title', '']
+              ]
+            }
+          }]
         }, {
           id: 'e8655539-b9a4-42f4-879a-a915496b899a',
           type: 'button',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', '…'],
+                ['title', 'Show Options'],
+                ['type', 'button']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', '…'],
-              ['title', 'Show Options'],
-              ['type', 'button']
-            ],
             styles: [
               ['font-weight', 'bold']
             ],
@@ -360,11 +414,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: '033f8633-a495-4d48-8bd9-69721031499a',
           type: 'label',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', 'To:'],
+                ['title', '']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', 'To:'],
-              ['title', '']
-            ],
             styles: [
               ['padding', '0 0.4rem 0 0.2rem']
             ]
@@ -372,11 +431,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: '387f4b5a-d879-4ff3-9cc6-e6048fb7347b',
           'type': 'text-input',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['placeholder', 'Type contact name or number...'],
+                ['value', '']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['placeholder', 'Type contact name or number...'],
-              ['value', '']
-            ],
             styles: [
               ['flex-grow', '1'],
               ['border', 'none']
@@ -385,12 +449,17 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: 'cc5478d7-6c26-4ca9-9381-336a40446426',
           type: 'button',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', '+'],
+                ['title', 'Add contact'],
+                ['type', 'button']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', '+'],
-              ['title', 'Add contact'],
-              ['type', 'button']
-            ],
             styles: [
               ['background-color', '#ffffff'],
               ['border', '0.1rem solid transparent'],
@@ -426,11 +495,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: '1d6e60c0-7ee7-4d4f-b666-3086d0885617',
           type: 'label',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', '[Message Status]'],
+                ['title', '']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', '[Message Status]'],
-              ['title', '']
-            ],
             styles: [
               ['font-size', '2rem'],
               ['display', 'flex']
@@ -443,12 +517,17 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         children: [{
           id: '96132230-2b08-4159-a4f5-a3d2b86e2e19',
           type: 'button',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', ''],
+                ['title', 'Add attachment'],
+                ['type', 'button']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', ''],
-              ['title', 'Add attachment'],
-              ['type', 'button']
-            ],
             styles: [
               ['background-image', 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAByElEQVR4Ae3XvUvUcRzA8V8JF4ggWXmYdCWFlUMPhg0lWA3hVlMt4dhW/0BEgVtDQVBBUENNBRJu0lCLNPRAmWFhaRZldXXyO1JROb1eg0Pc8IV7sCAbXtvny3u63+dzUT6f/yuWcTjq6flT/p3wAe6RIccol2hcqvAKLrDAK7o5zTViMnRUOlzFdfKcYyXRb+p5TEyqUuEqbrPAqcBckixXKxFOcJd5ThKFcJOxcsOr6CVHF1EQnGemnHA1fcxxLDC3gRNEi24xUmq4hofMciQw18Qo46wmxRQXSwnX0s80nYG5Zj7yia2s5SVpksWG63jKJAcDcy184T1NJBkkZm+xv+N6XhDTHojuJs0wKRp5ww9ai/1yNTDEBG2BaBsTDNHAJkb4yo5iv9Up3pJmVyDaTpbn1LOFD3xmW7FLYh2jjNMSiB5ikifUsZ1xxthcyna6QUxz4HEn0/RTy06+8Y6Npa7F71wOPDzKLA+oYQ8ZXrO+nH08RTcRhY4zRx/V7CNmgGS5h8B9hqkueNBFjl4SdPCTZ6ypxAXSygyDdHGYK8xzhwQRZ3hEbSVPn/0MkF+U5SxVhetxqW6uRlpI/L8yy7BM/8L8AiXgms8p1f8rAAAAAElFTkSuQmCC)'],
               ['background-repeat', 'no-repeat'],
@@ -458,11 +537,16 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: '8c1f13a5-3088-407f-b1f7-723ae1143154',
           type: 'text-input',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['placeholder', 'Type message...'],
+                ['value', '']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['placeholder', 'Type message...'],
-              ['value', '']
-            ],
             styles: [
               ['border', 'none'],
               ['flex-grow', '1']
@@ -471,12 +555,17 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         }, {
           id: 'f5896530-2ed4-4fd7-a533-40236df217b3',
           type: 'button',
+          states: [{
+            name: 'default',
+            overrides: {
+              properties: [
+                ['text', ''],
+                ['title', 'Send message'],
+                ['type', 'submit']
+              ]
+            }
+          }],
           parameters: {
-            properties: [
-              ['text', ''],
-              ['title', 'Send message'],
-              ['type', 'submit']
-            ],
             styles: [
               ['background-image', 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAA60lEQVR42u3VPQtBURjAcbqU1SJWJTtfgGKSwcJm8hW8ZL3KJ8CK/Q7KXSzyGQwmi2RgtSCO/2CQxHVfjuU89Zv/ne655/GpUSN3DGOEMgKywy0IbNBAWFY4igvEwxE9JGXEJxAvrjCRg9+rcBHigyVqCLkdDmAH8cUeOqJuxrsQFp0wRsqNcAI3iB8tUILmJD6HsGmNjJO4hjiyqKKNAaZYfYmbdqMz+SfmlNK/8SPcsXGr005vtIatheABOmJu/cOFf71cxpvYDSby8HvxTkdwftlOfc+3E4H60z5uytzHQ1QQ9KlRo8bi3AEJOr0MDjN9yQAAAABJRU5ErkJggg==)'],
               ['background-repeat', 'no-repeat'],
