@@ -32,20 +32,32 @@ export class ControlMetadata {
    */
   supportedProperties: Map<string, IProperty<string>>;
 
+  /**
+   * List of the supported styles with the default value.
+   * @returns {Map<string, IProperty<string>>}
+   */
+  supportedStyles: Map<string, IProperty<string>>;
+
   constructor(
     type: string,
     name: string,
     description: string,
     supportedEvents?: Map<string, IProperty<Array<IAction>>>,
-    supportedProperties?: Map<string, IProperty<string>>
+    supportedProperties?: Map<string, IProperty<string>>,
+    supportedStyles?: Map<string, IProperty<string>>
   ) {
     this.type = type;
     this.name = name;
     this.description = description;
+
     this.supportedEvents = Object.freeze(
       supportedEvents || new Map<string, IProperty<Array<IAction>>>()
     );
+
     this.supportedProperties = supportedProperties ||
+      new Map<string, IProperty<string>>();
+
+    this.supportedStyles = supportedStyles ||
       new Map<string, IProperty<string>>();
   }
 }

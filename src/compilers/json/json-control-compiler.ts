@@ -1,7 +1,5 @@
 import { Control, IControlParameters } from 'core/controls/control';
 import { ControlState } from 'core/controls/control-state';
-import { VisualControl } from 'core/controls/visual/visual-control';
-import { VisualControlMetadata } from 'core/controls/visual/visual-control-metadata';
 
 import { ControlService } from 'editor/ts/services/control-service';
 
@@ -39,7 +37,7 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     return Promise.all<any>([
       JSONControlCompiler.compileStates(control),
       JSONControlCompiler.compileEvents(control),
-      JSONControlCompiler.compileStyles(<VisualControl>control)
+      JSONControlCompiler.compileStyles(control)
     ]).then<IJSONControl>(([states, events, styles]) => {
       return Promise.all(
         control.getChildren().map((child: Control) => this.compile(child))
@@ -169,14 +167,12 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     return Promise.all(actionDecompilePromises).then(() => events);
   }
 
-  private static compileStyles(control: VisualControl): Promise<[string, string][]> {
+  private static compileStyles(control: Control): Promise<[string, string][]> {
     let styles = [];
-    if (VisualControl.isVisualControl(control)) {
-      (<VisualControlMetadata>control.meta).supportedStyles.forEach(
-        (style, styleKey) => {
-          styles.push([styleKey, control.styles.get(styleKey).getValue()]);
-        }
-      );
+    if (control.styles.size > 0) {
+      control.meta.supportedStyles.forEach((style, styleKey) => {
+        styles.push([styleKey, control.styles.get(styleKey).getValue()]);
+      });
     }
 
     return Promise.resolve(styles);

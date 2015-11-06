@@ -5,7 +5,6 @@ import {
 } from 'compilers/dom/css-compiler';
 import { IProperty } from 'core/property';
 import { Control } from 'core/controls/control';
-import { VisualControl } from 'core/controls/visual/visual-control';
 
 export interface IDOMStaticCompiledControl {
   source: Control;
@@ -19,10 +18,8 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
   compile(control: TControl): Promise<IDOMStaticCompiledControl> {
     let cssClassPromise: Promise<ICompiledCSSClass>;
 
-    if (VisualControl.isVisualControl(control)) {
-      cssClassPromise = CSSClassCompiler.compile(
-        <VisualControl>(<Control>control)
-      );
+    if (control.styles.size > 0) {
+      cssClassPromise = CSSClassCompiler.compile(control);
     } else {
       cssClassPromise = Promise.resolve(null);
     }

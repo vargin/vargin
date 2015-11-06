@@ -1,11 +1,6 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  VisualControl,
-  IVisualControlParameters
-} from 'core/controls/visual/visual-control';
-import {
-  VisualControlMetadata
-} from 'core/controls/visual/visual-control-metadata';
+import { Control, IControlParameters } from 'core/controls/control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
@@ -52,7 +47,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
   ]
 );
 
-const METADATA = Object.freeze(new VisualControlMetadata(
+const METADATA = Object.freeze(new ControlMetadata(
   'button',
   'Button',
   'HTML Button',
@@ -61,8 +56,8 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export class ButtonControl extends VisualControl {
-  constructor(id: string, states?: ControlState[], parameters?: IVisualControlParameters) {
+export class ButtonControl extends Control {
+  constructor(id: string, states?: ControlState[], parameters?: IControlParameters) {
     super(id, ButtonControl.getMeta(), states, parameters);
   }
 

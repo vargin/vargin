@@ -1,12 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  VisualControl,
-  IVisualControlParameters
-} from 'core/controls/visual/visual-control';
+import { Control, IControlParameters } from 'core/controls/control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 import { OwnedPropertyWithOptions } from 'core/owned-property';
-import {
-    VisualControlMetadata
-} from 'core/controls/visual/visual-control-metadata';
 import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
@@ -58,7 +53,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
   ]
 );
 
-const METADATA = Object.freeze(new VisualControlMetadata(
+const METADATA = Object.freeze(new ControlMetadata(
   'label',
   'Label',
   'HTML Label',
@@ -67,9 +62,9 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export class LabelControl extends VisualControl {
+export class LabelControl extends Control {
   constructor(
-    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+    id: string, states?: ControlState[], parameters?: IControlParameters
   ) {
     super(id, LabelControl.getMeta(), states, parameters);
   }

@@ -1,21 +1,15 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control } from 'core/controls/control';
-import {
-  VisualControl,
-  IVisualControlParameters
-} from 'core/controls/visual/visual-control';
+import { Control, IControlParameters } from 'core/controls/control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
-import {
-  VisualControlMetadata
-} from 'core/controls/visual/visual-control-metadata';
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { ControlState } from 'core/controls/control-state';
 
-const LIST_ITEM_METADATA = Object.freeze(new VisualControlMetadata(
+const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
   'list-item',
   'List Item',
   'List item',
@@ -24,9 +18,9 @@ const LIST_ITEM_METADATA = Object.freeze(new VisualControlMetadata(
   ContainerControl.getMeta().supportedStyles
 ));
 
-export class ListItemControl extends VisualControl {
+export class ListItemControl extends Control {
   constructor(
-    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+    id: string, states?: ControlState[], parameters?: IControlParameters
   ) {
     super(id, LIST_ITEM_METADATA, states, parameters);
   }
@@ -90,7 +84,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
   ]
 );
 
-const METADATA = Object.freeze(new VisualControlMetadata(
+const METADATA = Object.freeze(new ControlMetadata(
   'list',
   'List',
   'List of the items',
@@ -99,9 +93,9 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export class ListControl extends VisualControl {
+export class ListControl extends Control {
   constructor(
-    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+    id: string, states?: ControlState[], parameters?: IControlParameters
   ) {
     super(id, ListControl.getMeta(), states, parameters);
   }

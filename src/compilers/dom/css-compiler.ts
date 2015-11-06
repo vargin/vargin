@@ -1,13 +1,13 @@
 import { ICompiler } from 'compilers/compiler';
-import { VisualControl } from 'core/controls/visual/visual-control';
+import { Control } from 'core/controls/control';
 
 export interface ICompiledCSSClass {
   name: string;
   text: string;
 }
 
-class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
-  compile(control: VisualControl) {
+class CssCompiler implements ICompiler<Control, ICompiledCSSClass>{
+  compile(control: Control) {
     let cssClassName = `vargin-${control.meta.type}-${control.id}`;
 
     let text = `.${cssClassName} {`;
@@ -22,7 +22,7 @@ class CssCompiler implements ICompiler<VisualControl, ICompiledCSSClass>{
     });
   }
 
-  decompile(compiledCSSClass: ICompiledCSSClass): Promise<VisualControl> {
+  decompile(compiledCSSClass: ICompiledCSSClass): Promise<Control> {
     return null;
   }
 }

@@ -1,12 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  VisualControl,
-  IVisualControlParameters
-} from 'core/controls/visual/visual-control';
+import { Control, IControlParameters } from 'core/controls/control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
-import {
-  VisualControlMetadata
-} from 'core/controls/visual/visual-control-metadata';
 import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
@@ -61,7 +56,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
   ]
 );
 
-const METADATA = Object.freeze(new VisualControlMetadata(
+const METADATA = Object.freeze(new ControlMetadata(
   'link',
   'Link',
   'Link to another Web Page',
@@ -70,9 +65,9 @@ const METADATA = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export class LinkControl extends VisualControl {
+export class LinkControl extends Control {
   constructor(
-    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+    id: string, states?: ControlState[], parameters?: IControlParameters
   ) {
     super(id, LinkControl.getMeta(), states, parameters);
   }

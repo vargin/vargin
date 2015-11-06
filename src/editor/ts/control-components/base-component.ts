@@ -1,7 +1,6 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { Renderer, ViewContainerRef} from 'angular2/angular2';
 import { Control } from 'core/controls/control';
-import { VisualControl } from 'core/controls/visual/visual-control';
 import { ControlService } from 'editor/ts/services/control-service';
 
 const CONTAINER_ONLY_STYLES = [
@@ -70,11 +69,9 @@ export class BaseComponent {
   }
 
   getControlStyles() {
-    if (this.control && VisualControl.isVisualControl(this.control)) {
-      let visualControl = <VisualControl>this.control;
-
+    if (this.control && this.control.styles.size > 0) {
       let controlStyles = <{ [key: string]: string; }>{};
-      visualControl.styles.forEach((styleProperty, styleKey) => {
+      this.control.styles.forEach((styleProperty, styleKey) => {
         if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
           controlStyles[styleKey] = styleProperty.getValue();
         }
@@ -88,13 +85,11 @@ export class BaseComponent {
 
   getContainerStyles(control?: Control) {
     let targetControl = control || this.control;
-    if (targetControl && VisualControl.isVisualControl(targetControl)) {
-      let visualControl = <VisualControl>targetControl;
-
+    if (targetControl && targetControl.styles.size > 0) {
       let containerStyles = <{ [key: string]: string; }>{};
       CONTAINER_ONLY_STYLES.forEach((styleKey) => {
-        if (visualControl.styles.has(styleKey)) {
-          containerStyles[styleKey] = visualControl.styles.get(
+        if (targetControl .styles.has(styleKey)) {
+          containerStyles[styleKey] = targetControl.styles.get(
             styleKey
           ).getValue();
         }

@@ -76,7 +76,7 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
     let pages = [];
     application.pages.forEach((page: ApplicationPage) => {
       queue.enqueue(() => {
-        return this.compileVisualControl(page.root).then((root) => {
+        return this.compileControl(page.root).then((root) => {
           pages.push({
             id: page.id,
             name: page.name,
@@ -96,7 +96,7 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
     return null;
   }
 
-  private compileVisualControl(control: Control): Promise<IDOMStaticCompiledControl> {
+  private compileControl(control: Control): Promise<IDOMStaticCompiledControl> {
     let controlCompiler = <DOMAngularControlCompiler<Control>>
       VISUAL_CONTROL_COMPILERS.get(control.constructor);
 
@@ -113,7 +113,7 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
 
       children.forEach((child) => {
         queue.enqueue(() => {
-          return this.compileVisualControl(child).then((compiledChild) => {
+          return this.compileControl(child).then((compiledChild) => {
             childrenCssText += compiledChild.cssClass.text.trim();
             childrenMarkup += compiledChild.markup.trim();
           });

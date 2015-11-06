@@ -2,7 +2,6 @@
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
-import { VisualControl } from 'core/controls/visual/visual-control';
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
 
@@ -130,11 +129,9 @@ class VarginProperties {
       });
     }
 
-    if (VisualControl.isVisualControl(control)) {
-      (<VisualControl>control).styles.forEach((property) => {
-        this.groups.styles.items.push(property);
-      });
-    }
+    control.styles.forEach((property) => {
+      this.groups.styles.items.push(property);
+    });
 
     if (control.meta.supportedEvents.size) {
       control.meta.supportedEvents.forEach((property) => {

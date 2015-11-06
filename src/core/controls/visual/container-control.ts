@@ -1,12 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import {
-  VisualControl,
-  IVisualControlParameters
-} from 'core/controls/visual/visual-control';
+import { Control, IControlParameters } from 'core/controls/control';
+import { ControlMetadata } from 'core/controls/control-metadata';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
-import {
-  VisualControlMetadata
-} from 'core/controls/visual/visual-control-metadata';
 import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
@@ -53,7 +48,7 @@ const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
   ]
 );
 
-const METADATA: VisualControlMetadata = Object.freeze(new VisualControlMetadata(
+const METADATA: ControlMetadata = Object.freeze(new ControlMetadata(
   'container',
   'Container',
   'Container',
@@ -62,9 +57,9 @@ const METADATA: VisualControlMetadata = Object.freeze(new VisualControlMetadata(
   SUPPORTED_STYLES
 ));
 
-export class ContainerControl extends VisualControl {
+export class ContainerControl extends Control {
   constructor(
-    id: string, states?: ControlState[], parameters?: IVisualControlParameters
+    id: string, states?: ControlState[], parameters?: IControlParameters
   ) {
     super(id, ContainerControl.getMeta(), states, parameters);
   }

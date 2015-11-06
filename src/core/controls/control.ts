@@ -10,6 +10,7 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlState } from 'core/controls/control-state';
 
 export interface IControlParameters {
+  styles?: Map<string, string>;
   events?: Map<string, IAction[]>;
 }
 
@@ -19,11 +20,13 @@ export class Control {
   private _parent: Control;
   private _children: Control[];
   private _events: Map<string, IProperty<IAction[]>>;
-  private _states: ControlState[];
+  private _styles: Map<string, IProperty<string>> =
+    new Map<string, IProperty<string>>();
   private _cache: {
     properties: Map<string, OwnedPropertyView<string, Control>>
   };
   private currentStateIndex: number = 0;
+  protected _states: ControlState[];
 
   constructor(
     id: string,
@@ -48,6 +51,21 @@ export class Control {
     this._cache = {
       properties: new Map<string, OwnedPropertyView<string, Control>>()
     };
+
+    this._meta.supportedStyles.forEach((metaProperty, styleKey) => {
+      let controlStyleProperty = 'getOptions' in metaProperty ?
+        new OwnedPropertyWithOptions(
+          this, <OwnedPropertyWithOptions<string, Control>>metaProperty
+        ) :
+        new OwnedProperty(this, metaProperty);
+
+      if (controlParameters.styles &&
+        controlParameters.styles.has(styleKey)) {
+        controlStyleProperty.setValue(controlParameters.styles.get(styleKey));
+      }
+
+      this._styles.set(styleKey, controlStyleProperty);
+    });
 
     this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
       let controlEventProperty =  new OwnedProperty(this, metaProperty);
@@ -92,6 +110,10 @@ export class Control {
    */
   get events() {
     return this._events;
+  }
+
+  get styles() {
+    return this._styles;
   }
 
   /**
