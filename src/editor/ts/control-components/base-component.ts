@@ -69,11 +69,11 @@ export class BaseComponent {
   }
 
   getControlStyles() {
-    if (this.control && this.control.styles.size > 0) {
+    if (this.control && this.control.meta.supportedStyles.size > 0) {
       let controlStyles = <{ [key: string]: string; }>{};
-      this.control.styles.forEach((styleProperty, styleKey) => {
+      this.control.meta.supportedStyles.forEach((style, styleKey) => {
         if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
-          controlStyles[styleKey] = styleProperty.getValue();
+          controlStyles[styleKey] = this.control.getStyle(styleKey).getValue();
         }
       });
 
@@ -85,11 +85,11 @@ export class BaseComponent {
 
   getContainerStyles(control?: Control) {
     let targetControl = control || this.control;
-    if (targetControl && targetControl.styles.size > 0) {
+    if (targetControl && targetControl.meta.supportedStyles.size > 0) {
       let containerStyles = <{ [key: string]: string; }>{};
-      CONTAINER_ONLY_STYLES.forEach((styleKey) => {
-        if (targetControl .styles.has(styleKey)) {
-          containerStyles[styleKey] = targetControl.styles.get(
+      targetControl.meta.supportedStyles.forEach((style, styleKey) => {
+        if (CONTAINER_ONLY_STYLES.indexOf(styleKey) >= 0) {
+          containerStyles[styleKey] = targetControl.getStyle(
             styleKey
           ).getValue();
         }

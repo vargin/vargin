@@ -123,21 +123,17 @@ class VarginProperties {
 
     this.activeControl = control;
 
-    if (control.meta.supportedProperties.size) {
-      control.meta.supportedProperties.forEach((property, propertyKey) => {
-        this.groups.properties.items.push(control[propertyKey]);
-      });
-    }
-
-    control.styles.forEach((property) => {
-      this.groups.styles.items.push(property);
+    control.meta.supportedProperties.forEach((property, propertyKey) => {
+      this.groups.properties.items.push(control.getProperty(propertyKey));
     });
 
-    if (control.meta.supportedEvents.size) {
-      control.meta.supportedEvents.forEach((property) => {
-        this.groups.events.items.push(control.events.get(property.getType()));
-      });
-    }
+    control.meta.supportedStyles.forEach((style, styleKey) => {
+      this.groups.styles.items.push(control.getStyle(styleKey));
+    });
+
+    control.meta.supportedEvents.forEach((property) => {
+      this.groups.events.items.push(control.events.get(property.getType()));
+    });
   }
 
   private onControlUnselected() {

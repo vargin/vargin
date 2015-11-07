@@ -2,6 +2,7 @@
 
 export interface IControlStateOverrides {
   properties?: Map<string, string>;
+  styles?: Map<string, string>;
 }
 
 /**
@@ -40,6 +41,10 @@ export class ControlState {
       this.overrides.properties = new Map<string, string>();
     }
 
+    if (!this.overrides.styles) {
+      this.overrides.styles = new Map<string, string>();
+    }
+
     this.isEnabled = !!isEnabled;
   }
 
@@ -48,6 +53,6 @@ export class ControlState {
    * @returns {boolean}
    */
   hasOverrides() {
-    return this.overrides.properties.size > 0;
+    return this.overrides.properties.size > 0 || this.overrides.styles.size > 0;
   }
 }

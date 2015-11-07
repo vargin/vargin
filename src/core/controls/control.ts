@@ -10,7 +10,6 @@ import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlState } from 'core/controls/control-state';
 
 export interface IControlParameters {
-  styles?: Map<string, string>;
   events?: Map<string, IAction[]>;
 }
 
@@ -20,10 +19,9 @@ export class Control {
   private _parent: Control;
   private _children: Control[];
   private _events: Map<string, IProperty<IAction[]>>;
-  private _styles: Map<string, IProperty<string>> =
-    new Map<string, IProperty<string>>();
   private _cache: {
-    properties: Map<string, OwnedPropertyView<string, Control>>
+    properties: Map<string, OwnedPropertyView<string, Control>>,
+    styles: Map<string, OwnedPropertyView<string, Control>>
   };
   private currentStateIndex: number = 0;
   protected _states: ControlState[];
@@ -49,23 +47,9 @@ export class Control {
     }
 
     this._cache = {
-      properties: new Map<string, OwnedPropertyView<string, Control>>()
+      properties: new Map<string, OwnedPropertyView<string, Control>>(),
+      styles: new Map<string, OwnedPropertyView<string, Control>>()
     };
-
-    this._meta.supportedStyles.forEach((metaProperty, styleKey) => {
-      let controlStyleProperty = 'getOptions' in metaProperty ?
-        new OwnedPropertyWithOptions(
-          this, <OwnedPropertyWithOptions<string, Control>>metaProperty
-        ) :
-        new OwnedProperty(this, metaProperty);
-
-      if (controlParameters.styles &&
-        controlParameters.styles.has(styleKey)) {
-        controlStyleProperty.setValue(controlParameters.styles.get(styleKey));
-      }
-
-      this._styles.set(styleKey, controlStyleProperty);
-    });
 
     this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
       let controlEventProperty =  new OwnedProperty(this, metaProperty);
@@ -110,10 +94,6 @@ export class Control {
    */
   get events() {
     return this._events;
-  }
-
-  get styles() {
-    return this._styles;
   }
 
   /**
@@ -195,24 +175,37 @@ export class Control {
     }
   }
 
-  protected getProperty(key: string) {
-    let property = this._cache.properties.get(key);
+  getProperty(key: string): IProperty<string> {
+    return this.getPropertyView(
+      key,
+      this._states[this.currentStateIndex].overrides.properties,
+      this._cache.properties,
+      this.meta.supportedProperties
+    );
+  }
+
+  getStyle(key: string): IProperty<string> {
+    return this.getPropertyView(
+      key,
+      this._states[this.currentStateIndex].overrides.styles,
+      this._cache.styles,
+      this.meta.supportedStyles
+    );
+  }
+
+  private getPropertyView(key, overrides, cache, meta) {
+    let property = cache.get(key);
 
     if (!property) {
-      let metaProperty = this.meta.supportedProperties.get(key);
+      let metaProperty = meta.get(key);
 
       let MetaPropertyType = 'getOptions' in metaProperty ?
         OwnedPropertyWithOptionsView :
         OwnedPropertyView;
 
-      property = new MetaPropertyType(
-        this,
-        metaProperty,
-        key,
-        this._states[this.currentStateIndex].overrides.properties
-      );
+      property = new MetaPropertyType(this, metaProperty, key, overrides);
 
-      this._cache.properties.set(key, property);
+      cache.set(key, property);
     }
 
     return property;

@@ -61,9 +61,9 @@ export class ServiceContainerComponent extends BaseComponent implements OnChange
   }
 
   private setupStyles() {
-    this.control.styles.get('align-items').setValue('stretch');
-    this.control.styles.get('display').setValue('flex');
-    this.control.styles.get('min-height').setValue('0');
-    this.control.styles.get('min-width').setValue('0');
+    this.control.getStyle('align-items').setValue('stretch');
+    this.control.getStyle('display').setValue('flex');
+    this.control.getStyle('min-height').setValue('0');
+    this.control.getStyle('min-width').setValue('0');
   }
 }

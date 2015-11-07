@@ -15,7 +15,8 @@ export interface IJSONControlState {
   name: string;
   isEnabled: boolean;
   overrides: {
-    properties?: [string, string][]
+    properties?: [string, string][];
+    styles?: [string, string][];
   };
 }
 
@@ -26,7 +27,6 @@ export interface IJSONControl {
   states?: IJSONControlState[];
   parameters?: {
     events?: [string, IJSONAction[]][];
-    styles?: [string, string][];
   };
 }
 
@@ -36,9 +36,8 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
   compile(control: Control): Promise<IJSONControl> {
     return Promise.all<any>([
       JSONControlCompiler.compileStates(control),
-      JSONControlCompiler.compileEvents(control),
-      JSONControlCompiler.compileStyles(control)
-    ]).then<IJSONControl>(([states, events, styles]) => {
+      JSONControlCompiler.compileEvents(control)
+    ]).then<IJSONControl>(([states, events]) => {
       return Promise.all(
         control.getChildren().map((child: Control) => this.compile(child))
       ).then((compiledChildren) => {
@@ -47,7 +46,7 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
           type: control.meta.type,
           children: compiledChildren,
           states: states,
-          parameters: { events, styles }
+          parameters: { events }
         };
       });
     });
@@ -56,16 +55,12 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
   decompile(compiledControl: IJSONControl) {
     return Promise.all<any>([
       JSONControlCompiler.decompileStates(compiledControl),
-      JSONControlCompiler.decompileEvents(compiledControl),
-      JSONControlCompiler.decompileStyles(compiledControl)
-    ]).then(([states, events, styles]) => {
+      JSONControlCompiler.decompileEvents(compiledControl)
+    ]).then(([states, events]) => {
       return ControlService.createByType(
         compiledControl.type,
         states,
-        <IControlParameters>{
-          events: <Map<string, IAction[]>>events,
-          styles: <Map<string, string>>styles
-        },
+        <IControlParameters>{ events: <Map<string, IAction[]>>events },
         compiledControl.id
       );
     }).then((control: Control) => {
@@ -92,12 +87,15 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
           overrides: {}
         };
 
-        if (state.overrides.properties.size > 0) {
-          jsonState.overrides.properties = [];
-          state.overrides.properties.forEach((propertyValue, propertyKey) => {
-            jsonState.overrides.properties.push([propertyKey, propertyValue]);
-          });
-        }
+        ['properties', 'styles'].forEach((overrideKey) => {
+          let overrides = state.overrides[overrideKey];
+          if (overrides.size > 0) {
+            jsonState.overrides[overrideKey] = [];
+            overrides.forEach((value, key) => {
+              jsonState.overrides[overrideKey].push([key, value]);
+            });
+          }
+        });
 
         return jsonState;
       }
@@ -114,7 +112,8 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
           {
             properties: new Map<string, string>(
               jsonState.overrides.properties || []
-            )
+            ),
+            styles: new Map<string, string>(jsonState.overrides.styles || [])
           },
           typeof jsonState.isEnabled === 'boolean'
             ? jsonState.isEnabled : true
@@ -165,23 +164,5 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     });
 
     return Promise.all(actionDecompilePromises).then(() => events);
-  }
-
-  private static compileStyles(control: Control): Promise<[string, string][]> {
-    let styles = [];
-    if (control.styles.size > 0) {
-      control.meta.supportedStyles.forEach((style, styleKey) => {
-        styles.push([styleKey, control.styles.get(styleKey).getValue()]);
-      });
-    }
-
-    return Promise.resolve(styles);
-  }
-
-  private static decompileStyles(control: IJSONControl): Promise<Map<string, string>> {
-    let hasStyles = control.parameters && control.parameters.styles;
-    return Promise.resolve(
-      hasStyles ? new Map<string, string>(control.parameters.styles) : null
-    );
   }
 }

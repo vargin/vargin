@@ -11,6 +11,7 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from 'core/controls/control';
+import { ControlState } from 'core/controls/control-state';
 import {
   ListControl,
   ListItemControl
@@ -54,11 +55,14 @@ export class ListComponent extends BaseComponent {
 
     let itemTemplate = this.control.getTemplate();
     if (!itemTemplate) {
-      itemTemplate = new ListItemControl(UtilsService.uuid(), [], {
-        styles: new Map(
-          <[string, string][]>[['border', '0.1rem dashed #cccccc']]
-        )
-      });
+      itemTemplate = new ListItemControl(UtilsService.uuid(), [
+        new ControlState('default', {
+          styles: new Map(
+            <[string, string][]>[['border', '0.1rem dashed #cccccc']]
+          )
+        })
+      ]);
+
       this.control.setTemplate(itemTemplate);
     }
 
