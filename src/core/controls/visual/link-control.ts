@@ -72,22 +72,6 @@ export class LinkControl extends Control {
     super(id, LinkControl.getMeta(), states, parameters);
   }
 
-  get address() {
-    return this.getProperty('address');
-  }
-
-  get text() {
-    return this.getProperty('text');
-  }
-
-  get title() {
-    return this.getProperty('title');
-  }
-
-  get target() {
-    return this.getProperty('target');
-  }
-
   static getMeta() {
     return METADATA;
   }

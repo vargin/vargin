@@ -45,22 +45,6 @@ export class RangeControl extends Control {
     super(id, RangeControl.getMeta(), states, parameters);
   }
 
-  get min() {
-    return this.getProperty('min');
-  }
-
-  get max() {
-    return this.getProperty('max');
-  }
-
-  get step() {
-    return this.getProperty('step');
-  }
-
-  get value() {
-    return this.getProperty('value');
-  }
-
   static getMeta() {
     return METADATA;
   }

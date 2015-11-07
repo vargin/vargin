@@ -26,8 +26,8 @@ import { BaseComponent } from 'editor/ts/control-components/base-component';
     <input
       type="text"
       [ng-style]="getControlStyles()"
-      [placeholder]="control.placeholder.getValue()"
-      [value]="control.value.getValue()"
+      [placeholder]="getPropertyValue('placeholder')"
+      [value]="getPropertyValue('value')"
     />
   `,
   directives: [NgStyle]

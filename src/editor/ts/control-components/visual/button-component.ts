@@ -23,10 +23,10 @@ import { BaseComponent } from 'editor/ts/control-components/base-component';
 @View({
   template: `
     <button
-      [title]="control.title.getValue()"
-      [type]="control.type.getValue()"
+      [title]="getPropertyValue('title')"
+      [type]="getPropertyValue('type')"
       [ng-style]="getControlStyles()">
-      {{ control.text.getValue() }}
+      {{ getPropertyValue('text') }}
     </button>
   `,
   directives: [NgStyle]

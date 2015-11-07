@@ -56,14 +56,6 @@ export class TextInputControl extends Control {
     super(id, TextInputControl.getMeta(), states, parameters);
   }
 
-  get placeholder() {
-    return this.getProperty('placeholder');
-  }
-
-  get value() {
-    return this.getProperty('value');
-  }
-
   static getMeta() {
     return METADATA;
   }

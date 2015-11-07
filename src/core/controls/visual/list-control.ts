@@ -100,10 +100,6 @@ export class ListControl extends Control {
     super(id, ListControl.getMeta(), states, parameters);
   }
 
-  get datasource() {
-    return this.getProperty('datasource');
-  }
-
   getTemplate(): ListItemControl {
     let children = this.getChildren();
     return children.length ? <ListItemControl>children[0] : null;

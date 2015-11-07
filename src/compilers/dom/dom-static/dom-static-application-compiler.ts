@@ -116,14 +116,15 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
 
         let bindings: [string, string][][] = null;
 
-        if ('datasource' in control) {
+        let datasourceProperty = control.getProperty('datasource');
+        if (datasourceProperty) {
           let datasource = <DatasourceControl>application.serviceRoot.find(
-            control['datasource'].getValue()
+            datasourceProperty.getValue()
           );
 
-          let serializedItems = datasource.items.getValue();
+          let serializedItems = datasource.getProperty('items').getValue();
           if (serializedItems) {
-            bindings = JSON.parse(datasource.items.getValue());
+            bindings = JSON.parse(serializedItems);
           }
         }
 

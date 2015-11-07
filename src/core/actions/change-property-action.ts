@@ -29,7 +29,9 @@ export class ChangePropertyAction extends Action {
         this.properties.get('control-id').getValue()
       );
 
-      control[this.properties.get('property-name').getValue()].setValue(
+      control.getProperty(
+        this.properties.get('property-name').getValue()
+      ).setValue(
         this.properties.get('property-value').getValue()
       );
       return Promise.resolve(true);

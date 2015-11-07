@@ -199,6 +199,10 @@ export class Control {
     if (!property) {
       let metaProperty = meta.get(key);
 
+      if (!metaProperty) {
+        return null;
+      }
+
       let MetaPropertyType = 'getOptions' in metaProperty ?
         OwnedPropertyWithOptionsView :
         OwnedPropertyView;

@@ -68,6 +68,10 @@ export class BaseComponent {
     return false;
   }
 
+  getPropertyValue(key: string) {
+    return this.control.getProperty(key).getValue();
+  }
+
   getControlStyles() {
     if (this.control && this.control.meta.supportedStyles.size > 0) {
       let controlStyles = <{ [key: string]: string; }>{};

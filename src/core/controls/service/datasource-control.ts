@@ -36,18 +36,6 @@ export class DatasourceControl extends Control {
     super(id, DatasourceControl.getMeta(), states, parameters);
   }
 
-  get name() {
-    return this.getProperty('name');
-  }
-
-  get schema() {
-    return this.getProperty('schema');
-  }
-
-  get items() {
-    return this.getProperty('items');
-  }
-
   static getMeta() {
     return METADATA;
   }

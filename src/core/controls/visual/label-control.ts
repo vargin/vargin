@@ -69,18 +69,6 @@ export class LabelControl extends Control {
     super(id, LabelControl.getMeta(), states, parameters);
   }
 
-  get text() {
-    return this.getProperty('text');
-  }
-
-  get title() {
-    return this.getProperty('title');
-  }
-
-  get format() {
-    return this.getProperty('format');
-  }
-
   static getMeta() {
     return METADATA;
   }

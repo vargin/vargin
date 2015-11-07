@@ -7,7 +7,7 @@ import { Address, AddressType } from 'core/data/address';
 
 export class LinkControlCompiler extends DOMStaticControlCompiler<LinkControl> {
   getMarkup(control: LinkControl, cssClass: ICompiledCSSClass) {
-    let addressString = control.address.getValue();
+    let addressString = control.getProperty('address').getValue();
     let address = addressString ?
       Address.deserialize(addressString) : new Address();
 

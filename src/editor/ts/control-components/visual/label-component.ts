@@ -40,7 +40,7 @@ export class LabelComponent extends BaseComponent {
   }
 
   getFormattedValue() {
-    let value = this.control.text.getValue();
+    let value = this.control.getProperty('text').getValue();
 
     if (value.startsWith('bind:')) {
       return value;
@@ -48,8 +48,7 @@ export class LabelComponent extends BaseComponent {
 
     try {
       return StringFormatter.format(
-        this.control.text.getValue(),
-        +this.control.format.getValue()
+        value, +this.control.getProperty('format').getValue()
       );
     } catch (e) {
       return '[Format Error]';

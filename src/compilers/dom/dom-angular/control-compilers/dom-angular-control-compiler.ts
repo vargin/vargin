@@ -18,12 +18,12 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
   }
 
   protected bindValue(control: Control, propertyName: string): string {
-    let rawValue = control[propertyName].getValue();
+    let rawValue = control.getProperty(propertyName).getValue();
 
     if (rawValue.startsWith('bind:')) {
       return `{{ item.get('${rawValue.split(':')[1]}') }}`;
     }
 
-    return `{{ getControl(\'${control.id}\').${propertyName}.getValue() }}`;
+    return `{{ getControl(\'${control.id}\').getProperty(\'${propertyName}\').getValue() }}`;
   }
 }

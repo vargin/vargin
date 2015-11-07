@@ -25,10 +25,10 @@ import { BaseComponent } from 'editor/ts/control-components/base-component';
     <input
       type="range"
       [ng-style]="getControlStyles()"
-      [min]="control.min.getValue()"
-      [max]="control.max.getValue()"
-      [step]="control.step.getValue()"
-      [value]="control.value.getValue()"
+      [min]="getPropertyValue('min')"
+      [max]="getPropertyValue('max')"
+      [step]="getPropertyValue('step')"
+      [value]="getPropertyValue('value')"
     />
   `,
   directives: [NgStyle]

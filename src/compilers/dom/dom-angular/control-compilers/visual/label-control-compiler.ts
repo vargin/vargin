@@ -7,7 +7,9 @@ import { StringFormatter } from 'core/tools/string-formatter';
 
 export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl> {
   getMarkup(control: LabelControl, cssClass: ICompiledCSSClass) {
-    let formatPipe = StringFormatter.toPipe(+control.format.getValue());
+    let formatPipe = StringFormatter.toPipe(
+      +control.getProperty('format').getValue()
+    );
     let value = this.bindValue(control, 'text');
 
     return this.buildHTMLElement(

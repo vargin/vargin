@@ -9,7 +9,7 @@ import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
 
 export class ListItemControlCompiler extends DOMAngularControlCompiler<ListItemControl> {
   getMarkup(control: ListItemControl, cssClass: ICompiledCSSClass) {
-    let datasourceId = (<ListControl>control.parent).datasource.getValue();
+    let datasourceId = control.parent.getProperty('datasource').getValue();
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',

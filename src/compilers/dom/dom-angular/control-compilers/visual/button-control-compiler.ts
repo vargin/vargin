@@ -16,7 +16,7 @@ export class ButtonControlCompiler extends DOMAngularControlCompiler<ButtonContr
         ['id', control.id],
         ['class', cssClass.name],
         ['title', this.bindValue(control, 'title')],
-        ['type', control.type.getValue()],
+        ['type', control.getProperty('type').getValue()],
         ...this.getEventHandlers(control)
       ])
     );

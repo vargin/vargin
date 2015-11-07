@@ -61,18 +61,6 @@ export class ButtonControl extends Control {
     super(id, ButtonControl.getMeta(), states, parameters);
   }
 
-  get text() {
-    return this.getProperty('text');
-  }
-
-  get title() {
-    return this.getProperty('title');
-  }
-
-  get type() {
-    return this.getProperty('type');
-  }
-
   static getMeta() {
     return METADATA;
   }

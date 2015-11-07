@@ -10,7 +10,8 @@ export class LabelControlCompiler extends DOMStaticControlCompiler<LabelControl>
     return this.buildHTMLElement(
       'span',
       StringFormatter.format(
-        this.bindValue(control, 'text'), +control.format.getValue()
+        this.bindValue(control, 'text'),
+        +control.getProperty('format').getValue()
       ),
       new Map<string, string>(<[string, string][]>[['class', cssClass.name]])
     );

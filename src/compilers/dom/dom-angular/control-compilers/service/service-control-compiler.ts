@@ -39,7 +39,7 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
     let properties = [];
     control.meta.supportedProperties.forEach((property, propertyKey) => {
       properties.push([
-        propertyKey, (<IProperty<string>>control[propertyKey]).getValue()
+        propertyKey, control.getProperty(propertyKey).getValue()
       ]);
     });
 
