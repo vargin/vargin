@@ -51,15 +51,16 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
     let events = [];
 
     control.meta.events.forEach((eventProperty, eventKey) => {
-      actionCompilePromises.push(
-        Promise.all(
-          control.events.get(eventKey).getValue().map(
-            (action) => actionCompiler.compile(action)
-          )
+      let actions = control.getEvent(eventKey).getValue();
+
+      if (actions) {
+        actionCompilePromises.push(
+          Promise.all(actions.map((action) => actionCompiler.compile(action))
         ).then(
           (compiledActions) => events.push([eventKey, compiledActions])
         )
       );
+      }
     });
 
     return Promise.all(actionCompilePromises).then(() => events);

@@ -1,4 +1,4 @@
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlState } from 'core/controls/control-state';
 
 import { ControlService } from 'editor/ts/services/control-service';
@@ -17,6 +17,7 @@ export interface IJSONControlState {
   overrides: {
     properties?: [string, string][];
     styles?: [string, string][];
+    events?: [string, IJSONAction[]][];
   };
 }
 
@@ -25,46 +26,36 @@ export interface IJSONControl {
   id?: string;
   children?: IJSONControl[];
   states?: IJSONControlState[];
-  parameters?: {
-    events?: [string, IJSONAction[]][];
-  };
 }
 
 const actionCompiler = new JSONActionCompiler();
 
 export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
   compile(control: Control): Promise<IJSONControl> {
-    return Promise.all<any>([
-      JSONControlCompiler.compileStates(control),
-      JSONControlCompiler.compileEvents(control)
-    ]).then<IJSONControl>(([states, events]) => {
-      return Promise.all(
-        control.getChildren().map((child: Control) => this.compile(child))
-      ).then((compiledChildren) => {
-        return <IJSONControl>{
-          id: control.id,
-          type: control.meta.type,
-          children: compiledChildren,
-          states: states,
-          parameters: { events }
-        };
-      });
-    });
+    return JSONControlCompiler.compileStates(control).then<IJSONControl>(
+      (states) => {
+        return Promise.all(
+          control.getChildren().map((child: Control) => this.compile(child))
+        ).then((compiledChildren) => {
+          return <IJSONControl>{
+            id: control.id,
+            type: control.meta.type,
+            children: compiledChildren,
+            states: states
+          };
+        });
+      }
+    );
   }
 
   decompile(compiledControl: IJSONControl) {
-    return Promise.all<any>([
-      JSONControlCompiler.decompileStates(compiledControl),
-      JSONControlCompiler.decompileEvents(compiledControl)
-    ]).then(([states, events]) => {
-      return ControlService.createByType(
-        compiledControl.type,
-        states,
-        <IControlParameters>{ events: <Map<string, IAction[]>>events },
-        compiledControl.id
-      );
-    }).then((control: Control) => {
-      if (compiledControl.children && compiledControl.children.length) {
+    return JSONControlCompiler.decompileStates(compiledControl).then(
+      (states) => {
+        return ControlService.createByType(
+          compiledControl.type, states, compiledControl.id
+        );
+      }).then((control: Control) => {
+        if (compiledControl.children && compiledControl.children.length) {
         return Promise.all<Control>(
           compiledControl.children.map((child) => this.decompile(child))
         ).then((children) => {
@@ -79,33 +70,57 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
   }
 
   private static compileStates(control: Control): Promise<IJSONControlState[]> {
-    let states = control.states.filter((state) => state.hasOverrides()).map(
-      (state) => {
-        let jsonState = <IJSONControlState>{
-          name: state.name,
-          isEnabled: state.isEnabled,
-          overrides: {}
-        };
-
-        ['properties', 'styles'].forEach((overrideKey) => {
-          let overrides = state.overrides[overrideKey];
-          if (overrides.size > 0) {
-            jsonState.overrides[overrideKey] = [];
-            overrides.forEach((value, key) => {
-              jsonState.overrides[overrideKey].push([key, value]);
-            });
-          }
-        });
-
-        return jsonState;
-      }
+    let statesWithOverrides = control.states.filter(
+      (state) => state.hasOverrides()
     );
 
-    return Promise.resolve(states);
+    let jsonStates = statesWithOverrides.map((state) => {
+      let jsonState = <IJSONControlState>{
+        name: state.name,
+        isEnabled: state.isEnabled,
+        overrides: {}
+      };
+
+      ['properties', 'styles'].forEach((overrideKey) => {
+        let overrides = state.overrides[overrideKey];
+        if (overrides.size > 0) {
+          jsonState.overrides[overrideKey] = [];
+          overrides.forEach((value, key) => {
+            jsonState.overrides[overrideKey].push([key, value]);
+          });
+        }
+      });
+
+      return jsonState;
+    });
+
+    let actionCompilePromises = [];
+
+    statesWithOverrides.forEach((state, index) => {
+      if (state.overrides.events.size > 0) {
+        jsonStates[index].overrides.events = [];
+
+        state.overrides.events.forEach((value, key) => {
+          actionCompilePromises.push(
+            Promise.all(
+              value.map((action) => actionCompiler.compile(action))
+            ).then(
+              (compiledActions) => jsonStates[index].overrides.events.push(
+                [key, compiledActions]
+              )
+            )
+          );
+        });
+      }
+    });
+
+    return Promise.all(actionCompilePromises).then(() => jsonStates);
   }
 
   private static decompileStates(control: IJSONControl): Promise<ControlState[]> {
-    let decompiledStates = (control.states || []).map(
+    let jsonStates = control.states || [];
+
+    let decompiledStates = jsonStates.map(
       (jsonState: IJSONControlState) => {
         return new ControlState(
           jsonState.name,
@@ -121,48 +136,24 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
       }
     );
 
-    return Promise.resolve(decompiledStates);
-  }
-
-  private static compileEvents(control: Control): Promise<[string, IJSONAction[]][]> {
-    let actionCompilePromises = [];
-    let events = [];
-
-    control.meta.events.forEach((eventProperty, eventKey) => {
-      actionCompilePromises.push(
-        Promise.all(
-          control.events.get(eventKey).getValue().map(
-            (action) => actionCompiler.compile(action)
-          )
-        ).then(
-          (compiledActions) => events.push([eventKey, compiledActions])
-        )
-      );
-    });
-
-    return Promise.all(actionCompilePromises).then(() => events);
-  }
-
-  private static decompileEvents(control: IJSONControl): Promise<Map<string, IAction[]>> {
-    let hasEvents = control.parameters && control.parameters.events;
-
-    if (!hasEvents) {
-      return Promise.resolve(null);
-    }
-
     let actionDecompilePromises = [];
-    let events = new Map<string, IAction[]>();
 
-    control.parameters.events.forEach(([eventKey, actions]) => {
-      actionDecompilePromises.push(
-        Promise.all(
-          actions.map((action) => actionCompiler.decompile(action))
-        ).then((decompiledActions: IAction[]) => {
-          events.set(eventKey, decompiledActions);
-        })
-      );
+    decompiledStates.forEach((state: ControlState, index) => {
+      let jsonState = jsonStates[index];
+
+      if (jsonState.overrides.events) {
+        jsonState.overrides.events.forEach(([eventKey, actions]) => {
+          actionDecompilePromises.push(
+            Promise.all(
+              actions.map((action) => actionCompiler.decompile(action))
+            ).then((decompiledActions: IAction[]) => {
+              state.overrides.events.set(eventKey, decompiledActions);
+            })
+          );
+        });
+      }
     });
 
-    return Promise.all(actionDecompilePromises).then(() => events);
+    return Promise.all(actionDecompilePromises).then(() => decompiledStates);
   }
 }

@@ -1,44 +1,27 @@
 import { IProperty } from 'core/property';
 import { IAction } from 'core/actions/action';
-import {
-  OwnedProperty,
-  OwnedPropertyWithOptions,
-  OwnedPropertyView,
-  OwnedPropertyWithOptionsView
-} from 'core/owned-property';
+import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlState } from 'core/controls/control-state';
-
-export interface IControlParameters {
-  events?: Map<string, IAction[]>;
-}
 
 export class Control {
   private _id: string;
   private _meta: ControlMetadata;
   private _parent: Control;
   private _children: Control[];
-  private _events: Map<string, IProperty<IAction[]>>;
   private _cache: {
-    properties: Map<string, OwnedPropertyView<string, Control>>,
-    styles: Map<string, OwnedPropertyView<string, Control>>
+    properties: Map<string, OwnedProperty<string, Control>>;
+    styles: Map<string, OwnedProperty<string, Control>>;
+    events: Map<string, OwnedProperty<IAction[], Control>>;
   };
   private currentStateIndex: number = 0;
   protected _states: ControlState[];
 
-  constructor(
-    id: string,
-    meta: ControlMetadata,
-    states?: ControlState[],
-    parameters?: IControlParameters
-  ) {
+  constructor(id: string, meta: ControlMetadata, states?: ControlState[]) {
     this._id = id;
     this._meta = meta;
     this._parent = null;
     this._children = [];
-    this._events = new Map<string, IProperty<IAction[]>>();
-
-    let controlParameters = parameters || <IControlParameters>{};
 
     if (states && states.length) {
       this._states = states;
@@ -47,21 +30,10 @@ export class Control {
     }
 
     this._cache = {
-      properties: new Map<string, OwnedPropertyView<string, Control>>(),
-      styles: new Map<string, OwnedPropertyView<string, Control>>()
+      properties: new Map<string, OwnedProperty<string, Control>>(),
+      styles: new Map<string, OwnedProperty<string, Control>>(),
+      events: new Map<string, OwnedProperty<IAction[], Control>>()
     };
-
-    this._meta.events.forEach((metaProperty, eventKey) => {
-      let controlEventProperty =  new OwnedProperty(this, metaProperty);
-
-      if (controlParameters.events && controlParameters.events.has(eventKey)) {
-        controlEventProperty.setValue(controlParameters.events.get(eventKey));
-      } else {
-        controlEventProperty.setValue([]);
-      }
-
-      this._events.set(eventKey, controlEventProperty);
-    });
   }
 
   /**
@@ -86,14 +58,6 @@ export class Control {
    */
   get states() {
     return this._states;
-  }
-
-  /**
-   * List of event names supported by control.
-   * @returns {Map<string, IProperty<IAction[]>>}
-   */
-  get events() {
-    return this._events;
   }
 
   /**
@@ -193,6 +157,15 @@ export class Control {
     );
   }
 
+  getEvent(key: string): IProperty<IAction[]> {
+    return this.getPropertyView(
+      key,
+      this._states[this.currentStateIndex].overrides.events,
+      this._cache.events,
+      this.meta.events
+    );
+  }
+
   private getPropertyView(key, overrides, cache, meta) {
     let property = cache.get(key);
 
@@ -204,8 +177,8 @@ export class Control {
       }
 
       let MetaPropertyType = 'getOptions' in metaProperty ?
-        OwnedPropertyWithOptionsView :
-        OwnedPropertyView;
+        OwnedPropertyWithOptions :
+        OwnedProperty;
 
       property = new MetaPropertyType(this, metaProperty, key, overrides);
 

@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ControlState } from 'core/controls/control-state';
 
@@ -30,10 +30,8 @@ const METADATA = Object.freeze(
 );
 
 export class DatasourceControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, DatasourceControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, DatasourceControl.getMeta(), states);
   }
 
   static getMeta() {

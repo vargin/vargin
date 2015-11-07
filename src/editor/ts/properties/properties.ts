@@ -131,8 +131,8 @@ class VarginProperties {
       this.groups.styles.items.push(control.getStyle(styleKey));
     });
 
-    control.meta.events.forEach((property) => {
-      this.groups.events.items.push(control.events.get(property.getType()));
+    control.meta.events.forEach((property, eventKey) => {
+      this.groups.events.items.push(control.getEvent(eventKey));
     });
   }
 

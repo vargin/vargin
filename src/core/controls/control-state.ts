@@ -1,8 +1,10 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+import { IAction } from 'core/actions/action';
 
 export interface IControlStateOverrides {
   properties?: Map<string, string>;
   styles?: Map<string, string>;
+  events?: Map<string, IAction[]>;
 }
 
 /**
@@ -45,6 +47,10 @@ export class ControlState {
       this.overrides.styles = new Map<string, string>();
     }
 
+    if (!this.overrides.events) {
+      this.overrides.events = new Map<string, IAction[]>();
+    }
+
     this.isEnabled = !!isEnabled;
   }
 
@@ -53,6 +59,8 @@ export class ControlState {
    * @returns {boolean}
    */
   hasOverrides() {
-    return this.overrides.properties.size > 0 || this.overrides.styles.size > 0;
+    return this.overrides.properties.size > 0 ||
+      this.overrides.styles.size > 0 ||
+      this.overrides.events.size > 0;
   }
 }

@@ -177,17 +177,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ],
               styles: [
                 ['font-weight', 'bold']
+              ],
+              events: [
+                ['click', [{
+                  type: 'alert-action',
+                  properties: [['alert-message', 'Show options (not implemented)']]
+                }]]
               ]
             }
-          }],
-          parameters: {
-            events: [
-              ['click', [{
-                type: 'alert-action',
-                properties: [['alert-message', 'Show options (not implemented)']]
-              }]]
-            ]
-          }
+          }]
         }]
       }, {
         id: 'fa852827-5ca9-49fd-8b7b-c59e93bad795',
@@ -417,17 +415,15 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               ],
               styles: [
                 ['font-weight', 'bold']
+              ],
+              events: [
+                ['click', [{
+                  type: 'alert-action',
+                  properties: [['alert-message', 'Show options (not implemented)']]
+                }]]
               ]
             }
-          }],
-          parameters: {
-            events: [
-              ['click', [{
-                type: 'alert-action',
-                properties: [['alert-message', 'Show options (not implemented)']]
-              }]]
-            ]
-          }
+          }]
         }]
       }, {
         id: '764d7257-de9c-4ced-ae34-b2e8d47b1768',
@@ -594,21 +590,19 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 ['background-image', 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAA60lEQVR42u3VPQtBURjAcbqU1SJWJTtfgGKSwcJm8hW8ZL3KJ8CK/Q7KXSzyGQwmi2RgtSCO/2CQxHVfjuU89Zv/ne655/GpUSN3DGOEMgKywy0IbNBAWFY4igvEwxE9JGXEJxAvrjCRg9+rcBHigyVqCLkdDmAH8cUeOqJuxrsQFp0wRsqNcAI3iB8tUILmJD6HsGmNjJO4hjiyqKKNAaZYfYmbdqMz+SfmlNK/8SPcsXGr005vtIatheABOmJu/cOFf71cxpvYDSby8HvxTkdwftlOfc+3E4H60z5uytzHQ1QQ9KlRo8bi3AEJOr0MDjN9yQAAAABJRU5ErkJggg==)'],
                 ['background-repeat', 'no-repeat'],
                 ['padding', '1rem']
+              ],
+              events: [
+                ['click', [{
+                  type: 'change-property-action',
+                  properties: [
+                    ['control-id', '1d6e60c0-7ee7-4d4f-b666-3086d0885617'],
+                    ['property-name', 'text'],
+                    ['property-value', '[Message Sent!]']
+                  ]
+                }]]
               ]
             }
-          }],
-          parameters: {
-            events: [
-              ['click', [{
-                type: 'change-property-action',
-                properties: [
-                  ['control-id', '1d6e60c0-7ee7-4d4f-b666-3086d0885617'],
-                  ['property-name', 'text'],
-                  ['property-value', '[Message Sent!]']
-                ]
-              }]]
-            ]
-          }
+          }]
         }]
       }]
     }

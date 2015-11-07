@@ -22,9 +22,17 @@ export class Action implements IAction {
     meta.properties.forEach((metaProperty, propertyKey) => {
       let controlProperty = 'getOptions' in metaProperty ?
         new OwnedPropertyWithOptions(
-          this, <OwnedPropertyWithOptions<string, Action>>metaProperty
+          this,
+          <OwnedPropertyWithOptions<string, Action>>metaProperty,
+          propertyKey,
+          properties || new Map<string, string>()
         ) :
-        new OwnedProperty(this, metaProperty);
+        new OwnedProperty(
+          this,
+          metaProperty,
+          propertyKey,
+          properties || new Map<string, string>()
+        );
 
       if (properties && properties.has(propertyKey)) {
         controlProperty.setValue(properties.get(propertyKey));

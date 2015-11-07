@@ -41,10 +41,9 @@ export class PageController {
   onControlAction(controlId: string, eventName: string) {
     let control = ApplicationService.findControlById(controlId);
 
-    if (control.events.has(eventName)) {
-      control.events.get(eventName).getValue().forEach(
-        (action: IAction) => action.perform()
-      );
+    let eventProperty = control.getEvent(eventName);
+    if (eventProperty) {
+      eventProperty.getValue().forEach((action: IAction) => action.perform());
     }
   }
 

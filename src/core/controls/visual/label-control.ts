@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { OwnedPropertyWithOptions } from 'core/owned-property';
 import { IProperty, Property, PropertyWithOptions } from 'core/property';
@@ -8,6 +8,13 @@ import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { StringFormatType } from 'core/tools/string-formatter';
 import { ControlState } from 'core/controls/control-state';
+
+const PREDEFINED_STATE = new ControlState('predefined', {
+  styles: new Map<string, string>(<[string, string][]>[
+    ['align-items', 'center'],
+    ['display', 'inline']
+  ])
+});
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -27,12 +34,18 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
     ['align-items', new OwnedPropertyWithOptions(
-      null, StyleService.getDescriptor('align-items'), 'center'
+      null,
+      StyleService.getDescriptor('align-items'),
+      'align-items',
+      PREDEFINED_STATE.overrides.styles
     )],
     ['background-color', StyleService.getDescriptor('background-color')],
     ['color', StyleService.getDescriptor('color')],
     ['display', new OwnedPropertyWithOptions(
-      null, StyleService.getDescriptor('display'), 'inline'
+      null,
+      StyleService.getDescriptor('display'),
+      'display',
+      PREDEFINED_STATE.overrides.styles
     )],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
@@ -63,10 +76,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class LabelControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, LabelControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, LabelControl.getMeta(), states);
   }
 
   static getMeta() {

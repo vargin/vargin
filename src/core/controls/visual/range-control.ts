@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { IProperty, Property } from 'core/property';
 import { IAction } from 'core/actions/action';
@@ -39,10 +39,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class RangeControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, RangeControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, RangeControl.getMeta(), states);
   }
 
   static getMeta() {

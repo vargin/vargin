@@ -5,52 +5,6 @@ import { IProperty, IPropertyWithOptions } from 'core/property';
 export class OwnedProperty<T, TOwner> implements IProperty<T> {
   protected _property: IProperty<T>;
   private _owner: TOwner;
-  private _value: T;
-
-  constructor(owner: TOwner, property: IProperty<T>, value?: T) {
-    this._owner = owner;
-    this._property = property;
-    this._value = value !== undefined ? value : property.getValue();
-  }
-
-  get owner() {
-    return this._owner;
-  }
-
-  getName() {
-    return this._property.getName();
-  }
-
-  getType() {
-    return this._property.getType();
-  }
-
-  getValue() {
-    return this._value;
-  }
-
-  setValue(value: T) {
-    this._value = value;
-  }
-
-  isEditorVisible() {
-    return this._property.isEditorVisible();
-  }
-}
-
-export class OwnedPropertyWithOptions<T, TOwner> extends OwnedProperty<T, TOwner> implements IPropertyWithOptions<T> {
-  constructor(owner: TOwner, property: IProperty<T>, value?: T) {
-    super(owner, property, value);
-  }
-
-  getOptions() {
-    return (<IPropertyWithOptions<T>>this._property).getOptions();
-  }
-}
-
-export class OwnedPropertyView<T, TOwner> implements IProperty<T> {
-  protected _property: IProperty<T>;
-  private _owner: TOwner;
   private _key: string;
   private _values: Map<string, T>;
 
@@ -97,7 +51,7 @@ export class OwnedPropertyView<T, TOwner> implements IProperty<T> {
   }
 }
 
-export class OwnedPropertyWithOptionsView<T, TOwner> extends OwnedPropertyView<T, TOwner> implements IPropertyWithOptions<T> {
+export class OwnedPropertyWithOptions<T, TOwner> extends OwnedProperty<T, TOwner> implements IPropertyWithOptions<T> {
   constructor(
     owner: TOwner, property: IProperty<T>, key: string, values: Map<string, T>
   ) {

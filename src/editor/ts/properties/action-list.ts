@@ -54,17 +54,22 @@ export class ActionList {
   }
 
   addNewAction(newActionSelect: HTMLSelectElement) {
+    let actions = this.property.getValue();
+
+    if (!actions) {
+      actions = [];
+      this.property.setValue(actions);
+    }
+
     switch (newActionSelect.value) {
       case 'alert-action':
-        this.property.getValue().push(new AlertAction());
+        actions.push(new AlertAction());
         break;
       case 'change-property-action':
-        this.property.getValue().push(
-          new ChangePropertyAction()
-        );
+        actions.push(new ChangePropertyAction());
         break;
       case 'navigate-action':
-        this.property.getValue().push(new NavigateAction());
+        actions.push(new NavigateAction());
         break;
       case 'default':
         return;

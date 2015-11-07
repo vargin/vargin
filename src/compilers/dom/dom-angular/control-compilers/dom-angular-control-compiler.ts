@@ -6,8 +6,9 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
   getEventHandlers(control: Control): Array<[string, string]> {
     let eventHandlers: Array<[string, string]> = [];
 
-    control.events.forEach((actions, eventKey) => {
-      if (actions.getValue().length) {
+    control.meta.events.forEach((property, eventKey) => {
+      let actions = control.getEvent(eventKey).getValue();
+      if (actions && actions.length) {
         eventHandlers.push([
           `(${eventKey})`, `onControlAction(\'${control.id}\', \'${eventKey}\')`
         ]);

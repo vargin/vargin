@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { OwnedProperty } from 'core/owned-property';
 import { IProperty, Property } from 'core/property';
@@ -7,6 +7,12 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { ControlState } from 'core/controls/control-state';
+
+const PREDEFINED_STATE = new ControlState('predefined', {
+  styles: new Map<string, string>(<[string, string][]>[
+    ['border', '0.1rem solid #c7c7c7']
+  ])
+});
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -21,7 +27,10 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     [
       'border',
       new OwnedProperty(
-        null, StyleService.getDescriptor('border'), '0.1rem solid #c7c7c7'
+        null,
+        StyleService.getDescriptor('border'),
+        'border',
+        PREDEFINED_STATE.overrides.styles
       )
     ],
     ['color', StyleService.getDescriptor('color')],
@@ -50,10 +59,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class TextInputControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, TextInputControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, TextInputControl.getMeta(), states);
   }
 
   static getMeta() {

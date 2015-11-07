@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { IProperty, Property, PropertyWithOptions } from 'core/property';
 import { StyleService } from 'core/services/style-service';
@@ -57,8 +57,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ButtonControl extends Control {
-  constructor(id: string, states?: ControlState[], parameters?: IControlParameters) {
-    super(id, ButtonControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, ButtonControl.getMeta(), states);
   }
 
   static getMeta() {

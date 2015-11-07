@@ -1,5 +1,5 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
-import { Control, IControlParameters } from 'core/controls/control';
+import { Control } from 'core/controls/control';
 import { ControlMetadata } from 'core/controls/control-metadata';
 import { ContainerControl } from 'core/controls/visual/container-control';
 import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
@@ -8,6 +8,17 @@ import { IAction } from 'core/actions/action';
 import { StyleService } from 'core/services/style-service';
 import { EventService } from 'core/services/event-service';
 import { ControlState } from 'core/controls/control-state';
+
+const PREDEFINED_STATE = new ControlState('predefined', {
+  styles: new Map<string, string>(<[string, string][]>[
+    ['display', 'flex'],
+    ['flex-direction', 'column'],
+    ['justify-content', 'space-between'],
+    ['min-height', '5rem'],
+    ['min-width', '5rem'],
+    ['padding', '1rem']
+  ])
+});
 
 const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
   'list-item',
@@ -19,10 +30,8 @@ const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ListItemControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, LIST_ITEM_METADATA, states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, LIST_ITEM_METADATA, states);
   }
 
   static getMeta() {
@@ -43,35 +52,53 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>(
     ['border', StyleService.getDescriptor('border')],
     ['color', StyleService.getDescriptor('color')],
     ['display', new OwnedPropertyWithOptions(
-      null, StyleService.getDescriptor('display'), 'flex'
+      null,
+      StyleService.getDescriptor('display'),
+      'display',
+      PREDEFINED_STATE.overrides.styles
     )],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
     ['flex-direction', new OwnedPropertyWithOptions(
-      null, StyleService.getDescriptor('flex-direction'), 'column'
+      null,
+      StyleService.getDescriptor('flex-direction'),
+      'flex-direction',
+      PREDEFINED_STATE.overrides.styles
     )],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
     ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
     ['font-size', StyleService.getDescriptor('font-size')],
     ['font-weight', StyleService.getDescriptor('font-weight')],
     ['justify-content', new OwnedPropertyWithOptions(
-      null, StyleService.getDescriptor('justify-content'), 'space-between'
+      null,
+      StyleService.getDescriptor('justify-content'),
+      'justify-content',
+      PREDEFINED_STATE.overrides.styles
     )],
     [
       'min-height',
       new OwnedProperty(
-        null, StyleService.getDescriptor('min-height'), '5rem'
+        null,
+        StyleService.getDescriptor('min-height'),
+        'min-height',
+        PREDEFINED_STATE.overrides.styles
       )
     ],
     [
       'min-width',
       new OwnedProperty(
-        null, StyleService.getDescriptor('min-width'), '5rem'
+        null,
+        StyleService.getDescriptor('min-width'),
+        'min-width',
+        PREDEFINED_STATE.overrides.styles
       )
     ],
     [
       'padding',
       new OwnedProperty(
-        null, StyleService.getDescriptor('padding'), '1rem'
+        null,
+        StyleService.getDescriptor('padding'),
+        'padding',
+        PREDEFINED_STATE.overrides.styles
       )
     ]
   ]
@@ -94,10 +121,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ListControl extends Control {
-  constructor(
-    id: string, states?: ControlState[], parameters?: IControlParameters
-  ) {
-    super(id, ListControl.getMeta(), states, parameters);
+  constructor(id: string, states?: ControlState[]) {
+    super(id, ListControl.getMeta(), states);
   }
 
   getTemplate(): ListItemControl {
