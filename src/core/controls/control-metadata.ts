@@ -24,40 +24,37 @@ export class ControlMetadata {
    * List of the events supported by control.
    * @returns {Array<IProperty>}
    */
-  supportedEvents: Map<string, IProperty<Array<IAction>>>;
+  events: Map<string, IProperty<Array<IAction>>>;
 
   /**
    * List of the supported properties with the default value.
    * @returns {Map<string, IProperty<string>>}
    */
-  supportedProperties: Map<string, IProperty<string>>;
+  properties: Map<string, IProperty<string>>;
 
   /**
    * List of the supported styles with the default value.
    * @returns {Map<string, IProperty<string>>}
    */
-  supportedStyles: Map<string, IProperty<string>>;
+  styles: Map<string, IProperty<string>>;
 
   constructor(
     type: string,
     name: string,
     description: string,
-    supportedEvents?: Map<string, IProperty<Array<IAction>>>,
-    supportedProperties?: Map<string, IProperty<string>>,
-    supportedStyles?: Map<string, IProperty<string>>
+    events?: Map<string, IProperty<Array<IAction>>>,
+    properties?: Map<string, IProperty<string>>,
+    styles?: Map<string, IProperty<string>>
   ) {
     this.type = type;
     this.name = name;
     this.description = description;
 
-    this.supportedEvents = Object.freeze(
-      supportedEvents || new Map<string, IProperty<Array<IAction>>>()
+    this.events = Object.freeze(
+      events || new Map<string, IProperty<Array<IAction>>>()
     );
 
-    this.supportedProperties = supportedProperties ||
-      new Map<string, IProperty<string>>();
-
-    this.supportedStyles = supportedStyles ||
-      new Map<string, IProperty<string>>();
+    this.properties = properties || new Map<string, IProperty<string>>();
+    this.styles = styles || new Map<string, IProperty<string>>();
   }
 }

@@ -37,7 +37,7 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
 
   private static compileProperties(control: Control): Promise<[string, string][]> {
     let properties = [];
-    control.meta.supportedProperties.forEach((property, propertyKey) => {
+    control.meta.properties.forEach((property, propertyKey) => {
       properties.push([
         propertyKey, control.getProperty(propertyKey).getValue()
       ]);
@@ -50,7 +50,7 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
     let actionCompilePromises = [];
     let events = [];
 
-    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
+    control.meta.events.forEach((eventProperty, eventKey) => {
       actionCompilePromises.push(
         Promise.all(
           control.events.get(eventKey).getValue().map(

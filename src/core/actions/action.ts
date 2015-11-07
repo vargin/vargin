@@ -19,7 +19,7 @@ export class Action implements IAction {
     this._meta = meta;
     this._properties = new Map<string, IProperty<string>>();
 
-    meta.supportedProperties.forEach((metaProperty, propertyKey) => {
+    meta.properties.forEach((metaProperty, propertyKey) => {
       let controlProperty = 'getOptions' in metaProperty ?
         new OwnedPropertyWithOptions(
           this, <OwnedPropertyWithOptions<string, Action>>metaProperty

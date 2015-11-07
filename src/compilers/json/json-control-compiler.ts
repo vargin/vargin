@@ -128,7 +128,7 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
     let actionCompilePromises = [];
     let events = [];
 
-    control.meta.supportedEvents.forEach((eventProperty, eventKey) => {
+    control.meta.events.forEach((eventProperty, eventKey) => {
       actionCompilePromises.push(
         Promise.all(
           control.events.get(eventKey).getValue().map(

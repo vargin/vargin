@@ -24,18 +24,17 @@ export class ActionMetadata {
    * List of the supported properties with the default value.
    * @returns {Map<string, IProperty<string>>}
    */
-  supportedProperties: Map<string, IProperty<string>>;
+  properties: Map<string, IProperty<string>>;
 
   constructor(
     type: string,
     name: string,
     description: string,
-    supportedProperties?: Map<string, IProperty<string>>
+    properties?: Map<string, IProperty<string>>
   ) {
     this.type = type;
     this.name = name;
     this.description = description;
-    this.supportedProperties = supportedProperties ||
-      new Map<string, IProperty<string>>();
+    this.properties = properties || new Map<string, IProperty<string>>();
   }
 }

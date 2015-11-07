@@ -123,15 +123,15 @@ class VarginProperties {
 
     this.activeControl = control;
 
-    control.meta.supportedProperties.forEach((property, propertyKey) => {
+    control.meta.properties.forEach((property, propertyKey) => {
       this.groups.properties.items.push(control.getProperty(propertyKey));
     });
 
-    control.meta.supportedStyles.forEach((style, styleKey) => {
+    control.meta.styles.forEach((style, styleKey) => {
       this.groups.styles.items.push(control.getStyle(styleKey));
     });
 
-    control.meta.supportedEvents.forEach((property) => {
+    control.meta.events.forEach((property) => {
       this.groups.events.items.push(control.events.get(property.getType()));
     });
   }

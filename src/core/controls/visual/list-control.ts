@@ -13,9 +13,9 @@ const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
   'list-item',
   'List Item',
   'List item',
-  ContainerControl.getMeta().supportedEvents,
+  ContainerControl.getMeta().events,
   null,
-  ContainerControl.getMeta().supportedStyles
+  ContainerControl.getMeta().styles
 ));
 
 export class ListItemControl extends Control {

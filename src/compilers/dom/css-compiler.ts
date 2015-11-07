@@ -11,7 +11,7 @@ class CssCompiler implements ICompiler<Control, ICompiledCSSClass>{
     let cssClassName = `vargin-${control.meta.type}-${control.id}`;
 
     let text = `.${cssClassName} {`;
-    control.meta.supportedStyles.forEach((meta, key) => {
+    control.meta.styles.forEach((meta, key) => {
       text += `${key}: ${control.getStyle(key).getValue()};`;
     });
     text += '}';

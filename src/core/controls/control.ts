@@ -51,7 +51,7 @@ export class Control {
       styles: new Map<string, OwnedPropertyView<string, Control>>()
     };
 
-    this._meta.supportedEvents.forEach((metaProperty, eventKey) => {
+    this._meta.events.forEach((metaProperty, eventKey) => {
       let controlEventProperty =  new OwnedProperty(this, metaProperty);
 
       if (controlParameters.events && controlParameters.events.has(eventKey)) {
@@ -180,7 +180,7 @@ export class Control {
       key,
       this._states[this.currentStateIndex].overrides.properties,
       this._cache.properties,
-      this.meta.supportedProperties
+      this.meta.properties
     );
   }
 
@@ -189,7 +189,7 @@ export class Control {
       key,
       this._states[this.currentStateIndex].overrides.styles,
       this._cache.styles,
-      this.meta.supportedStyles
+      this.meta.styles
     );
   }
 

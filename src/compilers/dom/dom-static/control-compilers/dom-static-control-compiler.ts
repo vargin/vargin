@@ -18,7 +18,7 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
   compile(control: TControl): Promise<IDOMStaticCompiledControl> {
     let cssClassPromise: Promise<ICompiledCSSClass>;
 
-    if (control.meta.supportedStyles.size > 0) {
+    if (control.meta.styles.size > 0) {
       cssClassPromise = CSSClassCompiler.compile(control);
     } else {
       cssClassPromise = Promise.resolve(null);
