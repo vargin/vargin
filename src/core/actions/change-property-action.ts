@@ -1,4 +1,5 @@
 import { IProperty, Property } from 'core/property';
+import { IOverrides } from 'core/overrides/overrides';
 import { Action } from 'core/actions/action';
 import { ActionMetadata } from 'core/actions/action-metadata';
 import { ApplicationService } from 'core/services/application-service';
@@ -19,8 +20,8 @@ const METADATA = Object.freeze(new ActionMetadata(
 ));
 
 export class ChangePropertyAction extends Action {
-  constructor(properties?: Map<string, string>) {
-    super(METADATA, properties);
+  constructor(overrides: IOverrides) {
+    super(METADATA, overrides);
   }
 
   perform() {

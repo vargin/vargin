@@ -181,7 +181,14 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               events: [
                 ['click', [{
                   type: 'alert-action',
-                  properties: [['alert-message', 'Show options (not implemented)']]
+                  overrides: {
+                    id: 'f8655539-b9a5-24f4-879a-a915496b899a',
+                    name: 'default',
+                    groups: [[
+                      'properties',
+                      [['alert-message', 'Show options (not implemented)']]
+                    ]]
+                  }
                 }]]
               ]
             }
@@ -419,7 +426,14 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               events: [
                 ['click', [{
                   type: 'alert-action',
-                  properties: [['alert-message', 'Show options (not implemented)']]
+                  overrides: {
+                    id: 'f8655539-b9a5-24f5-978a-a915496b899a',
+                    name: 'default',
+                    groups: [[
+                      'properties',
+                      [['alert-message', 'Show options (not implemented)']]
+                    ]]
+                  }
                 }]]
               ]
             }
@@ -594,11 +608,18 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               events: [
                 ['click', [{
                   type: 'change-property-action',
-                  properties: [
-                    ['control-id', '1d6e60c0-7ee7-4d4f-b666-3086d0885617'],
-                    ['property-name', 'text'],
-                    ['property-value', '[Message Sent!]']
-                  ]
+                  overrides: {
+                    id: 'f8666639-b9a5-24f4-879a-a915496b899a',
+                    name: 'default',
+                    groups: [[
+                      'properties',
+                      [
+                        ['control-id', '1d6e60c0-7ee7-4d4f-b666-3086d0885617'],
+                        ['property-name', 'text'],
+                        ['property-value', '[Message Sent!]']
+                      ]
+                    ]]
+                  }
                 }]]
               ]
             }

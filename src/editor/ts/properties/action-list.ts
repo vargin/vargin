@@ -9,8 +9,10 @@ import {
 } from 'angular2/angular2';
 import { IAction, Action } from 'core/actions/action';
 import { IProperty, Property } from 'core/property';
+import { Overrides } from 'core/overrides/overrides';
 
 import { ActionService } from 'core/services/action-service';
+import { UtilsService } from 'core/services/utils-service';
 
 import { AlertAction } from 'core/actions/alert-action';
 import { ChangePropertyAction } from 'core/actions/change-property-action';
@@ -61,15 +63,23 @@ export class ActionList {
       this.property.setValue(actions);
     }
 
+    let overrides = new Overrides(
+      UtilsService.uuid(),
+      'default',
+      new Map(
+        <[string, Map<string, string>][]>[['properties', new Map()]]
+      )
+    );
+
     switch (newActionSelect.value) {
       case 'alert-action':
-        actions.push(new AlertAction());
+        actions.push(new AlertAction(overrides));
         break;
       case 'change-property-action':
-        actions.push(new ChangePropertyAction());
+        actions.push(new ChangePropertyAction(overrides));
         break;
       case 'navigate-action':
-        actions.push(new NavigateAction());
+        actions.push(new NavigateAction(overrides));
         break;
       case 'default':
         return;

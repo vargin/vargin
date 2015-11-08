@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+import { IOverrides } from 'core/overrides/overrides';
 import { IAction } from 'core/actions/action';
 
 import { AlertAction } from 'core/actions/alert-action';
@@ -15,16 +16,15 @@ const ACTIONS = new Map<string, any>(<[string, any][]>[
 
 export class ActionService {
   static createByType<TAction extends IAction>(
-    type: string,
-    properties: Map<string, string>
+    type: string, overrides: IOverrides
   ): TAction {
     if (!ACTIONS.has(type)) {
       throw new Error('Not supported action type: ' + type);
     }
 
-    let ActionClass = <{ new(properties: Map<string, string>): TAction; }>
+    let ActionClass = <{ new(overrides: IOverrides): TAction; }>
       ACTIONS.get(type);
 
-    return new ActionClass(properties);
+    return new ActionClass(overrides);
   }
 }

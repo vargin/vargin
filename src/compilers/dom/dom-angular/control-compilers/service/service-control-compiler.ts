@@ -2,20 +2,20 @@ import { IProperty } from 'core/property';
 import { Control } from 'core/controls/control';
 import { IControlCompiler } from 'compilers/control-compiler';
 import {
-  ISerializedServiceControlAction,
-  SerializedServiceControlActionCompiler
-} from 'compilers/dom/dom-angular/control-compilers/service/service-control-action-compiler';
+  IJSONAction,
+  JSONActionCompiler
+} from 'compilers/json/json-action-compiler';
 
 export interface ISerializedServiceControl {
   type: string;
   id: string;
   parameters?: {
     properties?: [string, string][];
-    events?: [string, Array<ISerializedServiceControlAction>][];
+    events?: [string, Array<IJSONAction>][];
   };
 }
 
-const actionCompiler = new SerializedServiceControlActionCompiler();
+let actionCompiler = new JSONActionCompiler();
 
 export class ServiceControlCompiler implements IControlCompiler<ISerializedServiceControl> {
   compile(control: Control) {
@@ -46,7 +46,7 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
     return Promise.resolve(properties);
   }
 
-  private static compileEvents(control: Control): Promise<[string, ISerializedServiceControlAction[]][]> {
+  private static compileEvents(control: Control): Promise<[string, IJSONAction[]][]> {
     let actionCompilePromises = [];
     let events = [];
 
@@ -55,11 +55,12 @@ export class ServiceControlCompiler implements IControlCompiler<ISerializedServi
 
       if (actions) {
         actionCompilePromises.push(
-          Promise.all(actions.map((action) => actionCompiler.compile(action))
-        ).then(
-          (compiledActions) => events.push([eventKey, compiledActions])
-        )
-      );
+          Promise.all(
+            actions.map((action) => actionCompiler.compile(action))
+          ).then(
+            (compiledActions) => events.push([eventKey, compiledActions])
+          )
+        );
       }
     });
 
