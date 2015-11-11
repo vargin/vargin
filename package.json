@@ -34,6 +34,8 @@
     "sass-flex-mixin": "1.0.0"
   },
 
+  "typings": "./typings/index.d.ts",
+
   "scripts": {
     "watch": "./node_modules/typescript/bin/tsc --watch",
     "test": "./node_modules/typescript/bin/tsc && karma start karma.conf.js"
