@@ -1,5 +1,5 @@
-import { IOverrides, Overrides } from 'core/overrides/overrides';
-import { ICompiler } from 'compilers/compiler';
+import { IOverrides, Overrides } from '../../core/overrides/overrides';
+import { ICompiler } from '../compiler';
 
 export interface IJSONOverrides {
   id: string;

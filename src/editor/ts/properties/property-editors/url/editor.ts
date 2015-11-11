@@ -1,11 +1,10 @@
-/// <reference path="../../../../../../typings/tsd.d.ts" />
 import { Component, Inject, provide, View } from 'angular2/angular2';
 
-import { IProperty, Property } from 'core/property';
-import { Address, AddressType } from 'core/data/address';
-import { DialogService } from 'editor/ts/services/dialog-service';
-import { URLPropertyEditorDialog } from 'editor/ts/properties/property-editors/url/editor-dialog';
-import { ApplicationService } from 'core/services/application-service';
+import { IProperty, Property } from '../../../../../core/property';
+import { Address, AddressType } from '../../../../../core/data/address';
+import { DialogService } from '../../../services/dialog-service';
+import { URLPropertyEditorDialog } from './editor-dialog';
+import { ApplicationService } from '../../../../../core/services/application-service';
 
 @Component({
   selector: 'url-property-editor',

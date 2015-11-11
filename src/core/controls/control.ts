@@ -1,8 +1,8 @@
-import { IProperty } from 'core/property';
-import { IAction } from 'core/actions/action';
-import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
-import { ControlMetadata } from 'core/controls/control-metadata';
-import { ControlState } from 'core/controls/control-state';
+import { IProperty } from '../property';
+import { IAction } from '../actions/action';
+import { OwnedProperty, OwnedPropertyWithOptions } from '../owned-property';
+import { ControlMetadata } from './control-metadata';
+import { ControlState } from './control-state';
 
 export class Control {
   private _id: string;

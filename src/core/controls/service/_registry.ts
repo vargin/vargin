@@ -1,4 +1,4 @@
-import { DatasourceControl } from 'core/controls/service/datasource-control';
+import { DatasourceControl } from './datasource-control';
 
 export const REGISTRY = [
   DatasourceControl

@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, View } from 'angular2/angular2';
 
 interface IExpandableGroupItem {

@@ -1,9 +1,9 @@
-import { IProperty, Property } from 'core/property';
-import { IOverrides } from 'core/overrides/overrides';
-import { Action } from 'core/actions/action';
-import { ActionMetadata } from 'core/actions/action-metadata';
-import { Message } from 'core/events/message';
-import { ChannelService } from 'core/services/channel-service';
+import { IProperty, Property } from '../property';
+import { IOverrides } from '../overrides/overrides';
+import { Action } from './action';
+import { ActionMetadata } from './action-metadata';
+import { Message } from '../events/message';
+import { ChannelService } from '../services/channel-service';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[

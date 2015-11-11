@@ -1,11 +1,10 @@
-import { Application } from 'core/application';
-import { ApplicationPage } from 'core/application-page';
+import { Application } from '../../core/application';
+import { ApplicationPage } from '../../core/application-page';
 
-import { IApplicationCompiler } from 'compilers/application-compiler';
+import { IApplicationCompiler } from '../application-compiler';
 import {
-  IJSONControl,
-  JSONControlCompiler
-} from 'compilers/json/json-control-compiler';
+  IJSONControl, JSONControlCompiler
+} from './json-control-compiler';
 
 interface IJSONApplication {
   id: string;

@@ -1,10 +1,9 @@
-/// <reference path="../../../typings/tsd.d.ts" />
 import {
   IProperty,
   IPropertyWithOptions,
   Property,
   PropertyWithOptions
-} from 'core/property';
+} from '../property';
 
 const STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[

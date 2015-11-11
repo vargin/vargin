@@ -1,4 +1,3 @@
-/// <reference path="../../../../../../typings/tsd.d.ts" />
 import {
   Component,
   Inject,
@@ -7,12 +6,12 @@ import {
   provide,
   View
 } from 'angular2/angular2';
-import { Property } from 'core/property';
-import { OwnedProperty } from 'core/owned-property';
-import { Control } from 'core/controls/control';
-import { DialogService } from 'editor/ts/services/dialog-service';
-import { ItemsPropertyEditorDialog } from 'editor/ts/properties/property-editors/items/editor-dialog';
-import { Schema } from 'core/data/schema';
+import { Property } from '../../../../../core/property';
+import { OwnedProperty } from '../../../../../core/owned-property';
+import { Control } from '../../../../../core/controls/control';
+import { DialogService } from '../../../services/dialog-service';
+import { ItemsPropertyEditorDialog } from './editor-dialog';
+import { Schema } from '../../../../../core/data/schema';
 
 @Component({
   selector: 'items-property-list-dialog'

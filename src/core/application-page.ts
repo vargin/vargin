@@ -1,4 +1,4 @@
-import { Control } from 'core/controls/control';
+import { Control } from './controls/control';
 
 export class ApplicationPage {
   private _id: string;

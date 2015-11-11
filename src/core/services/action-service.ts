@@ -1,11 +1,10 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-import { IOverrides } from 'core/overrides/overrides';
-import { IAction } from 'core/actions/action';
+import { IOverrides } from '../overrides/overrides';
+import { IAction } from '../actions/action';
 
-import { AlertAction } from 'core/actions/alert-action';
-import { BroadcastAction } from 'core/actions/broadcast-action';
-import { ChangePropertyAction } from 'core/actions/change-property-action';
-import { NavigateAction } from 'core/actions/navigate-action';
+import { AlertAction } from '../actions/alert-action';
+import { BroadcastAction } from '../actions/broadcast-action';
+import { ChangePropertyAction } from '../actions/change-property-action';
+import { NavigateAction } from '../actions/navigate-action';
 
 const ACTIONS = new Map<string, any>(<[string, any][]>[
   ['alert-action', AlertAction],

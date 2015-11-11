@@ -1,10 +1,10 @@
-import { IProperty } from 'core/property';
-import { Control } from 'core/controls/control';
-import { IControlCompiler } from 'compilers/control-compiler';
+import { IProperty } from '../../../../../core/property';
+import { Control } from '../../../../../core/controls/control';
+import { IControlCompiler } from '../../../../control-compiler';
 import {
   IJSONAction,
   JSONActionCompiler
-} from 'compilers/json/json-action-compiler';
+} from '../../../../json/json-action-compiler';
 
 export interface ISerializedServiceControl {
   type: string;

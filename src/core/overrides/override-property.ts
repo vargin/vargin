@@ -1,7 +1,5 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-
-import { IProperty, IPropertyWithOptions } from 'core/property';
-import { IOverride } from 'core/overrides/overrides';
+import { IProperty, IPropertyWithOptions } from '../property';
+import { IOverride } from './overrides';
 
 export class OverrideProperty<TValue, TOwner> implements IProperty<TValue> {
   protected _property: IProperty<TValue>;

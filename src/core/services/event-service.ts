@@ -1,5 +1,5 @@
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
+import { IProperty, Property } from '../property';
+import { IAction } from '../actions/action';
 
 const EVENTS = new Map<string, IProperty<Array<IAction>>>(
   <[string, IProperty<Array<IAction>>][]>[

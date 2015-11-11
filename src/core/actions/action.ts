@@ -1,12 +1,11 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-import { IProperty } from 'core/property';
-import { IOverrides } from 'core/overrides/overrides';
+import { IProperty } from '../property';
+import { IOverrides } from '../overrides/overrides';
 import {
   OverrideProperty,
   OverridePropertyWithOptions
-} from 'core/overrides/override-property';
-import { ActionMetadata } from 'core/actions/action-metadata';
-import { UtilsService } from 'core/services/utils-service';
+} from '../overrides/override-property';
+import { ActionMetadata } from './action-metadata';
+import { UtilsService } from '../services/utils-service';
 
 export interface IAction {
   name: string;

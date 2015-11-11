@@ -1,5 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-import { IAction } from 'core/actions/action';
+import { IAction } from '../actions/action';
 
 export interface IControlStateOverrides {
   properties?: Map<string, string>;

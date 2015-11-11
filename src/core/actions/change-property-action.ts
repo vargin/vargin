@@ -1,8 +1,8 @@
-import { IProperty, Property } from 'core/property';
-import { IOverrides } from 'core/overrides/overrides';
-import { Action } from 'core/actions/action';
-import { ActionMetadata } from 'core/actions/action-metadata';
-import { ApplicationService } from 'core/services/application-service';
+import { IProperty, Property } from '../property';
+import { IOverrides } from '../overrides/overrides';
+import { Action } from './action';
+import { ActionMetadata } from './action-metadata';
+import { ApplicationService } from '../services/application-service';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[

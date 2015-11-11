@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import {
   Component,
   ComponentRef,
@@ -11,7 +10,7 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { IDialogRequest, DialogService } from 'editor/ts/services/dialog-service';
+import { IDialogRequest, DialogService } from '../services/dialog-service';
 
 interface IDialogDescriptor {
   uuid: string;
@@ -43,7 +42,7 @@ export class DialogManager {
     this.componentLoader = componentLoader;
     this.viewContainer = viewContainer;
 
-    DialogService.onRequest.toRx().subscribe(this.onDialogRequested.bind(this));
+    DialogService.onRequest.subscribe(this.onDialogRequested.bind(this));
   }
 
   close() {

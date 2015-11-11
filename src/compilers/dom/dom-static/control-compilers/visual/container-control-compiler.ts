@@ -1,8 +1,8 @@
+import { DOMStaticControlCompiler } from '../dom-static-control-compiler';
 import {
-  DOMStaticControlCompiler
-} from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+  ContainerControl
+} from '../../../../../core/controls/visual/container-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class ContainerControlCompiler extends DOMStaticControlCompiler<ContainerControl> {
   getMarkup(control: ContainerControl, cssClass: ICompiledCSSClass) {

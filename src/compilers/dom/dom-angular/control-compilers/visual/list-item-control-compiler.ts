@@ -1,11 +1,9 @@
-import {
-  DOMAngularControlCompiler
-} from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
+import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
 import {
   ListControl,
   ListItemControl
-} from 'core/controls/visual/list-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+} from '../../../../../core/controls/visual/list-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class ListItemControlCompiler extends DOMAngularControlCompiler<ListItemControl> {
   getMarkup(control: ListItemControl, cssClass: ICompiledCSSClass) {

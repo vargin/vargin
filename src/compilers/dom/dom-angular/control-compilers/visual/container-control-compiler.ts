@@ -1,8 +1,8 @@
+import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
 import {
-  DOMAngularControlCompiler
-} from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+  ContainerControl
+} from '../../../../../core/controls/visual/container-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class ContainerControlCompiler extends DOMAngularControlCompiler<ContainerControl> {
   getMarkup(control: ContainerControl, cssClass: ICompiledCSSClass) {

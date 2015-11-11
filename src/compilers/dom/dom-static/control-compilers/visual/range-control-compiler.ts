@@ -1,8 +1,8 @@
+import { DOMStaticControlCompiler } from '../dom-static-control-compiler';
 import {
-  DOMStaticControlCompiler
-} from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
-import { RangeControl } from 'core/controls/visual/range-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+  RangeControl
+} from '../../../../../core/controls/visual/range-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class RangeControlCompiler extends DOMStaticControlCompiler<RangeControl> {
   getMarkup(control: RangeControl, cssClass: ICompiledCSSClass) {

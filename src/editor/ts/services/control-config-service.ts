@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { Type } from 'angular2/angular2';
 
 interface ITypeDescription {
@@ -10,66 +9,66 @@ const CONTROL_CONFIG = new Map<string, [ITypeDescription, ITypeDescription]>(
   <[string, [ITypeDescription, ITypeDescription]][]>[
     ['button', [{
       name: 'ButtonControl',
-      path: 'core/controls/visual/button-control'
+      path: 'src/core/controls/visual/button-control'
     }, {
       name: 'ButtonComponent',
-      path: 'editor/ts/control-components/visual/button-component'
+      path: 'src/editor/ts/control-components/visual/button-component'
     }]],
     ['container', [{
       name: 'ContainerControl',
-      path: 'core/controls/visual/container-control'
+      path: 'src/core/controls/visual/container-control'
     }, {
       name: 'ContainerComponent',
-      path: 'editor/ts/control-components/visual/container-component'
+      path: 'src/editor/ts/control-components/visual/container-component'
     }]],
     ['datasource', [{
       name: 'DatasourceControl',
-      path: 'core/controls/service/datasource-control'
+      path: 'src/core/controls/service/datasource-control'
     }, {
       name: 'DatasourceComponent',
-      path: 'editor/ts/control-components/service/datasource-component'
+      path: 'src/editor/ts/control-components/service/datasource-component'
     }]],
     ['label', [{
       name: 'LabelControl',
-      path: 'core/controls/visual/label-control'
+      path: 'src/core/controls/visual/label-control'
     }, {
       name: 'LabelComponent',
-      path: 'editor/ts/control-components/visual/label-component'
+      path: 'src/editor/ts/control-components/visual/label-component'
     }]],
     ['link', [{
       name: 'LinkControl',
-      path: 'core/controls/visual/link-control'
+      path: 'src/core/controls/visual/link-control'
     }, {
       name: 'LinkComponent',
-      path: 'editor/ts/control-components/visual/link-component'
+      path: 'src/editor/ts/control-components/visual/link-component'
     }]],
     ['list', [{
       name: 'ListControl',
-      path: 'core/controls/visual/list-control'
+      path: 'src/core/controls/visual/list-control'
     }, {
       name: 'ListComponent',
-      path: 'editor/ts/control-components/visual/list-component'
+      path: 'src/editor/ts/control-components/visual/list-component'
     }]],
     ['list-item', [{
       name: 'ListItemControl',
-      path: 'core/controls/visual/list-control'
+      path: 'src/core/controls/visual/list-control'
     }, {
       name: 'ContainerComponent',
-      path: 'editor/ts/control-components/visual/container-component'
+      path: 'src/editor/ts/control-components/visual/container-component'
     }]],
     ['range', [{
       name: 'RangeControl',
-      path: 'core/controls/visual/range-control'
+      path: 'src/core/controls/visual/range-control'
     }, {
       name: 'RangeComponent',
-      path: 'editor/ts/control-components/visual/range-component'
+      path: 'src/editor/ts/control-components/visual/range-component'
     }]],
     ['text-input', [{
       name: 'TextInputControl',
-      path: 'core/controls/visual/text-input-control'
+      path: 'src/core/controls/visual/text-input-control'
     }, {
       name: 'TextInputComponent',
-      path: 'editor/ts/control-components/visual/text-input-component'
+      path: 'src/editor/ts/control-components/visual/text-input-component'
     }]]
   ]
 );

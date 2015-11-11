@@ -1,9 +1,8 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
-import { Control } from 'core/controls/control';
-import { ControlMetadata } from 'core/controls/control-metadata';
-import { ControlState } from 'core/controls/control-state';
+import { IProperty, Property } from '../../property';
+import { IAction } from '../../actions/action';
+import { Control } from '../control';
+import { ControlMetadata } from '../control-metadata';
+import { ControlState } from '../control-state';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[

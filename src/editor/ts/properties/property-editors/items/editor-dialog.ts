@@ -1,7 +1,6 @@
-/// <reference path="../../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
-import { IProperty, Property } from 'core/property';
-import { Schema } from 'core/data/schema';
+import { IProperty, Property } from '../../../../../core/property';
+import { Schema } from '../../../../../core/data/schema';
 
 @Component({
   selector: 'items-property-editor-dialog'

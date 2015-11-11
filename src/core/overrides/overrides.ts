@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-
 export interface IOverride<TValue> {
   get(): TValue;
   set(value: TValue);

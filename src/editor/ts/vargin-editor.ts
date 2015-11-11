@@ -1,30 +1,33 @@
-/// <reference path="../../../typings/tsd.d.ts" />
 import { bootstrap, Component, Type, View } from 'angular2/angular2';
 
 import {
   IExpandableGroup,
   VarginExpandableGroups
-} from 'editor/ts/expandable-groups/expandable-groups';
-import VarginWorkspace from 'editor/ts/workspace/workspace';
-import VarginProperties from 'editor/ts/properties/properties';
-import { DialogManager } from 'editor/ts/dialog-manager/dialog-manager';
+} from './expandable-groups/expandable-groups';
+import VarginWorkspace from './workspace/workspace';
+import VarginProperties from './properties/properties';
+import { DialogManager } from './dialog-manager/dialog-manager';
 
-import { ControlGroup } from 'core/controls/control-group';
+import { ControlGroup } from '../../core/controls/control-group';
 
-import { ControlService } from 'editor/ts/services/control-service';
+import { ControlService } from './services/control-service';
 
-import { REGISTRY as VISUAL_CONTROLS } from 'core/controls/visual/_registry';
-import { REGISTRY as SERVICE_CONTROLS } from 'core/controls/service/_registry';
+import {
+  REGISTRY as VISUAL_CONTROLS
+} from '../../core/controls/visual/_registry';
+import {
+  REGISTRY as SERVICE_CONTROLS
+} from '../../core/controls/service/_registry';
 
-import { ButtonComponent } from 'editor/ts/control-components/visual/button-component';
-import { LabelComponent } from 'editor/ts/control-components/visual/label-component';
-import { LinkComponent } from 'editor/ts/control-components/visual/link-component';
-import { ListComponent } from 'editor/ts/control-components/visual/list-component';
-import { RangeComponent } from 'editor/ts/control-components/visual/range-component';
-import { TextInputComponent } from 'editor/ts/control-components/visual/text-input-component';
-import { DatasourceComponent } from 'editor/ts/control-components/service/datasource-component';
+import { ButtonComponent } from './control-components/visual/button-component';
+import { LabelComponent } from './control-components/visual/label-component';
+import { LinkComponent } from './control-components/visual/link-component';
+import { ListComponent } from './control-components/visual/list-component';
+import { RangeComponent } from './control-components/visual/range-component';
+import { TextInputComponent } from './control-components/visual/text-input-component';
+import { DatasourceComponent } from './control-components/service/datasource-component';
 
-import { ActionEditor } from 'editor/ts/properties/action-editor';
+import { ActionEditor } from './properties/action-editor';
 
 @Component({
   selector: 'vargin'

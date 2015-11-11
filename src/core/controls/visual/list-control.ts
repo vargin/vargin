@@ -1,13 +1,12 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
-import { Control } from 'core/controls/control';
-import { ControlMetadata } from 'core/controls/control-metadata';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { OwnedProperty, OwnedPropertyWithOptions } from 'core/owned-property';
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
-import { StyleService } from 'core/services/style-service';
-import { EventService } from 'core/services/event-service';
-import { ControlState } from 'core/controls/control-state';
+import { Control } from '../control';
+import { ControlMetadata } from '../control-metadata';
+import { ContainerControl } from './container-control';
+import { OwnedProperty, OwnedPropertyWithOptions } from '../../owned-property';
+import { IProperty, Property } from '../../property';
+import { IAction } from '../../actions/action';
+import { StyleService } from '../../services/style-service';
+import { EventService } from '../../services/event-service';
+import { ControlState } from '../../controls/control-state';
 
 const PREDEFINED_STATE = new ControlState('predefined', {
   styles: new Map<string, string>(<[string, string][]>[

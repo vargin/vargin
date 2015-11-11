@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import {
   Component,
   DynamicComponentLoader,
@@ -12,11 +11,11 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { Control } from 'core/controls/control';
+import { Control } from '../../../core/controls/control';
 
-import { ControlConfigService } from 'editor/ts/services/control-config-service';
+import { ControlConfigService } from '../services/control-config-service';
 
-import { BaseComponent } from 'editor/ts/control-components/base-component';
+import { BaseComponent } from './base-component';
 
 @Component({
   selector: 'vargin-dynamic',

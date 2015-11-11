@@ -1,10 +1,7 @@
-import { IControlCompiler } from 'compilers/control-compiler';
-import {
-  ICompiledCSSClass,
-  CSSClassCompiler
-} from 'compilers/dom/css-compiler';
-import { IProperty } from 'core/property';
-import { Control } from 'core/controls/control';
+import { IControlCompiler } from '../../../control-compiler';
+import { ICompiledCSSClass, CSSClassCompiler } from '../../css-compiler';
+import { IProperty } from '../../../../core/property';
+import { Control } from '../../../../core/controls/control';
 
 export interface IDOMStaticCompiledControl {
   source: Control;

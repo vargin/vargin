@@ -1,6 +1,6 @@
-import { Application } from 'core/application';
-import { UtilsService } from 'core/services/utils-service';
-import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
+import { Application } from '../application';
+import { UtilsService } from './utils-service';
+import { JSONApplicationCompiler } from '../../compilers/json/json-application-compiler';
 
 const DEFAULT_SERIALIZED_APPLICATION = {
   id: '4013f806-000b-4a91-b2ca-2f19c9138734',

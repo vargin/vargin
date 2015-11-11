@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
   DynamicComponentLoader,
@@ -11,18 +10,18 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { IProperty, Property } from 'core/property';
+import { IProperty, Property } from '../../../../core/property';
 
-import ColorPropertyEditor from 'editor/ts/properties/property-editors/color-property-editor';
-import NumberPropertyEditor from 'editor/ts/properties/property-editors/number-property-editor';
-import StringPropertyEditor from 'editor/ts/properties/property-editors/string-property-editor';
-import PropertyWithOptionsEditor from 'editor/ts/properties/property-editors/property-with-options-editor';
-import EventPropertyEditor from 'editor/ts/properties/property-editors/event-property-editor';
-import ImagePropertyEditor from 'editor/ts/properties/property-editors/image-property-editor';
-import URLPropertyEditor from 'editor/ts/properties/property-editors/url/editor';
-import { SchemaPropertyEditor } from 'editor/ts/properties/property-editors/schema/editor';
-import { ItemsPropertyEditor } from 'editor/ts/properties/property-editors/items/editor';
-import DatasourcePropertyEditor from 'editor/ts/properties/property-editors/datasource-property-editor';
+import ColorPropertyEditor from '../property-editors/color-property-editor';
+import NumberPropertyEditor from '../property-editors/number-property-editor';
+import StringPropertyEditor from '../property-editors/string-property-editor';
+import PropertyWithOptionsEditor from '../property-editors/property-with-options-editor';
+import EventPropertyEditor from '../property-editors/event-property-editor';
+import ImagePropertyEditor from '../property-editors/image-property-editor';
+import URLPropertyEditor from '../property-editors/url/editor';
+import { SchemaPropertyEditor } from '../property-editors/schema/editor';
+import { ItemsPropertyEditor } from '../property-editors/items/editor';
+import DatasourcePropertyEditor from '../property-editors/datasource-property-editor';
 
 @Component({
   selector: 'property-editor',

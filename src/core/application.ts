@@ -1,7 +1,7 @@
-import { Control } from 'core/controls/control';
-import { ContainerControl } from 'core/controls/visual/container-control';
-import { ApplicationPage } from 'core/application-page';
-import { UtilsService } from 'core/services/utils-service';
+import { Control } from './controls/control';
+import { ContainerControl } from './controls/visual/container-control';
+import { ApplicationPage } from './application-page';
+import { UtilsService } from './services/utils-service';
 
 export class Application {
   private _id: string;

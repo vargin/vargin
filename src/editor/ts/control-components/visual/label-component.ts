@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
   Inject,
@@ -9,11 +8,11 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { Control } from 'core/controls/control';
-import { LabelControl } from 'core/controls/visual/label-control';
-import { StringFormatter } from 'core/tools/string-formatter';
+import { Control } from '../../../../core/controls/control';
+import { LabelControl } from '../../../../core/controls/visual/label-control';
+import { StringFormatter } from '../../../../core/tools/string-formatter';
 
-import { BaseComponent } from 'editor/ts/control-components/base-component';
+import { BaseComponent } from '../base-component';
 
 @Component({
   selector: 'vargin-label',

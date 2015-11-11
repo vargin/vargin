@@ -1,5 +1,7 @@
-import { DOMStaticControlCompiler } from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
-import { Control } from 'core/controls/control';
+import {
+  DOMStaticControlCompiler
+} from '../../dom-static/control-compilers/dom-static-control-compiler';
+import { Control } from '../../../../core/controls/control';
 
 export class DOMAngularControlCompiler<TControl extends Control> extends DOMStaticControlCompiler<TControl> {
 

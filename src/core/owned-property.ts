@@ -1,6 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
-
-import { IProperty, IPropertyWithOptions } from 'core/property';
+import { IProperty, IPropertyWithOptions } from './property';
 
 export class OwnedProperty<T, TOwner> implements IProperty<T> {
   protected _property: IProperty<T>;

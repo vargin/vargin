@@ -1,5 +1,5 @@
-import { IProperty } from 'core/property';
-import { IAction } from 'core/actions/action';
+import { IProperty } from '../property';
+import { IAction } from '../actions/action';
 
 export class ControlMetadata {
   /**

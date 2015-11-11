@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
   Inject,
@@ -9,9 +8,9 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { Control } from 'core/controls/control';
-import { LinkControl } from 'core/controls/visual/link-control';
-import { BaseComponent } from 'editor/ts/control-components/base-component';
+import { Control } from '../../../../core/controls/control';
+import { LinkControl } from '../../../../core/controls/visual/link-control';
+import { BaseComponent } from '../base-component';
 
 @Component({
   selector: 'vargin-link',

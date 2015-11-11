@@ -1,9 +1,7 @@
-import {
-  DOMAngularControlCompiler
-} from 'compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
-import { LinkControl } from 'core/controls/visual/link-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
-import { Address, AddressType } from 'core/data/address';
+import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
+import { LinkControl } from '../../../../../core/controls/visual/link-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
+import { Address, AddressType } from '../../../../../core/data/address';
 
 export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> {
   getMarkup(control: LinkControl, cssClass: ICompiledCSSClass) {

@@ -1,5 +1,5 @@
-import { ICompiler } from 'compilers/compiler';
-import { Control } from 'core/controls/control';
+import { ICompiler } from '../compiler';
+import { Control } from '../../core/controls/control';
 
 export interface ICompiledCSSClass {
   name: string;

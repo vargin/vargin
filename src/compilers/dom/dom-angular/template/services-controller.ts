@@ -1,6 +1,5 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Inject } from 'angular2/angular2';
-import { IServiceDescription, services } from 'app-description';
+import { IServiceDescription, services } from './app-description';
 
 // Parse services
 // 1. Datasources

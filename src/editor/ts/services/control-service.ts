@@ -1,14 +1,13 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { EventEmitter } from 'angular2/angular2';
-import { ControlMetadata } from 'core/controls/control-metadata';
+import { ControlMetadata } from '../../../core/controls/control-metadata';
 
-import { Control } from 'core/controls/control';
-import { ControlState } from 'core/controls/control-state';
+import { Control } from '../../../core/controls/control';
+import { ControlState } from '../../../core/controls/control-state';
 
-import { BaseComponent } from 'editor/ts/control-components/base-component';
+import { BaseComponent } from '../control-components/base-component';
 
-import { UtilsService } from 'core/services/utils-service';
-import { ControlConfigService } from 'editor/ts/services/control-config-service';
+import { UtilsService } from '../../../core/services/utils-service';
+import { ControlConfigService } from './control-config-service';
 
 interface IControlType<TControl> {
   new(id: string, states?: ControlState[], children?: Control[]): TControl;
@@ -17,8 +16,8 @@ interface IControlType<TControl> {
 export class ControlService {
   private static _activeComponent: BaseComponent;
 
-  static controlSelected: EventEmitter = new EventEmitter();
-  static controlUnselected: EventEmitter = new EventEmitter();
+  static controlSelected: EventEmitter<Control> = new EventEmitter<Control>();
+  static controlUnselected: EventEmitter<Control> = new EventEmitter<Control>();
 
   static selectComponent(component: BaseComponent) {
     // Special case when different components have the same control attached.

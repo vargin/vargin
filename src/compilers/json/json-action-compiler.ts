@@ -1,10 +1,9 @@
-import { IAction } from 'core/actions/action';
-import { ActionService } from 'core/services/action-service';
-import { ICompiler } from 'compilers/compiler';
+import { IAction } from '../../core/actions/action';
+import { ActionService } from '../../core/services/action-service';
+import { ICompiler } from '../compiler';
 import {
-  IJSONOverrides,
-  JSONOverridesCompiler
-} from 'compilers/json/json-overrides-compiler';
+  IJSONOverrides, JSONOverridesCompiler
+} from './json-overrides-compiler';
 
 export interface IJSONAction {
   type: string;

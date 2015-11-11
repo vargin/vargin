@@ -1,8 +1,8 @@
+import { DOMStaticControlCompiler } from '../dom-static-control-compiler';
 import {
-  DOMStaticControlCompiler
-} from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
-import { TextInputControl } from 'core/controls/visual/text-input-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
+  TextInputControl
+} from '../../../../../core/controls/visual/text-input-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class TextInputControlCompiler extends DOMStaticControlCompiler<TextInputControl> {
   getMarkup(control: TextInputControl, cssClass: ICompiledCSSClass) {

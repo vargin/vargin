@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
   ComponentRef,
@@ -10,10 +9,10 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
+import { IProperty, Property } from '../../../../core/property';
+import { IAction } from '../../../../core/actions/action';
 
-import { ActionList } from 'editor/ts/properties/action-list';
+import { ActionList } from '../action-list';
 
 @Component({
   selector: 'event-property-editor',

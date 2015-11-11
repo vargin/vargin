@@ -14,19 +14,23 @@
   <script>
     var application = window.opener.application;
 
-    System.register('app-description', [], function(exports) {
-      return {
-        setters: [],
-        execute: function() {
-          exports('pages', application.compiledApp.pages);
-          exports('services', application.compiledApp.services);
-          exports('application', application.jsonCompiledApplication)
-        }
+    System.register(
+      'src/compilers/dom/dom-angular/template/app-description',
+      [],
+      function(exports) {
+        return {
+          setters: [],
+          execute: function() {
+            exports('pages', application.compiledApp.pages);
+            exports('services', application.compiledApp.services);
+            exports('application', application.jsonCompiledApplication)
+          }
+        };
       }
-    });
+    );
 
     System.import(
-      'compilers/dom/dom-angular/template/app-controller'
+      'src/compilers/dom/dom-angular/template/app-controller'
     ).catch(function(e) {
       console.error(e);
     });

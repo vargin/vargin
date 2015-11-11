@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts" />
 import { it, describe, expect } from 'angular2/testing';
 import {
   StringFormatter,

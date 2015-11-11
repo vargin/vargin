@@ -1,7 +1,6 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
-import { Renderer, ViewContainerRef} from 'angular2/angular2';
-import { Control } from 'core/controls/control';
-import { ControlService } from 'editor/ts/services/control-service';
+import { Renderer, ViewContainerRef } from 'angular2/angular2';
+import { Control } from '../../../core/controls/control';
+import { ControlService } from '../services/control-service';
 
 const CONTAINER_ONLY_STYLES = [
   'flex-basis', 'flex-grow', 'flex-shrink', 'margin'

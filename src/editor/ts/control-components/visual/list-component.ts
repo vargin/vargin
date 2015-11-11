@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   Component,
   Inject,
@@ -10,16 +9,16 @@ import {
   ViewContainerRef
 } from 'angular2/angular2';
 
-import { Control } from 'core/controls/control';
-import { ControlState } from 'core/controls/control-state';
+import { Control } from '../../../../core/controls/control';
+import { ControlState } from '../../../../core/controls/control-state';
 import {
   ListControl,
   ListItemControl
-} from 'core/controls/visual/list-control';
-import { BaseComponent } from 'editor/ts/control-components/base-component';
-import { DynamicComponent } from 'editor/ts/control-components/dynamic-component';
+} from '../../../../core/controls/visual/list-control';
+import { BaseComponent } from '../base-component';
+import { DynamicComponent } from '../dynamic-component';
 
-import { UtilsService } from 'core/services/utils-service';
+import { UtilsService } from '../../../../core/services/utils-service';
 
 @Component({
   selector: 'vargin-list',

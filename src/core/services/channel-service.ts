@@ -1,5 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts" />
-import { IMessageChannel, MessageChannel } from 'core/events/message-channel';
+import { IMessageChannel, MessageChannel } from '../events/message-channel';
 
 export class ChannelService {
   private static _channels: Map<string, IMessageChannel>;

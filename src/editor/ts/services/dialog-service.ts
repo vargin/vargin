@@ -1,6 +1,5 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { EventEmitter, Provider, Type } from 'angular2/angular2';
-import { Deferred, UtilsService } from 'core/services/utils-service';
+import { Deferred, UtilsService } from '../../../core/services/utils-service';
 
 export interface IDialogRequest {
   uuid: string;
@@ -9,7 +8,8 @@ export interface IDialogRequest {
 }
 
 export class DialogService {
-  static onRequest: EventEmitter = new EventEmitter();
+  static onRequest: EventEmitter<IDialogRequest> =
+    new EventEmitter<IDialogRequest>();
   private static dialogs: Map<string, Deferred<void>> =
     new Map<string, Deferred<void>>();
 

@@ -1,4 +1,4 @@
-import { ControlMetadata } from 'core/controls/control-metadata';
+import { ControlMetadata } from './control-metadata';
 
 const groups = new Map<string, ControlGroup>();
 

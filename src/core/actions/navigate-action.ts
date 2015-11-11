@@ -1,7 +1,7 @@
-import { IProperty, Property, PropertyWithOptions } from 'core/property';
-import { IOverrides } from 'core/overrides/overrides';
-import { Action } from 'core/actions/action';
-import { ActionMetadata } from 'core/actions/action-metadata';
+import { IProperty, Property, PropertyWithOptions } from '../property';
+import { IOverrides } from '../overrides/overrides';
+import { Action } from './action';
+import { ActionMetadata } from './action-metadata';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[

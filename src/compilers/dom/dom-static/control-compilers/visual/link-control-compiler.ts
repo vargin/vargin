@@ -1,9 +1,7 @@
-import {
-  DOMStaticControlCompiler
-} from 'compilers/dom/dom-static/control-compilers/dom-static-control-compiler';
-import { LinkControl } from 'core/controls/visual/link-control';
-import { ICompiledCSSClass } from 'compilers/dom/css-compiler';
-import { Address, AddressType } from 'core/data/address';
+import { DOMStaticControlCompiler } from '../dom-static-control-compiler';
+import { LinkControl } from '../../../../../core/controls/visual/link-control';
+import { ICompiledCSSClass } from '../../../css-compiler';
+import { Address, AddressType } from '../../../../../core/data/address';
 
 export class LinkControlCompiler extends DOMStaticControlCompiler<LinkControl> {
   getMarkup(control: LinkControl, cssClass: ICompiledCSSClass) {

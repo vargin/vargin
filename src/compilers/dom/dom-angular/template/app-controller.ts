@@ -1,4 +1,3 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import {
   bootstrap,
   Component,
@@ -14,14 +13,18 @@ import {
   ROUTER_PROVIDERS,
   RouteConfig
 } from 'angular2/router';
-import { Application } from 'core/application';
-import { ApplicationService } from 'core/services/application-service';
-import { JSONApplicationCompiler } from 'compilers/json/json-application-compiler';
-import { PageController } from 'compilers/dom/dom-angular/template/page-controller';
-import { application } from 'app-description';
+import { Application } from '../../../../core/application';
+import { ApplicationService } from '../../../../core/services/application-service';
+import { JSONApplicationCompiler } from '../../../json/json-application-compiler';
+import { PageController } from './page-controller';
+import { application } from './app-description';
 
-import { REGISTRY as VISUAL_CONTROLS } from 'core/controls/visual/_registry';
-import { REGISTRY as SERVICE_CONTROLS } from 'core/controls/service/_registry';
+import {
+  REGISTRY as VISUAL_CONTROLS
+} from '../../../../core/controls/visual/_registry';
+import {
+  REGISTRY as SERVICE_CONTROLS
+} from '../../../../core/controls/service/_registry';
 
 @Component({
   selector: 'angular-app'

@@ -1,11 +1,10 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, Optional, View } from 'angular2/angular2';
 
 import {
   IPropertyWithOptions,
   Property,
   PropertyWithOptions
-} from 'core/property';
+} from '../../../../core/property';
 
 @Component({
   selector: 'property-with-options-editor',

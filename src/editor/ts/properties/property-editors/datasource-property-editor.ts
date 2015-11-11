@@ -1,11 +1,10 @@
-/// <reference path="../../../../../typings/tsd.d.ts" />
 import { Component, Inject, NgFor, View } from 'angular2/angular2';
 
-import { IProperty, Property } from 'core/property';
-import { Control } from 'core/controls/control';
-import { DatasourceControl } from 'core/controls/service/datasource-control';
+import { IProperty, Property } from '../../../../core/property';
+import { Control } from '../../../../core/controls/control';
+import { DatasourceControl } from '../../../../core/controls/service/datasource-control';
 
-import { ApplicationService } from 'core/services/application-service';
+import { ApplicationService } from '../../../../core/services/application-service';
 
 @Component({
   selector: 'datasource-property-editor',

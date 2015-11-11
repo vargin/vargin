@@ -1,13 +1,12 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 
-import { Control } from 'core/controls/control';
-import { IProperty, Property } from 'core/property';
-import { IAction } from 'core/actions/action';
+import { Control } from '../../../core/controls/control';
+import { IProperty, Property } from '../../../core/property';
+import { IAction } from '../../../core/actions/action';
 
-import PropertyEditor from 'editor/ts/properties/property-editors/property-editor';
+import PropertyEditor from './property-editors/property-editor';
 
-import { ControlService } from 'editor/ts/services/control-service';
+import { ControlService } from '../services/control-service';
 
 @Component({
   selector: 'vargin-properties'
@@ -91,11 +90,11 @@ class VarginProperties {
   };
 
   constructor() {
-    ControlService.controlSelected.toRx().subscribe(
+    ControlService.controlSelected.subscribe(
       this.onControlSelected.bind(this)
     );
 
-    ControlService.controlUnselected.toRx().subscribe(
+    ControlService.controlUnselected.subscribe(
       this.onControlUnselected.bind(this)
     );
 

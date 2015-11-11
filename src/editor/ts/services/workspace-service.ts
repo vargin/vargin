@@ -1,5 +1,5 @@
-import { Application } from 'core/application';
-import { UtilsService } from 'core/services/utils-service';
+import { Application } from '../../../core/application';
+import { UtilsService } from '../../../core/services/utils-service';
 
 export class Workspace {
   private _id: string;

@@ -87,9 +87,7 @@ gulp.task('build.dev.editor-app', [
     },
 
     paths: {
-      'editor/ts/*': 'src/editor/ts/*.ts',
-      'core/*': 'src/core/*.ts',
-      'compilers/*': 'src/compilers/*.ts',
+      'src/*': 'src/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'
     },
 
@@ -101,7 +99,7 @@ gulp.task('build.dev.editor-app', [
   });
 
   return appBuilder.bundle(
-    EDITOR_PATH.src.base + '/ts/vargin-editor.ts',
+    EDITOR_PATH.src.base + '/ts/vargin-editor',
     EDITOR_PATH.dest[environment].base + '/js/vargin-editor.js',
     { minify: false }
   );
@@ -129,9 +127,7 @@ gulp.task('build.dev.angular-compiler-app', function() {
     transpiler: 'typescript',
 
     paths: {
-      'editor/ts/*': 'src/editor/ts/*.ts',
-      'core/*': 'src/core/*.ts',
-      'compilers/*': 'src/compilers/*.ts',
+      'src/*': 'src/*.ts',
       'typescript': 'node_modules/typescript/lib/typescript.js'
     },
 
@@ -139,14 +135,14 @@ gulp.task('build.dev.angular-compiler-app', function() {
       'angular2/*': {
         build: false
       },
-      'app-description': {
+      'src/compilers/dom/dom-angular/template/app-description': {
         build: false
       }
     }
   });
 
   return angularCompilerAppBuilder.bundle(
-    EDITOR_PATH.src.ng2Compiler + '/template/app-controller.ts',
+    EDITOR_PATH.src.ng2Compiler + '/template/app-controller',
     EDITOR_PATH.dest[environment].ng2Compiler + '/js/app-controller.js',
     {}
   );

@@ -1,20 +1,19 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import { Component, NgFor, NgIf, View } from 'angular2/angular2';
-import { Control } from 'core/controls/control';
-import { ContainerComponent } from 'editor/ts/control-components/visual/container-component';
-import { ServiceContainerComponent } from 'editor/ts/control-components/service/service-container-component';
-import { ApplicationService } from 'core/services/application-service';
-import { Workspace, WorkspaceService } from 'editor/ts/services/workspace-service';
-import { ControlService } from 'editor/ts/services/control-service';
+import { Control } from '../../../core/controls/control';
+import { ContainerComponent } from '../control-components/visual/container-component';
+import { ServiceContainerComponent } from '../control-components/service/service-container-component';
+import { ApplicationService } from '../../../core/services/application-service';
+import { Workspace, WorkspaceService } from '../services/workspace-service';
+import { ControlService } from '../services/control-service';
 import {
   JSONApplicationCompiler
-} from 'compilers/json/json-application-compiler';
+} from '../../../compilers/json/json-application-compiler';
 import {
   DOMStaticApplicationCompiler
-} from 'compilers/dom/dom-static/dom-static-application-compiler';
+} from '../../../compilers/dom/dom-static/dom-static-application-compiler';
 import {
   DOMAngularApplicationCompiler
-} from 'compilers/dom/dom-angular/dom-angular-application-compiler';
+} from '../../../compilers/dom/dom-angular/dom-angular-application-compiler';
 
 @Component({
   selector: 'vargin-workspace'
@@ -127,7 +126,7 @@ class VarginWorkspace {
   }
 
   toStaticHTML() {
-   this.domStaticCompiler.compile(this.workspace.application).then(
+    this.domStaticCompiler.compile(this.workspace.application).then(
      (compiledApplication) => {
        window.open(
         'data:text/html;charset=UTF-8,' + encodeURIComponent(compiledApplication)

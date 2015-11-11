@@ -1,15 +1,12 @@
-import { Control } from 'core/controls/control';
-import { ControlState } from 'core/controls/control-state';
+import { Control } from '../../core/controls/control';
+import { ControlState } from '../../core/controls/control-state';
 
-import { ControlService } from 'editor/ts/services/control-service';
+import { ControlService } from '../../editor/ts/services/control-service';
 
-import { IControlCompiler } from 'compilers/control-compiler';
-import { IProperty } from 'core/property';
-import { IAction } from 'core/actions/action';
-import {
-  IJSONAction,
-  JSONActionCompiler
-} from 'compilers/json/json-action-compiler';
+import { IControlCompiler } from '../control-compiler';
+import { IProperty } from '../../core/property';
+import { IAction } from '../../core/actions/action';
+import { IJSONAction, JSONActionCompiler } from './json-action-compiler';
 
 export interface IJSONControlState {
   name: string;

@@ -1,4 +1,3 @@
-/// <reference path="../../../../typings/tsd.d.ts" />
 import {
   Component,
   Inject,
@@ -7,17 +6,18 @@ import {
   Type,
   View
 } from 'angular2/angular2';
-import { IAction, Action } from 'core/actions/action';
-import { IProperty, Property } from 'core/property';
-import { Overrides } from 'core/overrides/overrides';
 
-import { ActionService } from 'core/services/action-service';
-import { UtilsService } from 'core/services/utils-service';
+import { IAction, Action } from '../../../core/actions/action';
+import { IProperty, Property } from '../../../core/property';
+import { Overrides } from '../../../core/overrides/overrides';
 
-import { AlertAction } from 'core/actions/alert-action';
-import { ChangePropertyAction } from 'core/actions/change-property-action';
-import { NavigateAction } from 'core/actions/navigate-action';
-import { DialogService } from 'editor/ts/services/dialog-service';
+import { ActionService } from '../../../core/services/action-service';
+import { UtilsService } from '../../../core/services/utils-service';
+
+import { AlertAction } from '../../../core/actions/alert-action';
+import { ChangePropertyAction } from '../../../core/actions/change-property-action';
+import { NavigateAction } from '../../../core/actions/navigate-action';
+import { DialogService } from '../services/dialog-service';
 
 @Component({
   selector: 'vargin-action-list'
@@ -91,11 +91,13 @@ export class ActionList {
   }
 
   editAction(action: IAction) {
-    System.import('editor/ts/properties/action-editor').then((module: any) => {
-      DialogService.show(
-        <Type>module.ActionEditor, [provide(Action, { useValue: action })]
-      );
-    });
+    System.import('src/editor/ts/properties/action-editor').then(
+      (module: any) => {
+        DialogService.show(
+          <Type>module.ActionEditor, [provide(Action, { useValue: action })]
+        );
+      }
+    );
   }
 
   removeAction(action: IAction) {
