@@ -16,6 +16,7 @@ import {
 } from '../../../../core/services/application-service';
 import { pages } from './app-description';
 import { ServicesController } from '../template/services-controller';
+import * as JSONAction from '../../../json/json-action-compiler';
 
 @Component({
   selector: 'page'
@@ -30,6 +31,7 @@ import { ServicesController } from '../template/services-controller';
 })
 export class PageController {
   private id: string;
+  private actionCompiler = new JSONAction.JSONActionCompiler();
 
   constructor(@Inject(RouteParams) params: RouteParams) {
     this.id = params && params.get('id') || pages[0].id;
@@ -43,8 +45,15 @@ export class PageController {
     let control = ApplicationService.findControlById(controlId);
 
     let eventProperty = control.getEvent(eventName);
-    if (eventProperty) {
-      eventProperty.getValue().forEach((action: IAction) => action.perform());
+    let propertyValue = eventProperty && eventProperty.getValue();
+    if (propertyValue) {
+      (<JSONAction.IJSONAction[]>JSON.parse(propertyValue)).forEach(
+        (jsonAction) => {
+          this.actionCompiler.decompile(jsonAction).then((action) => {
+            action.perform();
+          });
+        }
+      );
     }
   }
 

@@ -7,7 +7,6 @@ export * from './compilers/dom/css-compiler';
 export * from './compilers/dom/dom-angular/dom-angular-application-compiler';
 
 export * from './compilers/dom/dom-angular/control-compilers/dom-angular-control-compiler';
-export * from './compilers/dom/dom-angular/control-compilers/service/service-control-compiler';
 export * from './compilers/dom/dom-angular/control-compilers/visual/button-control-compiler';
 export * from './compilers/dom/dom-angular/control-compilers/visual/container-control-compiler';
 export * from './compilers/dom/dom-angular/control-compilers/visual/label-control-compiler';

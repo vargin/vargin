@@ -55,10 +55,7 @@ import {
   TextInputControlCompiler
 } from './control-compilers/visual/text-input-control-compiler';
 
-import {
-  ISerializedServiceControl,
-  ServiceControlCompiler
-} from './control-compilers/service/service-control-compiler';
+import * as JSONControl from '../../json/json-control-compiler';
 
 const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
   <[Function, DOMAngularControlCompiler<Control>][]>[
@@ -73,11 +70,11 @@ const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Con
   ]
 );
 
-const SERVICE_CONTROL_COMPILER = new ServiceControlCompiler();
+const SERVICE_CONTROL_COMPILER = new JSONControl.JSONControlCompiler();
 
 export interface ICompiledDOMAngularApplication {
   pages: Array<{ id: string; name: string; markup: string }>;
-  services: ISerializedServiceControl[];
+  services: JSONControl.IJSONControl[];
 }
 
 export class DOMAngularApplicationCompiler implements IApplicationCompiler<ICompiledDOMAngularApplication> {
