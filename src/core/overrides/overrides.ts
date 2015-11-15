@@ -22,18 +22,19 @@ export interface IOverrides {
   getRoot(): IOverrides;
   add(overrides: IOverrides);
   find(id: string): IOverrides;
+
+  merge(overrides: IOverrides);
 }
 
 export class Overrides implements IOverrides {
-  groups: Map<string, Map<string, any>>;
-
   parent: IOverrides = null;
   children: IOverrides[] = [];
 
   constructor(
     public id: string,
     public name: string,
-    groups: Map<string, Map<string, any>> = new Map<string, Map<string, any>>(),
+    public groups: Map<string, Map<string, any>> =
+      new Map<string, Map<string, any>>(),
     public isEnabled: boolean = true,
     public isEditorVisible: boolean = true
   ) {
@@ -57,7 +58,13 @@ export class Overrides implements IOverrides {
   }
 
   setValue<TValue>(groupKey: string, valueKey: string, value: TValue) {
-    this.groups.get(groupKey).set(valueKey, value);
+    let group = this.groups.get(groupKey);
+    if (!group) {
+      group = new Map<string, TValue>();
+      this.groups.set(groupKey, group);
+    }
+
+    group.set(valueKey, value);
   }
 
   add(overrides: IOverrides) {
@@ -102,5 +109,11 @@ export class Overrides implements IOverrides {
         overrides.setValue<TValue>(groupKey, key, value);
       }
     };
+  }
+
+  merge(overrides: IOverrides) {
+    overrides.groups.forEach((group, groupKey) => {
+      this.groups.set(groupKey, group);
+    });
   }
 }

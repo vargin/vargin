@@ -1,17 +1,15 @@
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
-import { OwnedProperty } from '../../owned-property';
 import { IProperty, Property } from '../../property';
-import { IAction } from '../../actions/action';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { ControlState } from '../../controls/control-state';
+import { IOverrides, Overrides } from '../../overrides/overrides';
 
-const PREDEFINED_STATE = new ControlState('predefined', {
-  styles: new Map<string, string>(<[string, string][]>[
+const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
+  ['styles', new Map(<[string, string][]>[
     ['border', '0.1rem solid #c7c7c7']
-  ])
-});
+  ])]
+]);
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -23,15 +21,7 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
     ['background-color', StyleService.getDescriptor('background-color')],
-    [
-      'border',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('border'),
-        'border',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ],
+    ['border', StyleService.getDescriptor('border')],
     ['color', StyleService.getDescriptor('color')],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
@@ -42,8 +32,8 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['change', EventService.getDescriptor('change')]
   ]
 );
@@ -58,8 +48,12 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class TextInputControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, TextInputControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    this.predefinedOverrides = new Overrides(
+      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+    );
+
+    super(id, TextInputControl.getMeta(), overrides);
   }
 
   static getMeta() {

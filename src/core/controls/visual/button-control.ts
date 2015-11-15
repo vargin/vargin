@@ -3,8 +3,7 @@ import { ControlMetadata } from '../control-metadata';
 import { IProperty, Property, PropertyWithOptions } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { IAction } from '../../actions/action';
-import { ControlState } from '../control-state';
+import { IOverrides } from '../../overrides/overrides';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -39,8 +38,8 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['click', EventService.getDescriptor('click')],
     ['hover', EventService.getDescriptor('hover')]
   ]
@@ -56,8 +55,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ButtonControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, ButtonControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    super(id, ButtonControl.getMeta(), overrides);
   }
 
   static getMeta() {

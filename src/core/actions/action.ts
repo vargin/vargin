@@ -1,5 +1,5 @@
 import { IProperty } from '../property';
-import { IOverrides } from '../overrides/overrides';
+import { IOverrides, Overrides } from '../overrides/overrides';
 import {
   OverrideProperty,
   OverridePropertyWithOptions
@@ -8,12 +8,11 @@ import { ActionMetadata } from './action-metadata';
 import { UtilsService } from '../services/utils-service';
 
 export interface IAction {
-  name: string;
-  type: string;
-  properties: Map<string, IProperty<string>>;
+  meta: ActionMetadata;
   overrides: IOverrides;
 
   perform(): Promise<boolean>;
+  getProperty(key: string): IProperty<string>;
 }
 
 export class Action implements IAction {
@@ -24,37 +23,43 @@ export class Action implements IAction {
   constructor(meta: ActionMetadata, overrides: IOverrides) {
     this._meta = meta;
 
-    this._overrides = overrides;
+    this._overrides = overrides || new Overrides('__default__', 'default');
     this._properties = new Map<string, IProperty<string>>();
-
-    meta.properties.forEach((metaProperty, propertyKey) => {
-      let override = this._overrides.forKey<string>('properties', propertyKey);
-
-      let property = 'getOptions' in metaProperty ?
-        new OverridePropertyWithOptions(metaProperty, this, override) :
-        new OverrideProperty(metaProperty, this, override);
-
-      this._properties.set(propertyKey, property);
-    });
-  }
-
-  get name() {
-    return this._meta.name;
-  }
-
-  get type() {
-    return this._meta.type;
-  }
-
-  get properties() {
-    return this._properties;
   }
 
   get overrides() {
     return this._overrides;
   }
 
+  get meta() {
+    return this._meta;
+  }
+
   perform() {
     return Promise.reject<boolean>(new Error('Not Implemented!'));
+  }
+
+  getProperty(key) {
+    let property = this._properties.get(key);
+
+    if (!property) {
+      let metaProperty = this._meta.properties.get(key);
+
+      if (!metaProperty) {
+        return null;
+      }
+
+      let MetaPropertyType = 'getOptions' in metaProperty ?
+        OverridePropertyWithOptions :
+        OverrideProperty;
+
+      property = new MetaPropertyType(
+        metaProperty, this, this._overrides.forKey<string>('properties', key)
+      );
+
+      this._properties.set(key, property);
+    }
+
+    return property;
   }
 }

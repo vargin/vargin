@@ -13,4 +13,3 @@ export * from './controls/visual/text-input-control';
 export * from './controls/control';
 export * from './controls/control-group';
 export * from './controls/control-metadata';
-export * from './controls/control-state';

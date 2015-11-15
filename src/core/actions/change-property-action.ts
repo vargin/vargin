@@ -20,20 +20,20 @@ const METADATA = Object.freeze(new ActionMetadata(
 ));
 
 export class ChangePropertyAction extends Action {
-  constructor(overrides: IOverrides) {
+  constructor(overrides?: IOverrides) {
     super(METADATA, overrides);
   }
 
   perform() {
     try {
       let control = ApplicationService.findControlById(
-        this.properties.get('control-id').getValue()
+        this.getProperty('control-id').getValue()
       );
 
       control.getProperty(
-        this.properties.get('property-name').getValue()
+        this.getProperty('property-name').getValue()
       ).setValue(
-        this.properties.get('property-value').getValue()
+        this.getProperty('property-value').getValue()
       );
       return Promise.resolve(true);
     } catch (e) {

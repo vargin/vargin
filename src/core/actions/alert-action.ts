@@ -17,13 +17,13 @@ const METADATA = Object.freeze(new ActionMetadata(
 ));
 
 export class AlertAction extends Action {
-  constructor(overrides: IOverrides) {
+  constructor(overrides?: IOverrides) {
     super(METADATA, overrides);
   }
 
   perform() {
     try {
-      alert(this.properties.get('alert-message').getValue());
+      alert(this.getProperty('alert-message').getValue());
       return Promise.resolve(true);
     } catch (e) {
       return Promise.reject<boolean>(e);

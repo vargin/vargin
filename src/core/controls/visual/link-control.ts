@@ -1,20 +1,18 @@
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
-import { OwnedProperty, OwnedPropertyWithOptions } from '../../owned-property';
 import { IProperty, Property, PropertyWithOptions } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { IAction } from '../../actions/action';
-import { ControlState } from '../../controls/control-state';
+import { IOverrides, Overrides } from '../../overrides/overrides';
 
-const PREDEFINED_STATE = new ControlState('predefined', {
-  styles: new Map<string, string>(<[string, string][]>[
+const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
+  ['styles', new Map(<[string, string][]>[
     ['align-items', 'center'],
     ['color', '#0000ee'],
     ['display', 'inline'],
     ['text-decoration', 'underline']
-  ])
-});
+  ])]
+]);
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -30,27 +28,12 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
-    ['align-items', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('align-items'),
-      'align-items',
-      PREDEFINED_STATE.overrides.styles
-    )],
+    ['align-items', StyleService.getDescriptor('align-items')],
     ['background-color', StyleService.getDescriptor('background-color')],
     ['border', StyleService.getDescriptor('border')],
     ['border-radius', StyleService.getDescriptor('border-radius')],
-    ['color', new OwnedProperty(
-      null,
-      StyleService.getDescriptor('color'),
-      'color',
-      PREDEFINED_STATE.overrides.styles
-    )],
-    ['display', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('display'),
-      'display',
-      PREDEFINED_STATE.overrides.styles
-    )],
+    ['color', StyleService.getDescriptor('color')],
+    ['display', StyleService.getDescriptor('display')],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
     ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
@@ -60,17 +43,12 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['justify-content', StyleService.getDescriptor('justify-content')],
     ['line-height', StyleService.getDescriptor('line-height')],
     ['padding', StyleService.getDescriptor('padding')],
-    ['text-decoration', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('text-decoration'),
-      'text-decoration',
-      PREDEFINED_STATE.overrides.styles
-    )]
+    ['text-decoration', StyleService.getDescriptor('text-decoration')]
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['click', EventService.getDescriptor('click')],
     ['hover', EventService.getDescriptor('hover')]
   ]
@@ -86,8 +64,12 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class LinkControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, LinkControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    this.predefinedOverrides = new Overrides(
+      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+    );
+
+    super(id, LinkControl.getMeta(), overrides);
   }
 
   static getMeta() {

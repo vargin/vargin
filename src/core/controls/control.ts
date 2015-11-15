@@ -1,38 +1,61 @@
 import { IProperty } from '../property';
-import { IAction } from '../actions/action';
-import { OwnedProperty, OwnedPropertyWithOptions } from '../owned-property';
+import { IOverrides, Overrides } from '../overrides/overrides';
+import {
+  OverrideProperty, OverridePropertyWithOptions
+} from '../overrides/override-property';
 import { ControlMetadata } from './control-metadata';
-import { ControlState } from './control-state';
+import { UtilsService } from '../services/utils-service';
 
 export class Control {
+  private _overrides: IOverrides;
   private _id: string;
   private _meta: ControlMetadata;
   private _parent: Control;
   private _children: Control[];
   private _cache: {
-    properties: Map<string, OwnedProperty<string, Control>>;
-    styles: Map<string, OwnedProperty<string, Control>>;
-    events: Map<string, OwnedProperty<IAction[], Control>>;
+    properties: Map<string, OverrideProperty<string, Control>>;
+    styles: Map<string, OverrideProperty<string, Control>>;
+    events: Map<string, OverrideProperty<string, Control>>;
   };
-  private currentStateIndex: number = 0;
-  protected _states: ControlState[];
 
-  constructor(id: string, meta: ControlMetadata, states?: ControlState[]) {
+  protected predefinedOverrides: IOverrides;
+
+  constructor(
+    id: string,
+    meta: ControlMetadata,
+    overrides?: IOverrides
+  ) {
     this._id = id;
     this._meta = meta;
     this._parent = null;
     this._children = [];
 
-    if (states && states.length) {
-      this._states = states;
-    } else {
-      this._states = [new ControlState('default')];
+    overrides = overrides || new Overrides('__default__', 'default');
+
+    this._overrides = this.predefinedOverrides || overrides;
+
+    // If we have predefined overrides then:
+    // 1. If input overrides root is predefined as well - we should replace with
+    //    the current predefined overrides, and make the rest as children.
+    // 2. If input overrides don't contain predefined root or input overrides
+    //    are not provided and we use default overrides layer - we'll have to
+    //    make it as child of predefined overrides.
+    if (this.predefinedOverrides) {
+      (this.predefinedOverrides.id === overrides.id ?
+        overrides.children : [overrides]
+      ).forEach(
+        (child) => this._overrides.add(child)
+      );
+    }
+
+    if (this._overrides.id !== '__default__') {
+      this._overrides = this._overrides.find('__default__');
     }
 
     this._cache = {
-      properties: new Map<string, OwnedProperty<string, Control>>(),
-      styles: new Map<string, OwnedProperty<string, Control>>(),
-      events: new Map<string, OwnedProperty<IAction[], Control>>()
+      properties: new Map<string, OverrideProperty<string, Control>>(),
+      styles: new Map<string, OverrideProperty<string, Control>>(),
+      events: new Map<string, OverrideProperty<string, Control>>()
     };
   }
 
@@ -54,10 +77,10 @@ export class Control {
 
   /**
    * States that current control has.
-   * @returns {ControlState[]}
+   * @returns {IOverrides}
    */
-  get states() {
-    return this._states;
+  get overrides() {
+    return this._overrides;
   }
 
   /**
@@ -140,49 +163,36 @@ export class Control {
   }
 
   getProperty(key: string): IProperty<string> {
-    return this.getPropertyView(
-      key,
-      this._states[this.currentStateIndex].overrides.properties,
-      this._cache.properties,
-      this.meta.properties
-    );
+    return this.getPropertyView('properties', key);
   }
 
   getStyle(key: string): IProperty<string> {
-    return this.getPropertyView(
-      key,
-      this._states[this.currentStateIndex].overrides.styles,
-      this._cache.styles,
-      this.meta.styles
-    );
+    return this.getPropertyView('styles', key);
   }
 
-  getEvent(key: string): IProperty<IAction[]> {
-    return this.getPropertyView(
-      key,
-      this._states[this.currentStateIndex].overrides.events,
-      this._cache.events,
-      this.meta.events
-    );
+  getEvent(key: string): IProperty<string> {
+    return this.getPropertyView('events', key);
   }
 
-  private getPropertyView(key, overrides, cache, meta) {
-    let property = cache.get(key);
+  private getPropertyView(groupKey, valueKey) {
+    let property = this._cache[groupKey].get(valueKey);
 
     if (!property) {
-      let metaProperty = meta.get(key);
+      let metaProperty = this._meta[groupKey].get(valueKey);
 
       if (!metaProperty) {
         return null;
       }
 
       let MetaPropertyType = 'getOptions' in metaProperty ?
-        OwnedPropertyWithOptions :
-        OwnedProperty;
+        OverridePropertyWithOptions :
+        OverrideProperty;
 
-      property = new MetaPropertyType(this, metaProperty, key, overrides);
+      property = new MetaPropertyType(
+        metaProperty, this, this._overrides.forKey(groupKey, valueKey)
+      );
 
-      cache.set(key, property);
+      this._cache[groupKey].set(valueKey, property);
     }
 
     return property;

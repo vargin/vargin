@@ -1,23 +1,21 @@
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
 import { ContainerControl } from './container-control';
-import { OwnedProperty, OwnedPropertyWithOptions } from '../../owned-property';
 import { IProperty, Property } from '../../property';
-import { IAction } from '../../actions/action';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { ControlState } from '../../controls/control-state';
+import { IOverrides, Overrides } from '../../overrides/overrides';
 
-const PREDEFINED_STATE = new ControlState('predefined', {
-  styles: new Map<string, string>(<[string, string][]>[
+const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
+  ['styles', new Map(<[string, string][]>[
     ['display', 'flex'],
     ['flex-direction', 'column'],
     ['justify-content', 'space-between'],
     ['min-height', '5rem'],
     ['min-width', '5rem'],
     ['padding', '1rem']
-  ])
-});
+  ])]
+]);
 
 const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
   'list-item',
@@ -29,8 +27,8 @@ const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ListItemControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, LIST_ITEM_METADATA, states);
+  constructor(id: string, overrides?: IOverrides) {
+    super(id, LIST_ITEM_METADATA, overrides);
   }
 
   static getMeta() {
@@ -50,61 +48,22 @@ const SUPPORTED_STYLES =  new Map<string, IProperty<string>>(
     ['background-color', StyleService.getDescriptor('background-color')],
     ['border', StyleService.getDescriptor('border')],
     ['color', StyleService.getDescriptor('color')],
-    ['display', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('display'),
-      'display',
-      PREDEFINED_STATE.overrides.styles
-    )],
+    ['display', StyleService.getDescriptor('display')],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
-    ['flex-direction', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('flex-direction'),
-      'flex-direction',
-      PREDEFINED_STATE.overrides.styles
-    )],
+    ['flex-direction', StyleService.getDescriptor('flex-direction')],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
     ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
     ['font-size', StyleService.getDescriptor('font-size')],
     ['font-weight', StyleService.getDescriptor('font-weight')],
-    ['justify-content', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('justify-content'),
-      'justify-content',
-      PREDEFINED_STATE.overrides.styles
-    )],
-    [
-      'min-height',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('min-height'),
-        'min-height',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ],
-    [
-      'min-width',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('min-width'),
-        'min-width',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ],
-    [
-      'padding',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('padding'),
-        'padding',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ]
+    ['justify-content', StyleService.getDescriptor('justify-content')],
+    ['min-height', StyleService.getDescriptor('min-height')],
+    ['min-width', StyleService.getDescriptor('min-width')],
+    ['padding', StyleService.getDescriptor('padding')]
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['click', EventService.getDescriptor('click')],
     ['hover', EventService.getDescriptor('hover')]
   ]
@@ -120,8 +79,12 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ListControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, ListControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    this.predefinedOverrides = new Overrides(
+      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+    );
+
+    super(id, ListControl.getMeta(), overrides);
   }
 
   getTemplate(): ListItemControl {

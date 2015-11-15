@@ -1,19 +1,18 @@
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
-import { OwnedProperty, OwnedPropertyWithOptions } from '../../owned-property';
 import { IProperty } from '../../property';
-import { IAction } from '../../actions/action';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { ControlState } from '../../controls/control-state';
+import { UtilsService } from '../../services/utils-service';
+import { IOverrides, Overrides } from '../../overrides/overrides';
 
-const PREDEFINED_STATE = new ControlState('predefined', {
-  styles: new Map<string, string>(<[string, string][]>[
+const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
+  ['styles', new Map(<[string, string][]>[
     ['display', 'block'],
     ['min-height', '5rem'],
     ['min-width', '5rem']
-  ])
-});
+  ])]
+]);
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -21,12 +20,7 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['background-color', StyleService.getDescriptor('background-color')],
     ['border', StyleService.getDescriptor('border')],
     ['color', StyleService.getDescriptor('color')],
-    ['display', new OwnedPropertyWithOptions(
-      null,
-      StyleService.getDescriptor('display'),
-      'display',
-      PREDEFINED_STATE.overrides.styles
-    )],
+    ['display', StyleService.getDescriptor('display')],
     ['flex-basis', StyleService.getDescriptor('flex-basis')],
     ['flex-direction', StyleService.getDescriptor('flex-direction')],
     ['flex-grow', StyleService.getDescriptor('flex-grow')],
@@ -35,30 +29,14 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['font-weight', StyleService.getDescriptor('font-weight')],
     ['justify-content', StyleService.getDescriptor('justify-content')],
     ['margin', StyleService.getDescriptor('margin')],
-    [
-      'min-height',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('min-height'),
-        'min-height',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ],
-    [
-      'min-width',
-      new OwnedProperty(
-        null,
-        StyleService.getDescriptor('min-width'),
-        'min-width',
-        PREDEFINED_STATE.overrides.styles
-      )
-    ],
+    ['min-height', StyleService.getDescriptor('min-height')],
+    ['min-width', StyleService.getDescriptor('min-width')],
     ['padding', StyleService.getDescriptor('padding')]
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['click', EventService.getDescriptor('click')],
     ['hover', EventService.getDescriptor('hover')]
   ]
@@ -74,8 +52,12 @@ const METADATA: ControlMetadata = Object.freeze(new ControlMetadata(
 ));
 
 export class ContainerControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, ContainerControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    this.predefinedOverrides =  new Overrides(
+      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+    );
+
+    super(id, ContainerControl.getMeta(), overrides);
   }
 
   static getMeta() {

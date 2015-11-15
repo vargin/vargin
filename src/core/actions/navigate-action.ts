@@ -21,14 +21,14 @@ const METADATA = Object.freeze(new ActionMetadata(
 ));
 
 export class NavigateAction extends Action {
-  constructor(overrides: IOverrides) {
+  constructor(overrides?: IOverrides) {
     super(METADATA, overrides);
   }
 
   perform() {
     try {
-      let target = this.properties.get('target').getValue();
-      let address = this.properties.get('address').getValue();
+      let target = this.getProperty('target').getValue();
+      let address = this.getProperty('address').getValue();
 
       if (target === '_self') {
         location.href = address;

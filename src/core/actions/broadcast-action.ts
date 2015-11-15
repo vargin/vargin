@@ -21,16 +21,16 @@ const METADATA = Object.freeze(new ActionMetadata(
 ));
 
 export class BroadcastAction extends Action {
-  constructor(overrides: IOverrides) {
+  constructor(overrides?: IOverrides) {
     super(METADATA, overrides);
   }
 
   perform() {
     try {
-      ChannelService.getChannel(this.properties.get('channel').getValue()).send(
+      ChannelService.getChannel(this.getProperty('channel').getValue()).send(
         new Message(
-          this.properties.get('message-name').getValue(),
-          this.properties.get('message-data').getValue()
+          this.getProperty('message-name').getValue(),
+          this.getProperty('message-data').getValue()
         )
       );
       return Promise.resolve(true);

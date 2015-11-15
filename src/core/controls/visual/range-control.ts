@@ -1,10 +1,9 @@
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
 import { IProperty, Property } from '../../property';
-import { IAction } from '../../actions/action';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
-import { ControlState } from '../control-state';
+import { IOverrides, Overrides } from '../../overrides/overrides';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -22,8 +21,8 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   ]
 );
 
-const SUPPORTED_EVENTS = new Map<string, IProperty<Array<IAction>>>(
-  <[string, IProperty<Array<IAction>>][]>[
+const SUPPORTED_EVENTS = new Map<string, IProperty<string>>(
+  <[string, IProperty<string>][]>[
     ['change', EventService.getDescriptor('change')]
   ]
 );
@@ -38,8 +37,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class RangeControl extends Control {
-  constructor(id: string, states?: ControlState[]) {
-    super(id, RangeControl.getMeta(), states);
+  constructor(id: string, overrides?: IOverrides) {
+    super(id, RangeControl.getMeta(), overrides);
   }
 
   static getMeta() {

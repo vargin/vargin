@@ -1,5 +1,4 @@
 import { IProperty } from '../property';
-import { IAction } from '../actions/action';
 
 export class ControlMetadata {
   /**
@@ -22,9 +21,9 @@ export class ControlMetadata {
 
   /**
    * List of the events supported by control.
-   * @returns {Array<IProperty>}
+   * @returns {Map<string, IProperty<string>>}
    */
-  events: Map<string, IProperty<Array<IAction>>>;
+  events: Map<string, IProperty<string>>;
 
   /**
    * List of the supported properties with the default value.
@@ -42,7 +41,7 @@ export class ControlMetadata {
     type: string,
     name: string,
     description: string,
-    events?: Map<string, IProperty<Array<IAction>>>,
+    events?: Map<string, IProperty<string>>,
     properties?: Map<string, IProperty<string>>,
     styles?: Map<string, IProperty<string>>
   ) {
@@ -50,10 +49,7 @@ export class ControlMetadata {
     this.name = name;
     this.description = description;
 
-    this.events = Object.freeze(
-      events || new Map<string, IProperty<Array<IAction>>>()
-    );
-
+    this.events = events || new Map<string, IProperty<string>>();
     this.properties = properties || new Map<string, IProperty<string>>();
     this.styles = styles || new Map<string, IProperty<string>>();
   }
