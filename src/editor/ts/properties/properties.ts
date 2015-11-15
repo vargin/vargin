@@ -2,7 +2,6 @@ import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 
 import { Control } from '../../../core/controls/control';
 import { IProperty, Property } from '../../../core/property';
-import { IAction } from '../../../core/actions/action';
 
 import PropertyEditor from './property-editors/property-editor';
 
@@ -81,7 +80,7 @@ class VarginProperties {
     events: {
       name: string,
       expanded: boolean,
-      items: IProperty<IAction[]>[]
+      items: IProperty<string>[]
     }
   } = {
     properties: null,

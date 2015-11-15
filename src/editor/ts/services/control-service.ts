@@ -2,7 +2,7 @@ import { EventEmitter } from 'angular2/angular2';
 import { ControlMetadata } from '../../../core/controls/control-metadata';
 
 import { Control } from '../../../core/controls/control';
-import { ControlState } from '../../../core/controls/control-state';
+import { IOverrides } from '../../../core/overrides/overrides';
 
 import { BaseComponent } from '../control-components/base-component';
 
@@ -10,7 +10,7 @@ import { UtilsService } from '../../../core/services/utils-service';
 import { ControlConfigService } from './control-config-service';
 
 interface IControlType<TControl> {
-  new(id: string, states?: ControlState[], children?: Control[]): TControl;
+  new(id: string, overrides?: IOverrides, children?: Control[]): TControl;
 }
 
 export class ControlService {
@@ -58,18 +58,18 @@ export class ControlService {
   }
 
   static create<TControl extends Control>(
-    type: IControlType<TControl>, states?: ControlState[], id?: string
+    type: IControlType<TControl>, overrides?: IOverrides, id?: string
   ): TControl {
-    return new type(id || UtilsService.uuid(), states);
+    return new type(id || UtilsService.uuid(), overrides);
   }
 
   static createByType<TControl extends Control>(
-    type: string, states?: ControlState[], id?: string
+    type: string, overrides?: IOverrides, id?: string
   ): Promise<TControl> {
 
     return ControlConfigService.loadControlType(type).then(
       (ControlType: IControlType<TControl>) => {
-        return new ControlType(id || UtilsService.uuid(), states);
+        return new ControlType(id || UtilsService.uuid(), overrides);
       }
     );
   }

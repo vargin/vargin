@@ -27,8 +27,6 @@ import { RangeComponent } from './control-components/visual/range-component';
 import { TextInputComponent } from './control-components/visual/text-input-component';
 import { DatasourceComponent } from './control-components/service/datasource-component';
 
-import { ActionEditor } from './properties/action-editor';
-
 @Component({
   selector: 'vargin'
 })
@@ -62,8 +60,7 @@ class Vargin {
     ListComponent,
     RangeComponent,
     TextInputComponent,
-    DatasourceComponent,
-    ActionEditor
+    DatasourceComponent
   ];
   private controlGroups: IExpandableGroup[] = [];
 

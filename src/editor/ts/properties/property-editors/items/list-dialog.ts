@@ -1,11 +1,4 @@
-import {
-  Component,
-  Inject,
-  NgFor,
-  NgIf,
-  provide,
-  View
-} from 'angular2/angular2';
+import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
 import { Property } from '../../../../../core/property';
 import { OwnedProperty } from '../../../../../core/owned-property';
 import { Control } from '../../../../../core/controls/control';
@@ -30,7 +23,7 @@ import { Schema } from '../../../../../core/data/schema';
       </thead>
       <tfoot>
         <tr class="vargin-table__footer-row">
-          <td><button (click)="addItem()">+ Add item</button></td>
+          <td><button (click)="add()">+ Add item</button></td>
         </tr>
       </tfoot>
       <tbody>
@@ -39,7 +32,7 @@ import { Schema } from '../../../../../core/data/schema';
             {{item.get(field.name)}}
           </td>
           <td class="vargin-table__data-cell">
-            <button class="vargin-list__remove-item" (click)="removeItem(i)">
+            <button class="vargin-list__remove-item" (click)="remove(i)">
               &#x274c;
             </button>
           </td>
@@ -47,7 +40,7 @@ import { Schema } from '../../../../../core/data/schema';
       </tbody>
     </table>
   `,
-  directives: [NgFor, NgIf]
+  directives: [NgFor]
 })
 export class ItemsPropertyListDialog {
   private schema: Schema;
@@ -61,7 +54,7 @@ export class ItemsPropertyListDialog {
     this.items = items;
   }
 
-  addItem() {
+  add() {
     let newItem = <Array<[string, string]>>this.schema.fields.map((field) => {
       return [field.name, ''];
     });
@@ -79,7 +72,7 @@ export class ItemsPropertyListDialog {
     });
   }
 
-  removeItem(index: number) {
+  remove(index: number) {
     this.items.splice(index, 1);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
+import { Component, Inject, NgFor, View } from 'angular2/angular2';
 import { IProperty, Property } from '../../../../../core/property';
 import { Schema } from '../../../../../core/data/schema';
 
@@ -20,7 +20,7 @@ import { Schema } from '../../../../../core/data/schema';
     </ul>
     <button class="items-editor-dialog__save" (click)="dispose()">Save</button>
   `,
-  directives: [NgFor, NgIf]
+  directives: [NgFor]
 })
 export class ItemsPropertyEditorDialog {
   private schema: Schema;

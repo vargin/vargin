@@ -45,11 +45,11 @@ export class DialogManager {
     DialogService.onRequest.subscribe(this.onDialogRequested.bind(this));
   }
 
-  close() {
+  close(value?) {
     if (this.instances.length) {
       let instance = this.instances.pop();
       instance.component.dispose();
-      DialogService.hide(instance.uuid);
+      DialogService.hide(instance.uuid, value);
     }
 
     if (this.instances.length === 0) {
@@ -66,7 +66,7 @@ export class DialogManager {
       'placeholder',
       Injector.resolve([
         ...dialogRequest.providers,
-        provide('dispose', { useValue: () => this.close() })
+        provide('dispose', { useValue: (value?) => this.close(value) })
       ])
     ).then((component: ComponentRef) => {
       this.instances.push({ component, uuid: dialogRequest.uuid });

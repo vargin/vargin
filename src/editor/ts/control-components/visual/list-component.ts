@@ -10,7 +10,7 @@ import {
 } from 'angular2/angular2';
 
 import { Control } from '../../../../core/controls/control';
-import { ControlState } from '../../../../core/controls/control-state';
+import { Overrides } from '../../../../core/overrides/overrides';
 import {
   ListControl,
   ListItemControl
@@ -54,13 +54,20 @@ export class ListComponent extends BaseComponent {
 
     let itemTemplate = this.control.getTemplate();
     if (!itemTemplate) {
-      itemTemplate = new ListItemControl(UtilsService.uuid(), [
-        new ControlState('default', {
-          styles: new Map(
-            <[string, string][]>[['border', '0.1rem dashed #cccccc']]
-          )
-        })
-      ]);
+      let itemTemplateOverrides =  new Overrides(
+        '__default__',
+        'default',
+        new Map(<[string, Map<string, string>][]>[
+          [
+            'styles',
+            new Map(<[string, string][]>[['border', '0.1rem dashed #cccccc']])
+          ]
+        ])
+      );
+
+      itemTemplate = new ListItemControl(
+        UtilsService.uuid(), itemTemplateOverrides
+      );
 
       this.control.setTemplate(itemTemplate);
     }

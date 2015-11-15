@@ -15,7 +15,7 @@ import { Schema } from '../../../../../core/data/schema';
       <span class="vargin-property-editor__label">{{property.getName()}}</span>
       <div class="vargin-property-editor__input schema-editor__input">
         <span class="schema-editor__input-value">{{getValue()}}</span>
-        <button type="button" (click)="changeSchema()">...</button>
+        <button type="button" (click)="change()">...</button>
       </div>
     </label>`
 })
@@ -35,7 +35,7 @@ export class SchemaPropertyEditor {
     return this.property.getValue() ? '[Defined]' : '[Not defined]';
   }
 
-  changeSchema() {
+  change() {
     DialogService.show(
       SchemaPropertyEditorDialog, [provide(Schema, { useValue: this.schema })]
     ).then(() => {

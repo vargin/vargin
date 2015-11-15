@@ -13,7 +13,7 @@ export class DialogService {
   private static dialogs: Map<string, Deferred<void>> =
     new Map<string, Deferred<void>>();
 
-  static show(component: Type, providers: Provider[]): Promise<void> {
+  static show(component: Type, providers: Provider[] = []): Promise<any> {
     let dialogRequest = {
       uuid: UtilsService.uuid(),
       component: component,
@@ -28,11 +28,11 @@ export class DialogService {
     return dialogDeferred.promise;
   }
 
-  static hide(uuid: string) {
+  static hide(uuid: string, value?) {
     let dialogDeferred = this.dialogs.get(uuid);
 
     if (dialogDeferred) {
-      dialogDeferred.resolve();
+      dialogDeferred.resolve(value);
       this.dialogs.delete(uuid);
     }
   }

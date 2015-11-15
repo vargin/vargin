@@ -17,14 +17,14 @@ export * from './editor/ts/control-components/visual/text-input-component';
 export * from './editor/ts/dialog-manager/dialog-manager';
 export * from './editor/ts/expandable-groups/expandable-groups';
 
-export * from './editor/ts/properties/action-editor';
-export * from './editor/ts/properties/action-list';
 export * from './editor/ts/properties/properties';
 
 export * from './editor/ts/properties/property-editors/color-property-editor';
 export * from './editor/ts/properties/property-editors/datasource-property-editor';
-export * from './editor/ts/properties/property-editors/event-property-editor';
 export * from './editor/ts/properties/property-editors/image-property-editor';
+export * from './editor/ts/properties/property-editors/event/editor';
+export * from './editor/ts/properties/property-editors/event/editor-dialog';
+export * from './editor/ts/properties/property-editors/event/list-dialog';
 export * from './editor/ts/properties/property-editors/items/editor';
 export * from './editor/ts/properties/property-editors/items/editor-dialog';
 export * from './editor/ts/properties/property-editors/items/list-dialog';

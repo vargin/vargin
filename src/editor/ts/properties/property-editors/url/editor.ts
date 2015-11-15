@@ -18,7 +18,7 @@ import { ApplicationService } from '../../../../../core/services/application-ser
         <span class="url-editor__input-value" [title]="getValue()">
           {{getValue()}}
         </span>
-        <button type="button" (click)="changeURL()">...</button>
+        <button type="button" (click)="change()">...</button>
       </div>
     </label>`
 })
@@ -55,7 +55,7 @@ class URLPropertyEditor {
     return this.address.value;
   }
 
-  changeURL() {
+  change() {
     DialogService.show(
       URLPropertyEditorDialog, [provide(Address, { useValue: this.address })]
     ).then(() => {

@@ -25,12 +25,12 @@ import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
         </select>
         <button *ng-if="schema.fields.length > 1"
                 class="vargin-list__remove-item"
-                (click)="removeField(i)">
+                (click)="remove(i)">
           &#x274c;
         </button>
       </li>
     </ul>
-    <button class="schema-field__add" (click)="addField()">+ Add field</button>
+    <button class="schema-field__add" (click)="add()">+ Add field</button>
   `,
   directives: [NgFor, NgIf]
 })
@@ -41,15 +41,15 @@ export class SchemaPropertyEditorDialog {
     this.schema = schema;
 
     if (!this.schema.fields.length) {
-      this.addField();
+      this.add();
     }
   }
 
-  private removeField(index: number) {
+  private remove(index: number) {
     this.schema.fields.splice(index, 1);
   }
 
-  private addField() {
+  private add() {
     this.schema.fields.push({
       name: '',
       type: SchemaFieldType.STRING

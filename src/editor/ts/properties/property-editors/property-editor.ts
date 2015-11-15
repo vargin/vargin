@@ -12,16 +12,16 @@ import {
 
 import { IProperty, Property } from '../../../../core/property';
 
-import ColorPropertyEditor from '../property-editors/color-property-editor';
-import NumberPropertyEditor from '../property-editors/number-property-editor';
-import StringPropertyEditor from '../property-editors/string-property-editor';
-import PropertyWithOptionsEditor from '../property-editors/property-with-options-editor';
-import EventPropertyEditor from '../property-editors/event-property-editor';
-import ImagePropertyEditor from '../property-editors/image-property-editor';
-import URLPropertyEditor from '../property-editors/url/editor';
-import { SchemaPropertyEditor } from '../property-editors/schema/editor';
-import { ItemsPropertyEditor } from '../property-editors/items/editor';
-import DatasourcePropertyEditor from '../property-editors/datasource-property-editor';
+import ColorPropertyEditor from './color-property-editor';
+import NumberPropertyEditor from './number-property-editor';
+import StringPropertyEditor from './string-property-editor';
+import PropertyWithOptionsEditor from './property-with-options-editor';
+import { EventPropertyEditor } from './event/editor';
+import ImagePropertyEditor from './image-property-editor';
+import URLPropertyEditor from './url/editor';
+import { SchemaPropertyEditor } from './schema/editor';
+import { ItemsPropertyEditor } from './items/editor';
+import DatasourcePropertyEditor from './datasource-property-editor';
 
 @Component({
   selector: 'property-editor',
@@ -73,7 +73,7 @@ class PropertyEditor implements OnChanges {
       case 'click':
       case 'hover':
       case 'change':
-        return <Type>EventPropertyEditor;
+        return EventPropertyEditor;
       case 'image':
         return ImagePropertyEditor;
       case 'url':
