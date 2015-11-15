@@ -21,7 +21,7 @@ import { ApplicationService } from '../../../../core/services/application-servic
           *ng-for="#datasource of getDatasources()"
           [value]="datasource.id"
           [selected]="property.getValue() === datasource.id">
-          {{ datasource.name.getValue() }}
+          {{ datasource.getProperty('name').getValue() }}
           </option>
       </select>
     </label>
