@@ -12,13 +12,20 @@ import PropertyEditor from '../property-editor';
 @View({
   template: `
     <header class="items-editor-dialog__header">Setup action</header>
-    <select #newaction (change)="typeChanged(newaction.value)" [value]="actionType">
-      <option value="default">(+ Choose action type)</option>
-      <option value="alert-action">Alert</option>
-      <option value="change-property-action">Change property</option>
-      <option value="navigate-action">Navigate</option>
-    </select>
     <ul class="vargin-list">
+      <li class="vargin-list__item">
+        <label class="vargin-property-editor">
+          <span class="vargin-property-editor__label">Type</span>
+          <select #newaction class="vargin-property-editor__input"
+                  (change)="typeChanged(newaction.value)"
+                  [value]="actionType">
+            <option value="default">Choose ...</option>
+            <option value="alert-action">Alert</option>
+            <option value="change-property-action">Change property</option>
+            <option value="navigate-action">Navigate</option>
+          </select>
+        </label>
+      </li>
       <li class="vargin-list__item" *ng-for="#property of actionProperties">
         <property-editor [property]="property"></property-editor>
       </li>

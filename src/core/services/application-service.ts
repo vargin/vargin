@@ -647,7 +647,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                       [
                         ["control-id", "1d6e60c0-7ee7-4d4f-b666-3086d0885617"],
                         ["property-name", "text"],
-                        ["property-value', "[Message Sent!]"]
+                        ["property-value", "[Message Sent!]"]
                       ]
                     ]]
                   }
