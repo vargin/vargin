@@ -6,6 +6,17 @@ import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
 
+const LIST_ITEM_PREDEFINED_OVERRIDES = new Map(
+  <[string, Map<string, string>][]>[
+    ['styles', new Map(<[string, string][]>[
+      ['display', 'block'],
+      ['min-height', '5rem'],
+      ['min-width', '5rem']
+    ])]
+  ]
+);
+
+
 const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
   ['styles', new Map(<[string, string][]>[
     ['display', 'flex'],
@@ -28,6 +39,14 @@ const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
 
 export class ListItemControl extends Control {
   constructor(id: string, overrides?: IOverrides) {
+    this.predefinedOverrides =  new Overrides(
+      '__predefined__',
+      '__predefined__',
+      LIST_ITEM_PREDEFINED_OVERRIDES,
+      true,
+      false
+    );
+
     super(id, LIST_ITEM_METADATA, overrides);
   }
 
