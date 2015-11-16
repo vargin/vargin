@@ -24,9 +24,8 @@ import { ApplicationService } from '../../../../../core/services/application-ser
            [value]="address.value" />
     <select #pagevalue
             *ng-if="isPageAddress()"
-            [value]="address.value"
             (change)="onValueChange(pagevalue.value)">
-      <option *ng-for="#page of pages" [value]="page.id">
+      <option *ng-for="#page of pages" [value]="page.id" [selected]="address.value === page.id">
         {{page.name}}
       </option>
     </select>
