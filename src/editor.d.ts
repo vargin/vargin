@@ -38,7 +38,7 @@ export * from './editor/ts/properties/property-editors/url/editor';
 export * from './editor/ts/properties/property-editors/url/editor-dialog';
 
 export * from './editor/ts/services/control-config-service';
-export * from './editor/ts/services/control-service';
+export * from './editor/ts/services/component-service';
 export * from './editor/ts/services/dialog-service';
 export * from './editor/ts/services/workspace-service';
 

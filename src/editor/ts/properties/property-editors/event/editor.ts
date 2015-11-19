@@ -21,7 +21,7 @@ import { EventPropertyListDialog } from './list-dialog';
       </div>
     </label>`
 })
-export class EventPropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
   private actions: IAction[] = [];
   private actionCompiler = new JSONAction.JSONActionCompiler();

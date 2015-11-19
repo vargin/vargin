@@ -1,6 +1,7 @@
 import { Renderer, ViewContainerRef } from 'angular2/angular2';
 import { Control } from '../../../core/controls/control';
-import { ControlService } from '../services/control-service';
+import { ControlService } from '../../../core/services/control-service';
+import { ComponentService } from '../services/component-service';
 
 const CONTAINER_ONLY_STYLES = [
   'flex-basis', 'flex-grow', 'flex-shrink', 'margin'
@@ -24,7 +25,7 @@ export class BaseComponent {
     e.stopPropagation();
     e.preventDefault();
 
-    ControlService.selectComponent(this);
+    ComponentService.selectComponent(this);
   }
 
   onDragOver(e: DragEvent) {

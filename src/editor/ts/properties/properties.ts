@@ -3,9 +3,9 @@ import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 import { Control } from '../../../core/controls/control';
 import { IProperty, Property } from '../../../core/property';
 
-import PropertyEditor from './property-editors/property-editor';
+import { PropertyEditor } from './property-editors/property-editor';
 
-import { ControlService } from '../services/control-service';
+import { ComponentService } from '../services/component-service';
 
 @Component({
   selector: 'vargin-properties'
@@ -89,11 +89,11 @@ class VarginProperties {
   };
 
   constructor() {
-    ControlService.controlSelected.subscribe(
+    ComponentService.controlSelected.subscribe(
       this.onControlSelected.bind(this)
     );
 
-    ControlService.controlUnselected.subscribe(
+    ComponentService.controlUnselected.subscribe(
       this.onControlUnselected.bind(this)
     );
 
@@ -149,7 +149,7 @@ class VarginProperties {
 
     this.activeControl.remove();
 
-    ControlService.unselectCurrentComponent();
+    ComponentService.unselectCurrentComponent();
   }
 
   private reset() {

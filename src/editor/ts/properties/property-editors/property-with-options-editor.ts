@@ -27,7 +27,7 @@ import {
   `,
   directives: [NgFor]
 })
-class PropertyWithOptionsEditor {
+export class PropertyEditor {
   private property: IPropertyWithOptions<string>;
 
   constructor(
@@ -40,5 +40,3 @@ class PropertyWithOptionsEditor {
     this.property.setValue(value);
   }
 }
-
-export default PropertyWithOptionsEditor;

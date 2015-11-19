@@ -28,7 +28,7 @@ import { ApplicationService } from '../../../../core/services/application-servic
   `,
   directives: [NgFor]
 })
-export default class DatasourcePropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
 
   constructor(@Inject(Property) property: IProperty<string>) {

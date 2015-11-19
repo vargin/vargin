@@ -21,7 +21,7 @@ import { Schema } from '../../../../../core/data/schema';
       </div>
     </label>`
 })
-export class ItemsPropertyEditor {
+export class PropertyEditor {
   private property: OwnedProperty<string, Control>;
   private items: Map<string, string>[] = [];
 

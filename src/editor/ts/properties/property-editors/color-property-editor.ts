@@ -15,7 +15,7 @@ import { IProperty, Property } from '../../../../core/property';
              (change)="onChange($event.target.value)"/>
     </label>`
 })
-class ColorPropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
 
   constructor(@Optional() @Inject(Property) property?: IProperty<string>) {
@@ -26,5 +26,3 @@ class ColorPropertyEditor {
     this.property.setValue(value);
   }
 }
-
-export default ColorPropertyEditor;

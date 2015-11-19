@@ -4,7 +4,7 @@ import {
 import { IProperty } from '../../../../../core/property';
 import { IAction, Action } from '../../../../../core/actions/action';
 import { ActionService } from '../../../../../core/services/action-service';
-import PropertyEditor from '../property-editor';
+import { PropertyEditor } from '../property-editor';
 
 @Component({
   selector: 'event-property-editor-dialog'

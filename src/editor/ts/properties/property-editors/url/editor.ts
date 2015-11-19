@@ -22,7 +22,7 @@ import { ApplicationService } from '../../../../../core/services/application-ser
       </div>
     </label>`
 })
-class URLPropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
   private address: Address;
 
@@ -72,5 +72,3 @@ class URLPropertyEditor {
     this.address = new Address();
   }
 }
-
-export default URLPropertyEditor;

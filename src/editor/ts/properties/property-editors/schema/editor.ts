@@ -19,7 +19,7 @@ import { Schema } from '../../../../../core/data/schema';
       </div>
     </label>`
 })
-export class SchemaPropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
   private schema: Schema;
 

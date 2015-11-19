@@ -18,7 +18,7 @@ import { IProperty, Property } from '../../../../core/property';
       </button>
     </label>`
 })
-class ImagePropertyEditor {
+export class PropertyEditor {
   private property: IProperty<string>;
 
   constructor(@Inject(Property) property: IProperty<string>) {
@@ -31,5 +31,3 @@ class ImagePropertyEditor {
     reader.readAsDataURL(value);
   }
 }
-
-export default ImagePropertyEditor;

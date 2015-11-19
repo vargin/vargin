@@ -74,19 +74,8 @@ const CONTROL_CONFIG = new Map<string, [ITypeDescription, ITypeDescription]>(
 );
 
 export class ControlConfigService {
-  static loadControlType(controlType: string): Promise<Type> {
-    return ControlConfigService.loadType(
-      CONTROL_CONFIG.get(controlType)[0]
-    );
-  }
-
   static loadComponentType(controlType: string): Promise<Type> {
-    return ControlConfigService.loadType(
-      CONTROL_CONFIG.get(controlType)[1]
-    );
-  }
-
-  private static loadType(classDescription: ITypeDescription): Promise<Type> {
+    let classDescription = CONTROL_CONFIG.get(controlType)[1];
     return System.import(classDescription.path).then(
       (module: any) => module[classDescription.name]
     );

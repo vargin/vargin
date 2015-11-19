@@ -1,5 +1,5 @@
 import { Control } from '../../core/controls/control';
-import { ControlService } from '../../editor/ts/services/control-service';
+import { ControlService } from '../../core/services/control-service';
 import { IControlCompiler } from '../control-compiler';
 
 import * as JSONOverrides from './json-overrides-compiler';

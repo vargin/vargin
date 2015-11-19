@@ -7,13 +7,8 @@ import { IOverrides } from '../../../core/overrides/overrides';
 import { BaseComponent } from '../control-components/base-component';
 
 import { UtilsService } from '../../../core/services/utils-service';
-import { ControlConfigService } from './control-config-service';
 
-interface IControlType<TControl> {
-  new(id: string, overrides?: IOverrides, children?: Control[]): TControl;
-}
-
-export class ControlService {
+export class ComponentService {
   private static _activeComponent: BaseComponent;
 
   static controlSelected: EventEmitter<Control> = new EventEmitter<Control>();
@@ -29,11 +24,11 @@ export class ControlService {
     }
 
     if (!this._activeComponent || this._activeComponent !== component) {
-      ControlService._activeComponent = component;
+      ComponentService._activeComponent = component;
       component.select();
 
       if (!isSilent) {
-        ControlService.controlSelected.next(component.control);
+        ComponentService.controlSelected.next(component.control);
       }
     }
   }
@@ -44,33 +39,10 @@ export class ControlService {
     }
 
     if (!isSilent) {
-      ControlService.controlUnselected.next(this._activeComponent.control);
+      ComponentService.controlUnselected.next(this._activeComponent.control);
     }
 
     this._activeComponent.unselect();
     this._activeComponent = null;
-  }
-
-  static getMetadata(type: string): Promise<ControlMetadata> {
-    return ControlConfigService.loadControlType(type).then((type: any) => {
-      return type.getMeta();
-    });
-  }
-
-  static create<TControl extends Control>(
-    type: IControlType<TControl>, overrides?: IOverrides, id?: string
-  ): TControl {
-    return new type(id || UtilsService.uuid(), overrides);
-  }
-
-  static createByType<TControl extends Control>(
-    type: string, overrides?: IOverrides, id?: string
-  ): Promise<TControl> {
-
-    return ControlConfigService.loadControlType(type).then(
-      (ControlType: IControlType<TControl>) => {
-        return new ControlType(id || UtilsService.uuid(), overrides);
-      }
-    );
   }
 }
