@@ -98,11 +98,33 @@ gulp.task('build.dev.editor-app', [
     }
   });
 
-  return appBuilder.bundle(
-    EDITOR_PATH.src.base + '/ts/vargin-editor',
+  return Promise.all([
+    appBuilder.trace('src/core/**/*'),
+    appBuilder.trace('src/compilers/**/*'),
+    appBuilder.trace('src/editor/**/*')
+  ]).then(function(trees) {
+    var editorWithoutCoreTree = appBuilder.subtractTrees(trees[2], trees[0]);
+    return Promise.all([
+      appBuilder.bundle(
+        trees[0],
+        EDITOR_PATH.dest[environment].base + '/js/vargin-core.js'
+      ),
+      appBuilder.bundle(
+        appBuilder.subtractTrees(trees[1], trees[0]),
+        EDITOR_PATH.dest[environment].base + '/js/vargin-compilers.js'
+      ),
+      appBuilder.bundle(
+        appBuilder.subtractTrees(editorWithoutCoreTree, trees[1]),
+        EDITOR_PATH.dest[environment].base + '/js/vargin-editor.js'
+      )
+    ]);
+  });
+
+  /*return appBuilder.bundle(
+    'src/!**!/!*',
     EDITOR_PATH.dest[environment].base + '/js/vargin-editor.js',
     { minify: false }
-  );
+  );*/
 });
 
 gulp.task('build.dev.angular-compiler-html', function() {
