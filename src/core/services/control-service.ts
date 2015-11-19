@@ -4,63 +4,37 @@ import { ControlMetadata } from '../controls/control-metadata';
 import { Control } from '../controls/control';
 import { IOverrides } from '../overrides/overrides';
 
+import { ButtonControl } from '../controls/visual/button-control';
+import { ContainerControl } from '../controls/visual/container-control';
+import { LabelControl } from '../controls/visual/label-control';
+import { LinkControl } from '../controls/visual/link-control';
+import { ListControl, ListItemControl } from '../controls/visual/list-control';
+import { RangeControl } from '../controls/visual/range-control';
+import { TextInputControl } from '../controls/visual/text-input-control';
+
+import { DatasourceControl } from '../controls/service/datasource-control';
+
 import { UtilsService } from './utils-service';
 
-interface ITypeDescription {
-  name: string;
-  path: string;
-}
-
-const CONTROL_CONFIG = new Map<string, ITypeDescription>(
-  <[string, ITypeDescription][]>[
-    ['button', {
-      name: 'ButtonControl',
-      path: 'src/core/controls/visual/button-control'
-    }],
-    ['container', {
-      name: 'ContainerControl',
-      path: 'src/core/controls/visual/container-control'
-    }],
-    ['datasource', {
-      name: 'DatasourceControl',
-      path: 'src/core/controls/service/datasource-control'
-    }],
-    ['label', {
-      name: 'LabelControl',
-      path: 'src/core/controls/visual/label-control'
-    }],
-    ['link', {
-      name: 'LinkControl',
-      path: 'src/core/controls/visual/link-control'
-    }],
-    ['list', {
-      name: 'ListControl',
-      path: 'src/core/controls/visual/list-control'
-    }],
-    ['list-item', {
-      name: 'ListItemControl',
-      path: 'src/core/controls/visual/list-control'
-    }],
-    ['range', {
-      name: 'RangeControl',
-      path: 'src/core/controls/visual/range-control'
-    }],
-    ['text-input', {
-      name: 'TextInputControl',
-      path: 'src/core/controls/visual/text-input-control'
-    }]
-  ]
-);
+const CONTROL_CONFIG = new Map<string, Type>(<[string, Type][]>[
+  ['button', ButtonControl],
+  ['container', ContainerControl],
+  ['datasource', DatasourceControl],
+  ['label', LabelControl],
+  ['link', LinkControl],
+  ['list', ListControl],
+  ['list-item', ListItemControl],
+  ['range', RangeControl],
+  ['text-input', TextInputControl]
+]);
 
 interface IControlType<TControl> {
   new(id: string, overrides?: IOverrides, children?: Control[]): TControl;
 }
 
 export class ControlService {
-  static getMetadata(type: string): Promise<ControlMetadata> {
-    return ControlService.loadType(type).then((type: any) => {
-      return type.getMeta();
-    });
+  static getMetadata(type: string): ControlMetadata {
+    return (<any>CONTROL_CONFIG.get(type)).getMeta();
   }
 
   static create<TControl extends Control>(
@@ -73,17 +47,9 @@ export class ControlService {
     type: string, overrides?: IOverrides, id?: string
   ): Promise<TControl> {
 
-    return ControlService.loadType(type).then(
-      (ControlType: IControlType<TControl>) => {
-        return new ControlType(id || UtilsService.uuid(), overrides);
-      }
-    );
-  }
-
-  private static loadType(controlType: string): Promise<Type> {
-    let classDescription = CONTROL_CONFIG.get(controlType);
-    return System.import(classDescription.path).then(
-      (module: any) => module[classDescription.name]
+    let ControlType = <IControlType<TControl>>CONTROL_CONFIG.get(type);
+    return Promise.resolve(
+      new ControlType(id || UtilsService.uuid(), overrides)
     );
   }
 }

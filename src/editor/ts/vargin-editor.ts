@@ -36,44 +36,35 @@ import { ControlService } from '../../core/services/control-service';
 })
 
 class Vargin {
-  private controlGroups: IExpandableGroup[] = [];
+  private controlGroups: IExpandableGroup[];
 
   constructor() {
-    Promise.all([
-      ControlService.getMetadata('label'),
-      ControlService.getMetadata('link'),
-      ControlService.getMetadata('list'),
-      ControlService.getMetadata('button'),
-      ControlService.getMetadata('container'),
-      ControlService.getMetadata('range'),
-      ControlService.getMetadata('text-input')
-    ]).then((controlsMetadata) => {
-      this.controlGroups.push(
-        this.controlGroupToExpandableGroup(
-          ControlGroup.register(
-            'visual',
-            'Visual',
-            'Visual components',
-            controlsMetadata
-          )
+    this.controlGroups = [
+      this.controlGroupToExpandableGroup(
+        ControlGroup.register(
+          'visual',
+          'Visual',
+          'Visual components',
+          [
+            ControlService.getMetadata('label'),
+            ControlService.getMetadata('link'),
+            ControlService.getMetadata('list'),
+            ControlService.getMetadata('button'),
+            ControlService.getMetadata('container'),
+            ControlService.getMetadata('range'),
+            ControlService.getMetadata('text-input')
+          ]
         )
-      );
-    });
-
-    Promise.all([
-      ControlService.getMetadata('datasource')
-    ]).then((controlsMetadata) => {
-      this.controlGroups.push(
-        this.controlGroupToExpandableGroup(
-          ControlGroup.register(
-            'service',
-            'Service',
-            'Service components',
-            controlsMetadata
-          )
+      ),
+      this.controlGroupToExpandableGroup(
+        ControlGroup.register(
+          'service',
+          'Service',
+          'Service components',
+          [ControlService.getMetadata('datasource')]
         )
-      );
-    });
+      )
+    ];
   }
 
   private controlGroupToExpandableGroup(controlGroup: ControlGroup) {
