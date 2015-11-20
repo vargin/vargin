@@ -119,12 +119,6 @@ gulp.task('build.dev.editor-app', [
       )
     ]);
   });
-
-  /*return appBuilder.bundle(
-    'src/!**!/!*',
-    EDITOR_PATH.dest[environment].base + '/js/vargin-editor.js',
-    { minify: false }
-  );*/
 });
 
 gulp.task('build.dev.angular-compiler-html', function() {

@@ -54,11 +54,11 @@ export class BaseComponent {
       e.preventDefault();
       e.stopPropagation();
 
-      ControlService.createByType(
-        e.dataTransfer.getData(e.dataTransfer.types[0])
-      ).then((control: Control) => {
-        this.control.addChild(control);
-      });
+      this.control.addChild(
+        ControlService.createByType(
+          e.dataTransfer.getData(e.dataTransfer.types[0])
+        )
+      );
 
       this.dragEnterCounter = 0;
     }

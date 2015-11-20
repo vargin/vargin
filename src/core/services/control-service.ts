@@ -37,19 +37,10 @@ export class ControlService {
     return (<any>CONTROL_CONFIG.get(type)).getMeta();
   }
 
-  static create<TControl extends Control>(
-    type: IControlType<TControl>, overrides?: IOverrides, id?: string
-  ): TControl {
-    return new type(id || UtilsService.uuid(), overrides);
-  }
-
   static createByType<TControl extends Control>(
     type: string, overrides?: IOverrides, id?: string
-  ): Promise<TControl> {
-
+  ): TControl {
     let ControlType = <IControlType<TControl>>CONTROL_CONFIG.get(type);
-    return Promise.resolve(
-      new ControlType(id || UtilsService.uuid(), overrides)
-    );
+    return new ControlType(id || UtilsService.uuid(), overrides);
   }
 }
