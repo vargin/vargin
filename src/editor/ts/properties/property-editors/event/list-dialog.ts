@@ -3,6 +3,7 @@ import {
 } from 'angular2/angular2';
 import { DialogService } from '../../../services/dialog-service';
 import { IAction, Action } from '../../../../../core/actions/action';
+import { PropertyEditorDialog } from './editor-dialog';
 
 @Component({
   selector: 'event-property-list-dialog'
@@ -32,7 +33,7 @@ import { IAction, Action } from '../../../../../core/actions/action';
   `,
   directives: [NgFor]
 })
-export class EventPropertyListDialog {
+export class PropertyListDialog {
   private actions: IAction[];
 
   constructor(@Inject(Array) actions: IAction[]) {
@@ -40,9 +41,7 @@ export class EventPropertyListDialog {
   }
 
   add() {
-    this.getEditorDialogType().then((EditorDialogType: Type) => {
-      return DialogService.show(EditorDialogType);
-    }).then((action?: IAction) => {
+    DialogService.show(PropertyEditorDialog).then((action?: IAction) => {
       if (action) {
         this.actions.push(action);
       }
@@ -50,22 +49,12 @@ export class EventPropertyListDialog {
   }
 
   edit(action: IAction) {
-    this.getEditorDialogType().then((EditorDialogType: Type) => {
-      DialogService.show(
-        EditorDialogType, [provide(Action, { useValue: action })]
-      );
-    });
+    DialogService.show(
+      PropertyEditorDialog, [provide(Action, { useValue: action })]
+    );
   }
 
   remove(index: number) {
     this.actions.splice(index, 1);
-  }
-
-  private getEditorDialogType() {
-    return System.import(
-      'src/editor/ts/properties/property-editors/event/editor-dialog'
-    ).then((module: any) => {
-      return <Type>module.EventPropertyEditorDialog;
-    });
   }
 }

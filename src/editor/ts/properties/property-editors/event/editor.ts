@@ -5,7 +5,7 @@ import { IAction } from '../../../../../core/actions/action';
 
 import * as JSONAction from '../../../../../compilers/json/json-action-compiler';
 import { DialogService } from '../../../services/dialog-service';
-import { EventPropertyListDialog } from './list-dialog';
+import { PropertyListDialog } from './list-dialog';
 
 @Component({
   selector: 'event-property-editor',
@@ -48,8 +48,7 @@ export class PropertyEditor {
 
   change() {
     DialogService.show(
-      EventPropertyListDialog,
-      [provide(Array, { useValue: this.actions })]
+      PropertyListDialog, [provide(Array, { useValue: this.actions })]
     ).then(() => {
       if (this.actions.length) {
         Promise.all(

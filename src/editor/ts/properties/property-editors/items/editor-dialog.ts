@@ -22,7 +22,7 @@ import { Schema } from '../../../../../core/data/schema';
   `,
   directives: [NgFor]
 })
-export class ItemsPropertyEditorDialog {
+export class PropertyEditorDialog {
   private schema: Schema;
   private properties: Array<[string, string]>;
   private dispose: Function;

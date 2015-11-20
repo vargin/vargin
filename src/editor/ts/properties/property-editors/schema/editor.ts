@@ -2,7 +2,7 @@ import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from '../../../../../core/property';
 import { DialogService } from '../../../services/dialog-service';
-import { SchemaPropertyEditorDialog } from './editor-dialog';
+import { PropertyEditorDialog } from './editor-dialog';
 import { Schema } from '../../../../../core/data/schema';
 
 @Component({
@@ -37,7 +37,7 @@ export class PropertyEditor {
 
   change() {
     DialogService.show(
-      SchemaPropertyEditorDialog, [provide(Schema, { useValue: this.schema })]
+      PropertyEditorDialog, [provide(Schema, { useValue: this.schema })]
     ).then(() => {
       this.schema.fields = this.schema.fields.filter((field) => !!field.name);
 

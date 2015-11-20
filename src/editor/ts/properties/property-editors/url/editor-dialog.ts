@@ -32,7 +32,7 @@ import { ApplicationService } from '../../../../../core/services/application-ser
   `,
   directives: [NgFor, NgIf]
 })
-export class URLPropertyEditorDialog {
+export class PropertyEditorDialog {
   private address: Address;
   private pages: ApplicationPage[] = [];
 

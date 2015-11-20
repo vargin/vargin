@@ -4,7 +4,7 @@ import { IProperty, Property } from '../../../../../core/property';
 import { OwnedProperty } from '../../../../../core/owned-property';
 import { Control } from '../../../../../core/controls/control';
 import { DialogService } from '../../../services/dialog-service';
-import { ItemsPropertyListDialog } from './list-dialog';
+import { PropertyListDialog } from './list-dialog';
 import { Schema } from '../../../../../core/data/schema';
 
 @Component({
@@ -56,7 +56,7 @@ export class PropertyEditor {
     let serializedSchema = this.property.owner.getProperty('schema').getValue();
 
     DialogService.show(
-      ItemsPropertyListDialog,
+      PropertyListDialog,
       [
         provide(Schema, { useValue: Schema.deserialize(serializedSchema) }),
         provide(Array, { useValue: this.items })

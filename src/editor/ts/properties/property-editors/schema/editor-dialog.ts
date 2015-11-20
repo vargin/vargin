@@ -34,7 +34,7 @@ import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
   `,
   directives: [NgFor, NgIf]
 })
-export class SchemaPropertyEditorDialog {
+export class PropertyEditorDialog {
   private schema: Schema;
 
   constructor(@Inject(Schema) schema: Schema) {

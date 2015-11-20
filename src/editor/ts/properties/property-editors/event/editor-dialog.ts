@@ -34,7 +34,7 @@ import { PropertyEditor } from '../property-editor';
   `,
   directives: [NgFor, PropertyEditor]
 })
-export class EventPropertyEditorDialog {
+export class PropertyEditorDialog {
   private action: IAction;
   private actionProperties: IProperty<string>[] = [];
   private actionType: string;

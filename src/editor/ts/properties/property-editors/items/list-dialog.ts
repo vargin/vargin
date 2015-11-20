@@ -3,7 +3,7 @@ import { Property } from '../../../../../core/property';
 import { OwnedProperty } from '../../../../../core/owned-property';
 import { Control } from '../../../../../core/controls/control';
 import { DialogService } from '../../../services/dialog-service';
-import { ItemsPropertyEditorDialog } from './editor-dialog';
+import { PropertyEditorDialog } from './editor-dialog';
 import { Schema } from '../../../../../core/data/schema';
 
 @Component({
@@ -42,7 +42,7 @@ import { Schema } from '../../../../../core/data/schema';
   `,
   directives: [NgFor]
 })
-export class ItemsPropertyListDialog {
+export class PropertyListDialog {
   private schema: Schema;
   private items: Map<string, string>[];
 
@@ -60,7 +60,7 @@ export class ItemsPropertyListDialog {
     });
 
     DialogService.show(
-      ItemsPropertyEditorDialog,
+      PropertyEditorDialog,
       [
         provide(Schema, { useValue: this.schema }),
         provide(Array, { useValue: newItem })

@@ -3,7 +3,7 @@ import { Component, Inject, provide, View } from 'angular2/angular2';
 import { IProperty, Property } from '../../../../../core/property';
 import { Address, AddressType } from '../../../../../core/data/address';
 import { DialogService } from '../../../services/dialog-service';
-import { URLPropertyEditorDialog } from './editor-dialog';
+import { PropertyEditorDialog } from './editor-dialog';
 import { ApplicationService } from '../../../../../core/services/application-service';
 
 @Component({
@@ -57,7 +57,7 @@ export class PropertyEditor {
 
   change() {
     DialogService.show(
-      URLPropertyEditorDialog, [provide(Address, { useValue: this.address })]
+      PropertyEditorDialog, [provide(Address, { useValue: this.address })]
     ).then(() => {
       if (this.address.value) {
         this.property.setValue(Address.serialize(this.address));
