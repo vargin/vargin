@@ -13,7 +13,7 @@ import {
 
 import { Control } from '../../../core/controls/control';
 
-import { ControlConfigService } from '../services/control-config-service';
+import { ComponentService } from '../services/component-service';
 
 import { BaseComponent } from './base-component';
 
@@ -45,7 +45,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
 
     let controlType = this.control.meta.type;
 
-    ControlConfigService.loadComponentType(controlType).then((type: Type) => {
+    ComponentService.loadComponentType(controlType).then((type: Type) => {
       return this.loader.loadIntoLocation(
         type,
         this.viewContainer.element,
