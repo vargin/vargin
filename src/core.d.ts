@@ -14,10 +14,8 @@ export * from './core/actions/broadcast-action';
 export * from './core/actions/change-property-action';
 export * from './core/actions/navigate-action';
 
-export * from './core/controls/service/_registry';
 export * from './core/controls/service/datasource-control';
 
-export * from './core/controls/visual/_registry';
 export * from './core/controls/visual/button-control';
 export * from './core/controls/visual/container-control';
 export * from './core/controls/visual/label-control';

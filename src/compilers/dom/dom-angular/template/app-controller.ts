@@ -19,13 +19,6 @@ import { JSONApplicationCompiler } from '../../../json/json-application-compiler
 import { PageController } from './page-controller';
 import { application } from './app-description';
 
-import {
-  REGISTRY as VISUAL_CONTROLS
-} from '../../../../core/controls/visual/_registry';
-import {
-  REGISTRY as SERVICE_CONTROLS
-} from '../../../../core/controls/service/_registry';
-
 @Component({
   selector: 'angular-app'
 })
@@ -42,12 +35,7 @@ import {
   path: '/page/:id',
   component: PageController
 }])
-class AppController {
-  private dependencies: Type[] = [
-    ...VISUAL_CONTROLS,
-    ...SERVICE_CONTROLS
-  ];
-}
+class AppController {}
 
 (new JSONApplicationCompiler()).decompile(
   application
