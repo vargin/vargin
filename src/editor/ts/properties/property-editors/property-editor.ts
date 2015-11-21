@@ -59,15 +59,13 @@ export class PropertyEditor implements OnChanges {
       return;
     }
 
-    setTimeout(() => {
-      PropertyEditor.getEditorType(this.property).then((PropertyEditorType) => {
-        return this.loader.loadIntoLocation(
-          PropertyEditorType,
-          this.viewContainer.element,
-          'container',
-          Injector.resolve([provide(Property, { useValue: this.property })])
-        );
-      });
+    PropertyEditor.getEditorType(this.property).then((PropertyEditorType) => {
+      return this.loader.loadIntoLocation(
+        PropertyEditorType,
+        this.viewContainer.element,
+        'container',
+        Injector.resolve([provide(Property, { useValue: this.property })])
+      );
     });
   }
 
