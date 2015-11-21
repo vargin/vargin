@@ -24,6 +24,7 @@ const CONFIG = new Map<string, string>(<[string, string][]>[
   ['image', 'image-property-editor'],
 
   ['string', 'string-property-editor'],
+  ['read-only-string', 'read-only-string-property-editor'],
 
   ['options', 'property-with-options-editor'],
 

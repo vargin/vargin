@@ -170,6 +170,14 @@ body {
   box-sizing: border-box;
 }
 
+.vargin-property-editor__input-read-only {
+  background: none;
+  border: none;
+
+  color: #5A5A5A;
+  text-overflow: ellipsis;
+}
+
 .vargin-property-editor-event {
   .vargin-property-editor__label {
     cursor: pointer;

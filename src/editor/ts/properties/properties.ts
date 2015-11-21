@@ -14,6 +14,19 @@ import { ComponentService } from '../services/component-service';
   template: `
     <section>
       <section class="expandable-group"
+               *ng-if="!!groups.info.items.length"
+               [attr.aria-expanded]="groups.info.expanded">
+        <header class="expandable-group__header"
+                (click)="groups.info.expanded = !groups.info.expanded">
+          {{ groups.info.name }}
+        </header>
+        <ul class="expandable-group__list">
+          <li class="expandable-group__item" *ng-for="#property of groups.info.items">
+            <property-editor [property]="property"></property-editor>
+          </li>
+        </ul>
+      </section>
+      <section class="expandable-group"
                *ng-if="!!groups.properties.items.length"
                [attr.aria-expanded]="groups.properties.expanded">
         <header class="expandable-group__header"
@@ -59,7 +72,6 @@ import { ComponentService } from '../services/component-service';
       <div class="vargin-properties_empty" *ng-if="!activeControl">
         (Select control...)
       </div>
-      <div><strong>{{getControlId()}}</strong></div>
     </section>
   `,
   directives: [NgFor, NgIf, PropertyEditor]
@@ -67,6 +79,11 @@ import { ComponentService } from '../services/component-service';
 class VarginProperties {
   private activeControl: Control;
   private groups: {
+    info: {
+      name: string,
+      expanded: boolean,
+      items: IProperty<any>[]
+    },
     properties: {
       name: string,
       expanded: boolean,
@@ -83,6 +100,7 @@ class VarginProperties {
       items: IProperty<string>[]
     }
   } = {
+    info: null,
     properties: null,
     styles: null,
     events: null
@@ -96,6 +114,12 @@ class VarginProperties {
     ComponentService.controlUnselected.subscribe(
       this.onControlUnselected.bind(this)
     );
+
+    this.groups.info = {
+      name: 'Info',
+      expanded: false,
+      items: []
+    };
 
     this.groups.properties = {
       name: 'Common Properties',
@@ -121,6 +145,10 @@ class VarginProperties {
 
     this.activeControl = control;
 
+    this.groups.info.items.push(
+      new Property('Id', control.id, 'read-only-string')
+    );
+
     control.meta.properties.forEach((property, propertyKey) => {
       this.groups.properties.items.push(control.getProperty(propertyKey));
     });
@@ -136,10 +164,6 @@ class VarginProperties {
 
   private onControlUnselected() {
     this.reset();
-  }
-
-  private getControlId() {
-    return this.activeControl && this.activeControl.id;
   }
 
   private removeControl() {
