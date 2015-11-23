@@ -11,6 +11,8 @@ import {
   View
 } from 'angular2/angular2';
 
+import { EditableLabel } from './editable-label';
+
 export interface ITreeViewItem<TData> {
   name: string;
   selected: boolean;
@@ -29,18 +31,25 @@ export interface ITreeViewItem<TData> {
             [class.tree-view-list__item--selected]="item.selected"
           *ng-for="#item of items"
           (click)="onItemClicked($event, item)">
-        <span class="tree-view-list__item-label">{{ item.name }}</span>
-        <tree-view [items]="item.children"
+        <vargin-editable-label class="tree-view-list__item-label"
+          [value]="item.name"
+          [allow-editing]="editable"
+          (value-change)="onItemNameChange(item, $event)">
+        </vargin-editable-label>
+        <tree-view [items]="item.children" [editable]="editable"
+                   (item-name-changed)="propagateItemNameChanged($event)"
                    (item-selected)="propagateItemSelected($event)">
         </tree-view>
       </li>
     </ul>
   `,
-  directives: [TreeView]
+  directives: [EditableLabel, TreeView]
 })
 export class TreeView<TData> {
   @Input() items: ITreeViewItem<TData>[];
+  @Input() editable: boolean = false;
   @Output() itemSelected = new EventEmitter<ITreeViewItem<TData>>();
+  @Output() itemNameChanged = new EventEmitter<ITreeViewItem<TData>>();
 
   parent: TreeView<TData>;
 
@@ -65,8 +74,18 @@ export class TreeView<TData> {
     this.propagateItemSelected(item);
   }
 
+  private onItemNameChange(item, newName) {
+    item.name = newName;
+
+    this.propagateItemNameChanged(item);
+  }
+
   private propagateItemSelected(item: ITreeViewItem<TData>) {
     this.itemSelected.next(item);
+  }
+
+  private propagateItemNameChanged(item: ITreeViewItem<TData>) {
+    this.itemNameChanged.next(item);
   }
 
   /**
