@@ -10,6 +10,8 @@
 @import '../ts/properties/property-editors/event/style.scss';
 @import 'vargin-components';
 
+$font-family: "Fira Sans", "Open Sans", sans-serif;
+
 html, body {
   height: 100%;
   width: 100%;
@@ -17,7 +19,7 @@ html, body {
   margin: 0;
 
   color: #333;
-  font-family: "Fira Sans", "Open Sans", sans-serif;
+  font-family: $font-family;
   font-weight: 300;
 }
 
@@ -174,7 +176,9 @@ body {
   background: none;
   border: none;
 
+  font-family: $font-family;
   color: #5A5A5A;
+  font-weight: 300;
   text-overflow: ellipsis;
 }
 
@@ -212,4 +216,23 @@ vargin-service-container {
 
 image-property-editor input[type=file] {
   display: none;
+}
+
+.vargin-editable-label {
+  display: inline;
+}
+
+.vargin-editable-label__editor {
+  background: #f8f8f8;
+
+  border: none;
+  border-bottom: 0.1rem solid #00a5d5;
+
+  color: #333333;
+  font-family: $font-family;
+  font-weight: 300;
+}
+
+.vargin-editable-label__label > span {
+  padding: 0.1rem 0;
 }
