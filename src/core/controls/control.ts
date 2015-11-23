@@ -52,11 +52,7 @@ export class Control {
       this._overrides = this._overrides.find('__default__');
     }
 
-    this._cache = {
-      properties: new Map<string, OverrideProperty<string, Control>>(),
-      styles: new Map<string, OverrideProperty<string, Control>>(),
-      events: new Map<string, OverrideProperty<string, Control>>()
-    };
+    this.initCache();
   }
 
   /**
@@ -81,6 +77,16 @@ export class Control {
    */
   get overrides() {
     return this._overrides;
+  }
+
+  /**
+   * Sets control overrides.
+   * @param {IOverrides} value
+   */
+  set overrides(value: IOverrides) {
+    this.initCache();
+
+    this._overrides = value;
   }
 
   /**
@@ -196,6 +202,14 @@ export class Control {
     }
 
     return property;
+  }
+
+  private initCache() {
+    this._cache = {
+      properties: new Map<string, OverrideProperty<string, Control>>(),
+      styles: new Map<string, OverrideProperty<string, Control>>(),
+      events: new Map<string, OverrideProperty<string, Control>>()
+    };
   }
 
   static getMeta(): ControlMetadata {

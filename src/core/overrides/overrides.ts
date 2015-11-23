@@ -21,6 +21,7 @@ export interface IOverrides {
 
   getRoot(): IOverrides;
   add(overrides: IOverrides);
+  remove(overrides: IOverrides);
   find(id: string): IOverrides;
 
   merge(overrides: IOverrides);
@@ -70,6 +71,15 @@ export class Overrides implements IOverrides {
   add(overrides: IOverrides) {
     overrides.parent = this;
     this.children.push(overrides);
+  }
+
+  remove(overrides: IOverrides) {
+    let childIndex = this.children.findIndex((child) => child === overrides);
+
+    if (childIndex >= 0) {
+      overrides.parent = null;
+      this.children.splice(childIndex, 1);
+    }
   }
 
   find(id: string) {

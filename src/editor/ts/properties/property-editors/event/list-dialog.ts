@@ -1,6 +1,4 @@
-import {
-  Component, Inject, NgFor, provide, Type, View
-} from 'angular2/angular2';
+import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
 import { DialogService } from '../../../services/dialog-service';
 import { IAction, Action } from '../../../../../core/actions/action';
 import { PropertyEditorDialog } from './editor-dialog';
