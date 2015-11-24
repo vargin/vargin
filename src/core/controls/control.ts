@@ -46,7 +46,7 @@ export class Control {
     }
 
     if (this._overrides.id !== '__default__') {
-      this._overrides = this._overrides.find('__default__');
+      this._overrides = this._overrides.find('__default__') || this._overrides;
     }
   }
 
