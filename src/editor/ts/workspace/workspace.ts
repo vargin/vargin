@@ -817,6 +817,8 @@ class VarginWorkspace {
   }
 
   startFromScratch() {
+    ComponentService.unselectCurrentComponent();
+
     this.activePageIndex = 0;
 
     this.jsonCompiler.decompile(
