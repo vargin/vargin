@@ -1,4 +1,3 @@
-import { Type } from 'angular2/angular2';
 import { ControlMetadata } from '../controls/control-metadata';
 
 import { Control } from '../controls/control';

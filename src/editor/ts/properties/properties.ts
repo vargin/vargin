@@ -146,7 +146,8 @@ class VarginProperties {
     this.activeControl = control;
 
     this.groups.info.items.push(
-      new Property('Id', control.id, 'read-only-string')
+      new Property('Id', control.id, 'read-only-string'),
+      new Property('States', control, 'control-overrides')
     );
 
     control.meta.properties.forEach((property, propertyKey) => {

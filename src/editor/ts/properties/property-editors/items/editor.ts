@@ -23,48 +23,41 @@ import { Schema } from '../../../../../core/data/schema';
 })
 export class PropertyEditor {
   private property: OwnedProperty<string, Control>;
-  private items: Map<string, string>[] = [];
 
   constructor(@Inject(Property) property: OwnedProperty<string, Control>) {
     this.property = property;
-
-    if (this.hasSchema()) {
-      let itemsJSON = this.property.getValue();
-      if (itemsJSON) {
-        this.items = JSON.parse(itemsJSON).map(
-          (propertyMap: [string, string][]) => {
-            return new Map(propertyMap);
-          }
-        );
-      }
-    }
   }
 
   getValue() {
-    if (!this.hasSchema()) {
+    if (!this.getSchema()) {
       return '[No schema]';
     }
 
-    return `[${this.items.length} items]`;
+    return this.property.getValue() ? '[Defined]' : '[Not Defined]';
   }
 
   change() {
-    if (!this.hasSchema()) {
+    let serializedSchema = this.getSchema();
+
+    if (!serializedSchema) {
       return;
     }
 
-    let serializedSchema = this.property.owner.getProperty('schema').getValue();
+    let itemsJSON = this.property.getValue();
+    let items = itemsJSON ? JSON.parse(itemsJSON).map(
+      (propertyMap: [string, string][]) => new Map(propertyMap)
+    ) : [];
 
     DialogService.show(
       PropertyListDialog,
       [
         provide(Schema, { useValue: Schema.deserialize(serializedSchema) }),
-        provide(Array, { useValue: this.items })
+        provide(Array, { useValue: items })
       ]
     ).then(() => {
-      if (this.items.length) {
+      if (items.length) {
         this.property.setValue(JSON.stringify(
-          this.items.map((map) => {
+          items.map((map) => {
             let itemProperties: Array<[string, string]> = [];
             map.forEach((value, key) => itemProperties.push([key, value]));
             return itemProperties;
@@ -76,7 +69,7 @@ export class PropertyEditor {
     });
   }
 
-  private hasSchema() {
-    return !!this.property.owner.getProperty('schema').getValue();
+  private getSchema() {
+    return this.property.owner.getProperty('schema').getValue();
   }
 }

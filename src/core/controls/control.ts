@@ -12,11 +12,8 @@ export class Control {
   private _meta: ControlMetadata;
   private _parent: Control;
   private _children: Control[];
-  private _cache: {
-    properties: Map<string, OverrideProperty<string, Control>>;
-    styles: Map<string, OverrideProperty<string, Control>>;
-    events: Map<string, OverrideProperty<string, Control>>;
-  };
+  private _propertyCache: Map<string, Map<string, OverrideProperty<string, Control>>> =
+    new Map<string, Map<string, OverrideProperty<string, Control>>>();
 
   protected predefinedOverrides: IOverrides;
 
@@ -51,8 +48,6 @@ export class Control {
     if (this._overrides.id !== '__default__') {
       this._overrides = this._overrides.find('__default__');
     }
-
-    this.initCache();
   }
 
   /**
@@ -84,9 +79,15 @@ export class Control {
    * @param {IOverrides} value
    */
   set overrides(value: IOverrides) {
-    this.initCache();
-
     this._overrides = value;
+
+    this._propertyCache.forEach((group, groupKey) => {
+      group.forEach((property, valueKey) => {
+        property.setOverride(
+          this._overrides.forKey<string>(groupKey, valueKey)
+        );
+      });
+    });
   }
 
   /**
@@ -181,7 +182,14 @@ export class Control {
   }
 
   private getPropertyView(groupKey, valueKey) {
-    let property = this._cache[groupKey].get(valueKey);
+    let cacheGroup = this._propertyCache.get(groupKey);
+
+    if (!cacheGroup) {
+      cacheGroup = new Map<string, OverrideProperty<string, Control>>();
+      this._propertyCache.set(groupKey, cacheGroup);
+    }
+
+    let property = cacheGroup.get(valueKey);
 
     if (!property) {
       let metaProperty = this._meta[groupKey].get(valueKey);
@@ -195,21 +203,13 @@ export class Control {
         OverrideProperty;
 
       property = new MetaPropertyType(
-        metaProperty, this, this._overrides.forKey(groupKey, valueKey)
+        metaProperty, this, this._overrides.forKey<string>(groupKey, valueKey)
       );
 
-      this._cache[groupKey].set(valueKey, property);
+      cacheGroup.set(valueKey, property);
     }
 
     return property;
-  }
-
-  private initCache() {
-    this._cache = {
-      properties: new Map<string, OverrideProperty<string, Control>>(),
-      styles: new Map<string, OverrideProperty<string, Control>>(),
-      events: new Map<string, OverrideProperty<string, Control>>()
-    };
   }
 
   static getMeta(): ControlMetadata {

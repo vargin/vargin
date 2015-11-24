@@ -23,44 +23,45 @@ import { PropertyListDialog } from './list-dialog';
 })
 export class PropertyEditor {
   private property: IProperty<string>;
-  private actions: IAction[] = [];
   private actionCompiler = new JSONAction.JSONActionCompiler();
 
   constructor(@Inject(Property) property: IProperty<string>) {
     this.property = property;
-
-    let propertyValue = this.property.getValue();
-    if (propertyValue) {
-      Promise.all(
-        (<JSONAction.IJSONAction[]>JSON.parse(propertyValue)).map((action) => {
-          return this.actionCompiler.decompile(action);
-        })
-      ).then((actions) => {
-        this.actions = actions;
-      });
-    }
   }
 
   getValue() {
-    let numberOfActions = this.actions.length;
-    return numberOfActions ? `[${numberOfActions} actions]` : '[Not handled]';
+    return this.property.getValue() ? '[Handled]' : '[Not handled]';
   }
 
   change() {
-    DialogService.show(
-      PropertyListDialog, [provide(Array, { useValue: this.actions })]
-    ).then(() => {
-      if (this.actions.length) {
-        Promise.all(
-          this.actions.map((action) => {
-            return this.actionCompiler.compile(action);
-          })
-        ).then((actions: JSONAction.IJSONAction[]) => {
-          this.property.setValue(JSON.stringify(actions));
-        });
-      } else {
-        this.property.setValue('');
-      }
+    this.deserialize().then((actions) => {
+      return DialogService.show(
+        PropertyListDialog, [provide(Array, { useValue: actions })]
+      ).then(() => {
+        if (actions.length) {
+          Promise.all(
+            actions.map((action) => this.actionCompiler.compile(action))
+          ).then((actions: JSONAction.IJSONAction[]) => {
+            this.property.setValue(JSON.stringify(actions));
+          });
+        } else {
+          this.property.setValue('');
+        }
+      });
     });
+  }
+
+  private deserialize(): Promise<IAction[]> {
+    let propertyValue = this.property.getValue();
+
+    if (propertyValue) {
+      return Promise.all(
+        (<JSONAction.IJSONAction[]>JSON.parse(propertyValue)).map((action) => {
+          return this.actionCompiler.decompile(action);
+        })
+      );
+    }
+
+    return Promise.resolve([]);
   }
 }

@@ -1,0 +1,11 @@
+.tree-view-list__item {
+  margin: 0.4rem 0;
+}
+
+.tree-view-list__item-label {
+  cursor: pointer;
+}
+
+.tree-view-list__item--selected > .tree-view-list__item-label {
+  font-weight: bold;
+}

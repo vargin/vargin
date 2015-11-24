@@ -24,51 +24,44 @@ import { ApplicationService } from '../../../../../core/services/application-ser
 })
 export class PropertyEditor {
   private property: IProperty<string>;
-  private address: Address;
 
   constructor(@Inject(Property) property: IProperty<string>) {
     this.property = property;
-
-    let urlString = this.property.getValue();
-    this.address = urlString ? Address.deserialize(urlString) : new Address();
   }
 
   getValue() {
-    if (!this.address.value) {
+    let urlString = this.property.getValue();
+
+    if (!urlString) {
       return '[Not defined]';
     }
 
-    if (this.address.type === AddressType.APP_PAGE) {
+    let address = Address.deserialize(urlString);
+
+    if (address.type === AddressType.APP_PAGE) {
       let page = ApplicationService.current.pages.find(
-        (page) => page.id === this.address.value
+        (page) => page.id === address.value
       );
 
       if (page) {
         return page.name;
-      } else {
-        this.reset();
-
-        return '[Not defined]';
       }
+
+      this.property.setValue('');
+      return '[Not defined]';
     }
 
-    return this.address.value;
+    return address.value;
   }
 
   change() {
-    DialogService.show(
-      PropertyEditorDialog, [provide(Address, { useValue: this.address })]
-    ).then(() => {
-      if (this.address.value) {
-        this.property.setValue(Address.serialize(this.address));
-      } else {
-       this.reset();
-      }
-    });
-  }
+    let urlString = this.property.getValue();
+    let address = urlString ? Address.deserialize(urlString) : new Address();
 
-  private reset() {
-    this.property.setValue('');
-    this.address = new Address();
+    DialogService.show(
+      PropertyEditorDialog, [provide(Address, { useValue: address })]
+    ).then(() => {
+      this.property.setValue(address.value ? Address.serialize(address) : '');
+    });
   }
 }

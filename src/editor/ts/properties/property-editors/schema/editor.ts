@@ -21,14 +21,9 @@ import { Schema } from '../../../../../core/data/schema';
 })
 export class PropertyEditor {
   private property: IProperty<string>;
-  private schema: Schema;
 
   constructor(@Inject(Property) property: IProperty<string>) {
     this.property = property;
-
-    let propertyValue = this.property.getValue();
-    this.schema = propertyValue ?
-      Schema.deserialize(propertyValue) : new Schema();
   }
 
   getValue() {
@@ -36,13 +31,17 @@ export class PropertyEditor {
   }
 
   change() {
+    let propertyValue = this.property.getValue();
+    let schema = propertyValue ?
+      Schema.deserialize(propertyValue) : new Schema();
+
     DialogService.show(
-      PropertyEditorDialog, [provide(Schema, { useValue: this.schema })]
+      PropertyEditorDialog, [provide(Schema, { useValue: schema })]
     ).then(() => {
-      this.schema.fields = this.schema.fields.filter((field) => !!field.name);
+      schema.fields = schema.fields.filter((field) => !!field.name);
 
       this.property.setValue(
-        this.schema.fields.length ? Schema.serialize(this.schema) : ''
+        schema.fields.length ? Schema.serialize(schema) : ''
       );
     });
   }
