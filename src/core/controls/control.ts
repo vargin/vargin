@@ -38,15 +38,16 @@ export class Control {
     //    are not provided and we use default overrides layer - we'll have to
     //    make it as child of predefined overrides.
     if (this.predefinedOverrides) {
-      (this.predefinedOverrides.id === overrides.id ?
-        overrides.children : [overrides]
+      let rootOverrides = overrides.getRoot();
+      (this.predefinedOverrides.id === rootOverrides.id ?
+          rootOverrides.children : [rootOverrides]
       ).forEach(
         (child) => this._overrides.add(child)
       );
     }
 
-    if (this._overrides.id !== '__default__') {
-      this._overrides = this._overrides.find('__default__') || this._overrides;
+    if (this._overrides.id !== overrides.id) {
+      this._overrides = this._overrides.find(overrides.id);
     }
   }
 
