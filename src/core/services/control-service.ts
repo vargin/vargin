@@ -15,7 +15,7 @@ import { DatasourceControl } from '../controls/service/datasource-control';
 
 import { UtilsService } from './utils-service';
 
-const CONTROL_CONFIG = new Map<string, Type>(<[string, Type][]>[
+const CONTROL_CONFIG = new Map<string, Function>(<[string, Function][]>[
   ['button', ButtonControl],
   ['container', ContainerControl],
   ['datasource', DatasourceControl],

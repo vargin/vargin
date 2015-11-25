@@ -4,12 +4,14 @@ import { IAction } from '../actions/action';
 import { AlertAction } from '../actions/alert-action';
 import { BroadcastAction } from '../actions/broadcast-action';
 import { ChangePropertyAction } from '../actions/change-property-action';
+import { ChangeOverridesAction } from '../actions/change-overrides-action';
 import { NavigateAction } from '../actions/navigate-action';
 
 const ACTIONS = new Map<string, any>(<[string, any][]>[
   ['alert-action', AlertAction],
   ['broadcast-action', BroadcastAction],
   ['change-property-action', ChangePropertyAction],
+  ['change-overrides-action', ChangeOverridesAction],
   ['navigate-action', NavigateAction]
 ]);
 
