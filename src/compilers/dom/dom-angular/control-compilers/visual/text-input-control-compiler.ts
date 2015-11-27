@@ -2,14 +2,13 @@ import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
 import {
   TextInputControl
 } from '../../../../../core/controls/visual/text-input-control';
-import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class TextInputControlCompiler extends DOMAngularControlCompiler<TextInputControl> {
-  getMarkup(control: TextInputControl, cssClass: ICompiledCSSClass) {
+  getMarkup(control: TextInputControl) {
     return this.buildHTMLElement('input', '', new Map<string, string>(
       <[string, string][]>[
         ['id', control.id],
-        ['class', cssClass.name],
+        ['class', this.bindCSSClass(control)],
         ['type', 'text'],
         ['placeholder', this.bindValue(control, 'placeholder')],
         ['value', this.bindValue(control, 'value')],

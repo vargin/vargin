@@ -2,16 +2,15 @@ import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
 import {
   ContainerControl
 } from '../../../../../core/controls/visual/container-control';
-import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class ContainerControlCompiler extends DOMAngularControlCompiler<ContainerControl> {
-  getMarkup(control: ContainerControl, cssClass: ICompiledCSSClass) {
+  getMarkup(control: ContainerControl) {
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
       new Map<string, string>(<[string, string][]>[
         ['id', control.id],
-        ['class', cssClass.name],
+        ['class', this.bindCSSClass(control)],
         ...this.getEventHandlers(control)
       ])
     );

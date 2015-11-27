@@ -1,19 +1,19 @@
 import { IControlCompiler } from '../../../control-compiler';
-import { ICompiledCSSClass, CSSClassCompiler } from '../../css-compiler';
+import { CSSClassCompiler } from '../../css-compiler';
 import { IProperty } from '../../../../core/property';
 import { Control } from '../../../../core/controls/control';
 
 export interface IDOMStaticCompiledControl {
   source: Control;
   markup: string;
-  cssClass?: ICompiledCSSClass;
+  cssClasses?: Set<string>;
 }
 
 export class DOMStaticControlCompiler<TControl extends Control> implements IControlCompiler<IDOMStaticCompiledControl> {
   binding: Map<string, string>;
 
   compile(control: TControl): Promise<IDOMStaticCompiledControl> {
-    let cssClassPromise: Promise<ICompiledCSSClass>;
+    let cssClassPromise: Promise<Set<string>>;
 
     if (control.meta.styles.size > 0) {
       cssClassPromise = CSSClassCompiler.compile(control);
@@ -21,11 +21,11 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
       cssClassPromise = Promise.resolve(null);
     }
 
-    return cssClassPromise.then((cssClass) => {
+    return cssClassPromise.then((cssClasses) => {
       return {
         source: control,
-        markup: this.getMarkup(control, cssClass),
-        cssClass: cssClass
+        markup: this.getMarkup(control),
+        cssClasses: cssClasses
       };
     });
   }
@@ -44,7 +44,23 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
     return rawValue;
   }
 
-  protected getMarkup(control: TControl, cssClass?: ICompiledCSSClass) {
+  protected bindCSSClass(control: Control): string {
+    let cssClasses = [];
+
+    let overrides = control.overrides;
+    while (overrides) {
+      cssClasses.push(
+        overrides.id === '__predefined__' ?
+          `vargin-${control.meta.type}` :
+          `vargin-${control.id}--${overrides.id}`
+      );
+      overrides = overrides.parent;
+    }
+
+    return cssClasses.join(' ');
+  }
+
+  protected getMarkup(control: TControl) {
     return '';
   }
 

@@ -2,13 +2,12 @@ import { DOMStaticControlCompiler } from '../dom-static-control-compiler';
 import {
   RangeControl
 } from '../../../../../core/controls/visual/range-control';
-import { ICompiledCSSClass } from '../../../css-compiler';
 
 export class RangeControlCompiler extends DOMStaticControlCompiler<RangeControl> {
-  getMarkup(control: RangeControl, cssClass: ICompiledCSSClass) {
+  getMarkup(control: RangeControl) {
     return this.buildHTMLElement('input', '', new Map<string, string>(
       <[string, string][]>[
-        ['class', cssClass.name],
+        ['class', this.bindCSSClass(control)],
         ['type', 'range'],
         ['min', this.bindValue(control, 'min')],
         ['max', this.bindValue(control, 'max')],

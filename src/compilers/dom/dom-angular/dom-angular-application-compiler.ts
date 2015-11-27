@@ -73,6 +73,7 @@ const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Con
 const SERVICE_CONTROL_COMPILER = new JSONControl.JSONControlCompiler();
 
 export interface ICompiledDOMAngularApplication {
+  css: string;
   pages: Array<{ id: string; name: string; markup: string }>;
   services: JSONControl.IJSONControl[];
 }
@@ -90,23 +91,28 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
       });
     });
 
+    let styles = new Set<string>();
     let pages = [];
     application.pages.forEach((page: ApplicationPage) => {
       queue.enqueue(() => {
         return this.compileControl(page.root).then((root) => {
+          root.cssClasses.forEach((cssClass) => styles.add(cssClass));
+
           pages.push({
             id: page.id,
             name: page.name,
-            markup: `
-            <style type="text/css">${root.cssClass.text}</style>
-            ${root.markup}
-          `
+            markup: root.markup
           });
         });
       });
     });
 
-    return queue.enqueue(() => ({ services, pages }));
+    return queue.enqueue(() => {
+      let css = '';
+      styles.forEach((style) => css += style.trim());
+
+      return { services, pages, css };
+    });
   }
 
   decompile(compiledApplication: ICompiledDOMAngularApplication) {
@@ -125,20 +131,24 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
       }
 
       let queue = new PromiseQueue();
-      let childrenCssText = '';
+      let childrenCSSClasses = new Set<string>();
       let childrenMarkup = '';
 
       children.forEach((child) => {
         queue.enqueue(() => {
           return this.compileControl(child).then((compiledChild) => {
-            childrenCssText += compiledChild.cssClass.text.trim();
+            compiledChild.cssClasses.forEach(
+              (cssClass) => childrenCSSClasses.add(cssClass)
+            );
             childrenMarkup += compiledChild.markup.trim();
           });
         });
       });
 
       return queue.enqueue(() => {
-        compiledControl.cssClass.text += childrenCssText;
+        childrenCSSClasses.forEach(
+          (cssClass) => compiledControl.cssClasses.add(cssClass)
+        );
         compiledControl.markup = compiledControl.markup.replace(
           '{children}', childrenMarkup
         );

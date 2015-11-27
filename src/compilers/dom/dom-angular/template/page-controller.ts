@@ -41,6 +41,20 @@ export class PageController {
     return ApplicationService.findControlById(id);
   }
 
+  generateCssClasses(controlId: string) {
+    let control = this.getControl(controlId);
+
+    let cssClasses = [];
+
+    let overrides = control.overrides;
+    while (overrides && overrides.id !== '__predefined__') {
+      cssClasses.push(`vargin-${controlId}--${overrides.id}`);
+      overrides = overrides.parent;
+    }
+
+    return cssClasses.join(' ');
+  }
+
   onControlAction(controlId: string, eventName: string) {
     let control = ApplicationService.findControlById(controlId);
 

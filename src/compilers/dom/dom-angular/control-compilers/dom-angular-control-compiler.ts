@@ -4,7 +4,6 @@ import {
 import { Control } from '../../../../core/controls/control';
 
 export class DOMAngularControlCompiler<TControl extends Control> extends DOMStaticControlCompiler<TControl> {
-
   getEventHandlers(control: Control): Array<[string, string]> {
     let eventHandlers: Array<[string, string]> = [];
 
@@ -28,5 +27,16 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
     }
 
     return `{{ getControl(\'${control.id}\').getProperty(\'${propertyName}\').getValue() }}`;
+  }
+
+  protected bindCSSClass(control: Control): string {
+    let rootOverrides = control.overrides.getRoot();
+    let cssClass = '';
+
+    if (rootOverrides.id === '__predefined__') {
+      cssClass += `vargin-${control.meta.type} `;
+    }
+
+    return cssClass + `{{ generateCssClasses(\'${control.id}\') }}`;
   }
 }

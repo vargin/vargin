@@ -76,7 +76,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     let queue = new PromiseQueue();
 
     let compiledApp = {
-      styles: '',
+      styles: new Set<string>(),
       content: ''
     };
 
@@ -89,7 +89,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
             PAGE_REGEX, (markup, pageId) => `href="#${pageId}"`
           );
 
-          compiledApp.styles += `<style type="text/css">${root.cssClass.text}</style>`;
+          root.cssClasses.forEach((cssClass) => compiledApp.styles.add(cssClass));
 
           compiledApp.content += `<section id="${page.id}">${markup}</section><hr />`;
         });
@@ -97,13 +97,16 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
     });
 
     return queue.enqueue(() => {
+      let cssText = '';
+      compiledApp.styles.forEach((style) => cssText += style.trim());
+
       return `
         <!DOCTYPE html>
          <html lang="en">
            <head>
              <meta charset="utf-8" />
              <title>${application.name}</title>
-             ${compiledApp.styles}
+             <style type="text/css">${cssText}</style>
            </head>
            <body>${compiledApp.content}</body>
          </html>
@@ -127,7 +130,7 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
           return compiledControl;
         }
 
-        let childrenCssText = '';
+        let childrenCSSClasses = new Set<string>();
         let childrenMarkup = '';
 
         let bindings: [string, string][][] = null;
@@ -149,14 +152,18 @@ export class DOMStaticApplicationCompiler implements IApplicationCompiler<string
           bindings,
           (child: Control) => {
             return this.compileControl(child, application).then(
-              ({ cssClass, markup }) => {
-                childrenCssText += cssClass.text;
+              ({ cssClasses, markup }) => {
+                cssClasses.forEach(
+                  (cssClass) => childrenCSSClasses.add(cssClass)
+                );
                 childrenMarkup += markup;
               }
             );
           }
         ).enqueue(() => {
-          compiledControl.cssClass.text += childrenCssText;
+          childrenCSSClasses.forEach(
+            (cssClass) => compiledControl.cssClasses.add(cssClass)
+          );
           compiledControl.markup = compiledControl.markup.replace(
             '{children}', childrenMarkup
           );

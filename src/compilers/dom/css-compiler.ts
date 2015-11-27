@@ -1,29 +1,46 @@
 import { ICompiler } from '../compiler';
 import { Control } from '../../core/controls/control';
+import { IOverrides } from '../../core/overrides/overrides';
 
-export interface ICompiledCSSClass {
-  name: string;
-  text: string;
-}
-
-class CssCompiler implements ICompiler<Control, ICompiledCSSClass>{
+class CssCompiler implements ICompiler<Control, Set<string>>{
   compile(control: Control) {
-    let cssClassName = `vargin-${control.meta.type}-${control.id}`;
+    let cssClasses = new Set<string>();
 
-    let text = `.${cssClassName} {`;
-    control.meta.styles.forEach((meta, key) => {
-      text += `${key}: ${control.getStyle(key).getValue()};`;
-    });
-    text += '}';
+    let overridesToCompile = [control.overrides.getRoot()];
+    while (overridesToCompile.length) {
+      let override = overridesToCompile.pop();
 
-    return Promise.resolve({
-      name: cssClassName,
-      text: text
-    });
+      let compiledOverride = this.compileOverrides(control, override);
+      if (compiledOverride) {
+        cssClasses.add(compiledOverride);
+      }
+
+      overridesToCompile.push(...override.children);
+    }
+
+    return Promise.resolve(cssClasses);
   }
 
-  decompile(compiledCSSClass: ICompiledCSSClass): Promise<Control> {
-    return null;
+  decompile(compiledCSS: Set<string>): Promise<Control> {
+    return Promise.resolve<Control>(null);
+  }
+
+  private compileOverrides(control: Control, overrides: IOverrides) {
+    let cssClassName = overrides.id === '__predefined__' ?
+      `vargin-${control.meta.type}` :
+      `vargin-${control.id}--${overrides.id}`;
+
+    let text = '';
+    control.meta.styles.forEach((meta, key) => {
+      let value = overrides.getValue('styles', key);
+
+      if (!overrides.parent ||
+          overrides.parent.getValue('styles', key) !== value) {
+        text += `${key}: ${value || meta.getValue()};`;
+      }
+    });
+
+    return text && `.${cssClassName} { ${text} }`;
   }
 }
 
