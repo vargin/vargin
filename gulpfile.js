@@ -21,6 +21,7 @@ var EDITOR_PATH = {
     ng2Compiler: 'src/compilers/dom/dom-angular',
     // Order is quite important here for the HTML tag injection.
     lib: [
+      './lib/condition-parser.js',
       './node_modules/angular2/bundles/angular2.dev.js',
       './node_modules/angular2/bundles/router.dev.js',
       './node_modules/systemjs/dist/system-csp-production.js',
@@ -94,6 +95,9 @@ gulp.task('build.dev.editor-app', [
     meta: {
       'angular2/*': {
         build: false
+      },
+      'vargin/condition-parser': {
+        build: false
       }
     }
   });
@@ -152,6 +156,9 @@ gulp.task('build.dev.angular-compiler-app', function() {
         build: false
       },
       'src/compilers/dom/dom-angular/template/app-description': {
+        build: false
+      },
+      'vargin/condition-parser': {
         build: false
       }
     }
