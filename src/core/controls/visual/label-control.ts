@@ -5,6 +5,7 @@ import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { StringFormatType } from '../../tools/string-formatter';
 import { IOverrides, Overrides } from '../../overrides/overrides';
+import { Trigger } from '../../triggers/trigger';
 
 const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
   ['styles', new Map(<[string, string][]>[
@@ -63,12 +64,12 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class LabelControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
     this.predefinedOverrides = new Overrides(
       '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
     );
 
-    super(id, LabelControl.getMeta(), overrides);
+    super(id, LabelControl.getMeta(), overrides, triggers);
   }
 
   static getMeta() {

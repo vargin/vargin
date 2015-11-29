@@ -4,6 +4,7 @@ import { IProperty, Property, PropertyWithOptions } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { IOverrides } from '../../overrides/overrides';
+import { Trigger } from '../../triggers/trigger';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -55,8 +56,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ButtonControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
-    super(id, ButtonControl.getMeta(), overrides);
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
+    super(id, ButtonControl.getMeta(), overrides, triggers);
   }
 
   static getMeta() {

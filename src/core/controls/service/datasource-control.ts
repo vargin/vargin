@@ -1,4 +1,5 @@
 import { IProperty, Property } from '../../property';
+import { Trigger } from '../../triggers/trigger';
 import { Control } from '../control';
 import { ControlMetadata } from '../control-metadata';
 import { IOverrides } from '../../overrides/overrides';
@@ -28,8 +29,8 @@ const METADATA = Object.freeze(
 );
 
 export class DatasourceControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
-    super(id, DatasourceControl.getMeta(), overrides);
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
+    super(id, DatasourceControl.getMeta(), overrides, triggers);
   }
 
   static getMeta() {

@@ -40,7 +40,7 @@ export class JSONControlCompiler implements IControlCompiler<IJSONControl> {
 
     return overridesPromise.then((overrides) => {
       let control = ControlService.createByType(
-        compiledControl.type, overrides, compiledControl.id
+        compiledControl.type, overrides, [], compiledControl.id
       );
 
       if (compiledControl.children && compiledControl.children.length) {

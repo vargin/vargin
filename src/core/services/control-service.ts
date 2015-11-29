@@ -2,6 +2,7 @@ import { ControlMetadata } from '../controls/control-metadata';
 
 import { Control } from '../controls/control';
 import { IOverrides } from '../overrides/overrides';
+import { Trigger } from '../triggers/trigger';
 
 import { ButtonControl } from '../controls/visual/button-control';
 import { ContainerControl } from '../controls/visual/container-control';
@@ -28,7 +29,7 @@ const CONTROL_CONFIG = new Map<string, Function>(<[string, Function][]>[
 ]);
 
 interface IControlType<TControl> {
-  new(id: string, overrides?: IOverrides, children?: Control[]): TControl;
+  new(id: string, overrides?: IOverrides, triggers?: Trigger[]): TControl;
 }
 
 export class ControlService {
@@ -37,9 +38,9 @@ export class ControlService {
   }
 
   static createByType<TControl extends Control>(
-    type: string, overrides?: IOverrides, id?: string
+    type: string, overrides?: IOverrides, triggers?: Trigger[], id?: string
   ): TControl {
     let ControlType = <IControlType<TControl>>CONTROL_CONFIG.get(type);
-    return new ControlType(id || UtilsService.uuid(), overrides);
+    return new ControlType(id || UtilsService.uuid(), overrides, triggers);
   }
 }

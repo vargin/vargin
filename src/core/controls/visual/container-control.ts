@@ -5,6 +5,7 @@ import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { UtilsService } from '../../services/utils-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
+import { Trigger } from '../../triggers/trigger';
 
 const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
   ['styles', new Map(<[string, string][]>[
@@ -52,12 +53,12 @@ const METADATA: ControlMetadata = Object.freeze(new ControlMetadata(
 ));
 
 export class ContainerControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
     this.predefinedOverrides =  new Overrides(
       '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
     );
 
-    super(id, ContainerControl.getMeta(), overrides);
+    super(id, ContainerControl.getMeta(), overrides, triggers);
   }
 
   static getMeta() {

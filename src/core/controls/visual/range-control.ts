@@ -4,6 +4,7 @@ import { IProperty, Property } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
+import { Trigger } from '../../triggers/trigger';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -37,8 +38,8 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class RangeControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
-    super(id, RangeControl.getMeta(), overrides);
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
+    super(id, RangeControl.getMeta(), overrides, triggers);
   }
 
   static getMeta() {

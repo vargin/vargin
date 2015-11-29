@@ -1,5 +1,6 @@
 import { IProperty } from '../property';
 import { IOverrides, Overrides } from '../overrides/overrides';
+import { Trigger } from '../triggers/trigger';
 import {
   OverrideProperty, OverridePropertyWithOptions
 } from '../overrides/override-property';
@@ -14,18 +15,21 @@ export class Control {
   private _children: Control[];
   private _propertyCache: Map<string, Map<string, OverrideProperty<string, Control>>> =
     new Map<string, Map<string, OverrideProperty<string, Control>>>();
+  private _triggers: Trigger[];
 
   protected predefinedOverrides: IOverrides;
 
   constructor(
     id: string,
     meta: ControlMetadata,
-    overrides?: IOverrides
+    overrides?: IOverrides,
+    triggers?: Trigger[]
   ) {
     this._id = id;
     this._meta = meta;
     this._parent = null;
     this._children = [];
+    this._triggers = triggers || [];
 
     overrides = overrides || new Overrides('__default__', 'default');
 
@@ -89,6 +93,14 @@ export class Control {
         );
       });
     });
+  }
+
+  /**
+   * List of triggers associated with the control.
+   * @returns {Array.<Trigger>}
+   */
+  get triggers() {
+    return this._triggers;
   }
 
   /**

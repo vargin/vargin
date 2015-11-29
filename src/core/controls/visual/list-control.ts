@@ -5,6 +5,7 @@ import { IProperty, Property } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
+import { Trigger } from '../../triggers/trigger';
 
 const LIST_ITEM_PREDEFINED_OVERRIDES = new Map(
   <[string, Map<string, string>][]>[
@@ -98,12 +99,12 @@ const METADATA = Object.freeze(new ControlMetadata(
 ));
 
 export class ListControl extends Control {
-  constructor(id: string, overrides?: IOverrides) {
+  constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
     this.predefinedOverrides = new Overrides(
       '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
     );
 
-    super(id, ListControl.getMeta(), overrides);
+    super(id, ListControl.getMeta(), overrides, triggers);
   }
 
   getTemplate(): ListItemControl {
