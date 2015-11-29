@@ -11,7 +11,7 @@ import { Schema } from '../../../../../core/data/schema';
 })
 @View({
   template: `
-    <header class="items-list-dialog__header">Edit Items</header>
+    <header class="property-list-dialog__header">Edit Items</header>
     <table class="vargin-table">
       <thead>
         <tr class="vargin-table__header-row">

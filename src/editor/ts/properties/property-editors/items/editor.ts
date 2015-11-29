@@ -15,8 +15,8 @@ import { Schema } from '../../../../../core/data/schema';
   template: `
     <label class="vargin-property-editor">
       <span class="vargin-property-editor__label">{{property.getName()}}</span>
-      <div class="vargin-property-editor__input items-editor__input">
-        <span class="items-editor__input-value">{{getValue()}}</span>
+      <div class="vargin-property-editor__input flex-editor__input">
+        <span class="flex-editor__input-value">{{getValue()}}</span>
         <button type="button" (click)="change()">...</button>
       </div>
     </label>`

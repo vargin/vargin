@@ -4,10 +4,7 @@
 @import 'vargin-table';
 @import '../ts/expandable-groups/expandable-groups';
 @import '../ts/dialog-manager/dialog-manager.scss';
-@import '../ts/properties/property-editors/url/style.scss';
-@import '../ts/properties/property-editors/schema/style.scss';
-@import '../ts/properties/property-editors/items/style.scss';
-@import '../ts/properties/property-editors/event/style.scss';
+@import 'vargin-property-editors.scss';
 @import '../ts/properties/property-editors/control-overrides/style.scss';
 @import 'vargin-components';
 
@@ -236,4 +233,19 @@ image-property-editor input[type=file] {
 
 .vargin-editable-label__label > span {
   padding: 0.1rem 0;
+}
+
+.vargin-button-link {
+  background: none;
+  border: none;
+
+  margin: 0.3rem;
+
+  font-family: $font-family;
+  color: #104FCF;
+  font-weight: 300;
+}
+
+.vargin-editor__triggers {
+  text-align: center;
 }

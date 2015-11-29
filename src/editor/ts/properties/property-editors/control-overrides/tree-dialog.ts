@@ -11,7 +11,7 @@ import { ITreeViewItem, TreeView } from '../../../shared-components/tree-view';
 })
 @View({
   template: `
-    <header class="items-list-dialog__header">Control states</header>
+    <header class="property-list-dialog__header">Control states</header>
     <tree-view [items]="tree"
                [editable]="true"
                (item-selected)="onItemSelected($event)"

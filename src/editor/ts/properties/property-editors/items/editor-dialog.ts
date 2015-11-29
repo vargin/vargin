@@ -7,7 +7,7 @@ import { Schema } from '../../../../../core/data/schema';
 })
 @View({
   template: `
-    <header class="items-editor-dialog__header">Add Item</header>
+    <header class="property-editor-dialog__header">Add Item</header>
     <ul class="vargin-list">
       <li class="vargin-list__item" *ng-for="#property of properties; #i = index">
         <label class="vargin-property-editor">
@@ -18,7 +18,7 @@ import { Schema } from '../../../../../core/data/schema';
         </label>
       </li>
     </ul>
-    <button class="items-editor-dialog__save" (click)="dispose()">Save</button>
+    <button class="property-editor-dialog__save-button" (click)="dispose()">Save</button>
   `,
   directives: [NgFor]
 })

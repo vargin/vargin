@@ -8,7 +8,7 @@ import { PropertyEditorDialog } from './editor-dialog';
 })
 @View({
   template: `
-    <header class="items-list-dialog__header">Edit Actions</header>
+    <header class="property-list-dialog__header">Edit Actions</header>
     <table class="vargin-table">
       <tfoot>
         <tr class="vargin-table__footer-row">

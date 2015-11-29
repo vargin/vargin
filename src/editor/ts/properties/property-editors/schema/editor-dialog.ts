@@ -6,7 +6,7 @@ import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
 })
 @View({
   template: `
-    <header class="schema-editor-dialog__header">Define Schema</header>
+    <header class="property-editor-dialog__header">Define Schema</header>
     <ul class="vargin-list">
       <li class="vargin-list__item" *ng-for="#field of schema.fields; #i = index">
         <input #fieldname

@@ -11,7 +11,7 @@ import { PropertyEditor } from '../property-editor';
 })
 @View({
   template: `
-    <header class="items-editor-dialog__header">Setup action</header>
+    <header class="property-editor-dialog__header">Setup action</header>
     <ul class="vargin-list">
       <li class="vargin-list__item">
         <label class="vargin-property-editor">
@@ -31,7 +31,7 @@ import { PropertyEditor } from '../property-editor';
         <property-editor [property]="property"></property-editor>
       </li>
     </ul>
-    <button class="items-editor-dialog__save" (click)="dispose(action)">Save</button>
+    <button class="property-editor-dialog__save-button" (click)="dispose(action)">Save</button>
   `,
   directives: [NgFor, PropertyEditor]
 })

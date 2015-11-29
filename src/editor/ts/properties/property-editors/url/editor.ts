@@ -14,8 +14,8 @@ import { ApplicationService } from '../../../../../core/services/application-ser
   template: `
     <label class="vargin-property-editor">
       <span class="vargin-property-editor__label">{{property.getName()}}</span>
-      <div class="vargin-property-editor__input url-editor__input">
-        <span class="url-editor__input-value" [title]="getValue()">
+      <div class="vargin-property-editor__input flex-editor__input">
+        <span class="flex-editor__input-value" [title]="getValue()">
           {{getValue()}}
         </span>
         <button type="button" (click)="change()">...</button>

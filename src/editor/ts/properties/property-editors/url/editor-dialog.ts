@@ -9,7 +9,7 @@ import { ApplicationService } from '../../../../../core/services/application-ser
 })
 @View({
   template: `
-    <header class="url-editor-dialog__header">Choose Address</header>
+    <header class="property-editor-dialog__header">Choose Address</header>
     <select #type [value]="address.type"
             (change)="onTypeChange(type.value)">
       <option value="0">URL</option>
