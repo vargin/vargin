@@ -6,6 +6,7 @@
 @import '../ts/dialog-manager/dialog-manager.scss';
 @import 'vargin-property-editors.scss';
 @import '../ts/properties/property-editors/control-overrides/style.scss';
+@import '../ts/properties/property-editors/trigger/style.scss';
 @import 'vargin-components';
 
 $font-family: "Fira Sans", "Open Sans", sans-serif;
@@ -239,11 +240,18 @@ image-property-editor input[type=file] {
   background: none;
   border: none;
 
-  margin: 0.3rem;
+  margin: 0.5rem 0;
+  padding: 0;
 
   font-family: $font-family;
   color: #104FCF;
   font-weight: 300;
+  cursor: pointer;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
 }
 
 .vargin-editor__triggers {

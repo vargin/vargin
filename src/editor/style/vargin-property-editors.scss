@@ -17,8 +17,11 @@
   white-space: nowrap;
 }
 
-.property-editor-dialog__header {
+.property-editor-dialog__header,
+.property-list-dialog__header {
   margin-bottom: 0.5rem;
+
+  font-weight: bolder;
 }
 
 .property-editor-dialog__save-button {

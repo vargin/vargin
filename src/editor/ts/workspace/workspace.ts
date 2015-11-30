@@ -310,13 +310,43 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                         ['text', '\u25CF']
                       ]],
                       ['styles', [
-                        ['color', '#52B6CC'],
                         ['font-size', '0.5rem'],
-                        ['margin', '0 0.5rem 0 0']
+                        ['margin', '0 0.5rem 0 0'],
+                        ['opacity', '0']
                       ]]
-                    ]
+                    ],
+                    children: [{
+                      id: 'HasUnread',
+                      name: 'HasUnread',
+                      groups: [
+                        ['styles', [
+                          ['color', '#52B6CC'],
+                          ['opacity', '1']
+                        ]]
+                      ]
+                    }]
                   }
-                }
+                },
+                triggers: [{
+                  name: 'HasUnread',
+                  condition: '{{HasUnread}} = true',
+                  actions: [{
+                    type: 'change-overrides-action',
+                    overrides: {
+                      root: {
+                        id: 'f8666639-b9a5-254f-879a-a915496b899a',
+                        name: 'default',
+                        groups: [[
+                          'properties',
+                          [
+                            ['control-id', '4788dc02-9883-453f-aec5-07c7dcf67d63'],
+                            ['overrides-id', 'HasUnread']
+                          ]
+                        ]]
+                      }
+                    }
+                  }]
+                }]
               }]
             }, {
               id: '4788dc02-9782-453f-aec5-06c6dcf67d63',

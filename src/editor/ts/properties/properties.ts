@@ -2,8 +2,12 @@ import { Component, NgFor, NgIf, View } from 'angular2/angular2';
 
 import { Control } from '../../../core/controls/control';
 import { IProperty, Property } from '../../../core/property';
+import { Trigger } from '../../../core/triggers/trigger';
 
 import { PropertyEditor } from './property-editors/property-editor';
+import {
+  PropertyEditor as TriggerPropertyEditor
+} from './property-editors/trigger/editor';
 
 import { ComponentService } from '../services/component-service';
 
@@ -65,6 +69,27 @@ import { ComponentService } from '../services/component-service';
           </li>
         </ul>
       </section>
+      <section class="expandable-group"
+               *ng-if="!!activeControl"
+               [attr.aria-expanded]="groups.triggers.expanded">
+        <header class="expandable-group__header"
+                (click)="groups.triggers.expanded = !groups.triggers.expanded">
+          {{ groups.triggers.name }}
+        </header>
+        <ul class="expandable-group__list">
+          <li class="expandable-group__item" *ng-for="#property of groups.triggers.items">
+            <trigger-property-editor [property]="property" (remove)="removeTrigger(property)"></trigger-property-editor>
+          </li>
+          <li class="expandable-group__item">
+            <div class="vargin-editor__triggers">
+              <div *ng-if="!groups.triggers.items.length">(No triggers defined...)</div>
+              <button (click)="addTrigger()" class="vargin-button-link">
+                + Add new trigger
+              </button>
+            </div>
+          </li>
+        </ul>
+      </section>
       <button class="vargin-properties__remove-control" *ng-if="!!activeControl"
               (click)="removeControl()">
         Remove control
@@ -74,7 +99,7 @@ import { ComponentService } from '../services/component-service';
       </div>
     </section>
   `,
-  directives: [NgFor, NgIf, PropertyEditor]
+  directives: [NgFor, NgIf, PropertyEditor, TriggerPropertyEditor]
 })
 class VarginProperties {
   private activeControl: Control;
@@ -98,12 +123,18 @@ class VarginProperties {
       name: string,
       expanded: boolean,
       items: IProperty<string>[]
+    },
+    triggers: {
+      name: string,
+      expanded: boolean,
+      items: IProperty<Trigger>[]
     }
   } = {
     info: null,
     properties: null,
     styles: null,
-    events: null
+    events: null,
+    triggers: null
   };
 
   constructor() {
@@ -134,7 +165,13 @@ class VarginProperties {
     };
 
     this.groups.events = {
-      name: 'Action',
+      name: 'Actions',
+      expanded: false,
+      items: []
+    };
+
+    this.groups.triggers = {
+      name: 'Triggers',
       expanded: false,
       items: []
     };
@@ -161,6 +198,10 @@ class VarginProperties {
     control.meta.events.forEach((property, eventKey) => {
       this.groups.events.items.push(control.getEvent(eventKey));
     });
+
+    this.groups.triggers.items = control.triggers.map(
+      (trigger) => this.triggerToProperty(trigger)
+    );
   }
 
   private onControlUnselected() {
@@ -183,6 +224,28 @@ class VarginProperties {
     Object.keys(this.groups).forEach((groupKey) => {
       this.groups[groupKey].items = [];
     });
+  }
+
+  private addTrigger() {
+    let trigger = new Trigger('New Trigger');
+
+    this.activeControl.triggers.push(trigger);
+
+    this.groups.triggers.items.push(this.triggerToProperty(trigger));
+  }
+
+  private triggerToProperty(trigger: Trigger) {
+    return new Property(trigger.name, trigger, 'trigger');
+  }
+
+  private removeTrigger(property: Property<Trigger>) {
+    this.groups.triggers.items.splice(
+      this.groups.triggers.items.indexOf(property), 1
+    );
+
+    this.activeControl.triggers.splice(
+      this.activeControl.triggers.indexOf(property.getValue()), 1
+    );
   }
 }
 

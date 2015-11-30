@@ -32,6 +32,8 @@ const CONFIG = new Map<string, string>(<[string, string][]>[
   ['items', 'items/editor'],
   ['schema', 'schema/editor'],
 
+  ['trigger', 'trigger/editor'],
+
   ['url', 'url/editor'],
 
   ['control-overrides', 'control-overrides/editor']

@@ -1,5 +1,14 @@
 .vargin-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+
   min-width: 100%;
+}
+
+.vargin-table__data-row {
+  &:nth-child(even) {
+    background-color: #e8edff;
+  }
 }
 
 .vargin-table__header-cell {
@@ -11,5 +20,11 @@
     .vargin-list__remove-item {
       visibility: visible;
     }
+  }
+
+  > .vargin-list__remove-item {
+    visibility: visible;
+
+    float: right;
   }
 }
