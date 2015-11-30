@@ -1,9 +1,6 @@
 export { Application } from './core/application';
 export { ApplicationPage } from './core/application-page';
 export {
-  OwnedProperty, OwnedPropertyWithOptions
-} from './core/owned-property';
-export {
   IProperty, IPropertyWithOptions, Property, PropertyWithOptions
 } from './core/property';
 

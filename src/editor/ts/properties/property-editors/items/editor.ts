@@ -1,7 +1,7 @@
 import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from '../../../../../core/property';
-import { OwnedProperty } from '../../../../../core/owned-property';
+import { OverrideProperty } from '../../../../../core/overrides/override-property';
 import { Control } from '../../../../../core/controls/control';
 import { DialogService } from '../../../services/dialog-service';
 import { PropertyListDialog } from './list-dialog';
@@ -22,9 +22,9 @@ import { Schema } from '../../../../../core/data/schema';
     </label>`
 })
 export class PropertyEditor {
-  private property: OwnedProperty<string, Control>;
+  private property: OverrideProperty<string, Control>;
 
-  constructor(@Inject(Property) property: OwnedProperty<string, Control>) {
+  constructor(@Inject(Property) property: OverrideProperty<string, Control>) {
     this.property = property;
   }
 

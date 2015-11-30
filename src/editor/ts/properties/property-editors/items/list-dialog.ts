@@ -1,6 +1,5 @@
 import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
 import { Property } from '../../../../../core/property';
-import { OwnedProperty } from '../../../../../core/owned-property';
 import { Control } from '../../../../../core/controls/control';
 import { DialogService } from '../../../services/dialog-service';
 import { PropertyEditorDialog } from './editor-dialog';
