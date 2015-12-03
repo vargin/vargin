@@ -1,8 +1,8 @@
 import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
 import { IProperty, Property } from '../../../../../core/property';
 import { Address, AddressType } from '../../../../../core/data/address';
+import { Application } from '../../../../../core/application';
 import { ApplicationPage } from '../../../../../core/application-page';
-import { ApplicationService } from '../../../../../core/services/application-service';
 
 @Component({
   selector: 'url-property-editor-dialog'
@@ -36,10 +36,12 @@ export class PropertyEditorDialog {
   private address: Address;
   private pages: ApplicationPage[] = [];
 
-  constructor(@Inject(Address) address: Address) {
+  constructor(
+    @Inject(Application) application: Application,
+    @Inject(Address) address: Address
+  ) {
     this.address = address;
-
-    this.pages = ApplicationService.current.pages;
+    this.pages = application.pages;
   }
 
   private onTypeChange(type: string) {

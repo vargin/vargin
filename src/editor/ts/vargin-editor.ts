@@ -1,4 +1,4 @@
-import { bootstrap, Component, Type, View } from 'angular2/angular2';
+import { bootstrap, Component, provide, View } from 'angular2/angular2';
 
 import {
   IExpandableGroup,
@@ -6,8 +6,10 @@ import {
 } from './expandable-groups/expandable-groups';
 import VarginWorkspace from './workspace/workspace';
 import VarginProperties from './properties/properties';
+import { Workspace, WorkspaceService } from './services/workspace-service';
 import { DialogManager } from './dialog-manager/dialog-manager';
 
+import { Application } from '../../core/application';
 import { ControlGroup } from '../../core/controls/control-group';
 
 import { ControlService } from '../../core/services/control-service';
@@ -81,4 +83,12 @@ class Vargin {
     };
   }
 }
-bootstrap(Vargin);
+
+WorkspaceService.init().then(() => {
+  bootstrap(Vargin, [
+    provide(Workspace, { useFactory: () => WorkspaceService.workspace }),
+    provide(Application, {
+      useFactory: () => WorkspaceService.workspace.application
+    })
+  ]);
+});

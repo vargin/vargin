@@ -57,4 +57,20 @@ export class Application {
   removePage(id: string) {
     this.pages.splice(this.pages.findIndex((page) => page.id === id), 1);
   }
+
+  /**
+   * Finds control inside application tree.
+   * @param {string} controlId Id of the control to find.
+   * @returns {Control} Found control.
+   */
+  findControl(controlId: string): Control {
+    for (var page of this._pages) {
+      let control = page.root.find(controlId);
+      if (control) {
+        return control;
+      }
+    }
+
+    return null;
+  }
 }

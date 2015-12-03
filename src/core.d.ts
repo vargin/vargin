@@ -35,7 +35,6 @@ export * from './core/overrides/overrides';
 export * from './core/overrides/override-property';
 
 export * from './core/services/action-service';
-export * from './core/services/application-service';
 export * from './core/services/control-service';
 export * from './core/services/channel-service';
 export * from './core/services/event-service';

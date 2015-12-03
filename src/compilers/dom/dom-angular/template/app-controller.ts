@@ -14,7 +14,6 @@ import {
   RouteConfig
 } from 'angular2/router';
 import { Application } from '../../../../core/application';
-import { ApplicationService } from '../../../../core/services/application-service';
 import { JSONApplicationCompiler } from '../../../json/json-application-compiler';
 import { PageController } from './page-controller';
 import { application } from './app-description';
@@ -40,14 +39,13 @@ class AppController {}
 (new JSONApplicationCompiler()).decompile(
   application
 ).then((decompiledApplication) => {
-  ApplicationService.current = decompiledApplication;
-
   bootstrap(
     AppController,
     [
       ROUTER_PROVIDERS,
       provide(LocationStrategy, { useClass: HashLocationStrategy }),
-      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppController })
+      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppController }),
+      provide(Application, { useValue: decompiledApplication })
     ]
   );
 });

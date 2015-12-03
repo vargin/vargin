@@ -1,8 +1,8 @@
+import { Application } from '../application';
 import { IProperty, Property } from '../property';
 import { IOverrides } from '../overrides/overrides';
 import { Action } from './action';
 import { ActionMetadata } from './action-metadata';
-import { ApplicationService } from '../services/application-service';
 
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
@@ -23,9 +23,9 @@ export class ChangeOverridesAction extends Action {
     super(METADATA, overrides);
   }
 
-  perform() {
+  perform(application: Application) {
     try {
-      let control = ApplicationService.findControlById(
+      let control = application.findControl(
         this.getProperty('control-id').getValue()
       );
 

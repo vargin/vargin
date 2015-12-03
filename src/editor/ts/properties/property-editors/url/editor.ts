@@ -1,10 +1,10 @@
 import { Component, Inject, provide, View } from 'angular2/angular2';
 
 import { IProperty, Property } from '../../../../../core/property';
+import { Application } from '../../../../../core/application';
 import { Address, AddressType } from '../../../../../core/data/address';
 import { DialogService } from '../../../services/dialog-service';
 import { PropertyEditorDialog } from './editor-dialog';
-import { ApplicationService } from '../../../../../core/services/application-service';
 
 @Component({
   selector: 'url-property-editor',
@@ -24,8 +24,13 @@ import { ApplicationService } from '../../../../../core/services/application-ser
 })
 export class PropertyEditor {
   private property: IProperty<string>;
+  private application: Application;
 
-  constructor(@Inject(Property) property: IProperty<string>) {
+  constructor(
+    @Inject(Application) application: Application,
+    @Inject(Property) property: IProperty<string>
+  ) {
+    this.application = application;
     this.property = property;
   }
 
@@ -39,7 +44,7 @@ export class PropertyEditor {
     let address = Address.deserialize(urlString);
 
     if (address.type === AddressType.APP_PAGE) {
-      let page = ApplicationService.current.pages.find(
+      let page = this.application.pages.find(
         (page) => page.id === address.value
       );
 

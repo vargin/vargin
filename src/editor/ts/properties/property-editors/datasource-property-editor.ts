@@ -1,10 +1,8 @@
 import { Component, Inject, NgFor, View } from 'angular2/angular2';
-
+import { Application } from '../../../../core/application';
 import { IProperty, Property } from '../../../../core/property';
 import { Control } from '../../../../core/controls/control';
 import { DatasourceControl } from '../../../../core/controls/service/datasource-control';
-
-import { ApplicationService } from '../../../../core/services/application-service';
 
 @Component({
   selector: 'datasource-property-editor',
@@ -30,8 +28,13 @@ import { ApplicationService } from '../../../../core/services/application-servic
 })
 export class PropertyEditor {
   private property: IProperty<string>;
+  private application: Application;
 
-  constructor(@Inject(Property) property: IProperty<string>) {
+  constructor(
+    @Inject(Application) application: Application,
+    @Inject(Property) property: IProperty<string>
+  ) {
+    this.application = application;
     this.property = property;
   }
 
@@ -40,7 +43,7 @@ export class PropertyEditor {
   }
 
   private getDatasources(): DatasourceControl[] {
-    return ApplicationService.current.serviceRoot.getChildren().reduce(
+    return this.application.serviceRoot.getChildren().reduce(
       (datasources: DatasourceControl[], control: Control) => {
         if (control.meta.type === 'datasource') {
           datasources.push(<DatasourceControl>control);

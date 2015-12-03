@@ -11,9 +11,7 @@ import {
 } from 'angular2/angular2';
 import { RouterLink, RouteParams } from 'angular2/router';
 import { IAction } from '../../../../core/actions/action';
-import {
-  ApplicationService
-} from '../../../../core/services/application-service';
+import { Application } from '../../../../core/application';
 import { pages } from './app-description';
 import { ServicesController } from '../template/services-controller';
 import * as JSONAction from '../../../json/json-action-compiler';
@@ -31,14 +29,19 @@ import * as JSONAction from '../../../json/json-action-compiler';
 })
 export class PageController {
   private id: string;
+  private application: Application;
   private actionCompiler = new JSONAction.JSONActionCompiler();
 
-  constructor(@Inject(RouteParams) params: RouteParams) {
+  constructor(
+    @Inject(RouteParams) params: RouteParams,
+    @Inject(Application) application: Application
+  ) {
     this.id = params && params.get('id') || pages[0].id;
+    this.application = application;
   }
 
   getControl(id: string) {
-    return ApplicationService.findControlById(id);
+    return this.application.findControl(id);
   }
 
   generateCssClasses(controlId: string) {
@@ -56,7 +59,7 @@ export class PageController {
   }
 
   onControlAction(controlId: string, eventName: string) {
-    let control = ApplicationService.findControlById(controlId);
+    let control = this.getControl(controlId);
 
     let eventProperty = control.getEvent(eventName);
     let propertyValue = eventProperty && eventProperty.getValue();
@@ -64,7 +67,7 @@ export class PageController {
       (<JSONAction.IJSONAction[]>JSON.parse(propertyValue)).forEach(
         (jsonAction) => {
           this.actionCompiler.decompile(jsonAction).then((action) => {
-            action.perform();
+            action.perform(this.application);
           });
         }
       );
