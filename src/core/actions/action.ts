@@ -23,7 +23,7 @@ export class Action implements IAction {
   constructor(meta: ActionMetadata, overrides: IOverrides) {
     this._meta = meta;
 
-    this._overrides = overrides || new Overrides('__default__', 'default');
+    this._overrides = overrides || new Overrides('default');
     this._properties = new Map<string, IProperty<string>>();
   }
 

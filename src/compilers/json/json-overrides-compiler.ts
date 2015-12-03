@@ -2,7 +2,6 @@ import { IOverrides, Overrides } from '../../core/overrides/overrides';
 import { ICompiler } from '../compiler';
 
 export interface IJSONOverridesNode {
-  id: string;
   name: string;
   groups: [string, [string, string][]][];
 
@@ -20,7 +19,7 @@ export interface IJSONOverrides {
 export class JSONOverridesCompiler implements ICompiler<IOverrides, IJSONOverrides> {
   compile(overrides: IOverrides): Promise<IJSONOverrides> {
     return Promise.resolve<IJSONOverrides>({
-      current: overrides.id,
+      current: overrides.name,
       root: this.compileOverrides(overrides.getRoot())
     });
   }
@@ -33,7 +32,7 @@ export class JSONOverridesCompiler implements ICompiler<IOverrides, IJSONOverrid
     // If we have non-default current and it differs from the root one, let's
     // find and replace.
     if (compiledOverrides.current ||
-        compiledOverrides.current !== decompiledOverridesRoot.id) {
+        compiledOverrides.current !== decompiledOverridesRoot.name) {
       decompiledOverridesRoot = decompiledOverridesRoot.find(
         compiledOverrides.current
       ) || decompiledOverridesRoot;
@@ -44,7 +43,6 @@ export class JSONOverridesCompiler implements ICompiler<IOverrides, IJSONOverrid
 
   private compileOverrides(overrides: IOverrides): IJSONOverridesNode {
     let jsonOverrides = <IJSONOverridesNode>{
-      id: overrides.id,
       name: overrides.name,
       isEnabled: overrides.isEnabled,
       isEditorVisible: overrides.isEditorVisible,
@@ -74,7 +72,6 @@ export class JSONOverridesCompiler implements ICompiler<IOverrides, IJSONOverrid
 
   private decompileOverrides(jsonOverrides: IJSONOverridesNode): IOverrides {
     let overrides = new Overrides(
-      jsonOverrides.id,
       jsonOverrides.name,
       new Map(
         <[string, Map<string, string>][]>

@@ -33,7 +33,7 @@ export class DOMAngularControlCompiler<TControl extends Control> extends DOMStat
     let rootOverrides = control.overrides.getRoot();
     let cssClass = '';
 
-    if (rootOverrides.id === '__predefined__') {
+    if (rootOverrides.name === '__predefined__') {
       cssClass += `vargin-${control.meta.type} `;
     }
 

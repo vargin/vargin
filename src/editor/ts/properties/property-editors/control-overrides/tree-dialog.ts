@@ -37,7 +37,7 @@ export class PropertyTreeDialog {
 
   private add() {
     this.control.overrides.add(
-      new Overrides(UtilsService.uuid(), `${this.control.overrides.name}-child`)
+      new Overrides(`${this.control.overrides.name}-child`)
     );
 
     this.tree = [

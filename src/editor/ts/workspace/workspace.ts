@@ -28,7 +28,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
       type: 'datasource',
       overrides: {
         root: {
-          id: '__default__',
           name: 'default',
           groups: [
             ['properties', [
@@ -117,7 +116,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
       type: 'container',
       overrides: {
         root: {
-          id: '__default__',
           name: 'default',
           groups: [
             ['styles', [
@@ -134,7 +132,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -155,7 +152,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'label',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -175,7 +171,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'link',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -198,7 +193,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'button',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -214,7 +208,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                     "type": "alert-action",
                     "overrides": {
                       "root": {
-                        "id": "f8655539-b9a5-24f4-879a-a915496b899a",
                         "name": "default",
                         "groups": [[
                           "properties",
@@ -233,7 +226,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -250,7 +242,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'list',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -268,7 +259,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
             type: 'list-item',
             overrides: {
               root: {
-                id: '__default__',
                 name: 'default',
                 groups: [
                   ['styles', [
@@ -285,7 +275,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               type: 'container',
               overrides: {
                 root: {
-                  id: '__default__',
                   name: 'default',
                   groups: [
                     ['styles', [
@@ -303,7 +292,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 type: 'label',
                 overrides: {
                   root: {
-                    id: '__default__',
                     name: 'default',
                     groups: [
                       ['properties', [
@@ -334,13 +322,12 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                     type: 'change-overrides-action',
                     overrides: {
                       root: {
-                        id: 'f8666639-b9a5-254f-879a-a915496b899a',
                         name: 'default',
                         groups: [[
                           'properties',
                           [
                             ['control-id', '4788dc02-9883-453f-aec5-07c7dcf67d63'],
-                            ['overrides-id', 'HasUnread']
+                            ['overrides-name', 'HasUnread']
                           ]
                         ]]
                       }
@@ -353,7 +340,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
               type: 'container',
               overrides: {
                 root: {
-                  id: '__default__',
                   name: 'default',
                   groups: [
                     ['styles', [
@@ -369,7 +355,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 type: 'label',
                 overrides: {
                   root: {
-                    id: '__default__',
                     name: 'default',
                     groups: [
                       ['properties', [
@@ -387,7 +372,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 type: 'container',
                 overrides: {
                   root: {
-                    id: '__default__',
                     name: 'default',
                     groups: [
                       ['styles', [
@@ -402,7 +386,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                   type: 'label',
                   overrides: {
                     root: {
-                      id: '__default__',
                       name: 'default',
                       groups: [
                         ['properties', [
@@ -421,7 +404,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                   type: 'label',
                   overrides: {
                     root: {
-                      id: '__default__',
                       name: 'default',
                       groups: [
                         ['properties', [
@@ -445,7 +427,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
       type: 'container',
       overrides: {
         root: {
-          id: '__default__',
           name: 'default',
           groups: [
             ['styles', [
@@ -462,7 +443,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -483,7 +463,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'link',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -505,7 +484,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'label',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -520,7 +498,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'button',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -536,7 +513,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                     "type": "alert-action",
                     "overrides": {
                       "root": {
-                        "id": "f8655539-b9a5-24f5-978a-a915496b899a",
                         "name": "default",
                         "groups": [[
                           "properties",
@@ -555,7 +531,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -574,7 +549,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'label',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -592,7 +566,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           'type': 'text-input',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -611,7 +584,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'button',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -636,7 +608,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -654,7 +625,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'label',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -674,7 +644,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
         type: 'container',
         overrides: {
           root: {
-            id: '__default__',
             name: 'default',
             groups: [
               ['styles', [
@@ -692,7 +661,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'button',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -713,7 +681,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'text-input',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -732,7 +699,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           type: 'button',
           overrides: {
             root: {
-              id: '__default__',
               name: 'default',
               groups: [
                 ['properties', [
@@ -750,7 +716,6 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                     "type": "change-property-action",
                     "overrides": {
                       "root": {
-                        "id": "f8666639-b9a5-24f4-879a-a915496b899a",
                         "name": "default",
                         "groups": [[
                           "properties",

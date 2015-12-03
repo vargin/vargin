@@ -40,12 +40,8 @@ const LIST_ITEM_METADATA = Object.freeze(new ControlMetadata(
 
 export class ListItemControl extends Control {
   constructor(id: string, overrides?: IOverrides) {
-    this.predefinedOverrides =  new Overrides(
-      '__predefined__',
-      '__predefined__',
-      LIST_ITEM_PREDEFINED_OVERRIDES,
-      true,
-      false
+    this.predefinedOverrides = new Overrides(
+      '__predefined__', LIST_ITEM_PREDEFINED_OVERRIDES, true, false
     );
 
     super(id, LIST_ITEM_METADATA, overrides);
@@ -101,7 +97,7 @@ const METADATA = Object.freeze(new ControlMetadata(
 export class ListControl extends Control {
   constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
     this.predefinedOverrides = new Overrides(
-      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+      '__predefined__', PREDEFINED_OVERRIDES, true, false
     );
 
     super(id, ListControl.getMeta(), overrides, triggers);

@@ -54,8 +54,7 @@ export class ListComponent extends BaseComponent {
 
     let itemTemplate = this.control.getTemplate();
     if (!itemTemplate) {
-      let itemTemplateOverrides =  new Overrides(
-        '__default__',
+      let itemTemplateOverrides = new Overrides(
         'default',
         new Map(<[string, Map<string, string>][]>[
           [

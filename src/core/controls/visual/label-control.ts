@@ -67,7 +67,7 @@ const METADATA = Object.freeze(new ControlMetadata(
 export class LabelControl extends Control {
   constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
     this.predefinedOverrides = new Overrides(
-      '__predefined__', '__predefined__', PREDEFINED_OVERRIDES, true, false
+      '__predefined__', PREDEFINED_OVERRIDES, true, false
     );
 
     super(id, LabelControl.getMeta(), overrides, triggers);

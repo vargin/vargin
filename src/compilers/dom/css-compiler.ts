@@ -26,9 +26,9 @@ class CssCompiler implements ICompiler<Control, Set<string>>{
   }
 
   private compileOverrides(control: Control, overrides: IOverrides) {
-    let cssClassName = overrides.id === '__predefined__' ?
+    let cssClassName = overrides.name === '__predefined__' ?
       `vargin-${control.meta.type}` :
-      `vargin-${control.id}--${overrides.id}`;
+      `vargin-${control.id}--${overrides.name}`;
 
     let text = '';
     control.meta.styles.forEach((meta, key) => {

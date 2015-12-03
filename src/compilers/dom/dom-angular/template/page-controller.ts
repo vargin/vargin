@@ -47,8 +47,8 @@ export class PageController {
     let cssClasses = [];
 
     let overrides = control.overrides;
-    while (overrides && overrides.id !== '__predefined__') {
-      cssClasses.push(`vargin-${controlId}--${overrides.id}`);
+    while (overrides && overrides.name !== '__predefined__') {
+      cssClasses.push(`vargin-${controlId}--${overrides.name}`);
       overrides = overrides.parent;
     }
 

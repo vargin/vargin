@@ -4,7 +4,6 @@ export interface IOverride<TValue> {
 }
 
 export interface IOverrides {
-  id: string;
   name: string;
   groups: Map<string, Map<string, any>>;
 
@@ -22,7 +21,7 @@ export interface IOverrides {
   getRoot(): IOverrides;
   add(overrides: IOverrides);
   remove(overrides: IOverrides);
-  find(id: string): IOverrides;
+  find(name: string): IOverrides;
 
   merge(overrides: IOverrides);
 }
@@ -32,14 +31,12 @@ export class Overrides implements IOverrides {
   children: IOverrides[] = [];
 
   constructor(
-    public id: string,
     public name: string,
     public groups: Map<string, Map<string, any>> =
       new Map<string, Map<string, any>>(),
     public isEnabled: boolean = true,
     public isEditorVisible: boolean = true
   ) {
-    this.id = id;
     this.name = name;
     this.groups = groups;
 
@@ -82,13 +79,13 @@ export class Overrides implements IOverrides {
     }
   }
 
-  find(id: string) {
+  find(name: string) {
     for (let child of this.children) {
-      if (child.id === id) {
+      if (child.name === name) {
         return child;
       }
 
-      let foundChild = child.find(id);
+      let foundChild = child.find(name);
       if (foundChild) {
         return foundChild;
       }

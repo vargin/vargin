@@ -50,9 +50,9 @@ export class DOMStaticControlCompiler<TControl extends Control> implements ICont
     let overrides = control.overrides;
     while (overrides) {
       cssClasses.push(
-        overrides.id === '__predefined__' ?
+        overrides.name === '__predefined__' ?
           `vargin-${control.meta.type}` :
-          `vargin-${control.id}--${overrides.id}`
+          `vargin-${control.id}--${overrides.name}`
       );
       overrides = overrides.parent;
     }

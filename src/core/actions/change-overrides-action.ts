@@ -7,7 +7,7 @@ import { ApplicationService } from '../services/application-service';
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
     ['control-id', new Property('Control', '', 'control')],
-    ['overrides-id', new Property('State', '')]
+    ['overrides-name', new Property('State', '')]
   ]
 );
 
@@ -30,10 +30,10 @@ export class ChangeOverridesAction extends Action {
       );
 
       let rootOverrides = control.overrides.getRoot();
-      let targetOverrideId = this.getProperty('overrides-id').getValue();
+      let targetOverridesName = this.getProperty('overrides-name').getValue();
 
-      let targetOverrides = rootOverrides.id === targetOverrideId ?
-        rootOverrides : rootOverrides.find(targetOverrideId);
+      let targetOverrides = rootOverrides.name === targetOverridesName ?
+        rootOverrides : rootOverrides.find(targetOverridesName);
 
       if (targetOverrides) {
         control.overrides = targetOverrides;

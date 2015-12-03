@@ -31,7 +31,7 @@ export class Control {
     this._children = [];
     this._triggers = triggers || [];
 
-    overrides = overrides || new Overrides('__default__', 'default');
+    overrides = overrides || new Overrides('default');
 
     this._overrides = this.predefinedOverrides || overrides;
 
@@ -43,15 +43,15 @@ export class Control {
     //    make it as child of predefined overrides.
     if (this.predefinedOverrides) {
       let rootOverrides = overrides.getRoot();
-      (this.predefinedOverrides.id === rootOverrides.id ?
+      (this.predefinedOverrides.name === rootOverrides.name ?
           rootOverrides.children : [rootOverrides]
       ).forEach(
         (child) => this._overrides.add(child)
       );
     }
 
-    if (this._overrides.id !== overrides.id) {
-      this._overrides = this._overrides.find(overrides.id);
+    if (this._overrides.name !== overrides.name) {
+      this._overrides = this._overrides.find(overrides.name);
     }
   }
 
