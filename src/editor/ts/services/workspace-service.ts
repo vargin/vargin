@@ -250,6 +250,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 name: 'default',
                 groups: [
                   ['styles', [
+                    ['border', 'none'],
                     ['display', 'flex'],
                     ['margin', '0 0 0.5rem'],
                     ['min-height', 'auto'],

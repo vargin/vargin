@@ -4,15 +4,17 @@ import { ContainerControl } from './container-control';
 import { IProperty, Property } from '../../property';
 import { StyleService } from '../../services/style-service';
 import { EventService } from '../../services/event-service';
+import { UtilsService } from '../../services/utils-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
 import { Trigger } from '../../triggers/trigger';
 
 const LIST_ITEM_PREDEFINED_OVERRIDES = new Map(
   <[string, Map<string, string>][]>[
     ['styles', new Map(<[string, string][]>[
+      ['border', '0.1rem dashed #cccccc'],
       ['display', 'block'],
       ['min-height', '5rem'],
-      ['min-width', '5rem']
+      ['min-width', '5rem'],
     ])]
   ]
 );
@@ -104,8 +106,14 @@ export class ListControl extends Control {
   }
 
   getTemplate(): ListItemControl {
-    let children = this.getChildren();
-    return children.length ? <ListItemControl>children[0] : null;
+    let template = this.getChildren()[0];
+
+    if (!template) {
+      template = new ListItemControl(UtilsService.uuid());
+      this.setTemplate(template);
+    }
+
+    return template;
   }
 
   setTemplate(template: ListItemControl) {

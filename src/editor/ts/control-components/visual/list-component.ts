@@ -53,24 +53,6 @@ export class ListComponent extends BaseComponent {
     super(renderer, viewContainer, control);
 
     let itemTemplate = this.control.getTemplate();
-    if (!itemTemplate) {
-      let itemTemplateOverrides = new Overrides(
-        'default',
-        new Map(<[string, Map<string, string>][]>[
-          [
-            'styles',
-            new Map(<[string, string][]>[['border', '0.1rem dashed #cccccc']])
-          ]
-        ])
-      );
-
-      itemTemplate = new ListItemControl(
-        UtilsService.uuid(), itemTemplateOverrides
-      );
-
-      this.control.setTemplate(itemTemplate);
-    }
-
     this.itemTemplates = [itemTemplate, itemTemplate, itemTemplate];
   }
 }
