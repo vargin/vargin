@@ -21,13 +21,13 @@ import { ControlService } from '../../core/services/control-service';
   template: `
     <article class="vargin-editor">
       <section class="vargin-editor__components">
-        <expandable-groups [groups]="controlGroups" />
+        <expandable-groups [groups]="controlGroups"></expandable-groups>
       </section>
       <section class="vargin-editor__workspace">
-        <vargin-workspace />
+        <vargin-workspace></vargin-workspace>
       </section>
       <section class="vargin-editor__properties">
-        <vargin-properties />
+        <vargin-properties></vargin-properties>
       </section>
     </article>
     <dialog-manager></dialog-manager>

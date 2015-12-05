@@ -38,7 +38,7 @@ export class DynamicComponent extends BaseComponent implements OnChanges {
     this.loader = loader;
   }
 
-  onChanges() {
+  ngOnChanges() {
     if (!this.control) {
       return;
     }

@@ -8,6 +8,9 @@ export interface IAngularCompiledControl {
   cssClasses?: Set<string>;
 }
 
+// Subset of tags from http://www.w3.org/TR/html51/syntax.html#void-elements
+const HTML_VOID_TAGS = new Set<string>(['br', 'hr', 'img', 'input', 'link']);
+
 export class AngularControlCompiler<TControl extends Control> implements IControlCompiler<IAngularCompiledControl> {
   private cssCompiler = new AngularCSSCompiler();
 
@@ -62,7 +65,9 @@ export class AngularControlCompiler<TControl extends Control> implements IContro
       });
     }
 
-    return `<${tagName}${attributesString}>${content}</${tagName}>`;
+    return HTML_VOID_TAGS.has(tagName) ?
+      `<${tagName}${attributesString} />` :
+      `<${tagName}${attributesString}>${content}</${tagName}>`;
   }
 
   protected bindValue(control: Control, propertyName: string): string {

@@ -53,7 +53,7 @@ export class ServiceContainerComponent extends BaseComponent implements OnChange
     return typesToDrop.indexOf('text/service') >= 0;
   }
 
-  onChanges() {
+  ngOnChanges() {
     if (this.control) {
       this.setupStyles();
     }

@@ -59,7 +59,7 @@ export class PropertyEditor implements OnChanges {
     this.viewContainer = viewContainer;
   }
 
-  onChanges() {
+  ngOnChanges() {
     if (!this.property) {
       return;
     }
