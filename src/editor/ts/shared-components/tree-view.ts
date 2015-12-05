@@ -51,7 +51,7 @@ export class TreeView<TData> {
   @Output() itemSelected = new EventEmitter<ITreeViewItem<TData>>();
   @Output() itemNameChanged = new EventEmitter<ITreeViewItem<TData>>();
 
-  parent: TreeView<TData>;
+  parent: this;
 
   constructor(@Inject(QueryList) @ViewQuery(TreeView) children: QueryList<TreeView<TData>>) {
     children.changes.subscribe(() => {
