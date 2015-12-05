@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>DOM Angular App</title>
+  <title>Angular App</title>
   <script src="js/lib/system-csp-production.js"></script>
   <script src="js/lib/angular2.dev.js"></script>
   <script src="js/lib/router.dev.js"></script>
@@ -12,33 +12,31 @@
 <body>
   <angular-app></angular-app>
   <script>
-    var application = window.opener.application;
+    var application = (window.opener || window.parent).application;
 
     var style = document.createElement('style');
     style.type = 'text/css';
-    style.innerHTML = application.compiledApp.css;
+    style.innerHTML = application.ng.css;
     document.getElementsByTagName('head')[0].appendChild(style);
 
     System.register(
-      'src/compilers/dom/dom-angular/template/app-description',
+      'src/compilers/angular/template/app-description',
       [],
       function(exports) {
         return {
           setters: [],
           execute: function() {
-            exports('pages', application.compiledApp.pages);
-            exports('services', application.compiledApp.services);
-            exports('application', application.jsonCompiledApplication)
+            exports('pages', application.ng.pages);
+            exports('services', application.ng.services);
+            exports('application', application.json)
           }
         };
       }
     );
 
-    System.import(
-      'src/compilers/dom/dom-angular/template/app-controller'
-    ).catch(function(e) {
-      console.error(e);
-    });
+    System.import('src/compilers/angular/template/app-controller').catch(
+      function(e) { console.error(e); }
+    );
   </script>
 </body>
 </html>

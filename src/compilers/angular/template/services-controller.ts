@@ -2,8 +2,8 @@ import { Inject } from 'angular2/angular2';
 import {
   IJSONControl,
   JSONControlCompiler
-} from '../../../json/json-control-compiler';
-import { Control } from '../../../../core/controls/control';
+} from '../../json/json-control-compiler';
+import { Control } from '../../../core/controls/control';
 import { services } from './app-description';
 
 // Parse services

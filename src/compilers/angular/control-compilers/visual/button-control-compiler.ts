@@ -1,9 +1,7 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
-import {
-  ButtonControl
-} from '../../../../../core/controls/visual/button-control';
+import { AngularControlCompiler } from '../angular-control-compiler';
+import { ButtonControl } from '../../../../core/controls/visual/button-control';
 
-export class ButtonControlCompiler extends DOMAngularControlCompiler<ButtonControl> {
+export class ButtonControlCompiler extends AngularControlCompiler<ButtonControl> {
   getMarkup(control: ButtonControl) {
     // Here we should be smart and analyze if any of the control properties
     // can be changed, if it's it should be replaced with dynamic markup,

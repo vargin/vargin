@@ -6,7 +6,7 @@ import {
   IJSONControl, JSONControlCompiler
 } from './json-control-compiler';
 
-interface IJSONApplication {
+export interface IJSONApplication {
   id: string;
   name: string;
   description: string;

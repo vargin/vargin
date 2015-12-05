@@ -2,7 +2,7 @@ import { ICompiler } from '../compiler';
 import { Control } from '../../core/controls/control';
 import { IOverrides } from '../../core/overrides/overrides';
 
-class CssCompiler implements ICompiler<Control, Set<string>>{
+export class AngularCSSCompiler implements ICompiler<Control, Set<string>>{
   compile(control: Control) {
     let cssClasses = new Set<string>();
 
@@ -43,5 +43,3 @@ class CssCompiler implements ICompiler<Control, Set<string>>{
     return text && `.${cssClassName} { ${text} }`;
   }
 }
-
-export const CSSClassCompiler = new CssCompiler();

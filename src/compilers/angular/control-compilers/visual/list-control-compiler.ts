@@ -1,7 +1,7 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
-import { ListControl } from '../../../../../core/controls/visual/list-control';
+import { AngularControlCompiler } from '../angular-control-compiler';
+import { ListControl } from '../../../../core/controls/visual/list-control';
 
-export class ListControlCompiler extends DOMAngularControlCompiler<ListControl> {
+export class ListControlCompiler extends AngularControlCompiler<ListControl> {
   getMarkup(control: ListControl) {
     return this.buildHTMLElement(
       'div',

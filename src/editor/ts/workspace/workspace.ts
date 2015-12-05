@@ -5,14 +5,13 @@ import { ServiceContainerComponent } from '../control-components/service/service
 import { Workspace, WorkspaceService } from '../services/workspace-service';
 import { ComponentService } from '../services/component-service';
 import {
-  JSONApplicationCompiler
+  JSONApplicationCompiler,
+  IJSONApplication
 } from '../../../compilers/json/json-application-compiler';
 import {
-  DOMStaticApplicationCompiler
-} from '../../../compilers/dom/dom-static/dom-static-application-compiler';
-import {
-  DOMAngularApplicationCompiler
-} from '../../../compilers/dom/dom-angular/dom-angular-application-compiler';
+  AngularApplicationCompiler,
+  ICompiledAngularApplication
+} from '../../../compilers/angular/angular-application-compiler';
 
 @Component({
   selector: 'vargin-workspace'
@@ -46,9 +45,9 @@ import {
     </section>
     <footer class="workspace-toolbar">
       <button (click)="startFromScratch()">Start from scratch</button>
-      <button (click)="toJSON()">To JSON</button>
-      <button (click)="toAngularApp()">To Angular App</button>
-      <button (click)="toStaticHTML()">To Static HTML App</button>
+      <button (click)="toJSON()">Get JSON</button>
+      <button (click)="toAngularApp()">Compile and Run</button>
+      <button (click)="toStaticHTML()">Get static HTML page</button>
     </footer>
   `,
   directives: [ContainerComponent, NgFor, NgIf, ServiceContainerComponent]
@@ -58,13 +57,11 @@ class VarginWorkspace {
   private activePageIndex: number = 0;
 
   private jsonCompiler: JSONApplicationCompiler;
-  private domStaticCompiler: DOMStaticApplicationCompiler;
-  private domAngularCompiler: DOMAngularApplicationCompiler;
+  private angularCompiler: AngularApplicationCompiler;
 
   constructor(@Inject(Workspace) workspace: Workspace) {
     this.jsonCompiler = new JSONApplicationCompiler();
-    this.domStaticCompiler = new DOMStaticApplicationCompiler();
-    this.domAngularCompiler = new DOMAngularApplicationCompiler();
+    this.angularCompiler = new AngularApplicationCompiler();
 
     this.workspace = workspace;
   }
@@ -112,24 +109,50 @@ class VarginWorkspace {
   }
 
   toAngularApp() {
-    Promise.all([
-      this.domAngularCompiler.compile(this.workspace.application),
-      this.jsonCompiler.compile(this.workspace.application)
-    ]).then(([compiledApp, jsonCompiledApplication]) => {
+    this.createAngularApp().then((application) => {
+      window['application'] = application;
       window.open('ng2-compiler/index.html?ts=' + Date.now());
-
-      window['application'] = { compiledApp, jsonCompiledApplication };
     });
   }
 
   toStaticHTML() {
-    this.domStaticCompiler.compile(this.workspace.application).then(
-     (compiledApplication) => {
-       window.open(
-        'data:text/html;charset=UTF-8,' + encodeURIComponent(compiledApplication)
-       );
-     }
-    );
+    this.createAngularApp().then((application) => {
+      window['application'] = application;
+
+      let activePage = this.getActivePage();
+      let applicationName = this.workspace.application.name;
+
+      let iframe = document.createElement('iframe');
+      iframe.hidden = true;
+      iframe.src = `ng2-compiler/?ts=${Date.now()}#/page/${activePage.id}`;
+
+      iframe.addEventListener('load', function onLoad() {
+        this.removeEventListener('load', onLoad);
+
+        let pageMarkup = (<HTMLElement>this.contentDocument.body.querySelector(
+          'page'
+        ).innerHTML);
+
+        window.open(
+          'data:text/html;charset=UTF-8,' + encodeURIComponent(`
+            <!DOCTYPE html>
+             <html lang="en">
+               <head>
+                 <meta charset="utf-8" />
+                 <title>${applicationName}</title>
+                 <style type="text/css">${application.ng.css}</style>
+               </head>
+               <body>${pageMarkup}</body>
+             </html>
+          `)
+        );
+
+        this.remove();
+        iframe = null;
+      });
+
+      document.body.appendChild(iframe);
+    });
   }
 
   startFromScratch() {
@@ -139,6 +162,18 @@ class VarginWorkspace {
 
     WorkspaceService.reset().then((workspace: Workspace) => {
       this.workspace = workspace;
+    });
+  }
+
+  private createAngularApp() {
+    return Promise.all([
+      this.angularCompiler.compile(this.workspace.application),
+      this.jsonCompiler.compile(this.workspace.application)
+    ]).then(([angularCompiledApp, jsonCompiledApplication]) => {
+      return <{ ng: ICompiledAngularApplication, json: IJSONApplication}>{
+        ng: angularCompiledApp,
+        json: jsonCompiledApplication
+      };
     });
   }
 }

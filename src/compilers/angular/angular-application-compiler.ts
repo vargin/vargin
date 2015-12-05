@@ -1,34 +1,31 @@
-import { Application } from '../../../core/application';
-import { ApplicationPage } from '../../../core/application-page';
+import { Application } from '../../core/application';
+import { ApplicationPage } from '../../core/application-page';
 
-import { PromiseQueue } from '../../../core/tools/promise-queue';
+import { PromiseQueue } from '../../core/tools/promise-queue';
 
-import { Control } from '../../../core/controls/control';
-import { ButtonControl } from '../../../core/controls/visual/button-control';
+import { Control } from '../../core/controls/control';
+import { ButtonControl } from '../../core/controls/visual/button-control';
 import {
   ContainerControl
-} from '../../../core/controls/visual/container-control';
-import { LabelControl } from '../../../core/controls/visual/label-control';
-import { LinkControl } from '../../../core/controls/visual/link-control';
+} from '../../core/controls/visual/container-control';
+import { LabelControl } from '../../core/controls/visual/label-control';
+import { LinkControl } from '../../core/controls/visual/link-control';
 import {
   ListControl,
   ListItemControl
-} from '../../../core/controls/visual/list-control';
-import { RangeControl } from '../../../core/controls/visual/range-control';
+} from '../../core/controls/visual/list-control';
+import { RangeControl } from '../../core/controls/visual/range-control';
 import {
   TextInputControl
-} from '../../../core/controls/visual/text-input-control';
+} from '../../core/controls/visual/text-input-control';
 
-import { IApplicationCompiler } from '../../application-compiler';
-import { IControlCompiler } from '../../control-compiler';
-
-import {
-  IDOMStaticCompiledControl
-} from '../dom-static/control-compilers/dom-static-control-compiler';
+import { IApplicationCompiler } from '../application-compiler';
+import { IControlCompiler } from '../control-compiler';
 
 import {
-  DOMAngularControlCompiler
-} from '../dom-angular/control-compilers/dom-angular-control-compiler';
+  AngularControlCompiler,
+  IAngularCompiledControl
+} from './control-compilers/angular-control-compiler';
 
 import {
   ButtonControlCompiler
@@ -55,10 +52,10 @@ import {
   TextInputControlCompiler
 } from './control-compilers/visual/text-input-control-compiler';
 
-import * as JSONControl from '../../json/json-control-compiler';
+import * as JSONControl from '../json/json-control-compiler';
 
-const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Control>>(
-  <[Function, DOMAngularControlCompiler<Control>][]>[
+const VISUAL_CONTROL_COMPILERS = new Map<Function, AngularControlCompiler<Control>>(
+  <[Function, AngularControlCompiler<Control>][]>[
     [ButtonControl, new ButtonControlCompiler()],
     [ContainerControl, new ContainerControlCompiler()],
     [LabelControl, new LabelControlCompiler()],
@@ -72,13 +69,13 @@ const VISUAL_CONTROL_COMPILERS = new Map<Function, DOMAngularControlCompiler<Con
 
 const SERVICE_CONTROL_COMPILER = new JSONControl.JSONControlCompiler();
 
-export interface ICompiledDOMAngularApplication {
+export interface ICompiledAngularApplication {
   css: string;
   pages: Array<{ id: string; name: string; markup: string }>;
   services: JSONControl.IJSONControl[];
 }
 
-export class DOMAngularApplicationCompiler implements IApplicationCompiler<ICompiledDOMAngularApplication> {
+export class AngularApplicationCompiler implements IApplicationCompiler<ICompiledAngularApplication> {
   compile(application: Application) {
     let queue = new PromiseQueue();
 
@@ -115,12 +112,12 @@ export class DOMAngularApplicationCompiler implements IApplicationCompiler<IComp
     });
   }
 
-  decompile(compiledApplication: ICompiledDOMAngularApplication) {
+  decompile(compiledApplication: ICompiledAngularApplication) {
     return null;
   }
 
-  private compileControl(control: Control): Promise<IDOMStaticCompiledControl> {
-    let controlCompiler = <DOMAngularControlCompiler<Control>>
+  private compileControl(control: Control): Promise<IAngularCompiledControl> {
+    let controlCompiler = <AngularControlCompiler<Control>>
       VISUAL_CONTROL_COMPILERS.get(control.constructor);
 
     return controlCompiler.compile(control).then((compiledControl) => {

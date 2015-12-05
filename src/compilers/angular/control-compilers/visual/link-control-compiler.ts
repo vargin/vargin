@@ -1,8 +1,8 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
-import { LinkControl } from '../../../../../core/controls/visual/link-control';
-import { Address, AddressType } from '../../../../../core/data/address';
+import { AngularControlCompiler } from '../angular-control-compiler';
+import { LinkControl } from '../../../../core/controls/visual/link-control';
+import { Address, AddressType } from '../../../../core/data/address';
 
-export class LinkControlCompiler extends DOMAngularControlCompiler<LinkControl> {
+export class LinkControlCompiler extends AngularControlCompiler<LinkControl> {
   getMarkup(control: LinkControl) {
     let addressString = control.getProperty('address').getValue();
     let address = addressString ?

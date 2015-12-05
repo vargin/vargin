@@ -1,9 +1,9 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
+import { AngularControlCompiler } from '../angular-control-compiler';
 import {
   TextInputControl
-} from '../../../../../core/controls/visual/text-input-control';
+} from '../../../../core/controls/visual/text-input-control';
 
-export class TextInputControlCompiler extends DOMAngularControlCompiler<TextInputControl> {
+export class TextInputControlCompiler extends AngularControlCompiler<TextInputControl> {
   getMarkup(control: TextInputControl) {
     return this.buildHTMLElement('input', '', new Map<string, string>(
       <[string, string][]>[

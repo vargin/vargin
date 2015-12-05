@@ -10,11 +10,11 @@ import {
   View
 } from 'angular2/angular2';
 import { RouterLink, RouteParams } from 'angular2/router';
-import { IAction } from '../../../../core/actions/action';
-import { Application } from '../../../../core/application';
+import { IAction } from '../../../core/actions/action';
+import { Application } from '../../../core/application';
 import { pages } from './app-description';
-import { ServicesController } from '../template/services-controller';
-import * as JSONAction from '../../../json/json-action-compiler';
+import { ServicesController } from './services-controller';
+import * as JSONAction from '../../json/json-action-compiler';
 
 @Component({
   selector: 'page'

@@ -13,8 +13,8 @@ import {
   ROUTER_PROVIDERS,
   RouteConfig
 } from 'angular2/router';
-import { Application } from '../../../../core/application';
-import { JSONApplicationCompiler } from '../../../json/json-application-compiler';
+import { Application } from '../../../core/application';
+import { JSONApplicationCompiler } from '../../json/json-application-compiler';
 import { PageController } from './page-controller';
 import { application } from './app-description';
 

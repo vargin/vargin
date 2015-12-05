@@ -1,9 +1,9 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
+import { AngularControlCompiler } from '../angular-control-compiler';
 import {
   ContainerControl
-} from '../../../../../core/controls/visual/container-control';
+} from '../../../../core/controls/visual/container-control';
 
-export class ContainerControlCompiler extends DOMAngularControlCompiler<ContainerControl> {
+export class ContainerControlCompiler extends AngularControlCompiler<ContainerControl> {
   getMarkup(control: ContainerControl) {
     return this.buildHTMLElement(
       'div',

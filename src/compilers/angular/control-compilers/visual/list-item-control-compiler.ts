@@ -1,10 +1,10 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
+import { AngularControlCompiler } from '../angular-control-compiler';
 import {
   ListControl,
   ListItemControl
-} from '../../../../../core/controls/visual/list-control';
+} from '../../../../core/controls/visual/list-control';
 
-export class ListItemControlCompiler extends DOMAngularControlCompiler<ListItemControl> {
+export class ListItemControlCompiler extends AngularControlCompiler<ListItemControl> {
   getMarkup(control: ListItemControl) {
     let datasourceId = control.parent.getProperty('datasource').getValue();
     return this.buildHTMLElement(

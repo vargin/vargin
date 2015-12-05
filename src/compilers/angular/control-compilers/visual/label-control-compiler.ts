@@ -1,10 +1,8 @@
-import { DOMAngularControlCompiler } from '../dom-angular-control-compiler';
-import {
-  LabelControl
-} from '../../../../../core/controls/visual/label-control';
-import { StringFormatter } from '../../../../../core/tools/string-formatter';
+import { AngularControlCompiler } from '../angular-control-compiler';
+import { LabelControl } from '../../../../core/controls/visual/label-control';
+import { StringFormatter } from '../../../../core/tools/string-formatter';
 
-export class LabelControlCompiler extends DOMAngularControlCompiler<LabelControl> {
+export class LabelControlCompiler extends AngularControlCompiler<LabelControl> {
   getMarkup(control: LabelControl) {
     let formatPipe = StringFormatter.toPipe(
       +control.getProperty('format').getValue()
