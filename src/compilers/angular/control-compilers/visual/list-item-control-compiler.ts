@@ -6,15 +6,11 @@ import {
 
 export class ListItemControlCompiler extends AngularControlCompiler<ListItemControl> {
   getMarkup(control: ListItemControl) {
-    let datasourceId = control.parent.getProperty('datasource').getValue();
     return this.buildHTMLElement(
       'div',
       control.getChildren().length ? '{children}' : '',
       new Map<string, string>(<[string, string][]>[
-        [
-          '*ng-for',
-          `#item of getDatasource('${datasourceId}').items; #i = index`
-        ],
+        ['*ng-if', `template.id === '${control.id}'`],
         ['id', control.id],
         ['class', this.bindCSSClass(control)],
         ...this.getEventHandlers(control)

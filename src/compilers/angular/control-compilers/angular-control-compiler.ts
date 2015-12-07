@@ -3,9 +3,9 @@ import { IControlCompiler } from '../../control-compiler';
 import { AngularCSSCompiler } from '../angular-css-compiler';
 
 export interface IAngularCompiledControl {
-  source: Control;
   markup: string;
   cssClasses?: Set<string>;
+  templates?: Map<string, string[]>;
 }
 
 // Subset of tags from http://www.w3.org/TR/html51/syntax.html#void-elements
@@ -24,11 +24,7 @@ export class AngularControlCompiler<TControl extends Control> implements IContro
     }
 
     return cssClassPromise.then((cssClasses) => {
-      return {
-        source: control,
-        markup: this.getMarkup(control),
-        cssClasses: cssClasses
-      };
+      return { markup: this.getMarkup(control), cssClasses: cssClasses };
     });
   }
 
@@ -74,7 +70,7 @@ export class AngularControlCompiler<TControl extends Control> implements IContro
     let rawValue = control.getProperty(propertyName).getValue();
 
     if (rawValue.startsWith('bind:')) {
-      return `{{ item.get('${rawValue.split(':')[1]}') }}`;
+      return `{{ item?.get('${rawValue.split(':')[1]}') }}`;
     }
 
     return `{{ getControl(\'${control.id}\').getProperty(\'${propertyName}\').getValue() }}`;

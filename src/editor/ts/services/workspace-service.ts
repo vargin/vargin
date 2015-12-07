@@ -306,7 +306,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 },
                 triggers: [{
                   name: 'HasUnread',
-                  condition: '{{HasUnread}} = true',
+                  condition: '[[text]] = true',
                   actions: [{
                     type: 'change-overrides-action',
                     overrides: {

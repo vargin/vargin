@@ -73,6 +73,7 @@ export interface ICompiledAngularApplication {
   css: string;
   pages: Array<{ id: string; name: string; markup: string }>;
   services: JSONControl.IJSONControl[];
+  templates: Map<string, string[]>;
 }
 
 export class AngularApplicationCompiler implements IApplicationCompiler<ICompiledAngularApplication> {
@@ -90,6 +91,8 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
 
     let styles = new Set<string>();
     let pages = [];
+    let templates = new Map<string, string[]>();
+
     application.pages.forEach((page: ApplicationPage) => {
       queue.enqueue(() => {
         return this.compileControl(page.root).then((root) => {
@@ -100,6 +103,16 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
             name: page.name,
             markup: root.markup
           });
+
+          if (root.templates) {
+            root.templates.forEach((pageTemplates, key) => {
+              if (templates.has(key)) {
+                templates.get(key).push(...pageTemplates);
+              } else {
+                templates.set(key, pageTemplates.slice());
+              }
+            });
+          }
         });
       });
     });
@@ -108,7 +121,7 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
       let css = '';
       styles.forEach((style) => css += style.trim());
 
-      return { services, pages, css };
+      return { services, pages, css, templates };
     });
   }
 
@@ -129,6 +142,7 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
 
       let queue = new PromiseQueue();
       let childrenCSSClasses = new Set<string>();
+      let childrenTemplates = new Map<string, string[]>();
       let childrenMarkup = '';
 
       children.forEach((child) => {
@@ -138,17 +152,44 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
               (cssClass) => childrenCSSClasses.add(cssClass)
             );
             childrenMarkup += compiledChild.markup.trim();
+
+            if (compiledChild.templates) {
+              compiledChild.templates.forEach((templates, key) => {
+                if (childrenTemplates.has(key)) {
+                  childrenTemplates.get(key).push(...templates);
+                } else {
+                  childrenTemplates.set(key, templates.slice());
+                }
+              });
+            }
           });
         });
       });
 
       return queue.enqueue(() => {
+        let isTemplateHost = control instanceof ListControl;
+
         childrenCSSClasses.forEach(
           (cssClass) => compiledControl.cssClasses.add(cssClass)
         );
-        compiledControl.markup = compiledControl.markup.replace(
-          '{children}', childrenMarkup
-        );
+
+        if (childrenTemplates.size > 0 || isTemplateHost) {
+          compiledControl.templates = childrenTemplates;
+        }
+
+        if (isTemplateHost) {
+          if (compiledControl.templates.has(control.meta.type)) {
+            compiledControl.templates.get(control.meta.type).push(
+              childrenMarkup
+            );
+          } else {
+            compiledControl.templates.set(control.meta.type, [childrenMarkup]);
+          }
+        } else {
+          compiledControl.markup = compiledControl.markup.replace(
+            '{children}', childrenMarkup
+          );
+        }
 
         return compiledControl;
       });
