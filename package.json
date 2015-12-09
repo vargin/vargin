@@ -25,11 +25,15 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.48",
+    "angular2": "2.0.0-alpha.49",
     "systemjs": "^0.19.6",
     "es6-module-loader": "^0.17.8",
-    "zone.js": "^0.5.8",
+
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "zone.js": "0.5.8",
     "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-alpha.13",
 
     "sass-flex-mixin": "1.0.0"
   },
