@@ -10,7 +10,7 @@ export class ListItemControlCompiler extends AngularControlCompiler<ListItemCont
       'div',
       control.getChildren().length ? '{children}' : '',
       new Map<string, string>(<[string, string][]>[
-        ['*ng-if', `template.id === '${control.id}'`],
+        ['*ngIf', `template.id === '${control.id}'`],
         ['id', control.id],
         ['class', this.bindCSSClass(control)],
         ...this.getEventHandlers(control)

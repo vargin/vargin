@@ -9,7 +9,7 @@ import {
   QueryList,
   Type,
   View
-} from 'angular2/angular2';
+} from 'angular2/core';
 
 import { EditableLabel } from './editable-label';
 
@@ -29,16 +29,16 @@ export interface ITreeViewItem<TData> {
     <ul class="tree-view-list">
         <li class="tree-view-list__item"
             [class.tree-view-list__item--selected]="item.selected"
-          *ng-for="#item of items"
+          *ngFor="#item of items"
           (click)="onItemClicked($event, item)">
         <vargin-editable-label class="tree-view-list__item-label"
           [value]="item.name"
-          [allow-editing]="editable"
-          (value-change)="onItemNameChange(item, $event)">
+          [allowEditing]="editable"
+          (valueChange)="onItemNameChange(item, $event)">
         </vargin-editable-label>
         <tree-view [items]="item.children" [editable]="editable"
-                   (item-name-changed)="propagateItemNameChanged($event)"
-                   (item-selected)="propagateItemSelected($event)">
+                   (itemNameChanged)="propagateItemNameChanged($event)"
+                   (itemSelected)="propagateItemSelected($event)">
         </tree-view>
       </li>
     </ul>

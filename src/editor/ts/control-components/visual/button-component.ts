@@ -1,12 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { ButtonControl } from '../../../../core/controls/visual/button-control';
@@ -24,7 +19,7 @@ import { BaseComponent } from '../base-component';
     <button
       [title]="getPropertyValue('title')"
       [type]="getPropertyValue('type')"
-      [ng-style]="getControlStyles()">
+      [ngStyle]="getControlStyles()">
       {{ getPropertyValue('text') }}
     </button>
   `,

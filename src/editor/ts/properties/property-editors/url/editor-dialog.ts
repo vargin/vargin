@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
+import { Component, Inject, View } from 'angular2/core';
+import { NgFor, NgIf } from 'angular2/common';
 import { IProperty, Property } from '../../../../../core/property';
 import { Address, AddressType } from '../../../../../core/data/address';
 import { Application } from '../../../../../core/application';
@@ -18,14 +19,14 @@ import { ApplicationPage } from '../../../../../core/application-page';
       <option value="3">Telephone</option>
     </select>
     <input #value
-           *ng-if="!isPageAddress()"
+           *ngIf="!isPageAddress()"
            [type]="getEditorType()"
            (change)="onValueChange(value.value)"
            [value]="address.value" />
     <select #pagevalue
-            *ng-if="isPageAddress()"
+            *ngIf="isPageAddress()"
             (change)="onValueChange(pagevalue.value)">
-      <option *ng-for="#page of pages" [value]="page.id" [selected]="address.value === page.id">
+      <option *ngFor="#page of pages" [value]="page.id" [selected]="address.value === page.id">
         {{page.name}}
       </option>
     </select>

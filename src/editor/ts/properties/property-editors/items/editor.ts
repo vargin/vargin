@@ -1,4 +1,4 @@
-import { Component, Inject, provide, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/core';
 
 import { IProperty, Property } from '../../../../../core/property';
 import { OverrideProperty } from '../../../../../core/overrides/override-property';

@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
+import { Component, Inject, View } from 'angular2/core';
+import { NgFor, NgIf } from 'angular2/common';
 import { Control } from '../../../core/controls/control';
 import { ContainerComponent } from '../control-components/visual/container-component';
 import { ServiceContainerComponent } from '../control-components/service/service-container-component';
@@ -21,12 +22,12 @@ import {
     <ul class="workspace-pager">
       <li class="workspace-pager__page"
           [class.workspace-pager__page_active]="activePageIndex === i"
-          *ng-for="#page of getPages(); #i = index"
+          *ngFor="#page of getPages(); #i = index"
           (click)="goToPage(i)">
         {{page.name}}
         <button class="workspace-pager__page__remove"
                 title="Remove page"
-                *ng-if="getPages().length > 1"
+                *ngIf="getPages().length > 1"
                 (click)="removePage(page.id)">&#x274c;</button>
       </li>
       <li class="workspace-pager__add-new">

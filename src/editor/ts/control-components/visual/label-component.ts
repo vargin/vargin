@@ -1,12 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { LabelControl } from '../../../../core/controls/visual/label-control';
@@ -23,7 +18,7 @@ import { BaseComponent } from '../base-component';
 })
 @View({
   template: `
-    <span [ng-style]="getControlStyles()">{{ getFormattedValue() }}</span>
+    <span [ngStyle]="getControlStyles()">{{ getFormattedValue() }}</span>
   `,
   directives: [NgStyle]
 })

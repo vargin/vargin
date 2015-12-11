@@ -1,4 +1,4 @@
-import { Renderer, ViewContainerRef } from 'angular2/angular2';
+import { Renderer, ViewContainerRef } from 'angular2/core';
 import { Control } from '../../../core/controls/control';
 import { ControlService } from '../../../core/services/control-service';
 import { ComponentService } from '../services/component-service';

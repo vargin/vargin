@@ -1,12 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { TextInputControl} from '../../../../core/controls/visual/text-input-control';
@@ -24,7 +19,7 @@ import { BaseComponent } from '../base-component';
   template: `
     <input
       type="text"
-      [ng-style]="getControlStyles()"
+      [ngStyle]="getControlStyles()"
       [placeholder]="getPropertyValue('placeholder')"
       [value]="getPropertyValue('value')"
     />

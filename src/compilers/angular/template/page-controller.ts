@@ -1,15 +1,7 @@
+import { Component, DoCheck, Inject, View } from 'angular2/core';
 import {
-  Component,
-  CurrencyPipe,
-  DatePipe,
-  DecimalPipe,
-  DoCheck,
-  Inject,
-  NgIf,
-  NgFor,
-  PercentPipe,
-  View
-} from 'angular2/angular2';
+  CurrencyPipe, DatePipe, DecimalPipe, PercentPipe, NgIf, NgFor
+} from 'angular2/common';
 import { RouterLink, RouteParams } from 'angular2/router';
 import { Application } from '../../../core/application';
 import { ApplicationPage } from '../../../core/application-page';
@@ -25,7 +17,7 @@ import { ListComponent } from './components/list-component';
 @View({
   template: pages.reduce((markup, page) => {
     return markup +
-      `<div *ng-if="page.id === '${page.id}'">${page.markup}</div>`;
+      `<div *ngIf="page.id === '${page.id}'">${page.markup}</div>`;
   }, ''),
   directives: [NgIf, NgFor, RouterLink, ListComponent],
   pipes: [CurrencyPipe, DatePipe, DecimalPipe, PercentPipe]

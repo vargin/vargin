@@ -1,4 +1,5 @@
-import { Component, NgFor, NgIf, View } from 'angular2/angular2';
+import { Component, View } from 'angular2/core';
+import { NgIf, NgFor } from 'angular2/common';
 
 import { Control } from '../../../core/controls/control';
 import { IProperty, Property } from '../../../core/property';
@@ -18,71 +19,71 @@ import { ComponentService } from '../services/component-service';
   template: `
     <section>
       <section class="expandable-group"
-               *ng-if="!!groups.info.items.length"
+               *ngIf="!!groups.info.items.length"
                [attr.aria-expanded]="groups.info.expanded">
         <header class="expandable-group__header"
                 (click)="groups.info.expanded = !groups.info.expanded">
           {{ groups.info.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of groups.info.items">
+          <li class="expandable-group__item" *ngFor="#property of groups.info.items">
             <property-editor [property]="property"></property-editor>
           </li>
         </ul>
       </section>
       <section class="expandable-group"
-               *ng-if="!!groups.properties.items.length"
+               *ngIf="!!groups.properties.items.length"
                [attr.aria-expanded]="groups.properties.expanded">
         <header class="expandable-group__header"
                 (click)="groups.properties.expanded = !groups.properties.expanded">
           {{ groups.properties.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of groups.properties.items">
+          <li class="expandable-group__item" *ngFor="#property of groups.properties.items">
             <property-editor [property]="property"></property-editor>
           </li>
         </ul>
       </section>
       <section class="expandable-group"
-               *ng-if="!!groups.styles.items.length"
+               *ngIf="!!groups.styles.items.length"
                [attr.aria-expanded]="groups.styles.expanded">
         <header class="expandable-group__header"
                 (click)="groups.styles.expanded = !groups.styles.expanded">
           {{ groups.styles.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of groups.styles.items">
+          <li class="expandable-group__item" *ngFor="#property of groups.styles.items">
             <property-editor [property]="property"></property-editor>
           </li>
         </ul>
       </section>
       <section class="expandable-group"
-               *ng-if="!!groups.events.items.length"
+               *ngIf="!!groups.events.items.length"
                [attr.aria-expanded]="groups.events.expanded">
         <header class="expandable-group__header"
                 (click)="groups.events.expanded = !groups.events.expanded">
           {{ groups.events.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of groups.events.items">
+          <li class="expandable-group__item" *ngFor="#property of groups.events.items">
             <property-editor [property]="property"></property-editor>
           </li>
         </ul>
       </section>
       <section class="expandable-group"
-               *ng-if="!!activeControl"
+               *ngIf="!!activeControl"
                [attr.aria-expanded]="groups.triggers.expanded">
         <header class="expandable-group__header"
                 (click)="groups.triggers.expanded = !groups.triggers.expanded">
           {{ groups.triggers.name }}
         </header>
         <ul class="expandable-group__list">
-          <li class="expandable-group__item" *ng-for="#property of groups.triggers.items">
+          <li class="expandable-group__item" *ngFor="#property of groups.triggers.items">
             <trigger-property-editor [property]="property" (remove)="removeTrigger(property)"></trigger-property-editor>
           </li>
           <li class="expandable-group__item">
             <div class="vargin-editor__triggers">
-              <div *ng-if="!groups.triggers.items.length">(No triggers defined...)</div>
+              <div *ngIf="!groups.triggers.items.length">(No triggers defined...)</div>
               <button (click)="addTrigger()" class="vargin-button-link">
                 + Add new trigger
               </button>
@@ -90,11 +91,11 @@ import { ComponentService } from '../services/component-service';
           </li>
         </ul>
       </section>
-      <button class="vargin-properties__remove-control" *ng-if="!!activeControl"
+      <button class="vargin-properties__remove-control" *ngIf="!!activeControl"
               (click)="removeControl()">
         Remove control
       </button>
-      <div class="vargin-properties_empty" *ng-if="!activeControl">
+      <div class="vargin-properties_empty" *ngIf="!activeControl">
         (Select control...)
       </div>
     </section>

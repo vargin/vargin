@@ -1,13 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgFor,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgFor, NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { Overrides } from '../../../../core/overrides/overrides';
@@ -31,10 +25,10 @@ import { UtilsService } from '../../../../core/services/utils-service';
   template: `
     <div
       class="vargin-component"
-      [ng-style]="getControlStyles()">
-      <vargin-dynamic *ng-for="#itemTemplate of itemTemplates"
+      [ngStyle]="getControlStyles()">
+      <vargin-dynamic *ngFor="#itemTemplate of itemTemplates"
                       [control]="itemTemplate"
-                      [ng-style]="getContainerStyles(itemTemplate)"
+                      [ngStyle]="getContainerStyles(itemTemplate)"
                       attr.type="{{ itemTemplate.meta.type }}">
       </vargin-dynamic>
     </div>

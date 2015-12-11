@@ -9,7 +9,7 @@ import {
   Type,
   View,
   ViewContainerRef
-} from 'angular2/angular2';
+} from 'angular2/core';
 
 import { Control } from '../../../core/controls/control';
 

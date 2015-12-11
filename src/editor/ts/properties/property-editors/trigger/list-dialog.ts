@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 import { DialogService } from '../../../services/dialog-service';
 import { IAction, Action } from '../../../../../core/actions/action';
 import { Trigger } from '../../../../../core/triggers/trigger';
@@ -33,7 +34,7 @@ export interface IDialogResult {
     </ul>
     <table class="vargin-table">
       <tbody>
-        <tr class="vargin-table__data-row" *ng-for="#action of trigger.actions; #i = index">
+        <tr class="vargin-table__data-row" *ngFor="#action of trigger.actions; #i = index">
           <td class="vargin-table__data-cell" (click)="editAction(action)">
             {{ action.meta.name }}
           </td>

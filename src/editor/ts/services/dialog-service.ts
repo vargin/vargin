@@ -1,4 +1,4 @@
-import { EventEmitter, Provider, Type } from 'angular2/angular2';
+import { EventEmitter, Provider, Type } from 'angular2/core';
 import { Deferred, UtilsService } from '../../../core/services/utils-service';
 
 export interface IDialogRequest {

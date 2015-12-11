@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, Optional, View } from 'angular2/angular2';
+import { Component, Inject, Optional, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 
 import {
   IPropertyWithOptions,
@@ -17,7 +18,7 @@ import {
       <select class="vargin-property-editor__input"
               (change)="onChange($event.target.value)">
         <option
-          *ng-for="#option of property.getOptions()"
+          *ngFor="#option of property.getOptions()"
           [value]="option.getValue()"
           [selected]="property.getValue() === option.getValue()">
           {{ option.getName() }}

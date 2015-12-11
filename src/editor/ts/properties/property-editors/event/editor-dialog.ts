@@ -1,6 +1,5 @@
-import {
-  Component, Inject, NgFor, Optional, View
-} from 'angular2/angular2';
+import { Component, Inject, Optional, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 import { IProperty } from '../../../../../core/property';
 import { IAction, Action } from '../../../../../core/actions/action';
 import { ActionService } from '../../../../../core/services/action-service';
@@ -27,7 +26,7 @@ import { PropertyEditor } from '../property-editor';
           </select>
         </label>
       </li>
-      <li class="vargin-list__item" *ng-for="#property of actionProperties">
+      <li class="vargin-list__item" *ngFor="#property of actionProperties">
         <property-editor [property]="property"></property-editor>
       </li>
     </ul>

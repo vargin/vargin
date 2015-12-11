@@ -1,4 +1,4 @@
-import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/core';
 import { DialogService } from '../../../services/dialog-service';
 import { UtilsService } from '../../../../../core/services/utils-service';
 import { Control } from '../../../../../core/controls/control';
@@ -14,15 +14,15 @@ import { ITreeViewItem, TreeView } from '../../../shared-components/tree-view';
     <header class="property-list-dialog__header">Control states</header>
     <tree-view [items]="tree"
                [editable]="true"
-               (item-selected)="onItemSelected($event)"
-               (item-name-changed)="onItemNameChanged($event)" >
+               (itemSelected)="onItemSelected($event)"
+               (itemNameChanged)="onItemNameChanged($event)" >
     </tree-view>
     <section class="control-overrides-manage-buttons">
       <button (click)="add()">Add child state</button>
       <button (click)="remove()">Remove state</button>
     </section>
   `,
-  directives: [NgFor, TreeView]
+  directives: [TreeView]
 })
 export class PropertyTreeDialog {
   private control: Control;

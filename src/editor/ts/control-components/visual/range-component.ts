@@ -1,12 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { RangeControl } from '../../../../core/controls/visual/range-control';
@@ -23,7 +18,7 @@ import { BaseComponent } from '../base-component';
   template: `
     <input
       type="range"
-      [ng-style]="getControlStyles()"
+      [ngStyle]="getControlStyles()"
       [min]="getPropertyValue('min')"
       [max]="getPropertyValue('max')"
       [step]="getPropertyValue('step')"

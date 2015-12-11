@@ -25,7 +25,7 @@
   },
 
   "dependencies": {
-    "angular2": "2.0.0-alpha.51",
+    "angular2": "2.0.0-alpha.53",
     "systemjs": "^0.19.6",
     "es6-module-loader": "^0.17.8",
 

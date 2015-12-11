@@ -1,4 +1,4 @@
-import { EventEmitter, Type } from 'angular2/angular2';
+import { EventEmitter, Type } from 'angular2/core';
 import { ControlMetadata } from '../../../core/controls/control-metadata';
 
 import { Control } from '../../../core/controls/control';

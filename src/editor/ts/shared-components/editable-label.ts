@@ -4,13 +4,12 @@ import {
   EventEmitter,
   Inject,
   Input,
-  NgClass,
-  NgIf,
   Output,
   QueryList,
   View,
   ViewQuery
-} from 'angular2/angular2';
+} from 'angular2/core';
+import { NgClass, NgIf } from 'angular2/common';
 
 @Component({
   selector: 'vargin-editable-label'
@@ -18,10 +17,10 @@ import {
 @View({
   template: `<div class="vargin-editable-label"
                   [class.vargin-editable-label--write-mode]="writeMode">
-               <span *ng-if="!writeMode"
+               <span *ngIf="!writeMode"
                      class="vargin-editable-label__label"
                      (dblclick)="onDoubleClick($event, editor)">{{ value }}</span>
-               <input #editor *ng-if="writeMode"
+               <input #editor *ngIf="writeMode"
                       class="vargin-editable-label__editor"
                       (change)="onInputChange(editor.value)"
                       (blur)="onInputBlur(editor.value)"

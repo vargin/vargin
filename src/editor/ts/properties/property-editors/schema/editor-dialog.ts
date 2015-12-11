@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, NgIf, View } from 'angular2/angular2';
+import { Component, Inject, View } from 'angular2/core';
+import { NgFor, NgIf } from 'angular2/common';
 import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
 
 @Component({
@@ -8,7 +9,7 @@ import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
   template: `
     <header class="property-editor-dialog__header">Define Schema</header>
     <ul class="vargin-list">
-      <li class="vargin-list__item" *ng-for="#field of schema.fields; #i = index">
+      <li class="vargin-list__item" *ngFor="#field of schema.fields; #i = index">
         <input #fieldname
                type="text"
                placeholder="Define field name"
@@ -23,7 +24,7 @@ import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
           <option value="3">Binary</option>
           <option value="4">Boolean</option>
         </select>
-        <button *ng-if="schema.fields.length > 1"
+        <button *ngIf="schema.fields.length > 1"
                 class="vargin-list__remove-item"
                 (click)="remove(i)">
           &#x274c;

@@ -1,10 +1,5 @@
-import {
-  bootstrap,
-  Component,
-  provide,
-  Type,
-  View
-} from 'angular2/angular2';
+import { bootstrap } from 'angular2/platform/browser';
+import { Component, provide, Type, View } from 'angular2/core';
 import {
   LocationStrategy,
   HashLocationStrategy,

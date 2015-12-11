@@ -7,7 +7,7 @@ import {
   Output,
   provide,
   View
-} from 'angular2/angular2';
+} from 'angular2/core';
 
 import { IProperty, Property } from '../../../../../core/property';
 import { Trigger } from '../../../../../core/triggers/trigger';

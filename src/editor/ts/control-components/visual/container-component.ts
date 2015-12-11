@@ -1,13 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgFor,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgFor, NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { ControlMetadata } from '../../../../core/controls/control-metadata';
@@ -26,14 +20,14 @@ import { BaseComponent } from '../base-component';
   template: `
     <div class="vargin-component"
         [class.vargin-component_drop-target]="dragEnterCounter > 0"
-        [ng-style]="getControlStyles()"
+        [ngStyle]="getControlStyles()"
         (dragleave)="onDragLeave($event)"
         (dragover)="onDragOver($event)"
         (dragenter)="onDragEnter($event)"
         (drop)="onDrop($event)">
-      <vargin-dynamic *ng-for="#child of getChildren()"
+      <vargin-dynamic *ngFor="#child of getChildren()"
                       [control]="child"
-                      [ng-style]="getContainerStyles(child)"
+                      [ngStyle]="getContainerStyles(child)"
                       attr.type="{{child.meta.type}}">
       </vargin-dynamic>
     </div>

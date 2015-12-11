@@ -2,15 +2,13 @@ import {
   Component,
   Inject,
   Input,
-  NgIf,
-  NgFor,
-  NgStyle,
   Optional,
   OnChanges,
   Renderer,
   View,
   ViewContainerRef
-} from 'angular2/angular2';
+} from 'angular2/core';
+import { NgIf, NgFor, NgStyle } from 'angular2/common';
 import { Control } from '../../../../core/controls/control';
 import {
   ListControl,
@@ -27,7 +25,7 @@ import { Application } from '../../../../core/application';
 })
 @View({
   template: `<vargin-list-item
-                *ng-for="#item of datasource.items">
+                *ngFor="#item of datasource.items">
                 ${(templates.get(ListControl.getMeta().type) || []).join('')}
              </vargin-list-item>`,
   directives: [ListComponent, NgIf, NgFor]

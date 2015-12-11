@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, View } from 'angular2/angular2';
+import { Component, Inject, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 import { IProperty, Property } from '../../../../../core/property';
 import { Schema } from '../../../../../core/data/schema';
 
@@ -9,7 +10,7 @@ import { Schema } from '../../../../../core/data/schema';
   template: `
     <header class="property-editor-dialog__header">Add Item</header>
     <ul class="vargin-list">
-      <li class="vargin-list__item" *ng-for="#property of properties; #i = index">
+      <li class="vargin-list__item" *ngFor="#property of properties; #i = index">
         <label class="vargin-property-editor">
           <span class="vargin-property-editor__label">{{property[0]}}</span>
           <input class="vargin-property-editor__input" type="text"

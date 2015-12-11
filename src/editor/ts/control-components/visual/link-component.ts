@@ -1,12 +1,7 @@
 import {
-  Component,
-  Inject,
-  NgStyle,
-  Optional,
-  Renderer,
-  View,
-  ViewContainerRef
-} from 'angular2/angular2';
+  Component, Inject, Optional, Renderer, View, ViewContainerRef
+} from 'angular2/core';
+import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { LinkControl } from '../../../../core/controls/visual/link-control';
@@ -25,7 +20,7 @@ import { BaseComponent } from '../base-component';
       href="javascript:void(0)"
       [title]="getPropertyValue('title')"
       [target]="getPropertyValue('target')"
-      [ng-style]="getControlStyles()">
+      [ngStyle]="getControlStyles()">
       {{ getPropertyValue('text') }}
     </a>
   `,

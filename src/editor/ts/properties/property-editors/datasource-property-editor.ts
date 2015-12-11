@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, View } from 'angular2/angular2';
+import { Component, Inject, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 import { Application } from '../../../../core/application';
 import { IProperty, Property } from '../../../../core/property';
 import { Control } from '../../../../core/controls/control';
@@ -16,7 +17,7 @@ import { DatasourceControl } from '../../../../core/controls/service/datasource-
               (change)="onChange($event.target.value)">
         <option>[Not Defined]</option>
         <option
-          *ng-for="#datasource of getDatasources()"
+          *ngFor="#datasource of getDatasources()"
           [value]="datasource.id"
           [selected]="property.getValue() === datasource.id">
           {{ datasource.getProperty('name').getValue() }}

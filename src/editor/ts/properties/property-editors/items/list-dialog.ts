@@ -1,4 +1,5 @@
-import { Component, Inject, NgFor, provide, View } from 'angular2/angular2';
+import { Component, Inject, provide, View } from 'angular2/core';
+import { NgFor } from 'angular2/common';
 import { Property } from '../../../../../core/property';
 import { Control } from '../../../../../core/controls/control';
 import { DialogService } from '../../../services/dialog-service';
@@ -14,7 +15,7 @@ import { Schema } from '../../../../../core/data/schema';
     <table class="vargin-table">
       <thead>
         <tr class="vargin-table__header-row">
-          <th class="vargin-table__header-cell" *ng-for="#field of schema.fields">
+          <th class="vargin-table__header-cell" *ngFor="#field of schema.fields">
             {{field.name}}
           </th>
           <th></th>
@@ -26,8 +27,8 @@ import { Schema } from '../../../../../core/data/schema';
         </tr>
       </tfoot>
       <tbody>
-        <tr class="vargin-table__data-row" *ng-for="#item of items; #i = index">
-          <td class="vargin-table__data-cell" *ng-for="#field of schema.fields;">
+        <tr class="vargin-table__data-row" *ngFor="#item of items; #i = index">
+          <td class="vargin-table__data-cell" *ngFor="#field of schema.fields;">
             {{item.get(field.name)}}
           </td>
           <td class="vargin-table__data-cell">
