@@ -23,8 +23,7 @@ import { IApplicationCompiler } from '../application-compiler';
 import { IControlCompiler } from '../control-compiler';
 
 import {
-  AngularControlCompiler,
-  IAngularCompiledControl
+  AngularControlCompiler
 } from './control-compilers/angular-control-compiler';
 
 import {
@@ -53,6 +52,7 @@ import {
 } from './control-compilers/visual/text-input-control-compiler';
 
 import * as JSONControl from '../json/json-control-compiler';
+import { AngularCSSCompiler } from './angular-css-compiler';
 
 const VISUAL_CONTROL_COMPILERS = new Map<Function, AngularControlCompiler<Control>>(
   <[Function, AngularControlCompiler<Control>][]>[
@@ -77,6 +77,8 @@ export interface ICompiledAngularApplication {
 }
 
 export class AngularApplicationCompiler implements IApplicationCompiler<ICompiledAngularApplication> {
+  private cssCompiler = new AngularCSSCompiler();
+
   compile(application: Application) {
     let queue = new PromiseQueue();
 
@@ -95,24 +97,20 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
 
     application.pages.forEach((page: ApplicationPage) => {
       queue.enqueue(() => {
-        return this.compileControl(page.root).then((root) => {
-          root.cssClasses.forEach((cssClass) => styles.add(cssClass));
+        return this.compileMarkup(page.root).then((markup) => {
+          pages.push({ id: page.id, name: page.name, markup: markup });
+        });
+      });
 
-          pages.push({
-            id: page.id,
-            name: page.name,
-            markup: root.markup
-          });
+      queue.enqueue(() => {
+        return this.compileCSS(page.root).then(
+          (css) => css.forEach((style) => styles.add(style))
+        );
+      });
 
-          if (root.templates) {
-            root.templates.forEach((pageTemplates, key) => {
-              if (templates.has(key)) {
-                templates.get(key).push(...pageTemplates);
-              } else {
-                templates.set(key, pageTemplates.slice());
-              }
-            });
-          }
+      queue.enqueue(() => {
+        return this.compileTemplates(page.root).then((pageTemplates) => {
+          this.mergeTemplates(templates, pageTemplates);
         });
       });
     });
@@ -129,70 +127,81 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
     return null;
   }
 
-  private compileControl(control: Control): Promise<IAngularCompiledControl> {
+  private compileMarkup(control: Control): Promise<string> {
     let controlCompiler = <AngularControlCompiler<Control>>
       VISUAL_CONTROL_COMPILERS.get(control.constructor);
 
-    return controlCompiler.compile(control).then((compiledControl) => {
-      let children = control.getChildren();
-
-      if (!children.length) {
-        return compiledControl;
-      }
-
-      let queue = new PromiseQueue();
-      let childrenCSSClasses = new Set<string>();
-      let childrenTemplates = new Map<string, string[]>();
-      let childrenMarkup = '';
-
-      children.forEach((child) => {
-        queue.enqueue(() => {
-          return this.compileControl(child).then((compiledChild) => {
-            compiledChild.cssClasses.forEach(
-              (cssClass) => childrenCSSClasses.add(cssClass)
-            );
-            childrenMarkup += compiledChild.markup.trim();
-
-            if (compiledChild.templates) {
-              compiledChild.templates.forEach((templates, key) => {
-                if (childrenTemplates.has(key)) {
-                  childrenTemplates.get(key).push(...templates);
-                } else {
-                  childrenTemplates.set(key, templates.slice());
-                }
-              });
-            }
-          });
-        });
-      });
-
-      return queue.enqueue(() => {
-        let isTemplateHost = control instanceof ListControl;
-
-        childrenCSSClasses.forEach(
-          (cssClass) => compiledControl.cssClasses.add(cssClass)
+    return controlCompiler.compile(control).then((markup) => {
+      return Promise.all(
+        control.getChildren().map((child) => this.compileMarkup(child))
+      ).then((childrenMarkup) => {
+        return markup.trim().replace(
+          '{children}',
+          childrenMarkup.map((childMarkup) => childMarkup.trim()).join('')
         );
-
-        if (childrenTemplates.size > 0 || isTemplateHost) {
-          compiledControl.templates = childrenTemplates;
-        }
-
-        if (isTemplateHost) {
-          if (compiledControl.templates.has(control.meta.type)) {
-            compiledControl.templates.get(control.meta.type).push(
-              childrenMarkup
-            );
-          } else {
-            compiledControl.templates.set(control.meta.type, [childrenMarkup]);
-          }
-        } else {
-          compiledControl.markup = compiledControl.markup.replace(
-            '{children}', childrenMarkup
-          );
-        }
-
-        return compiledControl;
       });
     });
+  }
+
+  private compileCSS(control: Control): Promise<Set<string>> {
+    let cssPromise = control.meta.styles.size > 0 ?
+      this.cssCompiler.compile(control) :
+      Promise.resolve(new Set<string>());
+
+    return cssPromise.then((css) => {
+      return Promise.all(
+        control.getChildren().map((child) => this.compileCSS(child))
+      ).then((childrenCSS) => {
+        childrenCSS.forEach(
+          (childCSS) => childCSS.forEach((rule) => css.add(rule))
+        );
+
+        return css;
+      });
+    });
+  }
+
+  private compileTemplates(control: Control): Promise<Map<string, string[]>> {
+    let isTemplateHost = typeof control['getTemplate'] === 'function';
+
+    let templatePromise = isTemplateHost ?
+      this.compileMarkup(<Control>control['getTemplate']()) :
+      Promise.resolve<string>(null);
+
+    return Promise.all(
+      control.getChildren().map((child) => this.compileTemplates(child))
+    ).then((childrenTemplates) => {
+      return templatePromise.then((template) => {
+        let templates = new Map<string, string[]>();
+
+        childrenTemplates.forEach(
+          (childTemplates) => this.mergeTemplates(templates, childTemplates)
+        );
+
+        if (template) {
+          if (templates.has(control.meta.type)) {
+            templates.get(control.meta.type).push(template);
+          } else {
+            templates.set(control.meta.type, [template]);
+          }
+        }
+
+        return templates;
+      });
+    });
+  }
+
+  private mergeTemplates(
+    left: Map<string, string[]>, right: Map<string, string[]>
+  ) {
+    right.forEach((rightTemplates, key) => {
+      if (left.has(key)) {
+        left.get(key).push(...rightTemplates);
+      } else {
+        left.set(key, rightTemplates);
+      }
+    });
+
+    return left;
   }
 }

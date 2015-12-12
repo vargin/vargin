@@ -1,31 +1,12 @@
 import { Control } from '../../../core/controls/control';
 import { IControlCompiler } from '../../control-compiler';
-import { AngularCSSCompiler } from '../angular-css-compiler';
-
-export interface IAngularCompiledControl {
-  markup: string;
-  cssClasses?: Set<string>;
-  templates?: Map<string, string[]>;
-}
 
 // Subset of tags from http://www.w3.org/TR/html51/syntax.html#void-elements
 const HTML_VOID_TAGS = new Set<string>(['br', 'hr', 'img', 'input', 'link']);
 
-export class AngularControlCompiler<TControl extends Control> implements IControlCompiler<IAngularCompiledControl> {
-  private cssCompiler = new AngularCSSCompiler();
-
-  compile(control: TControl): Promise<IAngularCompiledControl> {
-    let cssClassPromise: Promise<Set<string>>;
-
-    if (control.meta.styles.size > 0) {
-      cssClassPromise = this.cssCompiler.compile(control);
-    } else {
-      cssClassPromise = Promise.resolve(null);
-    }
-
-    return cssClassPromise.then((cssClasses) => {
-      return { markup: this.getMarkup(control), cssClasses: cssClasses };
-    });
+export class AngularControlCompiler<TControl extends Control> implements IControlCompiler<string> {
+  compile(control: TControl): Promise<string> {
+    return Promise.resolve(this.getMarkup(control));
   }
 
   decompile(): Promise<TControl> {
