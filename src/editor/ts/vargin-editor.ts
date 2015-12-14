@@ -1,5 +1,5 @@
 import { bootstrap } from 'angular2/platform/browser';
-import { Component, provide, View } from 'angular2/core';
+import { Component, provide, View, enableProdMode } from 'angular2/core';
 
 import {
   IExpandableGroup,
@@ -86,6 +86,8 @@ class Vargin {
 }
 
 WorkspaceService.init().then(() => {
+  enableProdMode();
+
   bootstrap(Vargin, [
     provide(Workspace, { useFactory: () => WorkspaceService.workspace }),
     provide(Application, {
