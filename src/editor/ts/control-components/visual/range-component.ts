@@ -18,7 +18,7 @@ import { BaseComponent } from '../base-component';
   template: `
     <input
       type="range"
-      [ngStyle]="getControlStyles()"
+      [ngStyle]="controlStyles"
       [min]="getPropertyValue('min')"
       [max]="getPropertyValue('max')"
       [step]="getPropertyValue('step')"

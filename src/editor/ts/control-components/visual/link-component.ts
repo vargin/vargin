@@ -20,7 +20,7 @@ import { BaseComponent } from '../base-component';
       href="javascript:void(0)"
       [title]="getPropertyValue('title')"
       [target]="getPropertyValue('target')"
-      [ngStyle]="getControlStyles()">
+      [ngStyle]="controlStyles">
       {{ getPropertyValue('text') }}
     </a>
   `,

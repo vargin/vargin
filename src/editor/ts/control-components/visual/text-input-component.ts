@@ -19,7 +19,7 @@ import { BaseComponent } from '../base-component';
   template: `
     <input
       type="text"
-      [ngStyle]="getControlStyles()"
+      [ngStyle]="controlStyles"
       [placeholder]="getPropertyValue('placeholder')"
       [value]="getPropertyValue('value')"
     />

@@ -17,14 +17,14 @@ import { BaseComponent } from '../base-component';
     <div
       class="vargin-component"
       [class.vargin-component_drop-target]="dragEnterCounter > 0"
-      [ngStyle]="getControlStyles()"
+      [ngStyle]="controlStyles"
       (dragleave)="onDragLeave($event)"
       (dragover)="onDragOver($event)"
       (dragenter)="onDragEnter($event)"
       (drop)="onDrop($event)">
-      <vargin-dynamic *ngFor="#child of getChildren()"
+      <vargin-dynamic *ngFor="#child of children.controls; #i = index"
                       [control]="child"
-                      [ngStyle]="getContainerStyles(child)"
+                      [ngStyle]="children.styles[i]"
                       attr.type="{{child.meta.type}}">
       </vargin-dynamic>
     </div>

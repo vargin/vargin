@@ -1,4 +1,4 @@
-import { Renderer, ViewContainerRef } from 'angular2/core';
+import { Renderer, ViewContainerRef, DoCheck } from 'angular2/core';
 import { Control } from '../../../core/controls/control';
 import { ControlService } from '../../../core/services/control-service';
 import { ComponentService } from '../services/component-service';
@@ -7,11 +7,19 @@ const CONTAINER_ONLY_STYLES = [
   'flex-basis', 'flex-grow', 'flex-shrink', 'margin'
 ];
 
-export class BaseComponent {
+export class BaseComponent implements DoCheck {
   public control: Control;
+
   protected dragEnterCounter: number = 0;
   protected renderer: Renderer;
   protected viewContainer: ViewContainerRef;
+
+  private children: {
+    controls: Control[],
+    styles: { [key: string]: string; }[]
+  };
+
+  private controlStyles: { [key: string]: string; };
 
   constructor(
     renderer: Renderer, viewContainer: ViewContainerRef, control: Control
@@ -19,6 +27,13 @@ export class BaseComponent {
     this.control = control;
     this.renderer = renderer;
     this.viewContainer = viewContainer;
+
+    this.children = {
+      controls: [],
+      styles: []
+    };
+
+    this.controlStyles = {};
   }
 
   onClick(e: Event) {
@@ -72,41 +87,23 @@ export class BaseComponent {
     return this.control.getProperty(key).getValue();
   }
 
-  getControlStyles() {
-    if (this.control && this.control.meta.styles.size > 0) {
-      let controlStyles = <{ [key: string]: string; }>{};
-      this.control.meta.styles.forEach((style, styleKey) => {
-        if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
-          controlStyles[styleKey] = this.control.getStyle(styleKey).getValue();
-        }
+  ngDoCheck() {
+    if (this.control) {
+      this.children.controls.length = this.children.styles.length = 0;
+
+      this.control.getChildren().forEach((child) => {
+        this.children.controls.push(child);
+        this.children.styles.push(this.getControlContainerStyles(child));
       });
 
-      return controlStyles;
-    }
-
-    return null;
-  }
-
-  getContainerStyles(control?: Control) {
-    let targetControl = control || this.control;
-    if (targetControl && targetControl.meta.styles.size > 0) {
-      let containerStyles = <{ [key: string]: string; }>{};
-      targetControl.meta.styles.forEach((style, styleKey) => {
-        if (CONTAINER_ONLY_STYLES.indexOf(styleKey) >= 0) {
-          containerStyles[styleKey] = targetControl.getStyle(
+      this.control.meta.styles.forEach((style, styleKey) => {
+        if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
+          this.controlStyles[styleKey] = this.control.getStyle(
             styleKey
           ).getValue();
         }
       });
-
-      return containerStyles;
     }
-
-    return null;
-  }
-
-  getChildren() {
-    return this.control ? this.control.getChildren() : [];
   }
 
   select() {
@@ -119,6 +116,18 @@ export class BaseComponent {
     this.renderer.setElementClass(
       this.viewContainer.element, 'vargin-component_active', false
     );
+  }
+
+  protected getControlContainerStyles(control: Control) {
+    let containerStyles = <{ [key: string]: string; }>{};
+
+    control.meta.styles.forEach((style, styleKey) => {
+      if (CONTAINER_ONLY_STYLES.indexOf(styleKey) >= 0) {
+        containerStyles[styleKey] = control.getStyle(styleKey).getValue();
+      }
+    });
+
+    return containerStyles;
   }
 
   private domStringListToArray(list: DOMStringList) {

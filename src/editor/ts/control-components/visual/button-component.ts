@@ -19,7 +19,7 @@ import { BaseComponent } from '../base-component';
     <button
       [title]="getPropertyValue('title')"
       [type]="getPropertyValue('type')"
-      [ngStyle]="getControlStyles()">
+      [ngStyle]="controlStyles">
       {{ getPropertyValue('text') }}
     </button>
   `,

@@ -25,10 +25,10 @@ import { UtilsService } from '../../../../core/services/utils-service';
   template: `
     <div
       class="vargin-component"
-      [ngStyle]="getControlStyles()">
-      <vargin-dynamic *ngFor="#itemTemplate of itemTemplates"
+      [ngStyle]="controlStyles">
+      <vargin-dynamic *ngFor="#itemTemplate of templates.controls; #i = index"
                       [control]="itemTemplate"
-                      [ngStyle]="getContainerStyles(itemTemplate)"
+                      [ngStyle]="templates.styles[i]"
                       attr.type="{{ itemTemplate.meta.type }}">
       </vargin-dynamic>
     </div>
@@ -37,7 +37,11 @@ import { UtilsService } from '../../../../core/services/utils-service';
 })
 export class ListComponent extends BaseComponent {
   control: ListControl;
-  itemTemplates: Control[];
+
+  private templates: {
+    controls: Control[],
+    styles: { [key: string]: string; }[]
+  };
 
   constructor(
     @Inject(Renderer) renderer: Renderer,
@@ -46,7 +50,12 @@ export class ListComponent extends BaseComponent {
   ) {
     super(renderer, viewContainer, control);
 
-    let itemTemplate = this.control.getTemplate();
-    this.itemTemplates = [itemTemplate, itemTemplate, itemTemplate];
+    let template = this.control.getTemplate();
+    let templateStyles = this.getControlContainerStyles(template);
+
+    this.templates = {
+      controls: [template, template, template],
+      styles: [templateStyles, templateStyles, templateStyles]
+    };
   }
 }

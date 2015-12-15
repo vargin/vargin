@@ -18,7 +18,7 @@ import { BaseComponent } from '../base-component';
 })
 @View({
   template: `
-    <span [ngStyle]="getControlStyles()">{{ getFormattedValue() }}</span>
+    <span [ngStyle]="controlStyles">{{ getFormattedValue() }}</span>
   `,
   directives: [NgStyle]
 })
