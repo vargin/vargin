@@ -11,6 +11,7 @@ import {
 import { Application } from '../../../core/application';
 import { JSONApplicationCompiler } from '../../json/json-application-compiler';
 import { PageController } from './page-controller';
+import { ServicesController } from './services-controller';
 import { application } from './app-description';
 
 @Component({
@@ -31,9 +32,10 @@ import { application } from './app-description';
 }])
 class AppController {}
 
-(new JSONApplicationCompiler()).decompile(
-  application
-).then((decompiledApplication) => {
+Promise.all([
+  (new JSONApplicationCompiler()).decompile(application),
+  ServicesController.init()
+]).then(([decompiledApplication]) => {
   bootstrap(
     AppController,
     [

@@ -1,4 +1,3 @@
-import { Inject } from 'angular2/core';
 import {
   IJSONControl,
   JSONControlCompiler
@@ -20,34 +19,29 @@ export class Datasource {
 const jsonControlCompiler = new JSONControlCompiler();
 
 export class ServicesController {
-  private static cache = new Map<string, Datasource>();
+  static datasources = new Map<string, Datasource>();
 
-  static getDatasource(id) {
-    let cachedDatasource = ServicesController.cache.get(id);
+  static init() {
+    let serializedDatasources = services.filter(
+      (service: IJSONControl) => service.type === 'datasource'
+    );
 
-    if (!cachedDatasource) {
-      cachedDatasource = new Datasource([]);
-      ServicesController.cache.set(id, cachedDatasource);
+    return Promise.all(
+      serializedDatasources.map((serializedDatasource) => {
+        return jsonControlCompiler.decompile(serializedDatasource).then(
+          (control: Control) => {
+            let itemsJSON = control.getProperty('items').getValue();
 
-      let serializedDatasource = services.find(
-        (service: IJSONControl) => {
-          return service.type === 'datasource' &&
-            service.id === id;
-        }
-      );
+            let items = itemsJSON ? JSON.parse(itemsJSON).map(
+              (propertyMap: [string, string][]) => new Map(propertyMap)
+            ) : [];
 
-      return jsonControlCompiler.decompile(serializedDatasource).then(
-        (control: Control) => {
-          let itemsJSON = control.getProperty('items').getValue();
-          if (itemsJSON) {
-            JSON.parse(itemsJSON).forEach((propertyMap: [string, string][]) => {
-              cachedDatasource.items.push(new Map(propertyMap));
-            });
+            ServicesController.datasources.set(
+              serializedDatasource.id, new Datasource(items)
+            );
           }
-        }
-      );
-    }
-
-    return cachedDatasource;
+        );
+      })
+    );
   }
 }

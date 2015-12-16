@@ -46,6 +46,6 @@ export class BaseComponent {
   }
 
   getDatasource(id: string) {
-    return ServicesController.getDatasource(id);
+    return ServicesController.datasources.get(id);
   }
 }
