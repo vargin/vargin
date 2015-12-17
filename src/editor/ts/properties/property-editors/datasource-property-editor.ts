@@ -17,7 +17,7 @@ import { DatasourceControl } from '../../../../core/controls/service/datasource-
               (change)="onChange($event.target.value)">
         <option>[Not Defined]</option>
         <option
-          *ngFor="#datasource of getDatasources()"
+          *ngFor="#datasource of datasources"
           [value]="datasource.id"
           [selected]="property.getValue() === datasource.id">
           {{ datasource.getProperty('name').getValue() }}
@@ -30,6 +30,7 @@ import { DatasourceControl } from '../../../../core/controls/service/datasource-
 export class PropertyEditor {
   private property: IProperty<string>;
   private application: Application;
+  private datasources: DatasourceControl[];
 
   constructor(
     @Inject(Application) application: Application,
@@ -37,14 +38,8 @@ export class PropertyEditor {
   ) {
     this.application = application;
     this.property = property;
-  }
 
-  onChange(value: string) {
-    this.property.setValue(value);
-  }
-
-  private getDatasources(): DatasourceControl[] {
-    return this.application.serviceRoot.getChildren().reduce(
+    this.datasources = this.application.serviceRoot.getChildren().reduce(
       (datasources: DatasourceControl[], control: Control) => {
         if (control.meta.type === 'datasource') {
           datasources.push(<DatasourceControl>control);
@@ -52,5 +47,9 @@ export class PropertyEditor {
 
         return datasources;
       }, []);
+  }
+
+  onChange(value: string) {
+    this.property.setValue(value);
   }
 }
