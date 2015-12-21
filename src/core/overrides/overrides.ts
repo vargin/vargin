@@ -53,6 +53,8 @@ export class Overrides implements IOverrides {
     if (this.parent) {
       return <TValue>this.parent.getValue(groupKey, valueKey);
     }
+
+    return null;
   }
 
   setValue<TValue>(groupKey: string, valueKey: string, value: TValue) {
