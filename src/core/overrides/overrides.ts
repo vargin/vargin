@@ -24,6 +24,8 @@ export interface IOverrides {
   find(name: string): IOverrides;
 
   merge(overrides: IOverrides);
+
+  clone(): IOverrides;
 }
 
 export class Overrides implements IOverrides {
@@ -124,5 +126,26 @@ export class Overrides implements IOverrides {
     overrides.groups.forEach((group, groupKey) => {
       this.groups.set(groupKey, group);
     });
+  }
+
+  clone(): Overrides {
+    let clonedGroups = new Map<string, Map<string, any>>();
+    this.groups.forEach((group, key) => {
+      let clonedItems = new Map<string, any>();
+      group.forEach((items, itemsKey) => {
+        clonedItems.set(itemsKey, items);
+      });
+      clonedGroups.set(key, clonedItems);
+    });
+
+    let clonedOverrides = new Overrides(
+      this.name, clonedGroups, this.isEnabled, this.isEditorVisible
+    );
+
+    this.children.forEach((child) => {
+      clonedOverrides.add(child.clone());
+    });
+
+    return clonedOverrides;
   }
 }

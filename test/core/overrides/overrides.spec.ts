@@ -501,4 +501,137 @@ describe('core/overrides/overrides', () => {
     expect(childOverrides1.getRoot()).toEqual(overrides);
     expect(childOverrides2.getRoot()).toEqual(overrides);
   });
+
+  it('clone()', function() {
+    let overrides = new Overrides('test-overrides',
+      new Map(<[string, Map<string, string>][]>[
+        ['group#1', new Map(<[string, string][]>[
+          ['group#1#prop#1', 'group#1prop#1#value']
+        ])]
+      ]),
+      false,
+      false
+    );
+
+    let childOverrides1 = new Overrides('child#1-overrides',
+      new Map(<[string, Map<string, string>][]>[
+        ['group#2', new Map(<[string, string][]>[
+          ['group#2#prop#1', 'group#2prop#1#value']
+        ])]
+      ]),
+      false,
+      true
+    );
+
+    let childOverrides2 = new Overrides('child#2-overrides',
+      new Map(<[string, Map<string, string>][]>[
+        ['group#3', new Map(<[string, string][]>[
+          ['group#3#prop#1', 'group#3prop#1#value']
+        ])]
+      ]),
+      true,
+      false
+    );
+
+    let childOverrides22 = new Overrides('child#22-overrides',
+      new Map(<[string, Map<string, string>][]>[
+        ['group#32', new Map(<[string, string][]>[
+          ['group#32#prop#1', 'group#32prop#1#value']
+        ])]
+      ])
+    );
+
+    overrides.add(childOverrides1);
+    childOverrides1.add(childOverrides2);
+    childOverrides1.add(childOverrides22);
+
+    let clonedOverrides = overrides.clone();
+    let clonedChildOverrides1 = clonedOverrides.children[0];
+    let clonedChildOverrides2 = clonedChildOverrides1.children[0];
+    let clonedChildOverrides22 = clonedChildOverrides1.children[1];
+
+    [
+      [overrides, clonedOverrides],
+      [childOverrides1, clonedChildOverrides1],
+      [childOverrides2, clonedChildOverrides2],
+      [childOverrides22, clonedChildOverrides22]
+    ].forEach(([source, clone]) => {
+      expect(source === clone).toEqual(false);
+      expect(source.groups === clone.groups).toEqual(false);
+      expect(source.groups.size).toEqual(clone.groups.size);
+      expect(source.name).toEqual(clone.name);
+      expect(source.children.length).toEqual(clone.children.length);
+      expect(source.isEnabled).toEqual(clone.isEnabled);
+      expect(source.isEditorVisible).toEqual(clone.isEditorVisible);
+    });
+
+    expect(clonedOverrides.getValue('group#1', 'group#1#prop#1')).toEqual(
+      'group#1prop#1#value'
+    );
+    expect(clonedChildOverrides1.getValue('group#2', 'group#2#prop#1')).toEqual(
+      'group#2prop#1#value'
+    );
+    expect(clonedChildOverrides2.getValue('group#3', 'group#3#prop#1')).toEqual(
+      'group#3prop#1#value'
+    );
+    expect(clonedChildOverrides22.getValue(
+      'group#32', 'group#32#prop#1')
+    ).toEqual(
+      'group#32prop#1#value'
+    );
+
+    // Update source values
+    overrides.setValue('group#1', 'group#1#prop#1', '1');
+    childOverrides1.setValue('group#2', 'group#2#prop#1', '2');
+    childOverrides2.setValue('group#3', 'group#3#prop#1', '3');
+    childOverrides22.setValue('group#32', 'group#32#prop#1', '4');
+
+    expect(overrides.getValue('group#1', 'group#1#prop#1')).toEqual('1');
+    expect(childOverrides1.getValue('group#2', 'group#2#prop#1')).toEqual('2');
+    expect(childOverrides2.getValue('group#3', 'group#3#prop#1')).toEqual('3');
+    expect(childOverrides22.getValue('group#32', 'group#32#prop#1')).toEqual(
+      '4'
+    );
+
+    expect(clonedOverrides.getValue('group#1', 'group#1#prop#1')).toEqual(
+      'group#1prop#1#value'
+    );
+    expect(clonedChildOverrides1.getValue('group#2', 'group#2#prop#1')).toEqual(
+      'group#2prop#1#value'
+    );
+    expect(clonedChildOverrides2.getValue('group#3', 'group#3#prop#1')).toEqual(
+      'group#3prop#1#value'
+    );
+    expect(
+      clonedChildOverrides22.getValue('group#32', 'group#32#prop#1')
+    ).toEqual(
+      'group#32prop#1#value'
+    );
+
+    // Update cloned values
+    clonedOverrides.setValue('group#1', 'group#1#prop#1', '10');
+    clonedChildOverrides1.setValue('group#2', 'group#2#prop#1', '20');
+    clonedChildOverrides2.setValue('group#3', 'group#3#prop#1', '30');
+    clonedChildOverrides22.setValue('group#32', 'group#32#prop#1', '40');
+
+    expect(overrides.getValue('group#1', 'group#1#prop#1')).toEqual('1');
+    expect(childOverrides1.getValue('group#2', 'group#2#prop#1')).toEqual('2');
+    expect(childOverrides2.getValue('group#3', 'group#3#prop#1')).toEqual('3');
+    expect(childOverrides22.getValue('group#32', 'group#32#prop#1')).toEqual(
+      '4'
+    );
+
+    expect(clonedOverrides.getValue('group#1', 'group#1#prop#1')).toEqual('10');
+    expect(clonedChildOverrides1.getValue('group#2', 'group#2#prop#1')).toEqual(
+      '20'
+    );
+    expect(clonedChildOverrides2.getValue('group#3', 'group#3#prop#1')).toEqual(
+      '30'
+    );
+    expect(
+      clonedChildOverrides22.getValue('group#32', 'group#32#prop#1')
+    ).toEqual(
+      '40'
+    );
+  });
 });
