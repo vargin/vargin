@@ -28,4 +28,10 @@ export class ActionService {
 
     return new ActionClass(overrides);
   }
+
+  static clone<TAction extends IAction>(action: TAction): TAction {
+    return ActionService.createByType<TAction>(
+      action.meta.type, action.overrides.clone()
+    );
+  }
 }

@@ -206,8 +206,8 @@ describe('core/overrides/overrides', () => {
     expect(overrides.getValue('group#2', 'group#2#prop#2')).toEqual(
       'group#2prop#2#value'
     );
-    expect(overrides.getValue('group#2', 'group#2#prop#3')).toBeNull();
-    expect(overrides.getValue('group#3', 'group#3#prop#1')).toBeNull();
+    expect(overrides.getValue('group#2', 'group#2#prop#3')).toBeUndefined();
+    expect(overrides.getValue('group#3', 'group#3#prop#1')).toBeUndefined();
 
 
     // Child #1
@@ -220,7 +220,9 @@ describe('core/overrides/overrides', () => {
     expect(childOverrides1.getValue('group#2', 'group#2#prop#2')).toEqual(
       'child-group#2prop#2#value'
     );
-    expect(childOverrides1.getValue('group#2', 'group#2#prop#3')).toBeNull();
+    expect(
+      childOverrides1.getValue('group#2', 'group#2#prop#3')
+    ).toBeUndefined();
     expect(childOverrides1.getValue('group#3', 'group#3#prop#1')).toEqual(
       'child-group#3prop#1#value'
     );
