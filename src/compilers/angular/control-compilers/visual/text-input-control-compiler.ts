@@ -5,15 +5,28 @@ import {
 
 export class TextInputControlCompiler extends AngularControlCompiler<TextInputControl> {
   getMarkup(control: TextInputControl) {
-    return this.buildHTMLElement('input', '', new Map<string, string>(
-      <[string, string][]>[
-        ['id', control.id],
-        ['class', this.bindCSSClass(control)],
-        ['type', 'text'],
-        ['placeholder', this.bindValue(control, 'placeholder')],
-        ['value', this.bindValue(control, 'value')],
-        ...this.getEventHandlers(control)
-      ]
-    ));
+    let inputMarkup = this.buildHTMLElement(
+      'input',
+      '',
+      new Map<string, string>(
+        <[string, string][]>[
+          ['type', 'text'],
+          ['placeholder', this.bindValue(control, 'placeholder')],
+          ['value', this.bindValue(control, 'value')]
+        ]
+      ));
+
+    return this.buildHTMLElement(
+      'vargin-input',
+      inputMarkup,
+      new Map<string, string>(
+        <[string, string][]>[
+          ['id', control.id],
+          ['vargin-type', 'text-input'],
+          ['class', this.bindCSSClass(control)],
+          ...this.getEventHandlers(control)
+        ]
+      )
+    );
   }
 }

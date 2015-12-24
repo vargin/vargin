@@ -189,15 +189,6 @@ body {
   }
 }
 
-vargin-service-container {
-  @include flexbox;
-  @include flex;
-
-  vargin-dynamic {
-    margin-left: 0.3rem;
-  }
-}
-
 .vargin-action-list {
   padding-left: 1rem;
 }

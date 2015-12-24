@@ -1,7 +1,15 @@
 import {
-  Component, Inject, Optional, Renderer, View, ViewContainerRef
+  ChangeDetectorRef,
+  Component,
+  DynamicComponentLoader,
+  Inject,
+  IterableDiffers,
+  OnChanges,
+  Optional,
+  Renderer,
+  View,
+  ViewContainerRef
 } from 'angular2/core';
-import { NgFor, NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { Overrides } from '../../../../core/overrides/overrides';
@@ -10,52 +18,41 @@ import {
   ListItemControl
 } from '../../../../core/controls/visual/list-control';
 import { BaseComponent } from '../base-component';
-import { DynamicComponent } from '../dynamic-component';
 
 import { UtilsService } from '../../../../core/services/utils-service';
 
 @Component({
-  selector: 'vargin-list',
+  selector: 'div[vargin-type=list]',
   properties: ['control'],
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick($event)',
+    '[style]': 'controlStyle'
   }
 })
 @View({
-  template: `
-    <div
-      class="vargin-component"
-      [ngStyle]="controlStyles">
-      <vargin-dynamic *ngFor="#itemTemplate of templates.controls; #i = index"
-                      [control]="itemTemplate"
-                      [ngStyle]="templates.styles[i]"
-                      attr.type="{{ itemTemplate.meta.type }}">
-      </vargin-dynamic>
-    </div>
-  `,
-  directives: [DynamicComponent, NgFor, NgStyle]
+  template: '<div class="vargin-dynamic-anchor" #container hidden></div>'
 })
 export class ListComponent extends BaseComponent {
   control: ListControl;
-
-  private templates: {
-    controls: Control[],
-    styles: { [key: string]: string; }[]
-  };
+  templates: ListItemControl[];
 
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(IterableDiffers) iterableDiffers: IterableDiffers,
+    @Inject(ChangeDetectorRef) changeDetector: ChangeDetectorRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
     @Optional() @Inject(Control) control?: ListControl
   ) {
-    super(renderer, viewContainer, control);
+    super(
+      renderer, viewContainer, iterableDiffers, changeDetector, loader, control
+    );
 
     let template = this.control.getTemplate();
-    let templateStyles = this.getControlContainerStyles(template);
+    this.templates = [template, template, template];
+  }
 
-    this.templates = {
-      controls: [template, template, template],
-      styles: [templateStyles, templateStyles, templateStyles]
-    };
+  getChildren() {
+    return this.templates;
   }
 }

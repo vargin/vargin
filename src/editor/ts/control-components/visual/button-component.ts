@@ -1,36 +1,43 @@
 import {
-  Component, Inject, Optional, Renderer, View, ViewContainerRef
+  ChangeDetectorRef,
+  Component,
+  DynamicComponentLoader,
+  Inject,
+  IterableDiffers,
+  Optional,
+  Renderer,
+  View,
+  ViewContainerRef
 } from 'angular2/core';
-import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
 import { ButtonControl } from '../../../../core/controls/visual/button-control';
 import { BaseComponent } from '../base-component';
 
 @Component({
-  selector: 'vargin-button',
+  selector: 'button[vargin-type=button]',
   properties: ['control'],
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick($event)',
+    '[title]': 'getPropertyValue("title")',
+    '[type]': 'getPropertyValue("type")',
+    '[style]': 'controlStyle'
   }
 })
 @View({
-  template: `
-    <button
-      [title]="getPropertyValue('title')"
-      [type]="getPropertyValue('type')"
-      [ngStyle]="controlStyles">
-      {{ getPropertyValue('text') }}
-    </button>
-  `,
-  directives: [NgStyle]
+  template: '{{ getPropertyValue("text") }}'
 })
 export class ButtonComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(IterableDiffers) iterableDiffers: IterableDiffers,
+    @Inject(ChangeDetectorRef) changeDetector: ChangeDetectorRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
     @Optional() @Inject(Control) control?: ButtonControl
   ) {
-    super(renderer, viewContainer, control);
+    super(
+      renderer, viewContainer, iterableDiffers, changeDetector, loader, control
+    );
   }
 }

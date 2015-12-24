@@ -36,12 +36,11 @@ import {
     </ul>
     <section class="workspace-editor">
       <div class="workspace-editor__visual">
-        <vargin-container [control]="getActivePage()?.root">
-        </vargin-container>
+        <div vargin-type="container" [control]="getActivePage()?.root"></div>
       </div>
       <div class="workspace-editor__service">
-        <vargin-service-container [control]="workspace?.application?.serviceRoot">
-        </vargin-service-container>
+        <div vargin-type="service-container" [control]="workspace?.application?.serviceRoot">
+        </div>
       </div>
     </section>
     <footer class="workspace-toolbar">

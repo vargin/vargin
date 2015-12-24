@@ -61,6 +61,10 @@ export class ContainerControl extends Control {
     super(id, ContainerControl.getMeta(), overrides, triggers);
   }
 
+  canHaveChildren() {
+    return true;
+  }
+
   static getMeta() {
     return METADATA;
   }

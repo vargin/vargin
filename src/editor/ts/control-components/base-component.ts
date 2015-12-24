@@ -1,11 +1,20 @@
-import { Renderer, ViewContainerRef, DoCheck } from 'angular2/core';
+import {
+  ChangeDetectorRef,
+  ComponentRef,
+  DoCheck,
+  DynamicComponentLoader,
+  Injector,
+  IterableDiffer,
+  IterableDiffers,
+  provide,
+  Renderer,
+  Type,
+  ViewContainerRef
+} from 'angular2/core';
 import { Control } from '../../../core/controls/control';
 import { ControlService } from '../../../core/services/control-service';
 import { ComponentService } from '../services/component-service';
-
-const CONTAINER_ONLY_STYLES = [
-  'flex-basis', 'flex-grow', 'flex-shrink', 'margin'
-];
+import { PromiseQueue } from '../../../core/tools/promise-queue';
 
 export class BaseComponent implements DoCheck {
   public control: Control;
@@ -13,27 +22,32 @@ export class BaseComponent implements DoCheck {
   protected dragEnterCounter: number = 0;
   protected renderer: Renderer;
   protected viewContainer: ViewContainerRef;
+  private iterableDiffers: IterableDiffers;
+  private changeDetector: ChangeDetectorRef;
+  private loader: DynamicComponentLoader;
 
-  private children: {
-    controls: Control[],
-    styles: { [key: string]: string; }[]
+  private nestedComponents: {
+    differ: IterableDiffer,
+    components: Map<Control, ComponentRef>
   };
 
-  private controlStyles: { [key: string]: string; };
+  private controlStyle: string;
 
   constructor(
-    renderer: Renderer, viewContainer: ViewContainerRef, control: Control
+    renderer: Renderer,
+    viewContainer: ViewContainerRef,
+    iterableDiffers: IterableDiffers,
+    changeDetector: ChangeDetectorRef,
+    loader: DynamicComponentLoader,
+    control: Control
   ) {
     this.control = control;
     this.renderer = renderer;
     this.viewContainer = viewContainer;
 
-    this.children = {
-      controls: [],
-      styles: []
-    };
-
-    this.controlStyles = {};
+    this.iterableDiffers = iterableDiffers;
+    this.changeDetector = changeDetector;
+    this.loader = loader;
   }
 
   onClick(e: Event) {
@@ -88,22 +102,12 @@ export class BaseComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    if (this.control) {
-      this.children.controls.length = this.children.styles.length = 0;
-
-      this.control.getChildren().forEach((child) => {
-        this.children.controls.push(child);
-        this.children.styles.push(this.getControlContainerStyles(child));
-      });
-
-      this.control.meta.styles.forEach((style, styleKey) => {
-        if (CONTAINER_ONLY_STYLES.indexOf(styleKey) < 0) {
-          this.controlStyles[styleKey] = this.control.getStyle(
-            styleKey
-          ).getValue();
-        }
-      });
+    if (!this.control) {
+      return;
     }
+
+    this.checkChildren();
+    this.checkStyles();
   }
 
   select() {
@@ -118,16 +122,83 @@ export class BaseComponent implements DoCheck {
     );
   }
 
-  protected getControlContainerStyles(control: Control) {
-    let containerStyles = <{ [key: string]: string; }>{};
+  protected getChildren() {
+    return this.control.getChildren();
+  }
 
-    control.meta.styles.forEach((style, styleKey) => {
-      if (CONTAINER_ONLY_STYLES.indexOf(styleKey) >= 0) {
-        containerStyles[styleKey] = control.getStyle(styleKey).getValue();
-      }
+  private checkChildren() {
+    if (!this.control.canHaveChildren()) {
+      return;
+    }
+
+    if (!this.nestedComponents) {
+      this.nestedComponents = {
+        differ: this.iterableDiffers.find(this.getChildren()).create(
+          this.changeDetector
+        ),
+        components: new Map<Control, ComponentRef>()
+      };
+
+      return;
+    }
+
+    let changes = this.nestedComponents.differ.diff(this.getChildren());
+    let childrenToRemove: Control[];
+    let childrenToInsert: Control[];
+
+    if (changes) {
+      changes.forEachRemovedItem((removedRecord) => {
+        if (!childrenToRemove) {
+          childrenToRemove = [];
+        }
+
+        childrenToRemove.push(removedRecord.item);
+      });
+
+      changes.forEachAddedItem((addedRecord) => {
+        if (!childrenToInsert) {
+          childrenToInsert = [];
+        }
+
+        childrenToInsert.push(addedRecord.item);
+      });
+    }
+
+    if (childrenToRemove) {
+      childrenToRemove.forEach((control: Control) => {
+        this.nestedComponents.components.get(control).dispose();
+        this.nestedComponents.components.delete(control);
+      });
+    }
+
+    if (childrenToInsert) {
+      let promiseQueue = new PromiseQueue();
+      childrenToInsert.forEach((control: Control) => {
+        promiseQueue.enqueue(() => {
+          return ComponentService.loadComponentType(control.meta.type).then(
+            (type: Type) => {
+              return this.loader.loadIntoLocation(
+                type,
+                this.viewContainer.element,
+                'container',
+                Injector.resolve([provide(Control, { useValue: control })])
+              );
+            }
+          ).then((component: ComponentRef) => {
+            this.nestedComponents.components.set(control, component);
+          });
+        });
+      });
+    }
+  }
+
+  private checkStyles() {
+    this.controlStyle = '';
+    this.control.meta.styles.forEach((meta, key) => {
+      let value = this.control.getStyle(key).getValue();
+
+      this.controlStyle += `${key}: ${value};`;
     });
-
-    return containerStyles;
   }
 
   private domStringListToArray(list: DOMStringList) {

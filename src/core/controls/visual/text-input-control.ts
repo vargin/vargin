@@ -21,6 +21,7 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
+    ['align-items', StyleService.getDescriptor('align-items')],
     ['background-color', StyleService.getDescriptor('background-color')],
     ['border', StyleService.getDescriptor('border')],
     ['color', StyleService.getDescriptor('color')],
@@ -29,6 +30,7 @@ const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
     ['flex-shrink', StyleService.getDescriptor('flex-shrink')],
     ['font-size', StyleService.getDescriptor('font-size')],
     ['font-weight', StyleService.getDescriptor('font-weight')],
+    ['justify-content', StyleService.getDescriptor('justify-content')],
     ['padding', StyleService.getDescriptor('padding')]
   ]
 );

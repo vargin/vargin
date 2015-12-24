@@ -6,6 +6,12 @@ import { EventService } from '../../services/event-service';
 import { IOverrides, Overrides } from '../../overrides/overrides';
 import { Trigger } from '../../triggers/trigger';
 
+const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
+  ['styles', new Map(<[string, string][]>[
+    ['align-items', 'center']
+  ])]
+]);
+
 const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
     ['min', new Property('Minimum', '0')],
@@ -17,6 +23,8 @@ const SUPPORTED_PROPERTIES = new Map<string, IProperty<string>>(
 
 const SUPPORTED_STYLES = new Map<string, IProperty<string>>(
   <[string, IProperty<string>][]>[
+    ['align-items', StyleService.getDescriptor('align-items')],
+    ['justify-content', StyleService.getDescriptor('justify-content')],
     ['opacity', StyleService.getDescriptor('opacity')],
     ['padding', StyleService.getDescriptor('padding')]
   ]
@@ -39,6 +47,10 @@ const METADATA = Object.freeze(new ControlMetadata(
 
 export class RangeControl extends Control {
   constructor(id: string, overrides?: IOverrides, triggers?: Trigger[]) {
+    this.predefinedOverrides = new Overrides(
+      '__predefined__', PREDEFINED_OVERRIDES, true, false
+    );
+
     super(id, RangeControl.getMeta(), overrides, triggers);
   }
 

@@ -1,5 +1,13 @@
 import {
-  Component, Inject, Optional, Renderer, View, ViewContainerRef
+  ChangeDetectorRef,
+  Component,
+  DynamicComponentLoader,
+  Inject,
+  IterableDiffers,
+  Optional,
+  Renderer,
+  View,
+  ViewContainerRef
 } from 'angular2/core';
 import { NgStyle } from 'angular2/common';
 
@@ -10,16 +18,15 @@ import { StringFormatter } from '../../../../core/tools/string-formatter';
 import { BaseComponent } from '../base-component';
 
 @Component({
-  selector: 'vargin-label',
+  selector: 'span[vargin-type=label]',
   properties: ['control'],
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick($event)',
+    '[style]': 'controlStyle'
   }
 })
 @View({
-  template: `
-    <span [ngStyle]="controlStyles">{{ getFormattedValue() }}</span>
-  `,
+  template: '{{ getFormattedValue() }}',
   directives: [NgStyle]
 })
 export class LabelComponent extends BaseComponent {
@@ -28,9 +35,14 @@ export class LabelComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(IterableDiffers) iterableDiffers: IterableDiffers,
+    @Inject(ChangeDetectorRef) changeDetector: ChangeDetectorRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
     @Optional() @Inject(Control) control?: LabelControl
   ) {
-    super(renderer, viewContainer, control);
+    super(
+      renderer, viewContainer, iterableDiffers, changeDetector, loader, control
+    );
   }
 
   getFormattedValue() {

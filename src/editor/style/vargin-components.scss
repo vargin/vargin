@@ -8,6 +8,21 @@
   box-shadow: 0 0 1rem #9ecaed;
 }
 
+vargin-input {
+  @include inline-flex;
+
+  > input {
+    @include flex;
+
+    background: inherit;
+    color: inherit;
+    border: none;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+  }
+}
+
 /*@supports (display: contents){
   vargin-dynamic,
   vargin-button,
@@ -18,40 +33,13 @@
   }
 }*/
 
-vargin-container,
-vargin-list {
-  display: block;
-}
-
-vargin-dynamic {
-  @include inline-flex;
-
-  &[type=container],
-  &[type=list] {
-    @include flexbox;
-  }
-
-  > vargin-button,
-  > vargin-container,
-  > vargin-label,
-  > vargin-link,
-  > vargin-list,
-  > vargin-range,
-  > vargin-text-input {
-    @include flexbox;
-    @include flex;
-  }
-}
-
-vargin-button > button,
-vargin-container > div,
-vargin-label > span,
-vargin-link > a,
-vargin-list > div,
-vargin-range > input,
-vargin-text-input > input,
-vargin-service-container > div {
+[vargin-type=service-container] {
+  @include flexbox;
   @include flex;
+
+  > [vargin-type] {
+    margin-left: 0.3rem;
+  }
 }
 
 .vargin-service-component {
@@ -72,7 +60,7 @@ vargin-service-container > div {
   }
 }
 
-vargin-datasource {
+[vargin-type=datasource] {
   @include flexbox;
   @include align-items(center);
 }

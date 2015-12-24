@@ -116,7 +116,23 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
     });
 
     return queue.enqueue(() => {
-      let css = '';
+      // Record various quirks
+      let css = `
+        vargin-input {
+          display: inline-flex;
+        }
+
+        vargin-input > input {
+          flex: 1;
+
+          background: inherit;
+          color: inherit;
+          border: none;
+          font: inherit;
+          padding: 0;
+          margin: 0;
+        }
+      `;
       styles.forEach((style) => css += style.trim());
 
       return { services, pages, css, templates };

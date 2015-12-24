@@ -49,6 +49,10 @@ export class ListItemControl extends Control {
     super(id, LIST_ITEM_METADATA, overrides);
   }
 
+  canHaveChildren() {
+    return true;
+  }
+
   static getMeta() {
     return LIST_ITEM_METADATA;
   }
@@ -125,6 +129,10 @@ export class ListControl extends Control {
     if (template) {
       this.addChild(template);
     }
+  }
+
+  canHaveChildren() {
+    return true;
   }
 
   static getMeta() {

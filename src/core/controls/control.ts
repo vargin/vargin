@@ -174,6 +174,14 @@ export class Control {
   }
 
   /**
+   * Indicates whether control can host other controls.
+   * @returns {boolean}
+   */
+  canHaveChildren() {
+    return false;
+  }
+
+  /**
    * Removes itself from the parent children list.
    */
   remove() {

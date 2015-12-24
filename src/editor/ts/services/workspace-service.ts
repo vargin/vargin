@@ -528,7 +528,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 ['border', 'none'],
                 ['display', 'flex'],
                 ['min-height', '0'],
-                ['padding', '0.2rem 0.3rem']
+                ['padding', '0.5rem']
               ]]
             ]
           }
@@ -552,7 +552,7 @@ const DEFAULT_SERIALIZED_APPLICATION = {
           }
         }, {
           id: '387f4b5a-d879-4ff3-9cc6-e6048fb7347b',
-          'type': 'text-input',
+          type: 'text-input',
           overrides: {
             root: {
               name: 'default',

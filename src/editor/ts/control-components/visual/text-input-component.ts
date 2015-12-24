@@ -1,37 +1,48 @@
 import {
-  Component, Inject, Optional, Renderer, View, ViewContainerRef
+  ChangeDetectorRef,
+  Component,
+  DynamicComponentLoader,
+  Inject,
+  IterableDiffers,
+  Optional,
+  Renderer,
+  View,
+  ViewContainerRef
 } from 'angular2/core';
-import { NgStyle } from 'angular2/common';
 
 import { Control } from '../../../../core/controls/control';
-import { TextInputControl} from '../../../../core/controls/visual/text-input-control';
+import { TextInputControl } from '../../../../core/controls/visual/text-input-control';
 
 import { BaseComponent } from '../base-component';
 
 @Component({
-  selector: 'vargin-text-input',
+  selector: 'vargin-input[vargin-type=text-input]',
   properties: ['control'],
   host: {
-    '(click)': 'onClick($event)'
+    '(click)': 'onClick($event)',
+    '[style]': 'controlStyle'
   }
 })
 @View({
   template: `
     <input
       type="text"
-      [ngStyle]="controlStyles"
       [placeholder]="getPropertyValue('placeholder')"
       [value]="getPropertyValue('value')"
     />
-  `,
-  directives: [NgStyle]
+  `
 })
 export class TextInputComponent extends BaseComponent {
   constructor(
     @Inject(Renderer) renderer: Renderer,
     @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(IterableDiffers) iterableDiffers: IterableDiffers,
+    @Inject(ChangeDetectorRef) changeDetector: ChangeDetectorRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
     @Optional() @Inject(Control) control?: TextInputControl
   ) {
-    super(renderer, viewContainer, control);
+    super(
+      renderer, viewContainer, iterableDiffers, changeDetector, loader, control
+    );
   }
 }
