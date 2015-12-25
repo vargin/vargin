@@ -145,7 +145,7 @@ gulp.task('build.dev.angular-compiler-lib', function() {
 gulp.task('build.dev.angular-compiler-app', function() {
   var environment = 'dev';
 
-  var angularCompilerAppBuilder = new Builder({
+  var appBuilder = new Builder({
     transpiler: 'typescript',
 
     paths: {
@@ -166,10 +166,13 @@ gulp.task('build.dev.angular-compiler-app', function() {
     }
   });
 
-  return angularCompilerAppBuilder.bundle(
-    EDITOR_PATH.src.ng2Compiler + '/template/app-controller',
-    EDITOR_PATH.dest[environment].ng2Compiler + '/js/app-controller.js',
-    {}
+  return appBuilder.trace('src/compilers/angular/template/**/*').then(
+    function(tree) {
+      return appBuilder.bundle(
+        tree,
+        EDITOR_PATH.dest[environment].ng2Compiler + '/js/app-controller.js'
+      );
+    }
   );
 });
 
