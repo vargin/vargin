@@ -157,9 +157,6 @@ export class Control {
     let childIndex = this._children.indexOf(control);
 
     if (childIndex >= 0) {
-      // Remove control children.
-      control.getChildren().forEach((child) => control.removeChild(child));
-
       control.parent = null;
       this._children.splice(childIndex, 1);
     }
