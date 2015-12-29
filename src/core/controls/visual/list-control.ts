@@ -19,7 +19,6 @@ const LIST_ITEM_PREDEFINED_OVERRIDES = new Map(
   ]
 );
 
-
 const PREDEFINED_OVERRIDES = new Map(<[string, Map<string, string>][]>[
   ['styles', new Map(<[string, string][]>[
     ['display', 'flex'],
@@ -121,14 +120,12 @@ export class ListControl extends Control {
   }
 
   setTemplate(template: ListItemControl) {
-    let children = this.getChildren();
-    if (children.length) {
-      this.removeChild(children[0]);
+    if (!template) {
+      return;
     }
 
-    if (template) {
-      this.addChild(template);
-    }
+    this.getChildren().forEach((child) => this.removeChild(child));
+    this.addChild(template);
   }
 
   canHaveChildren() {

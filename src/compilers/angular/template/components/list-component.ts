@@ -1,52 +1,98 @@
 import {
+  ChangeDetectorRef,
   Component,
+  DynamicComponentLoader,
   Inject,
-  Input,
-  Optional,
-  OnChanges,
-  Renderer,
+  IterableDiffers,
+  OnDestroy,
   View,
   ViewContainerRef
 } from 'angular2/core';
-import { NgIf, NgFor, NgStyle } from 'angular2/common';
 import { Control } from '../../../../core/controls/control';
 import {
   ListControl,
   ListItemControl
 } from '../../../../core/controls/visual/list-control';
-import { Datasource } from '../services-controller';
-import { templates } from '../app-description';
 import { BaseComponent } from './base-component';
-import { Application } from '../../../../core/application';
+import {
+  ApplicationService,
+  ApplicationDatasource
+} from '../services/application-service';
 
 @Component({
-  selector: 'vargin-list',
-  properties: ['control']
+  selector: 'div[vargin-type=list]',
+  properties: ['control'],
+  inputs: ['control'],
+  host: {
+    '[class]': 'cssClass'
+  }
 })
 @View({
-  template: `<vargin-list-item
-                *ngFor="#item of datasource.items">
-                ${(templates.get(ListControl.getMeta().type) || []).join('')}
-             </vargin-list-item>`,
-  directives: [ListComponent, NgIf, NgFor]
+  template: `<div class="vargin-dynamic-anchor" #container hidden></div>`
 })
-export class ListComponent extends BaseComponent implements OnChanges {
-  @Input() list: ListControl;
-  @Input() datasource: Datasource;
+export class ListComponent extends BaseComponent implements OnDestroy {
+  control: ListControl;
+  private datasource: ApplicationDatasource;
 
   private template: ListItemControl;
 
-  constructor(@Inject(Application) application: Application) {
-    super(application);
+  constructor(
+    @Inject(ViewContainerRef) viewContainer: ViewContainerRef,
+    @Inject(IterableDiffers) iterableDiffers: IterableDiffers,
+    @Inject(ChangeDetectorRef) changeDetector: ChangeDetectorRef,
+    @Inject(DynamicComponentLoader) loader: DynamicComponentLoader,
+    @Inject(ApplicationService) applicationService: ApplicationService,
+    @Inject(Control) control: Control
+  ) {
+    super(
+      viewContainer,
+      iterableDiffers,
+      changeDetector,
+      loader,
+      applicationService,
+      control
+    );
+
+    this.template = this.control.getTemplate();
+    this.control.removeChild(this.template);
+
+    this.datasource = this.applicationService.datasources.get(
+      this.control.getProperty('datasource').getValue()
+    );
+
+    this.bind();
   }
 
-  getControl(controlId: string): Control {
-    return this.list.find(controlId);
-  };
+  ngOnDestroy() {
+    this.control.getChildren().forEach(
+      (clone) => this.applicationService.destroyClone(clone)
+    );
 
-  ngOnChanges() {
-    if (this.list) {
-      this.template = this.list.getTemplate();
-    }
+    this.control.setTemplate(this.template);
+  }
+
+  private bind() {
+    this.datasource.items.forEach((item) => {
+      this.control.addChild(
+        this.bindControl(
+          this.applicationService.cloneControl(this.template), item
+        )
+      );
+    });
+  }
+
+  private bindControl(control: Control, item: Map<string, string>) {
+    control.meta.properties.forEach((property, propertyKey) => {
+      let rawProperty = control.getProperty(propertyKey);
+      let rawValue = rawProperty.getValue();
+
+      if (rawValue.startsWith('bind:')) {
+        rawProperty.setValue(item.get(rawValue.split(':')[1]));
+      }
+    });
+
+    control.getChildren().forEach((child) => this.bindControl(child, item));
+
+    return control;
   }
 }

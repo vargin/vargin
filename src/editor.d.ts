@@ -1,7 +1,6 @@
 export * from './editor/ts/vargin-editor';
 
 export * from './editor/ts/control-components/base-component';
-export * from './editor/ts/control-components/dynamic-component';
 
 export * from './editor/ts/control-components/service/datasource-component';
 export * from './editor/ts/control-components/service/service-container-component';

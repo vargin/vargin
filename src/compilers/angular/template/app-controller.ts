@@ -8,11 +8,8 @@ import {
   ROUTER_PROVIDERS,
   RouteConfig
 } from 'angular2/router';
-import { Application } from '../../../core/application';
-import { JSONApplicationCompiler } from '../../json/json-application-compiler';
+import { ApplicationService } from './services/application-service';
 import { PageController } from './page-controller';
-import { ServicesController } from './services-controller';
-import { application } from './app-description';
 
 @Component({
   selector: 'angular-app'
@@ -32,17 +29,14 @@ import { application } from './app-description';
 }])
 class AppController {}
 
-Promise.all([
-  (new JSONApplicationCompiler()).decompile(application),
-  ServicesController.init()
-]).then(([decompiledApplication]) => {
+ApplicationService.initialize().then((service: ApplicationService) => {
   bootstrap(
     AppController,
     [
       ROUTER_PROVIDERS,
       provide(LocationStrategy, { useClass: HashLocationStrategy }),
       provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppController }),
-      provide(Application, { useValue: decompiledApplication })
+      provide(ApplicationService, { useValue: service })
     ]
   );
 });

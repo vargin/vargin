@@ -3,40 +3,36 @@ import {
   CurrencyPipe, DatePipe, DecimalPipe, PercentPipe, NgIf, NgFor
 } from 'angular2/common';
 import { RouterLink, RouteParams } from 'angular2/router';
-import { Application } from '../../../core/application';
 import { ApplicationPage } from '../../../core/application-page';
 import { Control } from '../../../core/controls/control';
 import { Trigger } from '../../../core/triggers/trigger';
-import { pages } from './app-description';
-import { BaseComponent } from './components/base-component';
-import { ListComponent } from './components/list-component';
+import { ApplicationService } from './services/application-service';
+import { ContainerComponent } from './components/container-component';
 
 @Component({
   selector: 'page'
 })
 @View({
-  template: pages.reduce((markup, page) => {
-    return markup +
-      `<div *ngIf="page.id === '${page.id}'">${page.markup}</div>`;
-  }, ''),
-  directives: [NgIf, NgFor, RouterLink, ListComponent],
-  pipes: [CurrencyPipe, DatePipe, DecimalPipe, PercentPipe]
+  template: `
+    <div vargin-type="container" [control]="page?.root"></div>
+  `,
+  directives: [ContainerComponent]
 })
-export class PageController extends BaseComponent implements DoCheck {
-  private id: string;
+export class PageController implements DoCheck {
+  private applicationService: ApplicationService;
   private page: ApplicationPage;
   private controlsWithTriggers: Control[];
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
-    @Inject(Application) application: Application
+    @Inject(ApplicationService) applicationService: ApplicationService
   ) {
-    super(application);
+    this.applicationService = applicationService;
 
     let pageId = params && params.get('id');
     this.page = pageId ?
-      application.pages.find((page) => page.id === pageId) :
-      application.pages[0];
+      applicationService.application.pages.find((page) => page.id === pageId) :
+      applicationService.application.pages[0];
   }
 
   getControl(controlId: string): Control {
@@ -62,7 +58,9 @@ export class PageController extends BaseComponent implements DoCheck {
         );
 
         if (isTriggerApplicable) {
-          trigger.actions.forEach((action) => action.perform(this.application));
+          trigger.actions.forEach(
+            (action) => action.perform(this.applicationService.application)
+          );
         }
       }
     }

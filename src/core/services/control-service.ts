@@ -40,6 +40,10 @@ export class ControlService {
   static createByType<TControl extends Control>(
     type: string, overrides?: IOverrides, triggers?: Trigger[], id?: string
   ): TControl {
+    if (!CONTROL_CONFIG.has(type)) {
+      throw new Error('Not supported control type: ' + type);
+    }
+
     let ControlType = <IControlType<TControl>>CONTROL_CONFIG.get(type);
     return new ControlType(id || UtilsService.uuid(), overrides, triggers);
   }

@@ -75,23 +75,23 @@ describe('core/tools/string-formatter', () => {
   it('format(string, Percent)', function() {
     expect(StringFormatter.format('', StringFormatType.Percent)).toEqual('');
     expect(StringFormatter.format('-1', StringFormatType.Percent)).toEqual(
-      '-100.0%'
+      '-100%'
     );
     expect(StringFormatter.format('0', StringFormatType.Percent)).toEqual(
-      '0.0%'
+      '0%'
     );
     expect(StringFormatter.format('0.01', StringFormatType.Percent)).toEqual(
-      '1.0%'
+      '1%'
     );
     expect(StringFormatter.format('1', StringFormatType.Percent)).toEqual(
-      '100.0%'
+      '100%'
     );
     expect(StringFormatter.format('5500.5', StringFormatType.Percent)).toEqual(
-      '550,050.0%'
+      '550,050%'
     );
     expect(
       StringFormatter.format('1444077964487', StringFormatType.Percent)
-    ).toEqual('144,407,796,448,700.0%');
+    ).toEqual('144,407,796,448,700%');
     expect(StringFormatter.format('text', StringFormatType.Percent)).toEqual(
       'NaN'
     );
