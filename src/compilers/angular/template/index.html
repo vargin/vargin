@@ -15,11 +15,11 @@
 <body>
   <angular-app></angular-app>
   <script>
-    var application = (window.opener || window.parent).application;
+    var ngApplication = (window.opener || window.parent).application;
 
     var style = document.createElement('style');
     style.type = 'text/css';
-    style.innerHTML = application.ng.css;
+    style.innerHTML = ngApplication.css;
     document.getElementsByTagName('head')[0].appendChild(style);
 
     System.register(
@@ -29,10 +29,7 @@
         return {
           setters: [],
           execute: function() {
-            exports('pages', application.ng.pages);
-            exports('services', application.ng.services);
-            exports('templates', application.ng.templates);
-            exports('application', application.json);
+            exports('application', ngApplication.application);
           }
         };
       }

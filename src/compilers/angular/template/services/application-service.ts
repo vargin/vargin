@@ -10,15 +10,11 @@ import {
   JSONApplicationCompiler
 } from '../../../json/json-application-compiler';
 import {
-  IJSONControl,
-  JSONControlCompiler
-} from '../../../json/json-control-compiler';
-import {
   IJSONAction,
   JSONActionCompiler
 } from '../../../json/json-action-compiler';
 
-import { application, services } from '../app-description';
+import { application } from '../app-description';
 
 export class ApplicationDatasource {
   items: Map<string, string>[];
@@ -35,38 +31,26 @@ class Initializer {
     return (new JSONApplicationCompiler()).decompile(application);
   }
 
-  static deserializeDatasources(): Promise<Map<string, ApplicationDatasource>> {
-    let serializedDatasources = services.filter(
-      (service: IJSONControl) => service.type === 'datasource'
+  static deserializeDatasources(
+    application: Application
+  ): Map<string, ApplicationDatasource> {
+    let datasourceControls = application.serviceRoot.getChildren().filter(
+      (service: Control) => service.meta.type === 'datasource'
     );
 
-    let datasources = new Map<string, ApplicationDatasource>();
+    return new Map<string, ApplicationDatasource>(
+      <[string, ApplicationDatasource][]>datasourceControls.map(
+        (datasource: Control) => {
+          let itemsJSON = datasource.getProperty('items').getValue();
 
-    if (!serializedDatasources.length) {
-      return Promise.resolve(datasources);
-    }
+          let items = itemsJSON ? JSON.parse(itemsJSON).map(
+            (propertyMap: [string, string][]) => new Map(propertyMap)
+          ) : [];
 
-    let jsonControlCompiler = new JSONControlCompiler();
-
-    return Promise.all(
-      serializedDatasources.map((serializedDatasource) => {
-        return jsonControlCompiler.decompile(serializedDatasource).then(
-          (control: Control) => {
-            let itemsJSON = control.getProperty('items').getValue();
-
-            let items = itemsJSON ? JSON.parse(itemsJSON).map(
-              (propertyMap: [string, string][]) => new Map(propertyMap)
-            ) : [];
-
-            datasources.set(
-              serializedDatasource.id, new ApplicationDatasource(items)
-            );
-          }
-        );
-      })
-    ).then(() => {
-      return datasources;
-    });
+          return [datasource.id, new ApplicationDatasource(items)];
+        }
+      )
+    );
   }
 }
 
@@ -144,12 +128,13 @@ export class ApplicationService {
 
   static initialize() {
     if (!Initializer.initialization) {
-      Initializer.initialization = Promise.all<any>([
-        Initializer.deserializeApplication(),
-        Initializer.deserializeDatasources()
-      ]).then(([application, datasources]) => {
-        return new ApplicationService(application, datasources);
-      });
+      Initializer.initialization = Initializer.deserializeApplication().then(
+        (application) => {
+          return new ApplicationService(
+            application, Initializer.deserializeDatasources(application)
+          );
+        }
+      );
     }
 
     return Initializer.initialization;

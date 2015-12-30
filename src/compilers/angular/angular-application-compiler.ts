@@ -7,31 +7,26 @@ import { Control } from '../../core/controls/control';
 
 import { IApplicationCompiler } from '../application-compiler';
 
-import {
-  IJSONControl,
-  JSONControlCompiler
-} from '../json/json-control-compiler';
+import { JSONApplicationCompiler } from '../json/json-application-compiler';
 import { AngularCSSCompiler } from './angular-css-compiler';
 
 export interface ICompiledAngularApplication {
+  application: string;
   css: string;
-  services: IJSONControl[];
 }
 
 export class AngularApplicationCompiler implements IApplicationCompiler<ICompiledAngularApplication> {
   private cssCompiler = new AngularCSSCompiler();
-  private controlCompiler = new JSONControlCompiler();
+  private jsonCompiler = new JSONApplicationCompiler();
 
-  compile(application: Application) {
+  compile(application: Application): Promise<ICompiledAngularApplication> {
     let queue = new PromiseQueue();
 
-    let services = [];
-    application.serviceRoot.getChildren().forEach((control: Control) => {
-      queue.enqueue(() => {
-        return this.controlCompiler.compile(control).then(
-          (service) => services.push(service)
-        );
-      });
+    let compiledApplication = null;
+    queue.enqueue(() => {
+      return this.jsonCompiler.compile(application).then(
+        (jsonApplication) => compiledApplication = jsonApplication
+      );
     });
 
     let styles = new Set<string>();
@@ -64,7 +59,7 @@ export class AngularApplicationCompiler implements IApplicationCompiler<ICompile
       `;
       styles.forEach((style) => css += style.trim());
 
-      return { services, css};
+      return { application: compiledApplication, css };
     });
   }
 
