@@ -5,26 +5,30 @@ import { AlertAction } from '../actions/alert-action';
 import { BroadcastAction } from '../actions/broadcast-action';
 import { ChangePropertyAction } from '../actions/change-property-action';
 import { ChangeOverridesAction } from '../actions/change-overrides-action';
+import {
+  ChangeOwnOverridesAction
+} from '../actions/change-own-overrides-action';
 import { NavigateAction } from '../actions/navigate-action';
 
-const ACTIONS = new Map<string, any>(<[string, any][]>[
-  ['alert-action', AlertAction],
-  ['broadcast-action', BroadcastAction],
-  ['change-property-action', ChangePropertyAction],
-  ['change-overrides-action', ChangeOverridesAction],
-  ['navigate-action', NavigateAction]
-]);
-
 export class ActionService {
+  static ACTIONS = new Map<string, any>(<[string, any][]>[
+    ['alert-action', AlertAction],
+    ['broadcast-action', BroadcastAction],
+    ['change-property-action', ChangePropertyAction],
+    ['change-overrides-action', ChangeOverridesAction],
+    ['change-own-overrides-action', ChangeOwnOverridesAction],
+    ['navigate-action', NavigateAction]
+  ]);
+
   static createByType<TAction extends IAction>(
     type: string, overrides?: IOverrides
   ): TAction {
-    if (!ACTIONS.has(type)) {
+    if (!ActionService.ACTIONS.has(type)) {
       throw new Error('Not supported action type: ' + type);
     }
 
     let ActionClass = <{ new(overrides?: IOverrides): TAction; }>
-      ACTIONS.get(type);
+      ActionService.ACTIONS.get(type);
 
     return new ActionClass(overrides);
   }

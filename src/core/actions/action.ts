@@ -1,5 +1,6 @@
 import { IProperty } from '../property';
 import { Application } from '../application';
+import { Control } from '../controls/control';
 import { IOverrides, Overrides } from '../overrides/overrides';
 import {
   OverrideProperty,
@@ -12,7 +13,7 @@ export interface IAction {
   meta: ActionMetadata;
   overrides: IOverrides;
 
-  perform(application: Application): Promise<boolean>;
+  perform(application: Application, control: Control): Promise<boolean>;
   getProperty(key: string): IProperty<string>;
 }
 
@@ -36,7 +37,7 @@ export class Action implements IAction {
     return this._meta;
   }
 
-  perform(application: Application) {
+  perform(application: Application, control: Control) {
     return Promise.reject<boolean>(new Error('Not Implemented!'));
   }
 

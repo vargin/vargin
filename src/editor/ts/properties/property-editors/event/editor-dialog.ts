@@ -21,6 +21,7 @@ import { PropertyEditor } from '../property-editor';
             <option value="default">Choose ...</option>
             <option value="alert-action">Alert</option>
             <option value="change-property-action">Change property</option>
+            <option value="change-own-overrides-action">Change own state</option>
             <option value="change-overrides-action">Change state</option>
             <option value="navigate-action">Navigate</option>
           </select>

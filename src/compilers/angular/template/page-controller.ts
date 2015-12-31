@@ -30,9 +30,9 @@ export class PageController implements DoCheck {
     this.applicationService = applicationService;
 
     let pageId = params && params.get('id');
-    this.page = pageId ?
-      applicationService.application.pages.find((page) => page.id === pageId) :
-      applicationService.application.pages[0];
+    this.page = pageId ? applicationService.application.pages.find(
+      (page) => page.id === pageId
+    ) : applicationService.application.pages[0];
   }
 
   getControl(controlId: string): Control {
@@ -58,9 +58,9 @@ export class PageController implements DoCheck {
         );
 
         if (isTriggerApplicable) {
-          trigger.actions.forEach(
-            (action) => action.perform(this.applicationService.application)
-          );
+          trigger.actions.forEach((action) => {
+            action.perform(this.applicationService.application, control);
+          });
         }
       }
     }

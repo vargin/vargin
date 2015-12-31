@@ -120,7 +120,7 @@ export class ApplicationService {
     if (propertyValue) {
       (<IJSONAction[]>JSON.parse(propertyValue)).forEach((jsonAction) => {
         this.actionCompiler.decompile(jsonAction).then((action) => {
-          action.perform(this.application);
+          action.perform(this.application, control);
         });
       });
     }
