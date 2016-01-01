@@ -1,7 +1,7 @@
 import { Component, Inject, View } from 'angular2/core';
 import { NgFor } from 'angular2/common';
 import { IProperty, Property } from '../../../../../core/property';
-import { Schema } from '../../../../../core/data/schema';
+import { Schema, SchemaFieldType } from '../../../../../core/data/schema';
 
 @Component({
   selector: 'items-property-editor-dialog'
@@ -39,6 +39,20 @@ export class PropertyEditorDialog {
   }
 
   private onChange(index: number, value: string) {
-    this.properties[index][1] = value;
+    let field = this.schema.fields[index];
+
+    let typedValue;
+    switch (field.type) {
+      case SchemaFieldType.NUMBER:
+        typedValue = +value;
+        break;
+      case SchemaFieldType.BOOLEAN:
+        typedValue = value.toLowerCase() === 'true';
+        break;
+      default:
+        typedValue = value;
+    }
+
+    this.properties[index][1] = typedValue;
   }
 }

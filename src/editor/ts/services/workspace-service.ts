@@ -306,18 +306,14 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 },
                 triggers: [{
                   name: 'HasUnread',
-                  condition: '[[text]] = true',
+                  condition: '{{HasUnread}} = true',
                   actions: [{
-                    type: 'change-overrides-action',
+                    type: 'change-own-overrides-action',
                     overrides: {
                       root: {
                         name: 'default',
                         groups: [[
-                          'properties',
-                          [
-                            ['control-id', '4788dc02-9883-453f-aec5-07c7dcf67d63'],
-                            ['overrides-name', 'HasUnread']
-                          ]
+                          'properties', [['overrides-name', 'HasUnread']]
                         ]]
                       }
                     }

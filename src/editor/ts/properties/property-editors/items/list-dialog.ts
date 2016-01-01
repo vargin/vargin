@@ -28,7 +28,7 @@ import { Schema } from '../../../../../core/data/schema';
       </tfoot>
       <tbody>
         <tr class="vargin-table__data-row" *ngFor="#item of items; #i = index">
-          <td class="vargin-table__data-cell" *ngFor="#field of schema.fields;">
+          <td class="vargin-table__data-cell" *ngFor="#field of schema.fields;" (click)="change(i, item)">
             {{item.get(field.name)}}
           </td>
           <td class="vargin-table__data-cell">
@@ -55,19 +55,43 @@ export class PropertyListDialog {
   }
 
   add() {
-    let newItem = <Array<[string, string]>>this.schema.fields.map((field) => {
-      return [field.name, ''];
+    let properties = <Array<[string, string]>>this.schema.fields.map(
+      (field) => [field.name, '']
+    );
+
+    DialogService.show(
+      PropertyEditorDialog,
+      [
+        provide(Schema, { useValue: this.schema }),
+        provide(Array, { useValue: properties })
+      ]
+    ).then(() => {
+      if (properties.some(([key, value]) => !!value)) {
+        this.items.push(new Map<string, string>(properties));
+      }
+    });
+  }
+
+  change(index: number, item: Map<string, string>) {
+    let properties = <Array<[string, string]>>[];
+
+    item.forEach((value, key) => {
+      properties.push([key, value]);
     });
 
     DialogService.show(
       PropertyEditorDialog,
       [
         provide(Schema, { useValue: this.schema }),
-        provide(Array, { useValue: newItem })
+        provide(Array, { useValue: properties })
       ]
     ).then(() => {
-      if (newItem.some(([key, value]) => !!value)) {
-        this.items.push(new Map<string, string>(newItem));
+      if (properties.some(([key, value]) => !!value)) {
+        properties.forEach(([key, value]) => {
+          item.set(key, value);
+        });
+      } else {
+        this.items.splice(index, 1);
       }
     });
   }

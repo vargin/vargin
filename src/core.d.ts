@@ -9,6 +9,8 @@ export * from './core/actions/action-metadata';
 export * from './core/actions/alert-action';
 export * from './core/actions/broadcast-action';
 export * from './core/actions/change-property-action';
+export * from './core/actions/change-overrides-action';
+export * from './core/actions/change-own-overrides-action';
 export * from './core/actions/navigate-action';
 
 export * from './core/controls/service/datasource-control';

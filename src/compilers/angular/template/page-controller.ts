@@ -40,10 +40,8 @@ export class PageController implements DoCheck {
   };
 
   ngDoCheck() {
-    if (!this.controlsWithTriggers) {
-      this.controlsWithTriggers = [];
-      this.findControlsWithTriggers(this.page.root);
-    }
+    this.controlsWithTriggers = [];
+    this.findControlsWithTriggers(this.page.root);
 
     for (var control of this.controlsWithTriggers) {
       for (let trigger of control.triggers) {
@@ -51,6 +49,10 @@ export class PageController implements DoCheck {
           (type: string, value: any) => {
             if (type === 'control-binding') {
               return control.getProperty(value).getValue();
+            } else if (type === 'data-binding') {
+              let dataItem = this.getDataItem(control);
+
+              return dataItem ? dataItem.get(value) : '';
             }
 
             throw new Error('Not supported');
@@ -74,5 +76,20 @@ export class PageController implements DoCheck {
     for (let child of control.getChildren()) {
       this.findControlsWithTriggers(child);
     }
+  }
+
+  private getDataItem(control: Control): Map<string, string> {
+    while (control.parent) {
+      let datasourceProperty = control.parent.getProperty('datasource');
+      if (datasourceProperty) {
+        return this.applicationService.datasources.get(
+          datasourceProperty.getValue()
+        ).items[control.parent.getChildren().indexOf(control)];
+      }
+
+      control = control.parent;
+    }
+
+    return null;
   }
 }
