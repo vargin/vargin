@@ -69,6 +69,10 @@ export class PageController implements DoCheck {
   }
 
   private findControlsWithTriggers(control: Control) {
+    if (control.isTemplate) {
+      return;
+    }
+
     if (control.triggers.length) {
       this.controlsWithTriggers.push(control);
     }

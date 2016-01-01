@@ -19,6 +19,8 @@ export class Control {
 
   protected predefinedOverrides: IOverrides;
 
+  public isTemplate: boolean = false;
+
   constructor(
     id: string,
     meta: ControlMetadata,

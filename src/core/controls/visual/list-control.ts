@@ -46,6 +46,8 @@ export class ListItemControl extends Control {
     );
 
     super(id, LIST_ITEM_METADATA, overrides);
+
+    this.isTemplate = true;
   }
 
   canHaveChildren() {

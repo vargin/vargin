@@ -25,7 +25,8 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 {"name": "Sender", "type": 0},
                 {"name": "Body", "type": 0},
                 {"name": "Timestamp", "type": 2},
-                {"name": "HasUnread", "type": 4}
+                {"name": "HasUnread", "type": 4},
+                {"name": "HasDraft", "type": 4}
               ]`],
               ['items', `[
               [
@@ -33,61 +34,71 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                 ["Sender", "BIG-THREAD-MIXED"],
                 ["Body", "Hey Big Thread"],
                 ["Timestamp", ${Date.UTC(2015, 1, 10, 10, 20)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", true]
               ], [
                 ["Id", 2],
                 ["Sender", "BIG-THREAD-SMS"],
                 ["Body", "message sms message"],
                 ["Timestamp", ${Date.UTC(2015, 1, 10, 10, 15)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", false]
               ], [
                 ["Id", 3],
                 ["Sender", "+123456789"],
                 ["Body", "message from unknown"],
                 ["Timestamp", ${Date.UTC(2015, 1, 5, 14, 17)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", false]
               ], [
                 ["Id", 4],
                 ["Sender", "+987654321"],
                 ["Body", "your balance is xxx"],
                 ["Timestamp", ${Date.UTC(2015, 1, 3, 17, 18)}],
-                ["HasUnread", true]
+                ["HasUnread", true],
+                ["HasDraft", false]
               ], [
                 ["Id", 5],
                 ["Sender", "+978563412"],
                 ["Body", "call me back"],
                 ["Timestamp", ${Date.UTC(2015, 1, 3, 15, 20)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", false]
               ], [
                 ["Id", 6],
                 ["Sender", "Friend"],
                 ["Body", "How are you?"],
                 ["Timestamp", ${Date.UTC(2015, 1, 2, 10, 10)}],
-                ["HasUnread", true]
+                ["HasUnread", true],
+                ["HasDraft", false]
               ], [
                 ["Id", 7],
                 ["Sender", "Operator"],
                 ["Body", "New service is added!"],
                 ["Timestamp", ${Date.UTC(2015, 1, 2, 5, 30)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", false]
               ], [
                 ["Id", 8],
                 ["Sender", "Bina Laikova"],
                 ["Body", "Are you sure?"],
                 ["Timestamp", ${Date.UTC(2015, 1, 1, 20, 45)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", false]
               ], [
                 ["Id", 9],
                 ["Sender", "Zona Lamber"],
                 ["Body", "....waiting.... for you!"],
                 ["Timestamp", ${Date.UTC(2015, 1, 1, 19, 5)}],
-                ["HasUnread", true]
+                ["HasUnread", true],
+                ["HasDraft", false]
               ], [
                 ["Id", 10],
                 ["Sender", "+101010101"],
                 ["Body", "Welcome in ONetwork"],
                 ["Timestamp", ${Date.UTC(2015, 1, 1, 10, 10)}],
-                ["HasUnread", false]
+                ["HasUnread", false],
+                ["HasDraft", true]
               ]
             ]`]
             ]]
@@ -293,11 +304,23 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                       ]]
                     ],
                     children: [{
-                      id: 'HasUnread',
                       name: 'HasUnread',
                       groups: [
                         ['styles', [
                           ['color', '#52B6CC'],
+                          ['opacity', '1']
+                        ]]
+                      ]
+                    }, {
+                      name: 'HasDraft',
+                      groups: [
+                        ['properties', [
+                          ['text', '\u270E']
+                        ]],
+                        ['styles', [
+                          ['color', '#52B6CC'],
+                          ['font-size', '1rem'],
+                          ['margin', '0 0.5rem 0 -0.5rem'],
                           ['opacity', '1']
                         ]]
                       ]
@@ -314,6 +337,20 @@ const DEFAULT_SERIALIZED_APPLICATION = {
                         name: 'default',
                         groups: [[
                           'properties', [['overrides-name', 'HasUnread']]
+                        ]]
+                      }
+                    }
+                  }]
+                }, {
+                  name: 'HasDraft',
+                  condition: '{{HasDraft}} = true',
+                  actions: [{
+                    type: 'change-own-overrides-action',
+                    overrides: {
+                      root: {
+                        name: 'default',
+                        groups: [[
+                          'properties', [['overrides-name', 'HasDraft']]
                         ]]
                       }
                     }

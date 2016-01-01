@@ -73,11 +73,13 @@ export class ListComponent extends BaseComponent implements OnDestroy {
 
   private bind() {
     this.datasource.items.forEach((item) => {
-      this.control.addChild(
-        this.bindControl(
-          this.applicationService.cloneControl(this.template), item
-        )
+      let control = this.bindControl(
+        this.applicationService.cloneControl(this.template), item
       );
+
+      control.isTemplate = false;
+
+      this.control.addChild(control);
     });
   }
 
