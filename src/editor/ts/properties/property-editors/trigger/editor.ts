@@ -27,7 +27,7 @@ import { PropertyListDialog, IDialogResult } from './list-dialog';
       </div>
     </label>`
 })
-export class PropertyEditor {
+export class TriggerPropertyEditor {
   @Output() remove = new EventEmitter();
 
   @Input() property: IProperty<Trigger>;

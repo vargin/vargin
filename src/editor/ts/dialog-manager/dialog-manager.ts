@@ -54,7 +54,9 @@ export class DialogManager {
 
     if (this.instances.length === 0) {
       this.renderer.setElementClass(
-        this.viewContainer.element, 'dialog-manager_visible', false
+        this.viewContainer.element.nativeElement,
+        'dialog-manager_visible',
+        false
       );
     }
   }
@@ -73,7 +75,9 @@ export class DialogManager {
 
       if (this.instances.length === 1) {
         this.renderer.setElementClass(
-          this.viewContainer.element, 'dialog-manager_visible', true
+          this.viewContainer.element.nativeElement,
+          'dialog-manager_visible',
+          true
         );
       }
     });

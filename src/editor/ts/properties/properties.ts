@@ -6,9 +6,7 @@ import { IProperty, Property } from '../../../core/property';
 import { Trigger } from '../../../core/triggers/trigger';
 
 import { PropertyEditor } from './property-editors/property-editor';
-import {
-  PropertyEditor as TriggerPropertyEditor
-} from './property-editors/trigger/editor';
+import { TriggerPropertyEditor } from './property-editors/trigger/editor';
 
 import { ComponentService } from '../services/component-service';
 

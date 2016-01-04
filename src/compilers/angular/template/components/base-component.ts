@@ -8,7 +8,6 @@ import {
   IterableDiffers,
   OnChanges,
   provide,
-  Renderer,
   Type,
   ViewContainerRef
 } from 'angular2/core';

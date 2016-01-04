@@ -112,13 +112,13 @@ export class BaseComponent implements DoCheck {
 
   select() {
     this.renderer.setElementClass(
-      this.viewContainer.element, 'vargin-component_active', true
+      this.viewContainer.element.nativeElement, 'vargin-component_active', true
     );
   }
 
   unselect() {
     this.renderer.setElementClass(
-      this.viewContainer.element, 'vargin-component_active', false
+      this.viewContainer.element.nativeElement, 'vargin-component_active', false
     );
   }
 
