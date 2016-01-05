@@ -1,6 +1,6 @@
 {
   "name": "vargin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Web IDE that helps to interactively create web mobile apps",
   "author": "Aleh Zasypkin <azasypkin>",
   "repository": "https://github.com/azasypkin/vargin.git",
@@ -16,18 +16,18 @@
 
     "gulp-sass": "^2.1.1",
 
-    "karma": "^0.13.15",
+    "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.6",
-    "karma-mocha-reporter": "^1.1.3",
+    "karma-mocha-reporter": "^1.1.5",
 
     "typescript": "1.7.5"
   },
 
   "dependencies": {
     "angular2": "2.0.0-beta.1",
-    "systemjs": "^0.19.9",
-    "es6-module-loader": "^0.17.9",
+    "systemjs": "^0.19.14",
+    "es6-module-loader": "^0.17.10",
 
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
